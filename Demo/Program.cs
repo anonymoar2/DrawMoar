@@ -13,7 +13,7 @@ namespace Demo
     {
         static void Main(string[] args) {
             MP4.OpenMW("C:\\Users\\Home\\Source\\Repos\\DrawMoar\\Demo\\bin\\Debug\\ffmpeg.exe");
-            
+            // весь путь?? или нет, хм
         }
     }
 }
