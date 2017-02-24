@@ -8,7 +8,7 @@ using BaseElements;
 
 namespace Exporter.Photo
 {
-    public class PNG : IPhotoExporter
+    public class PngExporter : IPhotoExporter
     {
         public void Save(Frame frame, string path) {
             throw new NotImplementedException();

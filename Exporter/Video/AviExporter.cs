@@ -3,22 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using BaseElements;
-using System.Diagnostics;
 
 namespace Exporter.Video
 {
-    public class MP4 : IVideoExporter
+    public class AviExporter : IVideoExporter
     {
-        public static void OpenMW(string file) {
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = file;
-            Process.Start(startInfo);
+        // TODO: *Add ffmpeg arguments related to this format as arguments to constructor.
+        public AviExporter() {
+
         }
 
         public void Save(Cartoon cartoon, string path) {
-
+            throw new NotImplementedException();
         }
     }
 }
