@@ -12,8 +12,10 @@ namespace Demo
     class Program
     {
         static void Main(string[] args) {
-            MP4.OpenMW("C:\\Users\\Home\\Source\\Repos\\DrawMoar\\Demo\\bin\\Debug\\ffmpeg.exe");
-            // весь путь?? или нет, хм
+            
+            MP4.Save(@"C:\Users\Home\Desktop\Dipper", new string[] { @"C:\Users\Home\Desktop\Dipper\moveDipper\2.png", @"C:\Users\Home\Desktop\Dipper\moveDipper\1.png" });
+
+            
         }
     }
 }

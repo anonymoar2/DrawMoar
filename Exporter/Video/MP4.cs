@@ -13,16 +13,30 @@ namespace Exporter.Video
     {
         // TODO: билдер для аргументов
 
-        // TODO: и про процесс ещё что-то
-        public static void OpenMW(string file) {
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = file;
-            Process.Start(startInfo);
-            // TODO: не запускать новое окошко
-        }
+        
 
-        public void Save(Cartoon cartoon, string path) {
+        public static void Save(/*Cartoon cartoon, string pathToResult*/ string pathToResult, string[] pathToImages) {
+            var ffmpegProcessInfo = new ProcessStartInfo("ffmpeg.exe");
+            ffmpegProcessInfo.CreateNoWindow = true;
+            ffmpegProcessInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            ffmpegProcessInfo.UseShellExecute = false;
+            ffmpegProcessInfo.RedirectStandardError = true;
+            ffmpegProcessInfo.RedirectStandardOutput = true;
 
+            StringBuilder str = new StringBuilder("ffmpeg ");
+            
+            foreach(var path in pathToImages) {
+                str.Append($" -i {path} ");
+            }
+            str.Append($@" {pathToResult}\out2.mp4");
+
+            ffmpegProcessInfo.Arguments = str.ToString();
+            Console.WriteLine(ffmpegProcessInfo.Arguments);
+            using (var proc = Process.Start(ffmpegProcessInfo))
+                proc.WaitForExit();
+            // return ffmpegProcessInfo;
+            // либо возвращать конкретные данные
+            // либо не возвращать ничего
         }
     }
 }

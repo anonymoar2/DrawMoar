@@ -10,6 +10,6 @@ namespace Exporter.Video
 {
     public interface IVideoExporter
     {
-        void Save(Cartoon cartoon, string path);
+        //void Save(Cartoon cartoon, string path);
     }
 }
