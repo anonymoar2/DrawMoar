@@ -20,7 +20,7 @@ Coming soon
     
 
 
-I'm going to do it and you will be able to
+I'm going to do it and you will be able to see it
   
     1. Create new cartoon (const size)
     2. Create new empty frame
@@ -52,7 +52,7 @@ I'm going to do it and you will be able to
   
     24. Undo recent changes
   
-Maybe I'll do it and you probably will be able to
+Maybe I'll do it and you probably will be able to see it
 
     25. Interface language selection (Russian, English, German)
     26. Change the image size
