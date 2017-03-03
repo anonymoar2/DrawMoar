@@ -6,8 +6,8 @@ It works
     1. Create new cartoon
     2. Create new empty frame
     4. Delete frame
-    13. Export cartoon to *name_of_your_cartoon*.mp4
-    12. Export frame to *name_of_your_image*.PNG
+    13. Export cartoon to *name_of_your_cartoon*.mp4 +
+    12. Export frame to *name_of_your_image*.PNG +
     17. Use brush
 
 
