@@ -9,7 +9,8 @@
     <Grid>
         <Menu x:Name="menu" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="517">
             <MenuItem Header="File">
-                <MenuItem Header="New"/>
+                <MenuItem Header="New"
+                          Click="CreateCartoon"/>
                 <MenuItem Header="Open"/>
                 <MenuItem Header="Save"/>
                 <MenuItem Header="Save as...">

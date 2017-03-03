@@ -27,7 +27,7 @@ namespace WPFGUI
 
             this.MouseLeftButtonUp += new MouseButtonEventHandler(Draw_MouseLeftButtonUp);
             this.MouseLeftButtonDown += new MouseButtonEventHandler(Draw_MouseLeftButtonDown);
-            this.MouseMove += new MouseEventHandler(VisualHost_MouseMove);
+            this.MouseMove += new MouseEventHandler(Draw_MouseMove);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace WPFGUI
         /// <param name="e"></param>
         void Draw_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             GlobalState.PressLeftButton = true;
-            VisualHost_MouseMove(sender, e);
+            Draw_MouseMove(sender, e);
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace WPFGUI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void VisualHost_MouseMove(object sender, MouseEventArgs e) {
+        void Draw_MouseMove(object sender, MouseEventArgs e) {
             // тут проверка на инструмент наверное и что-то такое в общем
             if (GlobalState.PressLeftButton && this.IsFocused) {
                 Point pt = e.GetPosition((UIElement)sender);
@@ -146,11 +146,6 @@ namespace WPFGUI
 
             return _visuals[index];
         }
-
-
-
     }
-
-
 }
 

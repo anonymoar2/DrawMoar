@@ -32,15 +32,25 @@ namespace WPFGUI
 
             // после создания мультика появляется первый пустой кадр
             // и на нём первый пустой слой
+
+            // для теста, потом всё это можно будет поменять без проблем
             GlobalState.CurrentColor = Brushes.Black;
             GlobalState.BrushSize = new Size(5, 5);
         }
 
+        private void CreateCartoon(object sender, RoutedEventArgs e) {
+            // создаём новый пустой кадр
+            // на кадре новый пустой слой создаём
+        }
+
+
+
+
         private void ExportToMP4(object sender, RoutedEventArgs e) {
             // должны 1) пройтись по кадрам и сохранить все в картинки
-            // 2) создать файл лист
-            // 3) запилить видео
-            // 4) удалить вспомогательные файлы
+            // 
+            // 2) запилить видео
+            // 3) удалить вспомогательные файлы
         }
 
         private void SaveToPNG(object sender, RoutedEventArgs e) {
