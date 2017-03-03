@@ -34,7 +34,7 @@ namespace WPFGUI
             // и на нём первый пустой слой
 
             // для теста, потом всё это можно будет поменять без проблем
-            GlobalState.CurrentColor = Brushes.Black;
+            GlobalState.Color = Brushes.Black;
             GlobalState.BrushSize = new Size(5, 5);
         }
 

@@ -42,7 +42,9 @@
         <ListBox x:Name="listBox" HorizontalAlignment="Left" Margin="406,25,0,0" Width="111" Height="144" VerticalAlignment="Top"/>
         <ListBox x:Name="listBox1" Margin="406,172,0,0" HorizontalAlignment="Left" Width="111" Height="144" VerticalAlignment="Top"/>
         <Grid Margin="3,25,0,0" Height="125" VerticalAlignment="Top" HorizontalAlignment="Left" Width="111">
-            <Button x:Name="button" Content="Brush" HorizontalAlignment="Left" Height="37" VerticalAlignment="Top" Width="37"/>
+            <Button x:Name="BrushButton" Click="Brush_Selected"
+                    ToolTip="Кисть"
+                    x:FieldModifier="private" Content="Brush" HorizontalAlignment="Left" Height="37" VerticalAlignment="Top" Width="37"/>
             <Button x:Name="button1" Content="Button" HorizontalAlignment="Left" Height="37" Margin="37,0,0,0" VerticalAlignment="Top" Width="37"/>
             <Button x:Name="button2" Content="Button" HorizontalAlignment="Left" Height="37" Margin="74,0,0,0" VerticalAlignment="Top" Width="37"/>
         </Grid>
