@@ -1,10 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Exporter;
+using BaseElements;
 using Exporter.Video;
 
 namespace Demo
@@ -12,10 +13,23 @@ namespace Demo
     class Program
     {
         static void Main(string[] args) {
-            
-            MP4.Save(@"C:\Users\Home\Desktop\Dipper", new string[] { @"C:\Users\Home\Desktop\Dipper\moveDipper\2.png", @"C:\Users\Home\Desktop\Dipper\moveDipper\1.png" });
+            var cartoonName = "Gravity Falls";
+            var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var cartoonPath = Path.Combine(documentsPath, cartoonName);
 
-            
+            var cartoon = new Cartoon(cartoonName,
+                                      width: 1280,
+                                      height: 720,
+                                      workingDirectory: documentsPath);
+
+            //var destinationFilenameAvi = Path.Combine(documentsPath, cartoonName + ".avi");
+            //var destinationFilenameMkv = Path.Combine(documentsPath, cartoonName + ".mkv");
+            var destinationFilenameMp4 = Path.Combine(documentsPath, cartoonName + ".mp4");
+
+            IVideoExporter exporter = new Mp4Exporter();
+
+            // Catch exceptions
+            exporter.Save(cartoon, destinationFilenameMp4);
         }
     }
 }

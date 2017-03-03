@@ -41,15 +41,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Photo\IPhotoExporter.cs" />
-    <Compile Include="Photo\PNG.cs" />
+    <Compile Include="Photo\JpgExporter.cs" />
+    <Compile Include="Photo\PngExporter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Video\AviExporter.cs" />
     <Compile Include="Video\IVideoExporter.cs" />
-    <Compile Include="Video\MP4.cs" />
+    <Compile Include="Video\MkvExporter.cs" />
+    <Compile Include="Video\Mp4Exporter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaseElements\BaseElements.csproj">
