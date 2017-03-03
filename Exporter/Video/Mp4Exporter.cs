@@ -61,7 +61,7 @@ namespace Exporter.Video
             using (var writer = new StreamWriter(imagesListFilenameRelative)) {
                 foreach (var file in directoryInfo.GetFiles("img*.png")) {
                     writer.WriteLine("file " + file.Name);
-                    writer.WriteLine("duration 1");
+                    writer.WriteLine("duration 0.25");
                 }
             }
 
