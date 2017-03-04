@@ -3,23 +3,20 @@ Raster and vector graphics editor for creating cartoons
 
 It works
 
-    1. Create new cartoon
+    15. Add to frame standart figure +- [line// click on canvas]
+    13. Export cartoon to *name_of_your_cartoon*.mp4 + [delete name]
+    12. Export frame to *name_of_your_image*.PNG +
+    
+Coming soon
+
     2. Create new empty frame
     4. Delete frame
-    13. Export cartoon to *name_of_your_cartoon*.mp4 +
-    12. Export frame to *name_of_your_image*.PNG +
-    17. Use brush
-
-
-Coming soon
-    
     1. Create new cartoon (const size)
     5. Reorder frames
     6. Create new empty layer
     8. Delete layer
+    17. Use brush
     
-
-
 I'm going to do it and you will be able to see it
   
     1. Create new cartoon (const size)
