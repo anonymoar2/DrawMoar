@@ -15,8 +15,7 @@ namespace WPFGUI
     {
         public static bool PressLeftButton { get; set; }
 
-        public static event EventHandler ChangeInstrument;
-        public static event EventHandler ChangeColor;
+        
 
         // Используется для изменения порядка слоев 
         public static int LayersCount { get; set; }
@@ -24,27 +23,9 @@ namespace WPFGUI
         // Испольузется для именования новых слоев
         public static int LayersIndexes { get; set; }
 
-        private static Brush _color = Brushes.Black;
-        public static Brush Color {
-            get {
-                return _color;
-            }
-            set {
-                _color = value;
-                ChangeColor(value, null);
-            }
-        }
-
-        private static Instruments _currentTool = Instruments.Brush;
-        public static Instruments CurrentTool {
-            get {
-                return _currentTool;
-            }
-            set {
-                _currentTool = value;
-                ChangeInstrument(value, null);
-            }
-        }
+        public static Brush Color = Brushes.Black;
+        
+        
 
         private static Size _brushSize;
         public static Size BrushSize {

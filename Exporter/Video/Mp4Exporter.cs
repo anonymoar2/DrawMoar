@@ -32,7 +32,7 @@ namespace Exporter.Video
 
             Process process = new Process();
             process.StartInfo.FileName = "ffmpeg";
-            process.StartInfo.WorkingDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Dipper");
+            process.StartInfo.WorkingDirectory = Path.Combine(Directory.GetCurrentDirectory(), "test");
             process.StartInfo.Arguments = $"-y -loglevel panic -f concat -i {concatFilename} out.mp4";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
@@ -53,7 +53,7 @@ namespace Exporter.Video
         /// </summary>
         /// <returns>Name of file which will be used in ffmpeg concat protocol.</returns>
         private static string CreateConcatFile() {
-            string imagesDirectory = "Dipper";
+            string imagesDirectory = "test";
             string imagesListFilename = "images.txt";
             string imagesListFilenameRelative = Path.Combine(imagesDirectory, imagesListFilename);
 

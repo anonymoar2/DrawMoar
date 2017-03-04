@@ -34,6 +34,7 @@ namespace WPFGUI
             // и на нём первый пустой слой
 
             // для теста, потом всё это можно будет поменять без проблем
+
             GlobalState.Color = Brushes.Black;
             GlobalState.BrushSize = new Size(5, 5);
         }
@@ -44,6 +45,24 @@ namespace WPFGUI
         }
 
 
+        /// <summary>
+        /// по нажатию в двух местах канваса сделать создание линии и других фигур
+        ///  
+        /// </summary>
+
+        private void AddLine(object sender, RoutedEventArgs e) {
+            var myLine = new Line();
+            myLine.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
+            Random rand = new Random();
+            myLine.X1 = rand.Next(1, 282);
+            myLine.X2 = rand.Next(1, 282);
+            myLine.Y1 = rand.Next(1, 291);
+            myLine.Y2 = rand.Next(1, 291);
+            myLine.HorizontalAlignment = HorizontalAlignment.Left;
+            myLine.VerticalAlignment = VerticalAlignment.Center;
+            myLine.StrokeThickness = 2;
+            canvas.Children.Add(myLine);
+        }
 
 
         private void ExportToMP4(object sender, RoutedEventArgs e) {
@@ -55,7 +74,7 @@ namespace WPFGUI
 
         private void SaveToPNG(object sender, RoutedEventArgs e) {
             var saveDlg = new SaveFileDialog {
-                FileName = "Masterpiece",
+                FileName = "img",
                 DefaultExt = ".png",
                 Filter = "PNG (.png)|*.png"
             };
@@ -73,7 +92,7 @@ namespace WPFGUI
             canvas.Measure(size);
 
             var rtb = new RenderTargetBitmap(
-                (int)width,
+                (int)width + 120,
                 (int)height,
                 dpi, //dpi x 
                 dpi, //dpi y 
