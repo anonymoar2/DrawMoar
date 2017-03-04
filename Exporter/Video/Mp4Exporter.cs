@@ -32,7 +32,7 @@ namespace Exporter.Video
 
             Process process = new Process();
             process.StartInfo.FileName = "ffmpeg";
-            process.StartInfo.WorkingDirectory = Path.Combine(Directory.GetCurrentDirectory(), "test");
+            process.StartInfo.WorkingDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Dipper");
             process.StartInfo.Arguments = $"-y -loglevel panic -f concat -i {concatFilename} out.mp4";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
