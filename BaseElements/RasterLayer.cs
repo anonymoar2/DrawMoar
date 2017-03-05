@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BaseElements
 {
-    internal partial class RasterLayer: Layer
+    // I don't yet know why it's internal 
+    internal class RasterLayer: Layer
     {
     }
 }

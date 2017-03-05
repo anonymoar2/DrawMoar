@@ -13,6 +13,12 @@ namespace BaseElements
 
         private List<Layer> layers = new List<Layer>();
 
+        private float duration {
+            // May be need to check something
+            get;
+            set;
+        }
+
         /// <summary>
         /// It is the subdirectory of cartoon which contain internal important files.
         /// </summary>

@@ -23,11 +23,13 @@ namespace BaseElements
         private int height;
         private string workingDirectory;
 
+
         /// <summary>
         /// List of frames. Every cartoon should contain at least one frame.
         /// Don't pass it out of class instance and work with it carefully.
         /// </summary>
         private List<Frame> frames = new List<Frame>();
+
 
         /// <summary>
         /// Cartoon's name.
@@ -44,6 +46,7 @@ namespace BaseElements
                 }
             }
         }
+
 
         /// <summary>
         /// Width of cartoon's canvas.
@@ -62,6 +65,7 @@ namespace BaseElements
             }
         }
 
+
         /// <summary>
         /// Height of cartoon's canvas.
         /// </summary>
@@ -78,6 +82,7 @@ namespace BaseElements
                 }
             }
         }
+
 
         /// <summary>
         /// It is the directory in which the program saves the files 
@@ -102,6 +107,7 @@ namespace BaseElements
             }
         }
 
+
         public Cartoon(string name, int width, int height, string workingDirectory) {
             Name = name;
             Width = width;
@@ -109,11 +115,13 @@ namespace BaseElements
             WorkingDirectory = workingDirectory;
         }
 
+
         public void InsertFrame(Frame frame) {
             // TODO: write checks to improve the code safety.
             frames.Add(frame);
             // TODO: throw some errors.
         }
+
 
         // May be index as argument is bad choice.
         public Frame ExtractFrame(int index) {

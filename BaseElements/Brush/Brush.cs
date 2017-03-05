@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaseElements
+namespace BaseElements.Brush
 {
-    // I don't yet know why it's internal 
-    internal abstract class Layer
+    class Brush : IBrush
     {
     }
 }
