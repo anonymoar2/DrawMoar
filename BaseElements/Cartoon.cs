@@ -28,8 +28,8 @@ namespace BaseElements
         /// List of frames. Every cartoon should contain at least one frame.
         /// Don't pass it out of class instance and work with it carefully.
         /// </summary>
-        private List<Frame> frames = new List<Frame>();
-
+        public List<Frame> frames = new List<Frame>();
+        // Сделать приватным возможно, но так удобненько пока
 
         /// <summary>
         /// Cartoon's name.

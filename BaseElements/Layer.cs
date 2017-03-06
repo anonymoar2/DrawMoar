@@ -12,8 +12,10 @@ namespace BaseElements
     {
         // true - слой видимый, false - невидимый, при экспорте кадра в картинку 
         // картинка получается только из видимых слоёв
-        private bool Visible { get; set; }
+        public bool Visible { get; set; }
         private string name;
+        public bool save; // true - слой уже сохранён, false - имеет несохранённые в картинку изменения/не существует
+
 
         /// <summary>
         /// Layer's name.
@@ -31,17 +33,16 @@ namespace BaseElements
             }
         }
 
-        // Какие-то ещё параметры в будущем возможно типа яркости
+        // Какие-то ещё параметры в будущем возможно
 
         /// <summary>
         /// Save layer in WorkingDirectory
         /// </summary>
         /// <returns></returns>
         public virtual void Save(string WorkingDirectory) {
-            
+            // xz
         }
-
-
+        
         // ещё тут будет transformation, чуть позже добавлю, пока думаю и так работы хватит
 
     }

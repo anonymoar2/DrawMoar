@@ -10,10 +10,10 @@ namespace BaseElements
     public class Frame
     {
         private string workingDirectory;
-
+        private int index; // потому что будет очень неаккуратно передавать его в метод Save
         private List<Layer> layers = new List<Layer>();
 
-        private float duration {
+        public float duration {
             // May be need to check something
             get;
             set;
@@ -41,16 +41,26 @@ namespace BaseElements
             }
         }
 
-        public Frame(string workingDirectory) {
+        public Frame(string workingDirectory, int index) {
             WorkingDirectory = workingDirectory;
+            this.index = index;
         }
 
         /// <summary>
-        /// Save all layers 
+        /// Save all layers and return filename
         /// </summary>
         /// <returns></returns>
-        public void Save() {
-            
+        public string Save() {
+            foreach (var layer in layers) {
+                if (layer.Visible) {
+                    if (!layer.save) {
+                        layer.Save(WorkingDirectory); // сохраним все несохраненые видимые слои в картинки
+                    }
+                }
+            }
+
+
+            return $"img{index}.png";
         }
 
         public void GetPicture() {

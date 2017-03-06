@@ -113,6 +113,7 @@ namespace WPFGUI
         }
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e) {
             textBox.Text = "#" + ClrPcker_Background.SelectedColor.Value.R.ToString() + ClrPcker_Background.SelectedColor.Value.G.ToString() + ClrPcker_Background.SelectedColor.Value.B.ToString();
+            
         }
     }
 }
