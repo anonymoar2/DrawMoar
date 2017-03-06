@@ -129,8 +129,14 @@ namespace DrawMoar
             InkCanvas2.EditingMode = InkCanvasEditingMode.Ink;
             InkCanvas2.Width = 200;
             InkCanvas2.Height = 200;
-            rootPanel.Children.Add(InkCanvas2);     //добавление НА предыдущий инк - ? (съезжает влево)
+            rootPanel.Children.Add(InkCanvas2);     //добавление НА предыдущий инк - ? (съезжает вправо)
             canv.Add(InkCanvas2);
+        }
+
+
+        private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e)
+        {
+            ColorName.Text = "#" + ClrPcker_Background.SelectedColor.Value.R.ToString() + ClrPcker_Background.SelectedColor.Value.G.ToString() + ClrPcker_Background.SelectedColor.Value.B.ToString();
         }
     }
 }
