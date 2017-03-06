@@ -5,5 +5,4 @@ develop в текущую ветвь *будет указано название
 
 Если само ничего не сделалось(хотя должно было), то пишите в личку, либо в беседу проекта.
 
-Гайды как юзать тут: http://stackoverflow.com/questions/17089382/wpf-color-picker-implementation
-http://wpftoolkit.codeplex.com/wikipage?title=ColorPicker&referringTitle=Home
+Как юзать можете посмотреть в файлах Main.Window.xaml и Main.Window.xaml.cs
