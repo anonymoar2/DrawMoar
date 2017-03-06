@@ -8,5 +8,24 @@ namespace BaseElements.Figures
 {
     public class Line : IFigure
     {
+        public bool Filling {
+            get {
+                throw new NotImplementedException();
+            }
+
+            set {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int Size {
+            get {
+                throw new NotImplementedException();
+            }
+
+            set {
+                throw new NotImplementedException();
+            }
+        }
     }
 }
