@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:DrawMoar"
         mc:Ignorable="d"
         Title="DrawMoar" Height="350" Width="530">
-    <Grid Background="LightGray">
+    <Grid>
         <Menu x:Name="menu" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="82">
             <MenuItem Header="File">
                 <MenuItem Header="New"
@@ -29,18 +29,7 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <Canvas x:Name="canvas" 
-            x:FieldModifier="private" Margin="120,0,120,3" RenderTransformOrigin="0.5,0.5" Height="291" VerticalAlignment="Bottom">
-            <Canvas.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleY="0.423"/>
-                    <RotateTransform/>
-                    <TranslateTransform Y="0.993"/>
-                </TransformGroup>
-            </Canvas.RenderTransform>
-        </Canvas>
-        <DockPanel Name="rootPanel" LastChildFill="False" Margin="0,0,5,0">
+        <DockPanel Name="rootPanel" LastChildFill="False">
             <Grid DockPanel.Dock="Left" MinWidth="120" Margin="0,20,0,0" Width="108">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width ="60"></ColumnDefinition>
@@ -62,6 +51,7 @@
                     <xctk:ColorPicker x:Name="ClrPcker_Background" Margin="65,5,0,0" SelectedColorChanged="ClrPcker_Background_SelectedColorChanged" Height="25" Width="50"/>
                 </WrapPanel>
             </StackPanel>
+            <InkCanvas x:Name="canvas" EditingMode="None" x:FieldModifier="private"  Width="250" Margin="0,0,0,35"/>
         </DockPanel>
 
     </Grid>

@@ -24,18 +24,45 @@ namespace DrawMoar
             InitializeComponent();
         }
 
-            //нужно грамотно реализовать инкапсуляцию и бросание/ловлю исключений
-            //бросать в свойстве, ловить в МейнФорме - ?
-            //часть проверок есть в Cartoon
-            //названия элементов этой формы - под вопросом (во избежание путанницы будем менять)
+        public string CartoonName { get; set; }
+        public int CartoonHeight { get; set; }
+        public int CartoonWidth { get; set; }
+
+        //!!!ОЧЕНЬ КРИВО!!!
+        //часть проверок есть в Cartoon
+
         private void creating_Click(object sender, RoutedEventArgs e)
         {
-
+            //после презентации, когда будет время сделаю нормально
+            if (getName.Text == "") MessageBox.Show("You haven't entered the name");
+            else if (getHeight.Text == "") MessageBox.Show("You haven't entered the height");
+            else if (getWidth.Text == "") MessageBox.Show("You haven't entered the width");
+            else
+            {
+                try
+                {
+                    this.CartoonName = getName.Text;
+                    this.CartoonHeight = Int32.Parse(getHeight.Text);
+                    this.CartoonWidth = Int32.Parse(getWidth.Text);
+                    if (CartoonHeight <= 0 || CartoonWidth <= 0) throw new FormatException();
+                    this.Hide();
+                    MainWindow mw = (MainWindow)this.Owner;
+                    mw.Success(CartoonName, CartoonHeight, CartoonWidth);
+                }
+                catch(FormatException)
+                {
+                    MessageBox.Show("Enter integer height and width bigger than zero");
+                }
+            }
         }
 
         private void abortion_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
         }
     }
 }

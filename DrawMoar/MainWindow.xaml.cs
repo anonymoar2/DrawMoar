@@ -22,7 +22,6 @@ namespace DrawMoar
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<InkCanvas> canv = new List<InkCanvas>();
         public MainWindow() {
             InitializeComponent();
             // при создании окна области рисования нет
@@ -45,10 +44,10 @@ namespace DrawMoar
             // на кадре новый пустой слой создаём
             var newCartoonDialog = new CreateCartoonDialog();
             newCartoonDialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            newCartoonDialog.Show();
+            newCartoonDialog.Owner = this;
+            newCartoonDialog.Show();    
             
         }
-
 
         /// <summary>
         /// по нажатию в двух местах канваса сделать создание линии и других фигур
@@ -79,7 +78,7 @@ namespace DrawMoar
         }
 
         private void SaveToPNG(object sender, RoutedEventArgs e) {
-            var saveDlg = new SaveFileDialog {
+            /*var saveDlg = new SaveFileDialog {
                 FileName = "img",
                 DefaultExt = ".png",
                 Filter = "PNG (.png)|*.png"
@@ -87,8 +86,8 @@ namespace DrawMoar
 
             if (saveDlg.ShowDialog() == true) {
                 SaveCanvas(canvas, 96, saveDlg.FileName);
-            }
-        }
+            }*/
+        } 
 
         private void SaveCanvas(Canvas canvas, int dpi, string filename) {
             var width = canvas.ActualWidth;
@@ -120,20 +119,18 @@ namespace DrawMoar
 
         private void button3_Click(object sender, RoutedEventArgs e)
         {
-            canv[0].Opacity = 0.5;                    //questionable (0 <= x <= 1)
-            canv[0].EditingMode = InkCanvasEditingMode.None; 
-            var InkCanvas2 = new InkCanvas();
-            InkCanvas2.EditingMode = InkCanvasEditingMode.Ink;
-            InkCanvas2.Width = 300;
-            InkCanvas2.Height = 300;
-            rootPanel.Children.Add(InkCanvas2);     //добавление НА предыдущий инк - ? (съезжает вправо)
-            canv.Add(InkCanvas2);
         }
 
+        public void Success(string Name, int CartoonHeight, int CartoonWidth)
+        {
+            canvas.Height = CartoonHeight;
+            canvas.Width = CartoonWidth;
+            canvas.EditingMode = InkCanvasEditingMode.Ink;
+        }
 
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e)
         {
-            
+            canvas.DefaultDrawingAttributes.Color = ClrPcker_Background.SelectedColor.Value;
         }
     }
 }
