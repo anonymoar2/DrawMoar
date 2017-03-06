@@ -35,7 +35,7 @@ namespace DrawMoar
             // и на нём первый пустой слой
 
             // для теста, потом всё это можно будет поменять без проблем
-
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             GlobalState.Color = Brushes.Black;
             GlobalState.BrushSize = new Size(5, 5);
         }
@@ -43,12 +43,9 @@ namespace DrawMoar
         private void CreateCartoon(object sender, RoutedEventArgs e) {
             // создаём новый пустой кадр
             // на кадре новый пустой слой создаём
-            var InkCanvas1 = new InkCanvas();   //новое окно для получения размеров - ?
-            InkCanvas1.Width = 200;
-            InkCanvas1.Height = 200;        //Если без задания размеров, изменить свойство DockPanel.LastChildFill на true
-            InkCanvas1.EditingMode = InkCanvasEditingMode.Ink;        //выделение InkCanvas рамкой для визуального удобства - ?(нужно ли?)
-            rootPanel.Children.Add(InkCanvas1);        
-            canv.Add(InkCanvas1);
+            var newCartoonDialog = new CreateCartoonDialog();
+            newCartoonDialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            newCartoonDialog.Show();
             
         }
 
@@ -127,8 +124,8 @@ namespace DrawMoar
             canv[0].EditingMode = InkCanvasEditingMode.None; 
             var InkCanvas2 = new InkCanvas();
             InkCanvas2.EditingMode = InkCanvasEditingMode.Ink;
-            InkCanvas2.Width = 200;
-            InkCanvas2.Height = 200;
+            InkCanvas2.Width = 300;
+            InkCanvas2.Height = 300;
             rootPanel.Children.Add(InkCanvas2);     //добавление НА предыдущий инк - ? (съезжает вправо)
             canv.Add(InkCanvas2);
         }
@@ -136,7 +133,7 @@ namespace DrawMoar
 
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e)
         {
-            ColorName.Text = "#" + ClrPcker_Background.SelectedColor.Value.R.ToString() + ClrPcker_Background.SelectedColor.Value.G.ToString() + ClrPcker_Background.SelectedColor.Value.B.ToString();
+            
         }
     }
 }
