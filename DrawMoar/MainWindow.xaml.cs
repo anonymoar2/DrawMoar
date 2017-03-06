@@ -15,13 +15,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WPFGUI
+namespace DrawMoar
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<InkCanvas> canv = new List<InkCanvas>();
         public MainWindow() {
             InitializeComponent();
             // при создании окна области рисования нет
@@ -42,6 +43,13 @@ namespace WPFGUI
         private void CreateCartoon(object sender, RoutedEventArgs e) {
             // создаём новый пустой кадр
             // на кадре новый пустой слой создаём
+            var InkCanvas1 = new InkCanvas();   //новое окно для получения размеров - ?
+            InkCanvas1.Width = 200;
+            InkCanvas1.Height = 200;        //Если без задания размеров, изменить свойство DockPanel.LastChildFill на true
+            InkCanvas1.EditingMode = InkCanvasEditingMode.Ink;        //выделение InkCanvas рамкой для визуального удобства - ?(нужно ли?)
+            rootPanel.Children.Add(InkCanvas1);        
+            canv.Add(InkCanvas1);
+            
         }
 
 
@@ -53,6 +61,7 @@ namespace WPFGUI
         private void AddLine(object sender, RoutedEventArgs e) {
             var myLine = new Line();
             myLine.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
+            
             Random rand = new Random();
             myLine.X1 = rand.Next(1, 282);
             myLine.X2 = rand.Next(1, 282);
@@ -112,5 +121,16 @@ namespace WPFGUI
             }
         }
 
+        private void button3_Click(object sender, RoutedEventArgs e)
+        {
+            canv[0].Opacity = 0.5;                    //questionable (0 <= x <= 1)
+            canv[0].EditingMode = InkCanvasEditingMode.None; 
+            var InkCanvas2 = new InkCanvas();
+            InkCanvas2.EditingMode = InkCanvasEditingMode.Ink;
+            InkCanvas2.Width = 200;
+            InkCanvas2.Height = 200;
+            rootPanel.Children.Add(InkCanvas2);     //добавление НА предыдущий инк - ? (съезжает влево)
+            canv.Add(InkCanvas2);
+        }
     }
 }
