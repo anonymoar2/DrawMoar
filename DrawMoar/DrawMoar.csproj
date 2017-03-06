@@ -7,8 +7,8 @@
     <ProjectGuid>{9F8D83EC-A7DD-45AD-BACB-F30E7944388C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WPFGUI</RootNamespace>
-    <AssemblyName>WPFGUI</AssemblyName>
+    <RootNamespace>DrawMoar</RootNamespace>
+    <AssemblyName>DrawMoar</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
