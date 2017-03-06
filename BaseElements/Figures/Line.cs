@@ -8,8 +8,8 @@ namespace BaseElements.Figures
 {
     public class Line : IFigure
     {
-        public static int minSize = 0;
-        public static int maxSize = 256;// хз какой максимальный, измените эту циферку
+        public const int minSize = 1;
+        public const int maxSize = 256;// хз какой максимальный, измените эту циферку
 
         private int width = minSize; // толщина линии
         public int Width {

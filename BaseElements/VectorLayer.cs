@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace BaseElements
 {
     // I don't yet know why it's internal 
+    // ну его писать совсем маленько хочется
     internal class VectorLayer: Layer
     {
         /// <summary>

@@ -69,5 +69,12 @@ namespace BaseElements
             layers.Add(new RasterLayer(pathToPicture));
         }
 
+        // объединение текущего слоя с предыдущим если indexLayer >=1, иначе кидаем исключение
+        public void MergeLayers(int indexLayer) {
+            // 1. создаём новый слой-объединение этих вот, где downLayer снизу
+            // 2. удаляем оба слоя из списка слоёв (то есть слои с индексами indexLayer и indexLayer - 1)
+            // 3. вставляем новый получившийся слой по индексу indexLayer -1
+        }
+
     }
 }
