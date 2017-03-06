@@ -1,4 +1,5 @@
 ﻿<Window x:Class="WPFGUI.MainWindow"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,6 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="530">
     <Grid>
+        <xctk:ColorPicker Name="ClrPcker_Background" SelectedColorChanged="ClrPcker_Background_SelectedColorChanged" Margin="21,81,408,169"></xctk:ColorPicker>
         <Menu x:Name="menu" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="517">
             <MenuItem Header="File">
                 <MenuItem Header="New"
@@ -48,7 +50,9 @@
             <Button x:Name="button2" Content="Button" HorizontalAlignment="Left" Height="37" Margin="74,0,0,0" VerticalAlignment="Top" Width="37"/>
         </Grid>
         <Grid Margin="3,156,0,126" HorizontalAlignment="Left" Width="111"/>
-        <Grid Margin="3,198,0,3" HorizontalAlignment="Left" Width="111"/>
+        <Grid Margin="3,198,0,3" HorizontalAlignment="Left" Width="111">
+            <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="86" Margin="18,22,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="83"/>
+        </Grid>
         <Button x:Name="button3" Content="Black" HorizontalAlignment="Left" Height="37" Margin="3,156,0,0" VerticalAlignment="Top" Width="37"/>
 
     </Grid>
