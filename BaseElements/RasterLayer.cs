@@ -38,7 +38,5 @@ namespace BaseElements
             image.Save(pathToFile);
             save = true;
         }
-
-
     }
 }

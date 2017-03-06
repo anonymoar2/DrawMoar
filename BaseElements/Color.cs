@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BaseElements
 {
-    class Color
+    public class Color
     {
         int R;
         int G;
