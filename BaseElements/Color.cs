@@ -24,14 +24,26 @@ namespace BaseElements
             this.B = color.B;
         }
 
-        public void Parse(string s) {
-            // тут пытаемся распарсить строку которая выглядит "123456789" или "#123456789"
+        public Color (string s) {
+            var color = Parse(s);
+            this.R = color.R;
+            this.G = color.G;
+            this.B = color.B;
+        }
+
+        public BaseElements.Color Parse(string s) {
+            // тут пытаемся распарсить строку которая выглядит "#123#456#789"
+            // а мб и "#0#1#345", для этого и #
             // если не получается кидаем исключения
             // в конструкторе это делать не хорошо
+            BaseElements.Color color = new Color();
+            // R = #123
+            //...
+            return color;
         }
 
         public override string ToString() {
-            return $"{R}{G}{B}";
+            return $"#{R}#{G}#{B}";
         }
     }
 }
