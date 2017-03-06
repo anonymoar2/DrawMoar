@@ -111,6 +111,9 @@ namespace WPFGUI
                 enc.Save(stm);
             }
         }
+
+        // Возможно добавим две чтобы выбирать основной цвет и дополнительный для заливки фигур, 
+        // вторая такая штука будет в параметрах как "выберите цвет заливки"
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e) {
             textBox.Text = "#" + ClrPcker_Background.SelectedColor.Value.R.ToString() + ClrPcker_Background.SelectedColor.Value.G.ToString() + ClrPcker_Background.SelectedColor.Value.B.ToString();
         }
