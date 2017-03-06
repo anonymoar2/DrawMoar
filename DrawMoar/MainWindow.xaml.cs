@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WPFGUI
+namespace DrawMoar
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
