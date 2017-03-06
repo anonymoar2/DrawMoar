@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-namespace WPFGUI
+namespace DrawMoar
 {
     /// <summary>
     /// Статический класс для хранения глобальных состояний редактора и инструментов
