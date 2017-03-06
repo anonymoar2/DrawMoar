@@ -126,6 +126,7 @@ namespace DrawMoar
             canvas.Height = CartoonHeight;
             canvas.Width = CartoonWidth;
             canvas.EditingMode = InkCanvasEditingMode.Ink;
+            canvas.Opacity = 1;
         }
 
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e)
