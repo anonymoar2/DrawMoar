@@ -44,5 +44,20 @@ namespace BaseElements
         public Frame(string workingDirectory) {
             WorkingDirectory = workingDirectory;
         }
+
+        /// <summary>
+        /// Save all layers 
+        /// </summary>
+        /// <returns></returns>
+        public void Save() {
+            
+        }
+
+        public void GetPicture() {
+            string pathToPicture = ""; // этой строки потом не будет
+            // Вызывает метод из импортера, котрый вернёт путь до картинки string path;
+            layers.Add(new RasterLayer(pathToPicture));
+        }
+
     }
 }

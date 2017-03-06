@@ -9,5 +9,13 @@ namespace BaseElements
     // I don't yet know why it's internal 
     internal class VectorLayer: Layer
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="WorkingDirectory"></param>
+        /// <returns></returns>
+        public override void Save(string WorkingDirectory) {
+            base.Save(WorkingDirectory);
+        }
     }
 }

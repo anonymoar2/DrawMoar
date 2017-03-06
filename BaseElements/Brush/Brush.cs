@@ -6,7 +6,17 @@ using System.Threading.Tasks;
 
 namespace BaseElements.Brush
 {
-    class Brush : IBrush
+    public class Brush : IBrush
     {
+        public int size {
+            get {
+                throw new NotImplementedException();
+            }
+
+            set {
+                // тут проверочка на min и max, они нам ещё не известны
+                throw new NotImplementedException();
+            }
+        }
     }
 }

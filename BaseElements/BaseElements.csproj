@@ -43,15 +43,15 @@
     <Compile Include="Brush\Brush.cs" />
     <Compile Include="Brush\IBrush.cs" />
     <Compile Include="Cartoon.cs" />
+    <Compile Include="Figures\IFigure.cs" />
+    <Compile Include="Figures\Line.cs" />
     <Compile Include="Frame.cs" />
     <Compile Include="Layer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RasterLayer.cs" />
     <Compile Include="VectorLayer.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Figures\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
