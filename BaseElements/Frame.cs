@@ -10,10 +10,10 @@ namespace BaseElements
     public class Frame
     {
         private string workingDirectory;
-
+        private int index; // потому что будет очень неаккуратно передавать его в метод Save
         private List<Layer> layers = new List<Layer>();
 
-        private float duration {
+        public float duration {
             // May be need to check something
             get;
             set;
@@ -41,22 +41,39 @@ namespace BaseElements
             }
         }
 
-        public Frame(string workingDirectory) {
+        public Frame(string workingDirectory, int index) {
             WorkingDirectory = workingDirectory;
+            this.index = index;
         }
 
         /// <summary>
-        /// Save all layers 
+        /// Save all layers and return filename
         /// </summary>
         /// <returns></returns>
-        public void Save() {
-            
+        public string Save() {
+            foreach (var layer in layers) {
+                if (layer.Visible) {
+                    if (!layer.save) {
+                        layer.Save(WorkingDirectory); // сохраним все несохраненые видимые слои в картинки
+                    }
+                }
+            }
+            // и тут они склеиваются но я пока забила это писать, сложненько там всё вроде
+            // и склеиваются в картинку имя ниже
+            return $"img{index}.png";
         }
 
         public void GetPicture() {
             string pathToPicture = ""; // этой строки потом не будет
             // Вызывает метод из импортера, котрый вернёт путь до картинки string path;
             layers.Add(new RasterLayer(pathToPicture));
+        }
+
+        // объединение текущего слоя с предыдущим если indexLayer >=1, иначе кидаем исключение
+        public void MergeLayers(int indexLayer) {
+            // 1. создаём новый слой-объединение этих вот, где downLayer снизу
+            // 2. удаляем оба слоя из списка слоёв (то есть слои с индексами indexLayer и indexLayer - 1)
+            // 3. вставляем новый получившийся слой по индексу indexLayer -1
         }
 
     }

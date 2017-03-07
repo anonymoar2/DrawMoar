@@ -12,11 +12,11 @@ namespace BaseElements
     {
         // Lower bound is 144p.
         private const int MINIMAL_WIDTH = 256;
-        private const int MINIMAL_HEIGHT = 144;
+        private const int MINIMAL_HEIGHT = 144; 
 
         // Upper bound is 4K.
         private const int MAXIMUM_WIDTH = 3840;
-        private const int MAXIMUM_HEIGHT = 2160; // MAXIMUM HATE 😡
+        private const int MAXIMUM_HEIGHT = 2160; // MAXIMUM HATE 😡/
 
         private string name;
         private int width;
@@ -28,8 +28,8 @@ namespace BaseElements
         /// List of frames. Every cartoon should contain at least one frame.
         /// Don't pass it out of class instance and work with it carefully.
         /// </summary>
-        private List<Frame> frames = new List<Frame>();
-
+        public List<Frame> frames = new List<Frame>();
+        // Сделать приватным возможно, но так удобненько пока
 
         /// <summary>
         /// Cartoon's name.
