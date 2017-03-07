@@ -78,7 +78,7 @@ namespace DrawMoar
         }
 
         private void SaveToPNG(object sender, RoutedEventArgs e) {
-            /*var saveDlg = new SaveFileDialog {
+            var saveDlg = new SaveFileDialog {
                 FileName = "img",
                 DefaultExt = ".png",
                 Filter = "PNG (.png)|*.png"
@@ -86,10 +86,10 @@ namespace DrawMoar
 
             if (saveDlg.ShowDialog() == true) {
                 SaveCanvas(canvas, 96, saveDlg.FileName);
-            }*/
+            }
         } 
 
-        private void SaveCanvas(Canvas canvas, int dpi, string filename) {
+        private void SaveCanvas(InkCanvas canvas, int dpi, string filename) {
             var width = canvas.ActualWidth;
             var height = canvas.ActualHeight;
 
