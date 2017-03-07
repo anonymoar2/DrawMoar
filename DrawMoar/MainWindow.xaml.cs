@@ -34,7 +34,7 @@ namespace DrawMoar
             // и на нём первый пустой слой
 
             // для теста, потом всё это можно будет поменять без проблем
-
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             GlobalState.Color = Brushes.Black;
             GlobalState.BrushSize = new Size(5, 5);
         }
@@ -42,8 +42,12 @@ namespace DrawMoar
         private void CreateCartoon(object sender, RoutedEventArgs e) {
             // создаём новый пустой кадр
             // на кадре новый пустой слой создаём
+            var newCartoonDialog = new CreateCartoonDialog();
+            newCartoonDialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            newCartoonDialog.Owner = this;
+            newCartoonDialog.Show();    
+            
         }
-
 
         /// <summary>
         /// по нажатию в двух местах канваса сделать создание линии и других фигур
@@ -53,6 +57,7 @@ namespace DrawMoar
         private void AddLine(object sender, RoutedEventArgs e) {
             var myLine = new Line();
             myLine.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
+            
             Random rand = new Random();
             myLine.X1 = rand.Next(1, 282);
             myLine.X2 = rand.Next(1, 282);
@@ -73,7 +78,7 @@ namespace DrawMoar
         }
 
         private void SaveToPNG(object sender, RoutedEventArgs e) {
-            var saveDlg = new SaveFileDialog {
+            /*var saveDlg = new SaveFileDialog {
                 FileName = "img",
                 DefaultExt = ".png",
                 Filter = "PNG (.png)|*.png"
@@ -81,8 +86,8 @@ namespace DrawMoar
 
             if (saveDlg.ShowDialog() == true) {
                 SaveCanvas(canvas, 96, saveDlg.FileName);
-            }
-        }
+            }*/
+        } 
 
         private void SaveCanvas(Canvas canvas, int dpi, string filename) {
             var width = canvas.ActualWidth;
@@ -111,9 +116,22 @@ namespace DrawMoar
                 enc.Save(stm);
             }
         }
-        private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e) {
-            textBox.Text = "#" + ClrPcker_Background.SelectedColor.Value.R.ToString() + ClrPcker_Background.SelectedColor.Value.G.ToString() + ClrPcker_Background.SelectedColor.Value.B.ToString();
-            
+
+        private void button3_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        public void Success(string Name, int CartoonHeight, int CartoonWidth)
+        {
+            canvas.Height = CartoonHeight;
+            canvas.Width = CartoonWidth;
+            canvas.EditingMode = InkCanvasEditingMode.Ink;
+            canvas.Opacity = 1;
+        }
+
+        private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e)
+        {
+            canvas.DefaultDrawingAttributes.Color = ClrPcker_Background.SelectedColor.Value;
         }
     }
 }

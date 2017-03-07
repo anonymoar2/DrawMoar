@@ -12,11 +12,11 @@ namespace BaseElements
     {
         // Lower bound is 144p.
         private const int MINIMAL_WIDTH = 256;
-        private const int MINIMAL_HEIGHT = 144;
+        private const int MINIMAL_HEIGHT = 144; 
 
         // Upper bound is 4K.
         private const int MAXIMUM_WIDTH = 3840;
-        private const int MAXIMUM_HEIGHT = 2160; // MAXIMUM HATE 😡
+        private const int MAXIMUM_HEIGHT = 2160; // MAXIMUM HATE 😡/
 
         private string name;
         private int width;
