@@ -3,6 +3,7 @@ git clone -b develop git@github.com:Anonymoar/DrawMoar.git
 
 Потом открыть sln в студии, сделать Ctrl + Shift + B
 
+**Запускать нужно проект DrawMoar, а не Demo**
 
 Сейчас работает: 
 
@@ -11,3 +12,5 @@ git clone -b develop git@github.com:Anonymoar/DrawMoar.git
     Рисование кистью
     Выбор цвета дя рисования
     Добавление на рисунок синих линий в рандомные места холста  
+    Реализовано создание видео в формате .MP4 из кадров, но пока не прикручено к gui(DrawMoar) и использовать можно только вручную 
+    из проекта Demo
