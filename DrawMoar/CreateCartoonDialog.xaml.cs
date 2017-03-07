@@ -44,7 +44,7 @@ namespace DrawMoar
                     this.CartoonName = getName.Text;
                     this.CartoonHeight = Int32.Parse(getHeight.Text);
                     this.CartoonWidth = Int32.Parse(getWidth.Text);
-                    if (CartoonHeight <= 0 || CartoonWidth <= 0) throw new FormatException();
+                    if (CartoonHeight <= 0 || CartoonWidth <= 0) throw new FormatException("Height and width must be bigger than zero");
                     this.Hide();
                     MainWindow mw = (MainWindow)this.Owner;
                     mw.Success(CartoonName, CartoonHeight, CartoonWidth);

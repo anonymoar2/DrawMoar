@@ -117,12 +117,9 @@ namespace DrawMoar
             }
         }
 
-        private void button3_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
         public void Success(string Name, int CartoonHeight, int CartoonWidth)
         {
+            canvas.Strokes.Clear();
             canvas.Height = CartoonHeight;
             canvas.Width = CartoonWidth;
             canvas.EditingMode = InkCanvasEditingMode.Ink;
