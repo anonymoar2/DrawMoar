@@ -130,5 +130,12 @@ namespace DrawMoar
         {
             canvas.DefaultDrawingAttributes.Color = ClrPcker_Background.SelectedColor.Value;
         }
+
+
+        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            frames.Height = (rootGrid.ActualHeight - buttons.ActualHeight - smth.ActualHeight) / 2;     //не знаю, стоит ли так делать
+            layers.Height = (rootGrid.ActualHeight - buttons.ActualHeight - smth.ActualHeight) / 2;         //smth - выделение места под что-то (макет Ирины)
+        }
     }
 }
