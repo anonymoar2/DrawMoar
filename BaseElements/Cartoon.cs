@@ -30,6 +30,7 @@ namespace BaseElements
         /// </summary>
         public List<Frame> frames = new List<Frame>();
         // Сделать приватным возможно, но так удобненько пока
+        
 
         /// <summary>
         /// Cartoon's name.
@@ -122,23 +123,25 @@ namespace BaseElements
 
         }
 
-        // текущий кадр
+        // текущий, выбранный кадр, на котором мы что-то делаем сейчас
         public Frame currentFrame;
 
-        public void InsertFrame(Frame frame) {
-            // TODO: write checks to improve the code safety.
-            frames.Add(frame);
-            // TODO: throw some errors.
-        }
 
+        //public void InsertFrame(Frame frame) {
+        //    // TODO: write checks to improve the code safety.
+        //    frames.Add(frame);
+        //    // TODO: throw some errors.
+        //}
 
+       
         // May be index as argument is bad choice.
-        public Frame ExtractFrame(int index) {
-            // TODO: write checks to improve the code safety.
-            var extractedFrame = frames[index];
-            frames.RemoveAt(index);
-            // TODO: throw some errors.
-            return extractedFrame;
-        }
+
+        //public Frame ExtractFrame(int index) {
+        //    // TODO: write checks to improve the code safety.
+        //    var extractedFrame = frames[index];
+        //    frames.RemoveAt(index);
+        //    // TODO: throw some errors.
+        //    return extractedFrame;
+        //}
     }
 }

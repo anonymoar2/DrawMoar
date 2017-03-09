@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BaseElements.Figures;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,13 @@ namespace BaseElements
     // ну его писать совсем маленько хочется
     internal class VectorLayer: Layer
     {
+        // пока паблик, потом скорее всего приват с методами вставить/удалить и т.д.
+        public List<IFigure> figures;
+
+        
+
+
+
         /// <summary>
         /// 
         /// </summary>

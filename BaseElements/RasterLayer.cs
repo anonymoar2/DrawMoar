@@ -15,18 +15,21 @@ namespace BaseElements
         private string pathToPicture;
         private Image image;
         private Bitmap bitmap;
-        
-        
-        //public RasterLayer(string pathToPicture) {
-        //    MemoryStream mstream = new MemoryStream(File.ReadAllBytes(pathToPicture));
-        //    image = Image.FromStream(mstream);
-        //    bitmap = new Bitmap(image);
-        //    save = true;
-        //}
 
-        // ещё один конструктор который создаёт изображение из чего-то другого
-        // и вызывает метод Save сразу же
 
+        public RasterLayer(string pathToPicture) {
+            MemoryStream mstream = new MemoryStream(File.ReadAllBytes(pathToPicture));
+            image = Image.FromStream(mstream);
+            bitmap = new Bitmap(image);
+        }
+
+        
+
+        public RasterLayer(Image image, string workingDirectory) {
+            this.image = image;
+            //this.bitmap = (Bitmap)image; не уверена что так неявно приведется
+            this.pathToPicture = Path.Combine(workingDirectory, $"{}");
+        }
         
         /// <summary>
         /// Save layer
