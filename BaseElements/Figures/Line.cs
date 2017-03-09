@@ -8,35 +8,29 @@ namespace BaseElements.Figures
 {
     public class Line : IFigure
     {
-        public const int minSize = 1;
-        public const int maxSize = 256;// хз какой максимальный, измените эту циферку
+        public const int minWidth = 1;
+        public const int maxWidth = 256;// хз какой максимальный, измените эту циферку
 
-        private int width = minSize; // толщина линии
+        private int width = minWidth; // толщина линии
+
         public int Width {
             get {
                 return width;
             }
-
             set {
-                if(value >= minSize && value <= maxSize) {
+                if (value >= minWidth && value <= maxWidth) {
                     width = value;
                 }
                 else {
-                    throw new ArgumentException($"Width must be >= {minSize} and <= {maxSize}.");
+                    throw new ArgumentException($"Width must be >= {minWidth} and <= {maxWidth}.");
                 }
             }
         }
 
         private Color mainColor;
         public Color MainColor {
-            get {
-                return mainColor;
-            }
-
-            set {
-                // мб проверочки, но хз, они должны быть в самом Color наверное
-                mainColor = value;
-            }
+            get; set;
         }
     }
 }
+

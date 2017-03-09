@@ -92,6 +92,7 @@ namespace DrawMoar
             }
         } 
 
+
         private void SaveCanvas(InkCanvas canvas, int dpi, string filename) {
             var width = canvas.ActualWidth;
             var height = canvas.ActualHeight;
@@ -134,17 +135,26 @@ namespace DrawMoar
             canvas.Opacity = 1;
         }
 
+
         private int i = 0;
         public void CreateNewFrame(object sender, RoutedEventArgs e) {
+
             string frameName = $"img{i++}.png";
             SaveCanvas(canvas, 90, System.IO.Path.Combine(cartoon.WorkingDirectory, /*cartoon.Name*/frameName));
             canvas.Strokes.Clear();
             cartoon.frames.Add(new BaseElements.Frame(cartoon.WorkingDirectory));
             cartoon.currentFrame = cartoon.frames.Last();
-            // сохраняем изменения на канвасе в Frame
-            // очищаем канвас
-            // создаем новый фрейм
-            // ну и всё )))
+            // сделать миниатюру и отображение в списке кадров 
+        }
+
+
+        // https://github.com/artesdi/Paint.WPF
+        public void DeleteFrame(object sender, RoutedEventArgs e) {
+
+            cartoon.frames.Remove(cartoon.currentFrame);
+            // удаление из списка кадров на экране
+            canvas.Strokes.Clear();
+            // переключение и отображение предыдущего/следующего кадра
         }
 
 
