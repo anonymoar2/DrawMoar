@@ -36,7 +36,6 @@ namespace BaseElements
         public override void Save(string WorkingDirectory) {
             string pathToFile = Path.Combine(WorkingDirectory, $"{Name}.png");
             image.Save(pathToFile);
-            save = true;
         }
     }
 }

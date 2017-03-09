@@ -48,6 +48,7 @@ namespace BaseElements
         }
 
 
+
         /// <summary>
         /// Width of cartoon's canvas.
         /// </summary>

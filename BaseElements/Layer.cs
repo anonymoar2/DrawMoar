@@ -14,9 +14,6 @@ namespace BaseElements
         // картинка получается только из видимых слоёв
         public bool Visible { get; set; }
         private string name;
-        public bool save = false; // true - слой уже сохранён, false - имеет несохранённые в картинку изменения/не существует
-        // убрать это
-
 
         /// <summary>
         /// Layer's name.
@@ -36,7 +33,7 @@ namespace BaseElements
 
         // Какие-то ещё параметры в будущем возможно
 
-        // метод перенести в frame
+        
         /// <summary>
         /// Save layer in WorkingDirectory
         /// </summary>
@@ -46,11 +43,7 @@ namespace BaseElements
         }
         
         // ещё тут будет transformation, чуть позже добавлю, пока думаю и так работы хватит
-
-        public void Refresh() {
-            //по сути тут будет пересохранение слоя если его изменили
-            save = true;
-        }
+        
         
     }
 }

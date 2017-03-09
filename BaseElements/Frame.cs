@@ -52,23 +52,16 @@ namespace BaseElements
         /// </summary>
         /// <returns></returns>
         public string Save() {
-            foreach (var layer in layers) {
-                if (layer.Visible) {
-                    if (!layer.save) {
-                        layer.Save(WorkingDirectory); // сохраним все несохраненые видимые слои в картинки
-                    }
-                }
-            }
-            // и тут они склеиваются но я пока забила это писать, сложненько там всё вроде
-            // и склеиваются в картинку имя ниже
-            return $"img.png";
+            return "";
         }
+        
 
         public void GetPicture() {
             string pathToPicture = ""; // этой строки потом не будет
             // Вызывает метод из импортера, котрый вернёт путь до картинки string path;
             layers.Add(new RasterLayer(/*pathToPicture*/));
         }
+
 
         // объединение текущего слоя с предыдущим если indexLayer >=1, иначе кидаем исключение
         public void MergeLayers(int indexLayer) {
@@ -77,5 +70,29 @@ namespace BaseElements
             // 3. вставляем новый получившийся слой по индексу indexLayer -1
         }
 
+
+        // Изменение порядка слоёв
+        public void ChangeOrder(int indexOne, int indexTwo) {
+            layers.Insert(indexTwo + 1, layers[indexOne]);
+            var tmp = layers[indexTwo];
+            layers.RemoveAt(indexTwo);
+            layers.RemoveAt(indexOne);
+            layers.Insert(indexOne, tmp);
+
+        }
+
+        public void UpLayer(int index) {
+            if(index >= 0 && index < layers.Count - 1) {
+                layers.Insert(index + 2, layers[index]);
+                layers.RemoveAt(index);
+            }
+        }
+
+        public void DownLayer(int index) {
+            if (index > 0 && index < layers.Count) {
+                layers.Insert(index - 1, layers[index]);
+                layers.RemoveAt(index + 1);
+            }
+        }
     }
 }
