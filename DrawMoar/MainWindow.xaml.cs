@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BaseElements;
 
 namespace DrawMoar
 {
@@ -22,6 +23,8 @@ namespace DrawMoar
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Cartoon cartoon;
+
         public MainWindow() {
             InitializeComponent();
             // при создании окна области рисования нет
@@ -121,13 +124,29 @@ namespace DrawMoar
         {
         }
 
-        public void Success(string Name, int CartoonHeight, int CartoonWidth)
+        public void Success(Cartoon cartoon)
         {
-            canvas.Height = CartoonHeight;
-            canvas.Width = CartoonWidth;
+            // возможно пересоздание окна, либо что-то сделать с холстом, но можно забить пока
+            this.cartoon = cartoon;
+            canvas.Height = cartoon.Height;
+            canvas.Width = cartoon.Width;
             canvas.EditingMode = InkCanvasEditingMode.Ink;
             canvas.Opacity = 1;
         }
+
+        private int i = 0;
+        public void CreateNewFrame(object sender, RoutedEventArgs e) {
+            string frameName = $"img{i++}.png";
+            SaveCanvas(canvas, 90, System.IO.Path.Combine(cartoon.WorkingDirectory, /*cartoon.Name*/frameName));
+            canvas.Strokes.Clear();
+            cartoon.frames.Add(new BaseElements.Frame(cartoon.WorkingDirectory));
+            cartoon.currentFrame = cartoon.frames.Last();
+            // сохраняем изменения на канвасе в Frame
+            // очищаем канвас
+            // создаем новый фрейм
+            // ну и всё )))
+        }
+
 
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e)
         {

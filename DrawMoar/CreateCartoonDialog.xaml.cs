@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BaseElements;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,10 +24,7 @@ namespace DrawMoar
         {
             InitializeComponent();
         }
-
-        public string CartoonName { get; set; }
-        public int CartoonHeight { get; set; }
-        public int CartoonWidth { get; set; }
+        
 
         //!!!ОЧЕНЬ КРИВО!!!
         //часть проверок есть в Cartoon
@@ -41,13 +39,15 @@ namespace DrawMoar
             {
                 try
                 {
-                    this.CartoonName = getName.Text;
-                    this.CartoonHeight = Int32.Parse(getHeight.Text);
-                    this.CartoonWidth = Int32.Parse(getWidth.Text);
+                    var CartoonName = getName.Text;
+                    var CartoonHeight = Int32.Parse(getHeight.Text);
+                    var CartoonWidth = Int32.Parse(getWidth.Text);
                     if (CartoonHeight <= 0 || CartoonWidth <= 0) throw new FormatException();
                     this.Hide();
                     MainWindow mw = (MainWindow)this.Owner;
-                    mw.Success(CartoonName, CartoonHeight, CartoonWidth);
+                    var cartoon = new Cartoon(CartoonName, CartoonWidth, CartoonHeight,/*этот параметр потом будет путь до папки temp, но пока не так важно*/ @"C:\Users\Home\Desktop\temp");
+                    mw.Success(cartoon);
+
                 }
                 catch(FormatException)
                 {

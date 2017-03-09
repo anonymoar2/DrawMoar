@@ -10,7 +10,6 @@ namespace BaseElements
     public class Frame
     {
         private string workingDirectory;
-        private int index; // потому что будет очень неаккуратно передавать его в метод Save
         private List<Layer> layers = new List<Layer>();
 
         public float duration {
@@ -41,11 +40,13 @@ namespace BaseElements
             }
         }
 
-        public Frame(string workingDirectory, int index) {
+        public Frame(string workingDirectory) {
             WorkingDirectory = workingDirectory;
-            this.index = index;
+            // в будущем создавать новую папку в workingdirectore "rasterlayers" и уже туда закидввать этот новый слой и вообще все растровые
+            layers.Add(new RasterLayer(/*workingDirectory*/));
         }
 
+        // метод засунуть в cartoon
         /// <summary>
         /// Save all layers and return filename
         /// </summary>
@@ -60,13 +61,13 @@ namespace BaseElements
             }
             // и тут они склеиваются но я пока забила это писать, сложненько там всё вроде
             // и склеиваются в картинку имя ниже
-            return $"img{index}.png";
+            return $"img.png";
         }
 
         public void GetPicture() {
             string pathToPicture = ""; // этой строки потом не будет
             // Вызывает метод из импортера, котрый вернёт путь до картинки string path;
-            layers.Add(new RasterLayer(pathToPicture));
+            layers.Add(new RasterLayer(/*pathToPicture*/));
         }
 
         // объединение текущего слоя с предыдущим если indexLayer >=1, иначе кидаем исключение

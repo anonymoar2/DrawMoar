@@ -113,8 +113,16 @@ namespace BaseElements
             Width = width;
             Height = height;
             WorkingDirectory = workingDirectory;
+            frames.Add(new Frame(workingDirectory));
         }
 
+        // метод Save из Frame, сохраняет в картинку кадр с переданным индексом
+        public void SaveFrame(int index) {
+
+        }
+
+        // текущий кадр
+        public Frame currentFrame;
 
         public void InsertFrame(Frame frame) {
             // TODO: write checks to improve the code safety.

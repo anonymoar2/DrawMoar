@@ -17,12 +17,12 @@ namespace BaseElements
         private Bitmap bitmap;
         
         
-        public RasterLayer(string pathToPicture) {
-            MemoryStream mstream = new MemoryStream(File.ReadAllBytes(pathToPicture));
-            image = Image.FromStream(mstream);
-            bitmap = new Bitmap(image);
-            save = true;
-        }
+        //public RasterLayer(string pathToPicture) {
+        //    MemoryStream mstream = new MemoryStream(File.ReadAllBytes(pathToPicture));
+        //    image = Image.FromStream(mstream);
+        //    bitmap = new Bitmap(image);
+        //    save = true;
+        //}
 
         // ещё один конструктор который создаёт изображение из чего-то другого
         // и вызывает метод Save сразу же

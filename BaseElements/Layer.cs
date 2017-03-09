@@ -15,6 +15,7 @@ namespace BaseElements
         public bool Visible { get; set; }
         private string name;
         public bool save = false; // true - слой уже сохранён, false - имеет несохранённые в картинку изменения/не существует
+        // убрать это
 
 
         /// <summary>
@@ -35,6 +36,7 @@ namespace BaseElements
 
         // Какие-то ещё параметры в будущем возможно
 
+        // метод перенести в frame
         /// <summary>
         /// Save layer in WorkingDirectory
         /// </summary>
