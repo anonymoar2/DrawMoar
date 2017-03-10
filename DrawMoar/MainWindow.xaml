@@ -31,25 +31,27 @@
         </Menu>
         <DockPanel Name="rootPanel" LastChildFill="False">
             <StackPanel DockPanel.Dock="Left" Margin="0,20,0,0" Background="WhiteSmoke" MinWidth="120" MaxWidth="120">
-                <WrapPanel Height="160" Background="CadetBlue">
+                <WrapPanel Height="160">
                     <Button x:Name="button1" Height ="25" Width="37" Margin="5,5" Content="Lines" Click="AddLine"/>
                 </WrapPanel>
-                <WrapPanel Height="40" Background="Coral">
+                <WrapPanel Height="40">
                     <xctk:ColorPicker x:Name="ClrPcker_Background"  Margin="65,7,0,0" SelectedColorChanged="ClrPcker_Background_SelectedColorChanged" Height="25" Width="50"/>
                 </WrapPanel>
-                <WrapPanel Height="100" Background="Gray">
+                <WrapPanel Height="100">
                     <Slider x:Name="slider" Width="100" Margin="10,10"/>
                 </WrapPanel>
 
             </StackPanel>
             <StackPanel Name="rightPanel" DockPanel.Dock="Right" Background="WhiteSmoke" MinWidth="120">
-                <WrapPanel Name="buttons" Height="40" Background="LightGreen"/>
-                <ListBox Name="layers" Width="120" Background="Wheat" BorderBrush="Wheat" MinHeight="120"/>
-                <WrapPanel Name="smth" Width="120" Background="Aqua" MinHeight="40"/>
-                <ListBox  x:Name="frames"  Background="Khaki" Width="120" BorderBrush="Khaki" MinHeight="120"/>
+                <WrapPanel Name="buttons" Height="40"/>
+                <ListBox Name="layers" Width="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                         BorderBrush="LightGray" MinHeight="120"/>
+                <WrapPanel Name="smth" Width="120" MinHeight="40"/>
+                <ListBox  x:Name="frames" Width="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                          BorderBrush="LightGray" MinHeight="120"/>
             </StackPanel>
         </DockPanel>
         <InkCanvas x:Name="canvas" EditingMode="None" x:FieldModifier="private" 
-                       Opacity="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="160,34,162,85" Width="200" Height="200"/>
+                       Opacity="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="160,35,160,85" Width="200" Height="200"/>
     </Grid>
 </Window>
