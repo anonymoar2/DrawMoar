@@ -50,7 +50,7 @@ namespace BaseElements
 
 
         // Вставка кадра по индексу
-        public void Insert(int index, Frame frame) {
+        public void InsertFrame(int index, Frame frame) {
             if (index >= 0 && index <= frames.Count) {
                 frames.Insert(index, frame);
             }
@@ -147,9 +147,14 @@ namespace BaseElements
         }
 
 
-        // метод Save из Frame, сохраняет в картинку кадр с переданным индексом
-        public void SaveFrame(int index) {
+        // Сохраняет в картинку кадр с переданным индексом
+        public void SaveFrameToPNG(int index) {
             // TODO: Вызов метода из экспорта
+        }
+
+
+        public void SaveCartoonToMP4() {
+            // Вызов метода из экспорта
         }
 
 
@@ -157,21 +162,24 @@ namespace BaseElements
         public Frame currentFrame;
 
 
-        //public void InsertFrame(Frame frame) {
-        //    // TODO: write checks to improve the code safety.
-        //    frames.Add(frame);
-        //    // TODO: throw some errors.
-        //}
+        // Возможно не передевать Frame и менять на currentFrame
+        public void SetDuration(float duration, Frame frame) {
+            if (duration > 0) {
+                frame.Duration = duration;
+            }
+            else {
+                throw new ArgumentException("Длительность не может быть <= 0"); // Возможно тут не нужно его кидать ибо оно кидается в Duration
+            }
+        }
 
-       
-        // May be index as argument is bad choice.
 
-        //public Frame ExtractFrame(int index) {
-        //    // TODO: write checks to improve the code safety.
-        //    var extractedFrame = frames[index];
-        //    frames.RemoveAt(index);
-        //    // TODO: throw some errors.
-        //    return extractedFrame;
-        //}
+        // Изменение порядка кадров
+        public void ChangeOrder(int indexOne, int indexTwo) {
+            frames.Insert(indexTwo + 1, frames[indexOne]);
+            var tmp = frames[indexTwo];
+            frames.RemoveAt(indexTwo);
+            frames.RemoveAt(indexOne);
+            frames.Insert(indexOne, tmp);
+        }
     }
 }
