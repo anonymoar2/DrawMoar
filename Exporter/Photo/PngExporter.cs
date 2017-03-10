@@ -1,30 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
-using System.Threading.Tasks;
+using System.IO;
+using System.Windows.Media.Imaging;
 
 using BaseElements;
-using System.IO;
 
 namespace Exporter.Photo
 {
     public class PngExporter : IPhotoExporter
     {
-        public Image ImageFromBytes(byte[] bytes) {
-            using (var ms = new MemoryStream(bytes)) {
-                return Image.FromStream(ms);
+        public void Save(Frame frame, string filename) {
+            var enc = new PngBitmapEncoder();
+            enc.Frames.Add(BitmapFrame.Create(frame.Bitmap));
+
+            using (FileStream stm = File.Create(filename))
+            {
+                enc.Save(stm);
             }
         }
-
-        // filename включая path до картинки
-        public string Save(Frame frame, string filename) {
-            // Допустим пока слоёв у нас нет, тогда на frame содержит image
-            frame.image = ImageFromBytes(frame.bytes);
-            frame.image.Save(filename);
-            return filename;
-        }
-        
     }
 }
