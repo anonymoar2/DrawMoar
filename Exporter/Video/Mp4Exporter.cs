@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BaseElements;
+using Exporter.Photo;
 
 namespace Exporter.Video
 {
@@ -63,9 +64,12 @@ namespace Exporter.Video
                 //    writer.WriteLine("file " + file.Name);
                 //    writer.WriteLine("duration 0.25");
                 //}
-                foreach (var frame in cartoon.frames) {
-                    writer.WriteLine("file" + frame.Save());
-                    writer.WriteLine($"duration {frame.duration}");
+                PngExporter pngExporter = new PngExporter();
+                var frames = cartoon.GetAllFrames();
+                foreach (var frame in frames) {
+                    pngExporter.Save(frame, Path.Combine(cartoon.WorkingDirectory + $"img{frames.IndexOf(frame)}.png"));
+                    writer.WriteLine("file" + $"img{frames.IndexOf(frame)}.png");
+                    writer.WriteLine($"duration {frame.Duration}");
                 }
             }
 

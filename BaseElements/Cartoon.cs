@@ -161,10 +161,11 @@ namespace BaseElements
         }
 
 
-        // Сохраняет в картинку кадр с переданным индексом
-        public void SaveFrameToPNG(int index) {
-            // TODO: Вызов метода из экспорта
-        }
+        //// Сохраняет в картинку кадр с переданным индексом
+        //public string SaveFrameToPNG(int index) {
+
+        //    return $"img{index}.png";
+        //}
 
 
         public void SaveCartoonToMP4() {

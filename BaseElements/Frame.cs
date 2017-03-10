@@ -144,5 +144,12 @@ namespace BaseElements
                 layers.RemoveAt(index + 1);
             }
         }
+
+        /// Этого не будет потом, это только для демки: 
+        /// 
+
+        public Image image;
+
+        
     }
 }
