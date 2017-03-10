@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace BaseElements
 {
-   internal abstract class Layer
+    internal abstract class Layer
     {
         // true - слой видимый, false - невидимый, при экспорте кадра в картинку 
         // картинка получается только из видимых слоёв
@@ -32,7 +28,6 @@ namespace BaseElements
 
         // Какие-то ещё параметры в будущем возможно
 
-        
         /// <summary>
         /// Save layer in WorkingDirectory
         /// </summary>
@@ -41,8 +36,6 @@ namespace BaseElements
             // xz
         }
         
-        // ещё тут будет transformation, чуть позже добавлю, пока думаю и так работы хватит
-        
-        
+        // Ещё тут будет transformation, чуть позже добавлю, пока думаю и так работы хватит
     }
 }

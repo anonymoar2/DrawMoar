@@ -1,22 +1,20 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BaseElements.Figures;
 using System.Drawing;
-using System.Drawing.Imaging;
+using System.Collections.Generic;
+using System.Windows.Media.Imaging;
 
 namespace BaseElements
 {
     public class Frame
     {
+        // Этого, вероятно, не должно быть здесь
+        public RenderTargetBitmap Bitmap { get; set; }
+
+        private float duration;
         private string workingDirectory;
         private List<Layer> layers = new List<Layer>();
         
-
-        private float duration;
         public float Duration {
             get {
                 return duration;
@@ -30,7 +28,6 @@ namespace BaseElements
                 }
             }
         }
-
 
         /// <summary>
         /// It is the subdirectory of cartoon which contain internal important files.
@@ -54,15 +51,12 @@ namespace BaseElements
             }
         }
 
-
         /// TODO: Подумать, взм переделать конструктор
         public Frame(string workingDirectory) {
             WorkingDirectory = workingDirectory;
             // в будущем создавать новую папку в workingdirectore "rasterlayers" и уже туда закидввать этот новый слой и вообще все растровые
             layers.Add(new RasterLayer(/*workingDirectory*/));
         }
-
-
 
         // объединение текущего слоя с предыдущим если indexLayer >=1, иначе кидаем исключение
         public void MergeLayers(int indexLayer) {
@@ -99,24 +93,20 @@ namespace BaseElements
             }
         }
 
-
         // Создание нового растрового слоя
         public void AddRasterLayer() {
             layers.Add(new RasterLayer() { Name = $"layer{layers.Count}" });
         }
-
 
         // Создание векторного слоя
         public void AddVectorLayer() {
             layers.Add(new VectorLayer() { Name = $"vector{layers.Count}" });
         }
 
-
         // Изменение имени слоя
         public void ChangeNameLyer(int index, string layerName) {
             layers[index].Name = layerName;
         }
-
 
         // Изменение порядка слоёв
         public void ChangeOrder(int indexOne, int indexTwo) {
@@ -127,7 +117,6 @@ namespace BaseElements
             layers.Insert(indexOne, tmp);
         }
 
-
         // Поднятие слоя вверх
         public void UpLayer(int index) {
             if (index >= 0 && index < layers.Count - 1) {
@@ -136,21 +125,12 @@ namespace BaseElements
             }
         }
 
-
         // Опускание слоя вниз
         public void DownLayer(int index) {
             if (index > 0 && index < layers.Count) {
                 layers.Insert(index - 1, layers[index]);
                 layers.RemoveAt(index + 1);
             }
-        }
-
-        /// Этого не будет потом, это только для демки: 
-        /// 
-
-        public Image image;
-        public byte[] bytes = null;
-
-        
+        }        
     }
 }

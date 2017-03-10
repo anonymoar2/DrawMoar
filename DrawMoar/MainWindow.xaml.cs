@@ -1,22 +1,15 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+
 using BaseElements;
-using Exporter;
 using Exporter.Video;
+using Exporter.Photo;
 
 namespace DrawMoar
 {
@@ -39,7 +32,7 @@ namespace DrawMoar
             // и на нём первый пустой слой
 
             // для теста, потом всё это можно будет поменять без проблем
-            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
             GlobalState.Color = Brushes.Black;
             GlobalState.BrushSize = new Size(5, 5);
         }
@@ -51,17 +44,14 @@ namespace DrawMoar
             newCartoonDialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             newCartoonDialog.Owner = this;
             newCartoonDialog.Show();
-
         }
 
         /// <summary>
-        /// по нажатию в двух местах канваса сделать создание линии и других фигур
-        ///  
+        /// По нажатию в двух местах канваса сделать создание линии и других фигур
         /// </summary>
-
         private void AddLine(object sender, RoutedEventArgs e) {
             var myLine = new Line();
-            myLine.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
+            myLine.Stroke = Brushes.LightSteelBlue;
 
             Random rand = new Random();
             myLine.X1 = rand.Next(1, 282);
@@ -74,15 +64,9 @@ namespace DrawMoar
             canvas.Children.Add(myLine);
         }
 
-
         private void ExportToMP4(object sender, RoutedEventArgs e) {
-            Mp4Exporter exp = new Mp4Exporter();
-            exp.Save(cartoon, @"C:\Users\Home\Desktop\newTest");
-
-            // должны 1) пройтись по кадрам и сохранить все в картинки
-            // 
-            // 2) запилить видео
-            // 3) удалить вспомогательные файлы
+            var mp4Exporter = new Mp4Exporter();
+            mp4Exporter.Save(cartoon, Environment.ExpandEnvironmentVariables("%USERPROFILE%\\Desktop\\"));
         }
 
         private void SaveToPNG(object sender, RoutedEventArgs e) {
@@ -93,12 +77,13 @@ namespace DrawMoar
             };
 
             if (saveDlg.ShowDialog() == true) {
-                SaveCanvas(canvas, 96, saveDlg.FileName);
+                SaveCurrentCanvas();
+                var pngExporter = new PngExporter();
+                pngExporter.Save(cartoon.currentFrame, saveDlg.FileName);
             }
         }
 
-
-        private void SaveCanvas(InkCanvas canvas, int dpi, string filename) {
+        private RenderTargetBitmap CanvasToBitmap(InkCanvas canvas) {
             var width = canvas.ActualWidth;
             var height = canvas.ActualHeight;
 
@@ -108,25 +93,12 @@ namespace DrawMoar
             var rtb = new RenderTargetBitmap(
                 (int)width + 120,
                 (int)height,
-                dpi, //dpi x 
-                dpi, //dpi y 
-                PixelFormats.Pbgra32 // pixelformat 
-                );
+                96, //dpi x 
+                96, //dpi y 
+                PixelFormats.Pbgra32 // pixelformat
+            );
             rtb.Render(canvas);
-
-            SaveAsPng(rtb, filename);
-        }
-
-        private static void SaveAsPng(RenderTargetBitmap bmp, string filename) {
-            var enc = new PngBitmapEncoder();
-            enc.Frames.Add(BitmapFrame.Create(bmp));
-
-            using (FileStream stm = File.Create(filename)) {
-                enc.Save(stm);
-            }
-        }
-
-        private void button3_Click(object sender, RoutedEventArgs e) {
+            return rtb;
         }
 
         public void Success(Cartoon cartoon) {
@@ -138,8 +110,6 @@ namespace DrawMoar
             canvas.Opacity = 1;
         }
 
-
-        private int i = 0;
         public void CreateNewFrame(object sender, RoutedEventArgs e) {
             //string frameName = $"img{i++}.png";
             //SaveCanvas(canvas, 90, System.IO.Path.Combine(cartoon.WorkingDirectory, /*cartoon.Name*/frameName));
@@ -149,21 +119,14 @@ namespace DrawMoar
             // отображение в списке кадров
         }
 
-
-
-        // Вызывать при переключении на другой кадр, сохраняет содержимое cartoon.currentframe
-        // то есть вызывать до того как currentframe поменятся на другой frame
+        /// <summary>
+        /// На переписывание
+        /// </summary>
         public void SaveCurrentCanvas() {
-            using (MemoryStream ms = new MemoryStream()) {
-                if (canvas.Strokes.Count > 0) {
-                    canvas.Strokes.Save(ms, true);
-                    cartoon.currentFrame.bytes = ms.ToArray();
-                }
-            }
+            cartoon.currentFrame.Bitmap = CanvasToBitmap(canvas);
         }
 
         public void DeleteFrame(object sender, RoutedEventArgs e) {
-
             if (cartoon.GetAllFrames().IndexOf(cartoon.currentFrame) > 0 && cartoon.GetAllFrames().IndexOf(cartoon.currentFrame) < cartoon.GetAllFrames().Count) {
                 var frame = cartoon.currentFrame;
                 cartoon.currentFrame = cartoon.GetAllFrames()[cartoon.GetAllFrames().IndexOf(frame) - 1];
@@ -188,9 +151,15 @@ namespace DrawMoar
         //    // переключение и отображение предыдущего/следующего кадра
         //}
 
-
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e) {
             canvas.DefaultDrawingAttributes.Color = ClrPcker_Background.SelectedColor.Value;
+        }
+
+        /// Кнопка сохранения в меню
+        /// Ctrl + S
+        private void ButtonSaveClicked(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            SaveCurrentCanvas();
         }
     }
 }

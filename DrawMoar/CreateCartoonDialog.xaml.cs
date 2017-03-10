@@ -1,17 +1,7 @@
-﻿using BaseElements;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+
+using BaseElements;
 
 namespace DrawMoar
 {
@@ -24,11 +14,9 @@ namespace DrawMoar
         {
             InitializeComponent();
         }
-        
 
         //!!!ОЧЕНЬ КРИВО!!!
         //часть проверок есть в Cartoon
-
         private void creating_Click(object sender, RoutedEventArgs e)
         {
             //после презентации, когда будет время сделаю нормально
@@ -45,11 +33,12 @@ namespace DrawMoar
                     if (CartoonHeight <= 0 || CartoonWidth <= 0) throw new FormatException();
                     this.Hide();
                     MainWindow mw = (MainWindow)this.Owner;
-                    var cartoon = new Cartoon(CartoonName, CartoonWidth, CartoonHeight,/*этот параметр потом будет путь до папки temp, но пока не так важно*/ @"C:\Users\Home\Desktop\temp");
+                    var cartoon = new Cartoon(CartoonName, CartoonWidth, CartoonHeight, 
+                        Environment.ExpandEnvironmentVariables("%USERPROFILE%\\Desktop"));
                     mw.Success(cartoon);
 
                 }
-                catch(FormatException)
+                catch (FormatException)
                 {
                     MessageBox.Show("Enter integer height and width bigger than zero");
                 }

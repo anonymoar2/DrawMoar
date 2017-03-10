@@ -33,7 +33,7 @@ namespace Exporter.Video
 
             Process process = new Process();
             process.StartInfo.FileName = "ffmpeg";
-            process.StartInfo.WorkingDirectory = Path.Combine(Directory.GetCurrentDirectory(), cartoon.Name);
+            process.StartInfo.WorkingDirectory = path;
             process.StartInfo.Arguments = $"-y -loglevel panic -f concat -i {concatFilename} {cartoon.Name}.mp4";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
@@ -49,10 +49,10 @@ namespace Exporter.Video
         }
 
         /// <summary>
-        /// !!! ATTENTION  !!!
-        /// !!! DUMMY CODE !!!
+        /// Создаёт файл с именами картинок соответствующих каждому кадру, 
+        /// а также с продолжительностью каждого кадра.
         /// </summary>
-        /// <returns>Name of file which will be used in ffmpeg concat protocol.</returns>
+        /// <returns>Имя сформированного файла.</returns>
         private static string CreateConcatFile(Cartoon cartoon) {
             string imagesDirectory = cartoon.WorkingDirectory;
             string imagesListFilename = "images.txt";
@@ -60,15 +60,11 @@ namespace Exporter.Video
 
             DirectoryInfo directoryInfo = new DirectoryInfo(imagesDirectory);
             using (var writer = new StreamWriter(imagesListFilenameRelative)) {
-                //foreach (var file in directoryInfo.GetFiles("img*.png")) {
-                //    writer.WriteLine("file " + file.Name);
-                //    writer.WriteLine("duration 0.25");
-                //}
                 PngExporter pngExporter = new PngExporter();
                 var frames = cartoon.GetAllFrames();
                 foreach (var frame in frames) {
-                    pngExporter.Save(frame, Path.Combine(cartoon.WorkingDirectory + $"img{frames.IndexOf(frame)}.png"));
-                    writer.WriteLine("file" + $"img{frames.IndexOf(frame)}.png");
+                    pngExporter.Save(frame, Path.Combine(cartoon.WorkingDirectory, $"img{frames.IndexOf(frame)}.png"));
+                    writer.WriteLine("file " + $"img{frames.IndexOf(frame)}.png");
                     writer.WriteLine($"duration {frame.Duration}");
                 }
             }
