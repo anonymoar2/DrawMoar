@@ -1,17 +1,7 @@
-﻿using BaseElements;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+
+using BaseElements;
 
 namespace DrawMoar
 {
@@ -24,11 +14,9 @@ namespace DrawMoar
         {
             InitializeComponent();
         }
-        
 
         //!!!ОЧЕНЬ КРИВО!!!
         //часть проверок есть в Cartoon
-
         private void creating_Click(object sender, RoutedEventArgs e)
         {
             //после презентации, когда будет время сделаю нормально
@@ -43,13 +31,14 @@ namespace DrawMoar
                     var CartoonHeight = Int32.Parse(getHeight.Text);
                     var CartoonWidth = Int32.Parse(getWidth.Text);
                     if (CartoonHeight <= 0 || CartoonWidth <= 0) throw new FormatException();
-                    this.Hide();
-                    MainWindow mw = (MainWindow)this.Owner;
+                    Hide();
+                    MainWindow mw = (MainWindow)Owner;
+
                     var cartoon = new Cartoon(CartoonName, CartoonWidth, CartoonHeight, System.IO.Path.GetTempPath());
                     mw.Success(cartoon);
 
                 }
-                catch(FormatException)
+                catch (FormatException)
                 {
                     MessageBox.Show("Enter integer height and width bigger than zero");
                 }
@@ -58,7 +47,7 @@ namespace DrawMoar
 
         private void abortion_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
