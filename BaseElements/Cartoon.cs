@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace BaseElements
 {
@@ -64,6 +65,11 @@ namespace BaseElements
             else {
                 throw new ArgumentException($"Переданный индекс должен быть >= 0 и <= {frames.Count}");
             }
+        }
+
+
+        public int IndexOf(Frame frame) {
+            return frames.IndexOf(frame);
         }
 
 

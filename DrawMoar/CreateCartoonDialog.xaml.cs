@@ -45,7 +45,7 @@ namespace DrawMoar
                     if (CartoonHeight <= 0 || CartoonWidth <= 0) throw new FormatException();
                     this.Hide();
                     MainWindow mw = (MainWindow)this.Owner;
-                    var cartoon = new Cartoon(CartoonName, CartoonWidth, CartoonHeight,/*этот параметр потом будет путь до папки temp, но пока не так важно*/ @"C:\Users\Home\Desktop\temp");
+                    var cartoon = new Cartoon(CartoonName, CartoonWidth, CartoonHeight, System.IO.Path.GetTempPath());
                     mw.Success(cartoon);
 
                 }

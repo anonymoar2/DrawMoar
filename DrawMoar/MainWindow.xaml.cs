@@ -25,6 +25,7 @@ namespace DrawMoar
     /// </summary>
     public partial class MainWindow : Window
     {
+        public bool cartoonE = false;
         private Cartoon cartoon;
 
         public MainWindow() {
@@ -73,11 +74,11 @@ namespace DrawMoar
             myLine.StrokeThickness = 2;
             canvas.Children.Add(myLine);
         }
-
+        
 
         private void ExportToMP4(object sender, RoutedEventArgs e) {
             Mp4Exporter exp = new Mp4Exporter();
-            exp.Save(cartoon, @"C:\Users\Home\Desktop\newTest");
+            exp.Save(cartoon, cartoon.WorkingDirectory);
 
             // должны 1) пройтись по кадрам и сохранить все в картинки
             // 
@@ -131,6 +132,7 @@ namespace DrawMoar
 
         public void Success(Cartoon cartoon) {
             // возможно пересоздание окна, либо что-то сделать с холстом, но можно забить пока
+            cartoonE = true;
             this.cartoon = cartoon;
             canvas.Height = cartoon.Height;
             canvas.Width = cartoon.Width;
@@ -141,12 +143,17 @@ namespace DrawMoar
 
         private int i = 0;
         public void CreateNewFrame(object sender, RoutedEventArgs e) {
-            //string frameName = $"img{i++}.png";
-            //SaveCanvas(canvas, 90, System.IO.Path.Combine(cartoon.WorkingDirectory, /*cartoon.Name*/frameName));
-            SaveCurrentCanvas();
-            canvas.Strokes.Clear();
-            cartoon.AddFrame();
-            // отображение в списке кадров
+            if (cartoonE == true) {
+                //string frameName = $"img{i++}.png";
+                //SaveCanvas(canvas, 90, System.IO.Path.Combine(cartoon.WorkingDirectory, /*cartoon.Name*/frameName));
+                SaveCurrentCanvas();
+                canvas.Strokes.Clear();
+                cartoon.AddFrame();
+                // отображение в списке кадров
+            }
+            else {
+                throw new Exception("Мультик не создан");
+            }
         }
 
 
@@ -161,6 +168,18 @@ namespace DrawMoar
                 }
             }
         }
+
+        
+
+
+        //public void ShowFrame(int index) {
+        //    var frame = cartoon.GetAllFrames()[index];
+        //    Image image = cartoon.ImageFromBytes(frame.bytes);
+        //    canvas.Children.Add(image);
+        //    canvas.Strokes.
+
+
+        //}
 
         public void DeleteFrame(object sender, RoutedEventArgs e) {
 
