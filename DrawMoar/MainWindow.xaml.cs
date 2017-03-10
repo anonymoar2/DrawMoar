@@ -146,7 +146,7 @@ namespace DrawMoar
             cartoon.currentFrame = cartoon.frames.Last();
             // сделать миниатюру и отображение в списке кадров 
             
-
+           
         }
 
 

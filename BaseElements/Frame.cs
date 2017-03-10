@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BaseElements.Figures;
 
 namespace BaseElements
 {
@@ -40,34 +41,66 @@ namespace BaseElements
             }
         }
 
+
+        /// TODO: Подумать, взм переделать конструктор
         public Frame(string workingDirectory) {
             WorkingDirectory = workingDirectory;
             // в будущем создавать новую папку в workingdirectore "rasterlayers" и уже туда закидввать этот новый слой и вообще все растровые
             layers.Add(new RasterLayer(/*workingDirectory*/));
         }
 
-        // метод засунуть в cartoon
-        /// <summary>
-        /// Save all layers and return filename
-        /// </summary>
-        /// <returns></returns>
+
+        /// TODO: Подумать над этим
+        /// Скорее всего вызывать метод из экспорта
         public string Save() {
             return "";
         }
         
+        
+        // объединение текущего слоя с предыдущим если indexLayer >=1, иначе кидаем исключение
+        public void MergeLayers(int indexLayer) {
+            if (indexLayer > 0) {
+                // Если оба слоя растровые
+                if ((layers[indexLayer] is RasterLayer) && (layers[indexLayer - 1] is RasterLayer)) {
+                    var layer = new RasterLayer();
+                    // 1. создаём новый слой (+) -объединение этих вот, где downLayer снизу
+                    // 2. удаляем оба слоя из списка слоёв (то есть слои с индексами indexLayer и indexLayer - 1) (+)
+                    layers.RemoveAt(indexLayer);
+                    layers.RemoveAt(indexLayer - 1);
+                    // 3. вставляем новый получившийся слой по индексу indexLayer -1 (+)
+                    layers.Insert(indexLayer - 1, layer);
+                }
+                if ((layers[indexLayer] is RasterLayer) && (layers[indexLayer - 1] is VectorLayer)) {
 
-        public void GetPicture() {
-            string pathToPicture = ""; // этой строки потом не будет
-            // Вызывает метод из импортера, котрый вернёт путь до картинки string path;
-            layers.Add(new RasterLayer(/*pathToPicture*/));
+                }
+                if ((layers[indexLayer] is VectorLayer) && (layers[indexLayer - 1] is RasterLayer){
+
+                }
+                if ((layers[indexLayer] is VectorLayer) && (layers[indexLayer - 1] is VectorLayer)) {
+                    var layer = new VectorLayer();
+                    var firstFigures = ((VectorLayer)layers[indexLayer - 1]).figures;
+                    var lastFigures = ((VectorLayer)layers[indexLayer]).figures;
+                    layer.figures.AddRange(firstFigures);
+                    layer.figures.AddRange(lastFigures);
+                    layers.Insert(indexLayer - 1, layer);
+                }
+                
+            }
+            else {
+                throw new ArgumentException("Переданный параметр indexLayer не может быть <= 0");
+            }
         }
 
 
-        // объединение текущего слоя с предыдущим если indexLayer >=1, иначе кидаем исключение
-        public void MergeLayers(int indexLayer) {
-            // 1. создаём новый слой-объединение этих вот, где downLayer снизу
-            // 2. удаляем оба слоя из списка слоёв (то есть слои с индексами indexLayer и indexLayer - 1)
-            // 3. вставляем новый получившийся слой по индексу indexLayer -1
+        // Создание нового растрового слоя
+        public void AddRasterLayer() {
+            layers.Add(new RasterLayer() { Name = $"layer{layers.Count}" });
+        }
+
+
+        // Изменение имени слоя
+        public void ChangeNameLyer(int index, string layerName) {
+            layers[index].Name = layerName;
         }
 
 

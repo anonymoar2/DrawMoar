@@ -9,26 +9,20 @@ using System.Drawing;
 
 namespace BaseElements
 {
-    // I don't yet know why it's internal 
     internal class RasterLayer: Layer
     {
-        private string pathToPicture;
+        // Конструктор из картинки будет в импортере, там делаем из картинки Image и сюда пихаем
         private Image image;
-        private Bitmap bitmap;
-
-
-        public RasterLayer(string pathToPicture) {
-            MemoryStream mstream = new MemoryStream(File.ReadAllBytes(pathToPicture));
-            image = Image.FromStream(mstream);
-            bitmap = new Bitmap(image);
-        }
-
+        private Bitmap bitmap; // нужно ли?
         
 
-        public RasterLayer(Image image, string workingDirectory) {
+        public RasterLayer() {
+            /// TODO: Конструкторы
+        }
+        
+        
+        public RasterLayer(Image image) {
             this.image = image;
-            //this.bitmap = (Bitmap)image; не уверена что так неявно приведется
-            this.pathToPicture = Path.Combine(workingDirectory, $"{}");
         }
         
         /// <summary>
@@ -39,6 +33,7 @@ namespace BaseElements
         public override void Save(string WorkingDirectory) {
             string pathToFile = Path.Combine(WorkingDirectory, $"{Name}.png");
             image.Save(pathToFile);
+            // потом будет метод в экспорте, и будет вызываться он отсюда, а это как обертка такая просто будет
         }
     }
 }

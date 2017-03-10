@@ -7,20 +7,19 @@ using System.Threading.Tasks;
 
 namespace BaseElements
 {
-    // I don't yet know why it's internal 
-    internal abstract class Layer
+   internal abstract class Layer
     {
         // true - слой видимый, false - невидимый, при экспорте кадра в картинку 
         // картинка получается только из видимых слоёв
         public bool Visible { get; set; }
-        private string name;
+        protected string name;
 
         /// <summary>
         /// Layer's name.
         /// </summary>
         public string Name {
             get { return name; }
-            private set {
+            internal set {
                 // Change regex to more acceptable.
                 if (Regex.IsMatch(value, @"[a-zA-Z0-9]+")) {
                     name = value;
