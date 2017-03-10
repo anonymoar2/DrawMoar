@@ -37,7 +37,7 @@ namespace BaseElements
                 var frame = frames[index];
                 return frame;
             }
-            else throw new ArgumentException($"Переданный параметр index не может быть < 0 или > {layers.Count}");
+            else throw new ArgumentException($"Переданный параметр index не может быть < 0 или > {frames.Count}");
         }
 
 
@@ -49,6 +49,7 @@ namespace BaseElements
         // Добавлене кадра в конец
         public void AddFrame() {
             frames.Add(new Frame(workingDirectory));
+            currentFrame = frames.Last();
         }
 
 

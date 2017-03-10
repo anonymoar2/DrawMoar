@@ -10,6 +10,6 @@ namespace Exporter.Photo
 {
     public interface IPhotoExporter
     {
-        void Save(Frame frame, string filename);
+        string Save(Frame frame, string filename);
     }
 }

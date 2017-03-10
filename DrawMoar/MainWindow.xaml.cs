@@ -136,26 +136,37 @@ namespace DrawMoar
 
         private int i = 0;
         public void CreateNewFrame(object sender, RoutedEventArgs e) {
-
-            string frameName = $"img{i++}.png";
-            SaveCanvas(canvas, 90, System.IO.Path.Combine(cartoon.WorkingDirectory, /*cartoon.Name*/frameName));
+            //string frameName = $"img{i++}.png";
+            //SaveCanvas(canvas, 90, System.IO.Path.Combine(cartoon.WorkingDirectory, /*cartoon.Name*/frameName));
+            SaveCurrentCanvas();
             canvas.Strokes.Clear();
-            cartoon.frames.Add(new BaseElements.Frame(cartoon.WorkingDirectory));
-            cartoon.currentFrame = cartoon.frames.Last();
-            // сделать миниатюру и отображение в списке кадров 
-
-
+            cartoon.AddFrame();
+            // отображение в списке кадров
         }
 
 
-        // https://github.com/artesdi/Paint.WPF
-        public void DeleteFrame(object sender, RoutedEventArgs e) {
 
-            cartoon.frames.Remove(cartoon.currentFrame);
-            // удаление из списка кадров на экране
-            canvas.Strokes.Clear();
-            // переключение и отображение предыдущего/следующего кадра
+        // Вызывать при переключении на другой кадр, сохраняет содержимое cartoon.currentframe
+        // то есть вызывать до того как currentframe поменятся на другой frame
+        public void SaveCurrentCanvas() {
+            using (MemoryStream ms = new MemoryStream()) {
+                if (canvas.Strokes.Count > 0) {
+                    canvas.Strokes.Save(ms, true);
+                    cartoon.currentFrame.bytes = ms.ToArray();
+                }
+            }
         }
+
+
+
+        //// https://github.com/artesdi/Paint.WPF
+        //public void DeleteFrame(object sender, RoutedEventArgs e) {
+
+        //    cartoon.frames.Remove(cartoon.currentFrame);
+        //    // удаление из списка кадров на экране
+        //    canvas.Strokes.Clear();
+        //    // переключение и отображение предыдущего/следующего кадра
+        //}
 
 
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e) {

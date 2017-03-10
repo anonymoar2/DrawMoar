@@ -149,6 +149,7 @@ namespace BaseElements
         /// 
 
         public Image image;
+        public byte[] bytes = null;
 
         
     }

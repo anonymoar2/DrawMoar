@@ -9,7 +9,7 @@ namespace Exporter.Photo
 {
     public class JpgExporter : IPhotoExporter
     {
-        public void Save(Frame frame, string filename) {
+        public string Save(Frame frame, string filename) {
             throw new NotImplementedException();
         }
     }
