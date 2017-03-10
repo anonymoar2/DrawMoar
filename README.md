@@ -1,9 +1,11 @@
 # DrawMoar
 Raster and vector graphics editor for creating cartoons
 
-**Работающая версия лежит в ветке develop**
+В ветке Master сейчас находится демо-версия редактора за 10.03.17
+**Самая последняя работающая версия лежит в ветке develop**
 
 Запускать нужно проект DrawMoar, а не Demo.
+
 
 Сейчас работает:
 
