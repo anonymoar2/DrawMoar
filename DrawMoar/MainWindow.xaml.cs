@@ -22,7 +22,8 @@ namespace DrawMoar
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow() {
+        public MainWindow()
+        {
             InitializeComponent();
             // при создании окна области рисования нет
 
@@ -39,14 +40,19 @@ namespace DrawMoar
             GlobalState.BrushSize = new Size(5, 5);
         }
 
-        private void CreateCartoon(object sender, RoutedEventArgs e) {
+        private int TotalFrames = 0;
+        private List<Label> labels = new List<Label>();
+        private List<InkCanvas> canv = new List<InkCanvas>();
+
+        private void CreateCartoon(object sender, RoutedEventArgs e)
+        {
             // создаём новый пустой кадр
             // на кадре новый пустой слой создаём
             var newCartoonDialog = new CreateCartoonDialog();
             newCartoonDialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             newCartoonDialog.Owner = this;
-            newCartoonDialog.Show();    
-            
+            newCartoonDialog.Show();
+
         }
 
         /// <summary>
@@ -54,10 +60,12 @@ namespace DrawMoar
         ///  
         /// </summary>
 
-        private void AddLine(object sender, RoutedEventArgs e) {
+        private void AddLine(object sender, RoutedEventArgs e)
+        {
+
             var myLine = new Line();
             myLine.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
-            
+
             Random rand = new Random();
             myLine.X1 = rand.Next(1, 282);
             myLine.X2 = rand.Next(1, 282);
@@ -66,18 +74,20 @@ namespace DrawMoar
             myLine.HorizontalAlignment = HorizontalAlignment.Left;
             myLine.VerticalAlignment = VerticalAlignment.Center;
             myLine.StrokeThickness = 2;
-            canvas.Children.Add(myLine);
+            //canvas.Children.Add(myLine);
         }
 
 
-        private void ExportToMP4(object sender, RoutedEventArgs e) {
+        private void ExportToMP4(object sender, RoutedEventArgs e)
+        {
             // должны 1) пройтись по кадрам и сохранить все в картинки
             // 
             // 2) запилить видео
             // 3) удалить вспомогательные файлы
         }
 
-        private void SaveToPNG(object sender, RoutedEventArgs e) {
+        private void SaveToPNG(object sender, RoutedEventArgs e)
+        {
             /*var saveDlg = new SaveFileDialog {
                 FileName = "img",
                 DefaultExt = ".png",
@@ -87,9 +97,10 @@ namespace DrawMoar
             if (saveDlg.ShowDialog() == true) {
                 SaveCanvas(canvas, 96, saveDlg.FileName);
             }*/
-        } 
+        }
 
-        private void SaveCanvas(Canvas canvas, int dpi, string filename) {
+        private void SaveCanvas(Canvas canvas, int dpi, string filename)
+        {
             var width = canvas.ActualWidth;
             var height = canvas.ActualHeight;
 
@@ -108,27 +119,35 @@ namespace DrawMoar
             SaveAsPng(rtb, filename);
         }
 
-        private static void SaveAsPng(RenderTargetBitmap bmp, string filename) {
+        private static void SaveAsPng(RenderTargetBitmap bmp, string filename)
+        {
             var enc = new PngBitmapEncoder();
             enc.Frames.Add(BitmapFrame.Create(bmp));
 
-            using (FileStream stm = File.Create(filename)) {
+            using (FileStream stm = File.Create(filename))
+            {
                 enc.Save(stm);
             }
         }
 
         public void Success(string Name, int CartoonHeight, int CartoonWidth)
         {
-            canvas.Strokes.Clear();
+            canvas.Visibility = Visibility.Visible;
+            canvas.Width = CartoonWidth;
+            canvas.Height = CartoonHeight;
+            canvas.EditingMode = InkCanvasEditingMode.Ink;
+            canv.Add(canvas);
+            AddFrame_Click(null, null);
+            /*canvas.Strokes.Clear();
             canvas.Height = CartoonHeight;
             canvas.Width = CartoonWidth;
             canvas.EditingMode = InkCanvasEditingMode.Ink;
-            canvas.Opacity = 1;
+            canvas.Opacity = 1;*/
         }
 
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e)
         {
-            canvas.DefaultDrawingAttributes.Color = ClrPcker_Background.SelectedColor.Value;
+            canv[frames.SelectedIndex].DefaultDrawingAttributes.Color = ClrPcker_Background.SelectedColor.Value;
         }
 
 
@@ -136,6 +155,37 @@ namespace DrawMoar
         {
             frames.Height = (rootGrid.ActualHeight - buttons.ActualHeight - smth.ActualHeight) / 2;     //не знаю, стоит ли так делать
             layers.Height = (rootGrid.ActualHeight - buttons.ActualHeight - smth.ActualHeight) / 2;         //smth - выделение места под что-то (макет Ирины)
+        }
+
+        private void AddFrame_Click(object sender, RoutedEventArgs e)
+        {
+            if (e != null)                                          //здесь также нужно проверять наличие экземпляра мультика
+            {
+                var inkCanv = new InkCanvas();
+                inkCanv.Height = canvas.Height;
+                inkCanv.Width = canvas.Width;
+                inkCanv.EditingMode = InkCanvasEditingMode.Ink;
+                canv.Add(inkCanv);
+                rootGrid.Children.Add(inkCanv);
+            }
+            var lbl = new Label();
+            lbl.Content = $"frame_{TotalFrames++}";
+            lbl.Width = 110;
+            lbl.Height = 40;
+            frames.Items.Add(lbl);
+            frames.SelectedItem = frames.Items[frames.Items.Count - 1];
+        }
+
+        private void frames_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var snd = sender as ListBox;
+            var selIndex = snd.SelectedIndex;   //дальше в коде употреблялось
+            foreach (var item in canv)              //переделаю в for()
+            {
+                item.Visibility = Visibility.Hidden;
+            }          
+            canv[selIndex].Visibility = Visibility.Visible;
+            //здесь был функционал полупрозрачности
         }
     }
 }

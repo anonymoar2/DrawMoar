@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="DrawMoar" Height="350" Width="530">
     <Grid Name="rootGrid"  SizeChanged="Grid_SizeChanged" Background="LightGray">
-        <Menu x:Name="menu" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="120">
+        <Menu x:Name="menu" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="130">
             <MenuItem Header="File">
                 <MenuItem Header="New"
                           Click="CreateCartoon"/>
@@ -29,8 +29,8 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <DockPanel Name="rootPanel" LastChildFill="False">
-            <StackPanel DockPanel.Dock="Left" Margin="0,20,0,0" Background="WhiteSmoke" MinWidth="120" MaxWidth="120">
+        <DockPanel Name="rootPanel" LastChildFill="True">
+            <StackPanel DockPanel.Dock="Left" Margin="0,20,0,0" Background="WhiteSmoke" MinWidth="130" MaxWidth="120">
                 <WrapPanel Height="160">
                     <Button x:Name="button1" Height ="25" Width="37" Margin="5,5" Content="Lines" Click="AddLine"/>
                 </WrapPanel>
@@ -42,16 +42,26 @@
                 </WrapPanel>
 
             </StackPanel>
-            <StackPanel Name="rightPanel" DockPanel.Dock="Right" Background="WhiteSmoke" MinWidth="120">
-                <WrapPanel Name="buttons" Height="40"/>
+            <StackPanel Name="rightPanel" DockPanel.Dock="Right" Background="WhiteSmoke" MinWidth="130">
+                <WrapPanel Name="buttons" Height="40">
+                    <Button x:Name="AddFrame" Content="+Frame" Width="50" Margin="5,10" Click="AddFrame_Click"/>
+                </WrapPanel>
                 <ListBox Name="layers" Width="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                          BorderBrush="LightGray" MinHeight="120"/>
                 <WrapPanel Name="smth" Width="120" MinHeight="40"/>
                 <ListBox  x:Name="frames" Width="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                          BorderBrush="LightGray" MinHeight="120"/>
+                          BorderBrush="LightGray" ItemsSource="{Binding labels}" SelectionChanged="frames_SelectionChanged" MinHeight="120">
+                </ListBox>
             </StackPanel>
+            <Grid Name="CenterGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <InkCanvas Name="canvas" Width="200" Height="200" Visibility="Hidden" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </Grid>
         </DockPanel>
-        <InkCanvas x:Name="canvas" EditingMode="None" x:FieldModifier="private" 
-                       Opacity="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="160,35,160,85" Width="200" Height="200"/>
     </Grid>
 </Window>
