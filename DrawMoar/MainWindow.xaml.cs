@@ -48,8 +48,8 @@ namespace DrawMoar
             var newCartoonDialog = new CreateCartoonDialog();
             newCartoonDialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             newCartoonDialog.Owner = this;
-            newCartoonDialog.Show();    
-            
+            newCartoonDialog.Show();
+
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace DrawMoar
         private void AddLine(object sender, RoutedEventArgs e) {
             var myLine = new Line();
             myLine.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
-            
+
             Random rand = new Random();
             myLine.X1 = rand.Next(1, 282);
             myLine.X2 = rand.Next(1, 282);
@@ -90,7 +90,7 @@ namespace DrawMoar
             if (saveDlg.ShowDialog() == true) {
                 SaveCanvas(canvas, 96, saveDlg.FileName);
             }
-        } 
+        }
 
 
         private void SaveCanvas(InkCanvas canvas, int dpi, string filename) {
@@ -121,12 +121,10 @@ namespace DrawMoar
             }
         }
 
-        private void button3_Click(object sender, RoutedEventArgs e)
-        {
+        private void button3_Click(object sender, RoutedEventArgs e) {
         }
 
-        public void Success(Cartoon cartoon)
-        {
+        public void Success(Cartoon cartoon) {
             // возможно пересоздание окна, либо что-то сделать с холстом, но можно забить пока
             this.cartoon = cartoon;
             canvas.Height = cartoon.Height;
@@ -145,8 +143,8 @@ namespace DrawMoar
             cartoon.frames.Add(new BaseElements.Frame(cartoon.WorkingDirectory));
             cartoon.currentFrame = cartoon.frames.Last();
             // сделать миниатюру и отображение в списке кадров 
-            
-           
+
+
         }
 
 
@@ -160,8 +158,7 @@ namespace DrawMoar
         }
 
 
-        private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e)
-        {
+        private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e) {
             canvas.DefaultDrawingAttributes.Color = ClrPcker_Background.SelectedColor.Value;
         }
     }

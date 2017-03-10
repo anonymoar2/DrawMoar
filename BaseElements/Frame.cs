@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BaseElements.Figures;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace BaseElements
 {
@@ -50,31 +52,29 @@ namespace BaseElements
         }
 
 
-        /// TODO: Подумать над этим
-        /// Скорее всего вызывать метод из экспорта
-        public string Save() {
-            return "";
-        }
-        
-        
+
         // объединение текущего слоя с предыдущим если indexLayer >=1, иначе кидаем исключение
         public void MergeLayers(int indexLayer) {
             if (indexLayer > 0) {
                 // Если оба слоя растровые
                 if ((layers[indexLayer] is RasterLayer) && (layers[indexLayer - 1] is RasterLayer)) {
-                    var layer = new RasterLayer();
-                    // 1. создаём новый слой (+) -объединение этих вот, где downLayer снизу
-                    // 2. удаляем оба слоя из списка слоёв (то есть слои с индексами indexLayer и indexLayer - 1) (+)
+                    Image downImage = ((RasterLayer)layers[indexLayer]).image;
+                    Image upImage = ((RasterLayer)layers[indexLayer - 1]).image;
+                    using (Graphics gr = Graphics.FromImage(downImage)) {
+                        gr.DrawImage(upImage, new Point(0, 0));
+                    }
+                    var layer = new RasterLayer(upImage);
                     layers.RemoveAt(indexLayer);
                     layers.RemoveAt(indexLayer - 1);
-                    // 3. вставляем новый получившийся слой по индексу indexLayer -1 (+)
                     layers.Insert(indexLayer - 1, layer);
                 }
+                // Если нижний слой растровый, а верхний векторный
                 if ((layers[indexLayer] is RasterLayer) && (layers[indexLayer - 1] is VectorLayer)) {
-
+                    /// TODO: Запилить склейку слоёв
                 }
-                if ((layers[indexLayer] is VectorLayer) && (layers[indexLayer - 1] is RasterLayer){
-
+                // Если нижний векторный а верхний растровый
+                if ((layers[indexLayer] is VectorLayer) && (layers[indexLayer - 1] is RasterLayer)){
+                    /// TODO: Запилить склейку слоёв x2
                 }
                 if ((layers[indexLayer] is VectorLayer) && (layers[indexLayer - 1] is VectorLayer)) {
                     var layer = new VectorLayer();
@@ -84,7 +84,6 @@ namespace BaseElements
                     layer.figures.AddRange(lastFigures);
                     layers.Insert(indexLayer - 1, layer);
                 }
-                
             }
             else {
                 throw new ArgumentException("Переданный параметр indexLayer не может быть <= 0");
@@ -95,6 +94,12 @@ namespace BaseElements
         // Создание нового растрового слоя
         public void AddRasterLayer() {
             layers.Add(new RasterLayer() { Name = $"layer{layers.Count}" });
+        }
+
+
+        // Создание векторного слоя
+        public void AddVectorLayer() {
+            layers.Add(new VectorLayer() { Name = $"vector{layers.Count}" });
         }
 
 
@@ -114,13 +119,17 @@ namespace BaseElements
 
         }
 
+
+        // Поднятие слоя вверх
         public void UpLayer(int index) {
-            if(index >= 0 && index < layers.Count - 1) {
+            if (index >= 0 && index < layers.Count - 1) {
                 layers.Insert(index + 2, layers[index]);
                 layers.RemoveAt(index);
             }
         }
 
+
+        // Опускание слоя вниз
         public void DownLayer(int index) {
             if (index > 0 && index < layers.Count) {
                 layers.Insert(index - 1, layers[index]);

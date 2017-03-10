@@ -28,9 +28,37 @@ namespace BaseElements
         /// List of frames. Every cartoon should contain at least one frame.
         /// Don't pass it out of class instance and work with it carefully.
         /// </summary>
-        public List<Frame> frames = new List<Frame>();
+        private List<Frame> frames = new List<Frame>();
         // Сделать приватным возможно, но так удобненько пока
         
+
+        // Добавлене кадра в конец
+        public void AddFrame() {
+            frames.Add(new Frame(workingDirectory));
+        }
+
+
+        // Удаление кадра по индексу
+        public void RemoveAt(int index) {
+            if (index >= 0 && index <= frames.Count) {
+                frames.RemoveAt(index);
+            }
+            else {
+                throw new ArgumentException($"Переданный индекс должен быть >= 0 и <= {frames.Count}");
+            }
+        }
+
+
+        // Вставка кадра по индексу
+        public void Insert(int index, Frame frame) {
+            if (index >= 0 && index <= frames.Count) {
+                frames.Insert(index, frame);
+            }
+            else {
+                throw new ArgumentException($"Переданный индекс должен быть >= 0 и <= {frames.Count}");
+            }
+        }
+
 
         /// <summary>
         /// Cartoon's name.
@@ -118,10 +146,12 @@ namespace BaseElements
             frames.Add(new Frame(workingDirectory));
         }
 
+
         // метод Save из Frame, сохраняет в картинку кадр с переданным индексом
         public void SaveFrame(int index) {
-
+            // TODO: Вызов метода из экспорта
         }
+
 
         // текущий, выбранный кадр, на котором мы что-то делаем сейчас
         public Frame currentFrame;

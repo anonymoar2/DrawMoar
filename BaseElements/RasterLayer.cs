@@ -12,9 +12,9 @@ namespace BaseElements
     internal class RasterLayer: Layer
     {
         // Конструктор из картинки будет в импортере, там делаем из картинки Image и сюда пихаем
-        private Image image;
-        private Bitmap bitmap; // нужно ли?
-        
+        public Image image { get; private set; }
+        public Bitmap bitmap { get; private set; } // нужно ли?
+
 
         public RasterLayer() {
             /// TODO: Конструкторы
