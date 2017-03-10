@@ -151,9 +151,7 @@ namespace DrawMoar
                 cartoon.AddFrame();
                 // отображение в списке кадров
             }
-            else {
-                throw new Exception("Мультик не создан");
-            }
+           
         }
 
 
