@@ -131,6 +131,6 @@ namespace BaseElements
                 layers.Insert(index - 1, layers[index]);
                 layers.RemoveAt(index + 1);
             }
-        }        
+        }
     }
 }

@@ -31,10 +31,10 @@ namespace DrawMoar
                     var CartoonHeight = Int32.Parse(getHeight.Text);
                     var CartoonWidth = Int32.Parse(getWidth.Text);
                     if (CartoonHeight <= 0 || CartoonWidth <= 0) throw new FormatException();
-                    this.Hide();
-                    MainWindow mw = (MainWindow)this.Owner;
-                    var cartoon = new Cartoon(CartoonName, CartoonWidth, CartoonHeight, 
-                        Environment.ExpandEnvironmentVariables("%USERPROFILE%\\Desktop"));
+                    Hide();
+                    MainWindow mw = (MainWindow)Owner;
+
+                    var cartoon = new Cartoon(CartoonName, CartoonWidth, CartoonHeight, System.IO.Path.GetTempPath());
                     mw.Success(cartoon);
 
                 }
@@ -47,7 +47,7 @@ namespace DrawMoar
 
         private void abortion_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

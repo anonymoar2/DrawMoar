@@ -1,11 +1,10 @@
 ﻿using System;
-using System.IO;
-using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 using BaseElements;
 using Exporter.Video;
@@ -18,6 +17,7 @@ namespace DrawMoar
     /// </summary>
     public partial class MainWindow : Window
     {
+        public bool cartoonE = false;
         private Cartoon cartoon;
 
         public MainWindow() {
@@ -66,7 +66,7 @@ namespace DrawMoar
 
         private void ExportToMP4(object sender, RoutedEventArgs e) {
             var mp4Exporter = new Mp4Exporter();
-            mp4Exporter.Save(cartoon, Environment.ExpandEnvironmentVariables("%USERPROFILE%\\Desktop\\"));
+            mp4Exporter.Save(cartoon, cartoon.WorkingDirectory);
         }
 
         private void SaveToPNG(object sender, RoutedEventArgs e) {
@@ -103,6 +103,7 @@ namespace DrawMoar
 
         public void Success(Cartoon cartoon) {
             // возможно пересоздание окна, либо что-то сделать с холстом, но можно забить пока
+            cartoonE = true;
             this.cartoon = cartoon;
             canvas.Height = cartoon.Height;
             canvas.Width = cartoon.Width;
@@ -111,12 +112,14 @@ namespace DrawMoar
         }
 
         public void CreateNewFrame(object sender, RoutedEventArgs e) {
-            //string frameName = $"img{i++}.png";
-            //SaveCanvas(canvas, 90, System.IO.Path.Combine(cartoon.WorkingDirectory, /*cartoon.Name*/frameName));
-            SaveCurrentCanvas();
-            canvas.Strokes.Clear();
-            cartoon.AddFrame();
-            // отображение в списке кадров
+            if (cartoonE == true) {
+                //string frameName = $"img{i++}.png";
+                //SaveCanvas(canvas, 90, System.IO.Path.Combine(cartoon.WorkingDirectory, /*cartoon.Name*/frameName));
+                SaveCurrentCanvas();
+                canvas.Strokes.Clear();
+                cartoon.AddFrame();
+                // отображение в списке кадров
+            }
         }
 
         /// <summary>
@@ -125,6 +128,15 @@ namespace DrawMoar
         public void SaveCurrentCanvas() {
             cartoon.currentFrame.Bitmap = CanvasToBitmap(canvas);
         }
+
+        //public void ShowFrame(int index) {
+        //    var frame = cartoon.GetAllFrames()[index];
+        //    Image image = cartoon.ImageFromBytes(frame.bytes);
+        //    canvas.Children.Add(image);
+        //    canvas.Strokes.
+
+
+        //}
 
         public void DeleteFrame(object sender, RoutedEventArgs e) {
             if (cartoon.GetAllFrames().IndexOf(cartoon.currentFrame) > 0 && cartoon.GetAllFrames().IndexOf(cartoon.currentFrame) < cartoon.GetAllFrames().Count) {

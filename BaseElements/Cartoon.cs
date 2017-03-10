@@ -1,10 +1,8 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace BaseElements
 {
@@ -64,6 +62,11 @@ namespace BaseElements
             else {
                 throw new ArgumentException($"Переданный индекс должен быть >= 0 и <= {frames.Count}");
             }
+        }
+
+
+        public int IndexOf(Frame frame) {
+            return frames.IndexOf(frame);
         }
 
 
