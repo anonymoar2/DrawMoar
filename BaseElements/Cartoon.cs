@@ -30,7 +30,21 @@ namespace BaseElements
         /// </summary>
         private List<Frame> frames = new List<Frame>();
         // Сделать приватным возможно, но так удобненько пока
-        
+
+
+        public Frame GetFrame(int index) {
+            if (index >= 0 && index < frames.Count) {
+                var frame = frames[index];
+                return frame;
+            }
+            else throw new ArgumentException($"Переданный параметр index не может быть < 0 или > {layers.Count}");
+        }
+
+
+        public List<Frame> GetAllFrames() {
+            return frames;
+        }
+
 
         // Добавлене кадра в конец
         public void AddFrame() {

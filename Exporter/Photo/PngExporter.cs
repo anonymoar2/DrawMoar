@@ -11,7 +11,7 @@ namespace Exporter.Photo
     public class PngExporter : IPhotoExporter
     {
         public void Save(Frame frame, string path) {
-            throw new NotImplementedException();
+            // Допустим пока слоёв у нас нет, тогда на frame содержит image
         }
     }
 }

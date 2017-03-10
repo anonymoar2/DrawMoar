@@ -14,6 +14,7 @@ namespace BaseElements
     {
         private string workingDirectory;
         private List<Layer> layers = new List<Layer>();
+        
 
         private float duration;
         public float Duration {
@@ -29,6 +30,7 @@ namespace BaseElements
                 }
             }
         }
+
 
         /// <summary>
         /// It is the subdirectory of cartoon which contain internal important files.
