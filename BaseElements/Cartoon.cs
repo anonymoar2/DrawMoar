@@ -196,5 +196,22 @@ namespace BaseElements
             frames.RemoveAt(indexOne);
             frames.Insert(indexOne, tmp);
         }
+
+        // Поднятие слоя вверх
+        public void UpFrame(int index) {
+            if (index >= 0 && index < frames.Count - 1) {
+                frames.Insert(index + 2, frames[index]);
+                frames.RemoveAt(index);
+            }
+        }
+
+
+        // Опускание слоя вниз
+        public void DownFrame(int index) {
+            if (index > 0 && index < frames.Count) {
+                frames.Insert(index - 1, frames[index]);
+                frames.RemoveAt(index + 1);
+            }
+        }
     }
 }
