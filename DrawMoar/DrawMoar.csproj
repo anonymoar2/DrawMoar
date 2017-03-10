@@ -133,6 +133,10 @@
       <Project>{c6748d84-1c99-45c5-8d30-3da0fc7aa00e}</Project>
       <Name>BaseElements</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Exporter\Exporter.csproj">
+      <Project>{a3397f33-cb81-4387-b785-6e5ad4006339}</Project>
+      <Name>Exporter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

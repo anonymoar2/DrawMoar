@@ -15,6 +15,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BaseElements;
+using Exporter;
+using Exporter.Video;
 
 namespace DrawMoar
 {
@@ -74,6 +76,9 @@ namespace DrawMoar
 
 
         private void ExportToMP4(object sender, RoutedEventArgs e) {
+            Mp4Exporter exp = new Mp4Exporter();
+            exp.Save(cartoon, @"C:\Users\Home\Desktop\newTest");
+
             // должны 1) пройтись по кадрам и сохранить все в картинки
             // 
             // 2) запилить видео
@@ -157,7 +162,22 @@ namespace DrawMoar
             }
         }
 
+        public void DeleteFrame(object sender, RoutedEventArgs e) {
 
+            if (cartoon.GetAllFrames().IndexOf(cartoon.currentFrame) > 0 && cartoon.GetAllFrames().IndexOf(cartoon.currentFrame) < cartoon.GetAllFrames().Count) {
+                var frame = cartoon.currentFrame;
+                cartoon.currentFrame = cartoon.GetAllFrames()[cartoon.GetAllFrames().IndexOf(frame) - 1];
+                cartoon.RemoveFrame(frame);
+            }
+            else if (cartoon.GetAllFrames().IndexOf(cartoon.currentFrame) == 0) {
+                var frame = cartoon.currentFrame;
+                cartoon.currentFrame = cartoon.GetAllFrames()[cartoon.GetAllFrames().IndexOf(frame) + 1];
+                cartoon.RemoveFrame(frame);
+            }
+            else {
+                throw new ArgumentException();//  ну или другое, продумаю этот момент позже
+            }
+        }
 
         //// https://github.com/artesdi/Paint.WPF
         //public void DeleteFrame(object sender, RoutedEventArgs e) {

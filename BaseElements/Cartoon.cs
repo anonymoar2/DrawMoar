@@ -24,6 +24,10 @@ namespace BaseElements
         private string workingDirectory;
 
 
+
+        // текущий, выбранный кадр, на котором мы что-то делаем сейчас
+        public Frame currentFrame;
+
         /// <summary>
         /// List of frames. Every cartoon should contain at least one frame.
         /// Don't pass it out of class instance and work with it carefully.
@@ -45,7 +49,6 @@ namespace BaseElements
             return frames;
         }
 
-
         // Добавлене кадра в конец
         public void AddFrame() {
             frames.Add(new Frame(workingDirectory));
@@ -63,6 +66,10 @@ namespace BaseElements
             }
         }
 
+
+        public void RemoveFrame(Frame frame) {
+            frames.Remove(frame);
+        }
 
         // Вставка кадра по индексу
         public void InsertFrame(int index, Frame frame) {
@@ -159,6 +166,7 @@ namespace BaseElements
             Height = height;
             WorkingDirectory = workingDirectory;
             frames.Add(new Frame(workingDirectory));
+            currentFrame = frames.First();
         }
 
 
@@ -174,8 +182,6 @@ namespace BaseElements
         }
 
 
-        // текущий, выбранный кадр, на котором мы что-то делаем сейчас
-        public Frame currentFrame;
 
 
         // Возможно не передевать Frame и менять на currentFrame
