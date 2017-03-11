@@ -1,4 +1,5 @@
 ﻿using BaseElements;
+using Exporter.Photo;
 using Exporter.Video;
 using Microsoft.Win32;
 using System;
@@ -63,7 +64,6 @@ namespace DrawMoar
         /// по нажатию в двух местах канваса сделать создание линии и других фигур
         ///  
         /// </summary>
-
         private void AddLine(object sender, RoutedEventArgs e)
         {
 
@@ -89,49 +89,64 @@ namespace DrawMoar
             mp4.Save(cartoon, cartoon.WorkingDirectory);
         }
 
-        private void SaveToPNG(object sender, RoutedEventArgs e)
-        {
+
+        private void SaveToPNG(object sender, RoutedEventArgs e) {
             var saveDlg = new SaveFileDialog {
                 FileName = "img",
                 DefaultExt = ".png",
                 Filter = "PNG (.png)|*.png"
             };
-
             if (saveDlg.ShowDialog() == true) {
-                SaveCanvas(canvas, 96, saveDlg.FileName);
+
+                cartoon.currentFrame.Bitmap = CanvasToBitmap(canvas);
+                PngExporter pngEx = new PngExporter();
+                pngEx.Save(cartoon.currentFrame, saveDlg.FileName);
             }
         }
 
-        private void SaveCanvas(InkCanvas canvas, int dpi, string filename)
-        {
-            var width = canvas.ActualWidth;
-            var height = canvas.ActualHeight;
+        //private void SaveToPNG(object sender, RoutedEventArgs e)
+        //{
+        //    var saveDlg = new SaveFileDialog {
+        //        FileName = "img",
+        //        DefaultExt = ".png",
+        //        Filter = "PNG (.png)|*.png"
+        //    };
 
-            var size = new Size(width, height);
-            canvas.Measure(size);
+        //    if (saveDlg.ShowDialog() == true) {
+        //        SaveCanvas(canvas, 96, saveDlg.FileName);
+        //    }
+        //}
 
-            var rtb = new RenderTargetBitmap(
-                (int)width + 120,
-                (int)height,
-                dpi, //dpi x 
-                dpi, //dpi y 
-                PixelFormats.Pbgra32 // pixelformat 
-                );
-            rtb.Render(canvas);
+        //private void SaveCanvas(InkCanvas canvas, int dpi, string filename)
+        //{
+        //    var width = canvas.ActualWidth;
+        //    var height = canvas.ActualHeight;
 
-            SaveAsPng(rtb, filename);
-        }
+        //    var size = new Size(width, height);
+        //    canvas.Measure(size);
 
-        private static void SaveAsPng(RenderTargetBitmap bmp, string filename)
-        {
-            var enc = new PngBitmapEncoder();
-            enc.Frames.Add(BitmapFrame.Create(bmp));
+        //    var rtb = new RenderTargetBitmap(
+        //        (int)width + 120,
+        //        (int)height,
+        //        dpi, //dpi x 
+        //        dpi, //dpi y 
+        //        PixelFormats.Pbgra32 // pixelformat 
+        //        );
+        //    rtb.Render(canvas);
 
-            using (FileStream stm = File.Create(filename))
-            {
-                enc.Save(stm);
-            }
-        }
+        //    SaveAsPng(rtb, filename);
+        //}
+
+        //private static void SaveAsPng(RenderTargetBitmap bmp, string filename)
+        //{
+        //    var enc = new PngBitmapEncoder();
+        //    enc.Frames.Add(BitmapFrame.Create(bmp));
+
+        //    using (FileStream stm = File.Create(filename))
+        //    {
+        //        enc.Save(stm);
+        //    }
+        //}
 
         public void Success(Cartoon cartoon)
         {
@@ -174,6 +189,7 @@ namespace DrawMoar
                     canv.Add(inkCanv);
                     rootGrid.Children.Add(inkCanv);
                 }
+                cartoon.AddFrame();
                 var lbl = new Label();
                 lbl.Content = $"frame_{TotalFrames++}";
                 lbl.Width = 110;
@@ -185,6 +201,7 @@ namespace DrawMoar
 
         private void frames_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            cartoon.currentFrame.Bitmap = CanvasToBitmap(canvas);
             var snd = sender as ListBox;
             var selIndex = snd.SelectedIndex;   //дальше в коде употреблялось
             foreach (var item in canv)              //переделаю в for()
@@ -192,6 +209,7 @@ namespace DrawMoar
                 item.Visibility = Visibility.Hidden;
             }          
             canv[selIndex].Visibility = Visibility.Visible;
+            cartoon.currentFrame = cartoon.GetFrame(frames.SelectedIndex);
             //здесь был функционал полупрозрачности
         }
 
