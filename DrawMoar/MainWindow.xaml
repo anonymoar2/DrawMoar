@@ -30,7 +30,7 @@
             </MenuItem>
         </Menu>
         <DockPanel Name="rootPanel" LastChildFill="True">
-            <StackPanel DockPanel.Dock="Left" Margin="0,20,0,0" Background="WhiteSmoke" MinWidth="130" MaxWidth="120">
+            <StackPanel Name="leftPanel" DockPanel.Dock="Left" Margin="0,20,0,0" Background="WhiteSmoke" MinWidth="130" MaxWidth="120">
                 <WrapPanel Height="160">
                     <Button x:Name="button1" Height ="25" Width="37" Margin="5,5" Content="Lines" Click="AddLine"/>
                 </WrapPanel>
@@ -53,7 +53,7 @@
                           BorderBrush="LightGray" ItemsSource="{Binding labels}" SelectionChanged="frames_SelectionChanged" MinHeight="120">
                 </ListBox>
             </StackPanel>
-            <Grid Name="CenterGrid">
+            <Grid Name="CenterGrid" SizeChanged="CenterGrid_SizeChanged">
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>

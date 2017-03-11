@@ -38,7 +38,7 @@ namespace BaseElements
             get { return name; }
             private set {
                 // Change regex to more acceptable.
-                if (Regex.IsMatch(value, @"[a-zA-Z0-9]+")) {
+                if (Regex.IsMatch(value, @"[a-zA-Zа-яА-Я0-9]+")) {
                     name = value;
                 }
                 else {

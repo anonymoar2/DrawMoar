@@ -131,19 +131,15 @@ namespace DrawMoar
             }
         }
 
-        public void Success(string Name, int CartoonHeight, int CartoonWidth)
+        public void Success(Cartoon cartoon)
         {
             canvas.Visibility = Visibility.Visible;
-            canvas.Width = CartoonWidth;
-            canvas.Height = CartoonHeight;
+            canvas.Width = cartoon.Width;
+            canvas.Height = cartoon.Height;
             canvas.EditingMode = InkCanvasEditingMode.Ink;
             canv.Add(canvas);
+            this.cartoon = cartoon;
             AddFrame_Click(null, null);
-            /*canvas.Strokes.Clear();
-            canvas.Height = CartoonHeight;
-            canvas.Width = CartoonWidth;
-            canvas.EditingMode = InkCanvasEditingMode.Ink;
-            canvas.Opacity = 1;*/
         }
 
 
@@ -185,21 +181,25 @@ namespace DrawMoar
 
         private void AddFrame_Click(object sender, RoutedEventArgs e)
         {
-            if (e != null)                                          //здесь также нужно проверять наличие экземпляра мультика
+            if (cartoon != null)
             {
-                var inkCanv = new InkCanvas();
-                inkCanv.Height = canvas.Height;
-                inkCanv.Width = canvas.Width;
-                inkCanv.EditingMode = InkCanvasEditingMode.Ink;
-                canv.Add(inkCanv);
-                rootGrid.Children.Add(inkCanv);
+                if (e != null)
+                {
+                    var inkCanv = new InkCanvas();
+                    inkCanv.Height = canvas.Height;
+                    inkCanv.Width = canvas.Width;
+                    inkCanv.EditingMode = InkCanvasEditingMode.Ink;
+                    //нужно как-тоего обрезать, чтобы не залазил на панели
+                    canv.Add(inkCanv);
+                    rootGrid.Children.Add(inkCanv);
+                }
+                var lbl = new Label();
+                lbl.Content = $"frame_{TotalFrames++}";
+                lbl.Width = 110;
+                lbl.Height = 40;
+                frames.Items.Add(lbl);
+                frames.SelectedItem = frames.Items[frames.Items.Count - 1];
             }
-            var lbl = new Label();
-            lbl.Content = $"frame_{TotalFrames++}";
-            lbl.Width = 110;
-            lbl.Height = 40;
-            frames.Items.Add(lbl);
-            frames.SelectedItem = frames.Items[frames.Items.Count - 1];
         }
 
         private void frames_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -211,7 +211,13 @@ namespace DrawMoar
                 item.Visibility = Visibility.Hidden;
             }          
             canv[selIndex].Visibility = Visibility.Visible;
-            //здесь был функционал полупрозрачности
+            //здесь был функционал  тестирования полупрозрачности
+        }
+
+        private void CenterGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            CenterGrid.Height = this.Height - leftPanel.Height - rightPanel.Height;
+            CenterGrid.Width= this.Width - leftPanel.Width - rightPanel.Width;
         }
     }
 }

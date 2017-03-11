@@ -45,7 +45,7 @@ namespace DrawMoar
                     if (CartoonHeight <= 0 || CartoonWidth <= 0) throw new FormatException();
                     this.Hide();
                     MainWindow mw = (MainWindow)this.Owner;
-                    var cartoon = new Cartoon(CartoonName, CartoonWidth, CartoonHeight,/*этот параметр потом будет путь до папки temp, но пока не так важно*/ @"C:\Users\Home\Desktop\temp");
+                    var cartoon = new Cartoon(CartoonName, CartoonWidth, CartoonHeight,/*этот параметр потом будет путь до папки temp, но пока не так важно*/ @"C:\Users\Никита\Desktop\temp");
                     mw.Success(cartoon);
 
                 }
@@ -53,6 +53,7 @@ namespace DrawMoar
                 {
                     MessageBox.Show("Enter integer height and width bigger than zero");
                 }
+                //по идее, здесь должен быть еще один catch, но не слишком ли много для этой кнопки? мб ловить Argument в другом месте?
             }
         }
 
