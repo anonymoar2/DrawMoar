@@ -84,7 +84,17 @@ namespace DrawMoar
 
         private void ExportToMP4(object sender, RoutedEventArgs e)
         {
-            SaveCurrentCanvas();
+            for(int i = 0; i < canv.Count; i++) {
+                if (canv[i].Visibility == Visibility.Hidden) {
+                    canv[i].Visibility = Visibility.Visible;
+                    cartoon.GetFrame(i).Bitmap = CanvasToBitmap(canv[i]);
+                    canv[i].Visibility = Visibility.Hidden;
+                }
+                else {
+                    cartoon.GetFrame(i).Bitmap = CanvasToBitmap(canv[i]);
+                }
+            }
+            //SaveCurrentCanvas();
             Mp4Exporter mp4 = new Mp4Exporter();
             mp4.Save(cartoon, cartoon.WorkingDirectory);
         }
@@ -179,7 +189,8 @@ namespace DrawMoar
 
         private void AddFrame_Click(object sender, RoutedEventArgs e) {
             if (ex) {
-                SaveCurrentCanvas();
+                cartoon.AddFrame();
+                //SaveCurrentCanvas();
                 if (e != null)                                          //здесь также нужно проверять наличие экземпляра мультика
                 {
                     var inkCanv = new InkCanvas();
@@ -189,7 +200,6 @@ namespace DrawMoar
                     canv.Add(inkCanv);
                     rootGrid.Children.Add(inkCanv);
                 }
-                cartoon.AddFrame();
                 var lbl = new Label();
                 lbl.Content = $"frame_{TotalFrames++}";
                 lbl.Width = 110;
@@ -204,12 +214,13 @@ namespace DrawMoar
             cartoon.currentFrame.Bitmap = CanvasToBitmap(canvas);
             var snd = sender as ListBox;
             var selIndex = snd.SelectedIndex;   //дальше в коде употреблялось
+            
             foreach (var item in canv)              //переделаю в for()
             {
                 item.Visibility = Visibility.Hidden;
             }          
             canv[selIndex].Visibility = Visibility.Visible;
-            cartoon.currentFrame = cartoon.GetFrame(frames.SelectedIndex);
+            //cartoon.currentFrame = cartoon.GetFrame(frames.SelectedIndex);
             //здесь был функционал полупрозрачности
         }
 
