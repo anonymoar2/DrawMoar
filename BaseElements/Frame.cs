@@ -3,24 +3,19 @@ using System.IO;
 using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Media.Imaging;
+using System.Linq;
 
 namespace BaseElements
 {
     public class Frame
     {
-        // Этого, вероятно, не должно быть здесь
-        public RenderTargetBitmap Bitmap { get; set; }
-
         private float duration;
-        private string workingDirectory;
-        private List<Layer> layers = new List<Layer>();
-        
         public float Duration {
             get {
                 return duration;
             }
             set {
-                if(value > 0) {
+                if (value > 0) {
                     duration = value;
                 }
                 else {
@@ -29,35 +24,36 @@ namespace BaseElements
             }
         }
 
-        /// <summary>
-        /// It is the subdirectory of cartoon which contain internal important files.
-        /// </summary>
-        public string WorkingDirectory {
-            get {
-                return workingDirectory;
-            }
-            private set {
-                if (Directory.Exists(value)) {
-                    workingDirectory = value;
-                }
-                else if (Directory.Exists(Path.GetDirectoryName(value))) {
-                    // TODO: handle all possible exceptions here and rethrow ArgumentException.
-                    Directory.CreateDirectory(value);
-                    workingDirectory = value;
-                }
-                else {
-                    throw new ArgumentException($"Can't open directory \"{value}\".");
-                }
-            }
-        }
+        //private string workingDirectory;
+        //public string WorkingDirectory {
+        //    get {
+        //        return workingDirectory;
+        //    }
+        //    private set {
+        //        if (Directory.Exists(value)) {
+        //            workingDirectory = value;
+        //        }
+        //        else if (Directory.Exists(Path.GetDirectoryName(value))) {
+        //            // TODO: handle all possible exceptions here and rethrow ArgumentException.
+        //            Directory.CreateDirectory(value);
+        //            workingDirectory = value;
+        //        }
+        //        else {
+        //            throw new ArgumentException($"Can't open directory \"{value}\".");
+        //        }
+        //    }
+        //}
+
+        private List<Layer> layers = new List<Layer>();
+        public Layer currentLayer; // Текущий слой
 
         /// TODO: Подумать, взм переделать конструктор
-        public Frame(string workingDirectory) {
-            WorkingDirectory = workingDirectory;
-            // в будущем создавать новую папку в workingdirectore "rasterlayers" и уже туда закидввать этот новый слой и вообще все растровые
-            layers.Add(new RasterLayer(/*workingDirectory*/));
+        public Frame() {
+            layers.Add(new RasterLayer());
+            currentLayer = layers.First();
         }
 
+        // TODO: Переписать MergeLayers на 1) произвольное количество 2) когда буду точно знать как это вот всё хранить
         // объединение текущего слоя с предыдущим если indexLayer >=1, иначе кидаем исключение
         public void MergeLayers(int indexLayer) {
             if (indexLayer > 0) {
@@ -93,20 +89,30 @@ namespace BaseElements
             }
         }
 
-        // Создание нового растрового слоя
+
+        public void RemoveLayer(Layer layer) {
+            layers.Remove(layer);
+        }
+
+
+
+        // Создание нового растрового слоя и добавление его в конец списка слоёв
         public void AddRasterLayer() {
             layers.Add(new RasterLayer() { Name = $"layer{layers.Count}" });
         }
 
-        // Создание векторного слоя
+
+        // Создание нового векторного слоя и добавление его в конец списка слоёв
         public void AddVectorLayer() {
             layers.Add(new VectorLayer() { Name = $"vector{layers.Count}" });
         }
+
 
         // Изменение имени слоя
         public void ChangeNameLyer(int index, string layerName) {
             layers[index].Name = layerName;
         }
+
 
         // Изменение порядка слоёв
         public void ChangeOrder(int indexOne, int indexTwo) {
@@ -117,6 +123,7 @@ namespace BaseElements
             layers.Insert(indexOne, tmp);
         }
 
+
         // Поднятие слоя вверх
         public void UpLayer(int index) {
             if (index >= 0 && index < layers.Count - 1) {
@@ -124,6 +131,7 @@ namespace BaseElements
                 layers.RemoveAt(index);
             }
         }
+
 
         // Опускание слоя вниз
         public void DownLayer(int index) {

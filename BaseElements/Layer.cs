@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace BaseElements
 {
-    internal abstract class Layer
+    public abstract class Layer
     {
         // true - слой видимый, false - невидимый, при экспорте кадра в картинку 
         // картинка получается только из видимых слоёв

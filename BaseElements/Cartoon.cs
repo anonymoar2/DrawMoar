@@ -17,77 +17,6 @@ namespace BaseElements
         private const int MAXIMUM_HEIGHT = 2160; // MAXIMUM HATE 😡/
 
         private string name;
-        private int width;
-        private int height;
-        private string workingDirectory;
-
-
-
-        // текущий, выбранный кадр, на котором мы что-то делаем сейчас
-        public Frame currentFrame;
-
-        /// <summary>
-        /// List of frames. Every cartoon should contain at least one frame.
-        /// Don't pass it out of class instance and work with it carefully.
-        /// </summary>
-        public List<Frame> frames = new List<Frame>();
-        // Сделать приватным возможно, но так удобненько пока
-
-
-        public Frame GetFrame(int index) {
-            if (index >= 0 && index < frames.Count) {
-                var frame = frames[index];
-                return frame;
-            }
-            else throw new ArgumentException($"Переданный параметр index не может быть < 0 или > {frames.Count}");
-        }
-
-
-        public List<Frame> GetAllFrames() {
-            return frames;
-        }
-
-        // Добавлене кадра в конец
-        public void AddFrame() {
-            frames.Add(new Frame(workingDirectory));
-            currentFrame = frames.Last();
-        }
-
-
-        // Удаление кадра по индексу
-        public void RemoveAt(int index) {
-            if (index >= 0 && index <= frames.Count) {
-                frames.RemoveAt(index);
-            }
-            else {
-                throw new ArgumentException($"Переданный индекс должен быть >= 0 и <= {frames.Count}");
-            }
-        }
-
-
-        public int IndexOf(Frame frame) {
-            return frames.IndexOf(frame);
-        }
-
-
-        public void RemoveFrame(Frame frame) {
-            frames.Remove(frame);
-        }
-
-        // Вставка кадра по индексу
-        public void InsertFrame(int index, Frame frame) {
-            if (index >= 0 && index <= frames.Count) {
-                frames.Insert(index, frame);
-            }
-            else {
-                throw new ArgumentException($"Переданный индекс должен быть >= 0 и <= {frames.Count}");
-            }
-        }
-
-
-        /// <summary>
-        /// Cartoon's name.
-        /// </summary>
         public string Name {
             get { return name; }
             private set {
@@ -101,11 +30,7 @@ namespace BaseElements
             }
         }
 
-
-
-        /// <summary>
-        /// Width of cartoon's canvas.
-        /// </summary>
+        private int width;
         public int Width {
             get { return width; }
             private set {
@@ -120,10 +45,7 @@ namespace BaseElements
             }
         }
 
-
-        /// <summary>
-        /// Height of cartoon's canvas.
-        /// </summary>
+        private int height;
         public int Height {
             get { return height; }
             private set {
@@ -138,11 +60,7 @@ namespace BaseElements
             }
         }
 
-
-        /// <summary>
-        /// It is the directory in which the program saves the files 
-        /// associated with the current project.
-        /// </summary>
+        private string workingDirectory;
         public string WorkingDirectory {
             get {
                 return workingDirectory;
@@ -162,65 +80,101 @@ namespace BaseElements
             }
         }
 
-
         public Cartoon(string name, int width, int height, string workingDirectory) {
             Name = name;
             Width = width;
             Height = height;
-            WorkingDirectory = workingDirectory;
-            frames.Add(new Frame(workingDirectory));
-            currentFrame = frames.First();
+            Directory.CreateDirectory(Path.Combine(workingDirectory, name));
+            WorkingDirectory = Path.Combine(workingDirectory, name);
+            scenes.Add(new Scene($"scene{scenes.Count}"));
+            currentScene = scenes.First();
         }
 
 
-        //// Сохраняет в картинку кадр с переданным индексом
-        //public string SaveFrameToPNG(int index) {
-
-        //    return $"img{index}.png";
-        //}
+        private List<Scene> scenes = new List<Scene>();
+        public Scene currentScene; // выбранная сцена (текущая сцена)
 
 
-        public void SaveCartoonToMP4() {
-            // Вызов метода из экспорта
+        // Методы для работы со списком сцен
+
+
+        public Scene GetScene(int index) {
+            if (index >= 0 && index < scenes.Count) {
+                var scene = scenes[index];
+                return scene;
+            }
+            else throw new ArgumentException($"Переданный параметр index не может быть < 0 или > {scenes.Count}");
         }
 
 
+        public List<Scene> GetAllScenes() {
+            return scenes;
+        }
 
 
-        // Возможно не передевать Frame и менять на currentFrame
-        public void SetDuration(float duration, Frame frame) {
-            if (duration > 0) {
-                frame.Duration = duration;
+        // Добавлене сцены в конец списка сцен
+        public void AddScene() {
+            scenes.Add(new Scene($"scene{scenes.Count}"));
+            currentScene = scenes.Last();
+        }
+
+
+        // Удаление сцены по индексу
+        public void RemoveAt(int index) {
+            if (index >= 0 && index <= scenes.Count) {
+                scenes.RemoveAt(index);
             }
             else {
-                throw new ArgumentException("Длительность не может быть <= 0"); // Возможно тут не нужно его кидать ибо оно кидается в Duration
+                throw new ArgumentException($"Переданный индекс должен быть >= 0 и <= {scenes.Count}");
             }
         }
 
 
-        // Изменение порядка кадров
+        public int IndexOf(Scene scene) {
+            return scenes.IndexOf(scene);
+        }
+
+
+        public void RemoveFrame(Scene scene) {
+            scenes.Remove(scene);
+        }
+
+
+        // Вставка сцены по индексу
+        public void InsertFrame(int index, Scene scene) {
+            if (index >= 0 && index <= scenes.Count) {
+                scenes.Insert(index, scene);
+            }
+            else {
+                throw new ArgumentException($"Переданный индекс должен быть >= 0 и <= {scenes.Count}");
+            }
+        }
+
+
+        // Изменение порядка сцен
         public void ChangeOrder(int indexOne, int indexTwo) {
-            frames.Insert(indexTwo + 1, frames[indexOne]);
-            var tmp = frames[indexTwo];
-            frames.RemoveAt(indexTwo);
-            frames.RemoveAt(indexOne);
-            frames.Insert(indexOne, tmp);
+            scenes.Insert(indexTwo + 1, scenes[indexOne]);
+            var tmp = scenes[indexTwo];
+            scenes.RemoveAt(indexTwo);
+            scenes.RemoveAt(indexOne);
+            scenes.Insert(indexOne, tmp);
         }
 
-        // Поднятие слоя вверх
+
+        // Поднятие сцены вверх
         public void UpFrame(int index) {
-            if (index >= 0 && index < frames.Count - 1) {
-                frames.Insert(index + 2, frames[index]);
-                frames.RemoveAt(index);
+            if (index >= 0 && index < scenes.Count - 1) {
+                scenes.Insert(index + 2, scenes[index]);
+                scenes.RemoveAt(index);
             }
         }
 
 
-        // Опускание слоя вниз
+        // Опускание сцены вниз
         public void DownFrame(int index) {
-            if (index > 0 && index < frames.Count) {
-                frames.Insert(index - 1, frames[index]);
-                frames.RemoveAt(index + 1);
+            if (index > 0 && index < scenes.Count) {
+                scenes.Insert(index - 1, scenes[index]);
+                scenes.RemoveAt(index + 1);
             }
         }
     }

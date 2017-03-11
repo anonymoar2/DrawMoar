@@ -53,6 +53,7 @@
     <Compile Include="Layer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RasterLayer.cs" />
+    <Compile Include="Scene.cs" />
     <Compile Include="Transformation.cs" />
     <Compile Include="VectorLayer.cs" />
   </ItemGroup>
