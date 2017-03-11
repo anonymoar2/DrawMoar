@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using BaseElements;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,8 +23,11 @@ namespace DrawMoar
     /// </summary>
     public partial class MainWindow : Window
     {
+        Cartoon cartoon;
         public MainWindow()
         {
+            
+
             InitializeComponent();
             // при создании окна области рисования нет
 
@@ -130,11 +134,12 @@ namespace DrawMoar
             }
         }
 
-        public void Success(string Name, int CartoonHeight, int CartoonWidth)
+        public void Success(Cartoon cartoon)
         {
+            this.cartoon = cartoon;
             canvas.Visibility = Visibility.Visible;
-            canvas.Width = CartoonWidth;
-            canvas.Height = CartoonHeight;
+            canvas.Width = cartoon.Width;
+            canvas.Height = cartoon.Height;
             canvas.EditingMode = InkCanvasEditingMode.Ink;
             canv.Add(canvas);
             AddFrame_Click(null, null);
@@ -147,7 +152,7 @@ namespace DrawMoar
 
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e)
         {
-            canv[frames.SelectedIndex].DefaultDrawingAttributes.Color = ClrPcker_Background.SelectedColor.Value;
+            canv[cartoon.frames.SelectedIndex].DefaultDrawingAttributes.Color = ClrPcker_Background.SelectedColor.Value;
         }
 
 
