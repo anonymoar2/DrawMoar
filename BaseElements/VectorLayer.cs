@@ -6,7 +6,17 @@ using System.Threading.Tasks;
 
 namespace BaseElements
 {
-    internal partial class VectorLayer: Layer
+    // I don't yet know why it's internal 
+    // ну его писать совсем маленько хочется
+    internal class VectorLayer: Layer
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="WorkingDirectory"></param>
+        /// <returns></returns>
+        public override void Save(string WorkingDirectory) {
+            base.Save(WorkingDirectory);
+        }
     }
 }

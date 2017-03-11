@@ -28,12 +28,12 @@ namespace Exporter.Video
         /// -f concat - activates concat protocol.
         /// </summary>
         public void Save(Cartoon cartoon, string path) {
-            var concatFilename = CreateConcatFile();
+            var concatFilename = CreateConcatFile(cartoon);
 
             Process process = new Process();
             process.StartInfo.FileName = "ffmpeg";
-            process.StartInfo.WorkingDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Dipper");
-            process.StartInfo.Arguments = $"-y -loglevel panic -f concat -i {concatFilename} out.mp4";
+            process.StartInfo.WorkingDirectory = Path.Combine(Directory.GetCurrentDirectory(), cartoon.Name);
+            process.StartInfo.Arguments = $"-y -loglevel panic -f concat -i {concatFilename} {cartoon.Name}.mp4";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
@@ -52,16 +52,20 @@ namespace Exporter.Video
         /// !!! DUMMY CODE !!!
         /// </summary>
         /// <returns>Name of file which will be used in ffmpeg concat protocol.</returns>
-        private static string CreateConcatFile() {
-            string imagesDirectory = "test";
+        private static string CreateConcatFile(Cartoon cartoon) {
+            string imagesDirectory = cartoon.WorkingDirectory;
             string imagesListFilename = "images.txt";
             string imagesListFilenameRelative = Path.Combine(imagesDirectory, imagesListFilename);
 
             DirectoryInfo directoryInfo = new DirectoryInfo(imagesDirectory);
             using (var writer = new StreamWriter(imagesListFilenameRelative)) {
-                foreach (var file in directoryInfo.GetFiles("img*.png")) {
-                    writer.WriteLine("file " + file.Name);
-                    writer.WriteLine("duration 0.25");
+                //foreach (var file in directoryInfo.GetFiles("img*.png")) {
+                //    writer.WriteLine("file " + file.Name);
+                //    writer.WriteLine("duration 0.25");
+                //}
+                foreach (var frame in cartoon.frames) {
+                    writer.WriteLine("file" + frame.Save());
+                    writer.WriteLine($"duration {frame.duration}");
                 }
             }
 

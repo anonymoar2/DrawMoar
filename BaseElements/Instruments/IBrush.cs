@@ -8,5 +8,9 @@ namespace BaseElements.Brush
 {
     public interface IBrush
     {
+        int Width { get; set; }
+
+        Color MainColor { get; set; }
+        
     }
 }

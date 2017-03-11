@@ -14,7 +14,6 @@ namespace DrawMoar
     internal static class GlobalState
     {
         public static bool PressLeftButton { get; set; }
-
         
 
         // Используется для изменения порядка слоев 
