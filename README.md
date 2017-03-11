@@ -76,7 +76,7 @@ Raster and vector graphics editor for creating cartoons
 
 
 (Старая диаграмма, на которой всё же понятна основная логика)
-![UML](https://github.com/Anonymoar/DrawMoar/blob/master/UML%20Class%20Diagram.jpg)  
+![UML](https://github.com/Anonymoar/DrawMoar/blob/master/UML%20Class%20Diagram%20v2.jpg)  
     
 
 **Функциональные требования:**
