@@ -34,7 +34,7 @@ namespace DrawMoar
                     Hide();
                     MainWindow mw = (MainWindow)Owner;
 
-                    var cartoon = new Cartoon(CartoonName, CartoonWidth, CartoonHeight, System.IO.Path.GetTempPath());
+                    var cartoon = new Cartoon(CartoonName, CartoonWidth, CartoonHeight, /*System.IO.Path.GetTempPath()*/@"C:\Users\Home\Desktop\test");
                     mw.Success(cartoon);
 
                 }

@@ -1,4 +1,5 @@
 ﻿using BaseElements;
+using Exporter.Video;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -24,10 +25,9 @@ namespace DrawMoar
     public partial class MainWindow : Window
     {
         Cartoon cartoon;
+        public bool ex = false;
         public MainWindow()
         {
-            
-
             InitializeComponent();
             // при создании окна области рисования нет
 
@@ -84,15 +84,14 @@ namespace DrawMoar
 
         private void ExportToMP4(object sender, RoutedEventArgs e)
         {
-            // должны 1) пройтись по кадрам и сохранить все в картинки
-            // 
-            // 2) запилить видео
-            // 3) удалить вспомогательные файлы
+            SaveCurrentCanvas();
+            Mp4Exporter mp4 = new Mp4Exporter();
+            mp4.Save(cartoon, cartoon.WorkingDirectory);
         }
 
         private void SaveToPNG(object sender, RoutedEventArgs e)
         {
-            /*var saveDlg = new SaveFileDialog {
+            var saveDlg = new SaveFileDialog {
                 FileName = "img",
                 DefaultExt = ".png",
                 Filter = "PNG (.png)|*.png"
@@ -100,10 +99,10 @@ namespace DrawMoar
 
             if (saveDlg.ShowDialog() == true) {
                 SaveCanvas(canvas, 96, saveDlg.FileName);
-            }*/
+            }
         }
 
-        private void SaveCanvas(Canvas canvas, int dpi, string filename)
+        private void SaveCanvas(InkCanvas canvas, int dpi, string filename)
         {
             var width = canvas.ActualWidth;
             var height = canvas.ActualHeight;
@@ -136,6 +135,7 @@ namespace DrawMoar
 
         public void Success(Cartoon cartoon)
         {
+            ex = true;
             this.cartoon = cartoon;
             canvas.Visibility = Visibility.Visible;
             canvas.Width = cartoon.Width;
@@ -152,7 +152,7 @@ namespace DrawMoar
 
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e)
         {
-            canv[cartoon.frames.SelectedIndex].DefaultDrawingAttributes.Color = ClrPcker_Background.SelectedColor.Value;
+            canv[frames.SelectedIndex].DefaultDrawingAttributes.Color = ClrPcker_Background.SelectedColor.Value;
         }
 
 
@@ -162,23 +162,25 @@ namespace DrawMoar
             layers.Height = (rootGrid.ActualHeight - buttons.ActualHeight - smth.ActualHeight) / 2;         //smth - выделение места под что-то (макет Ирины)
         }
 
-        private void AddFrame_Click(object sender, RoutedEventArgs e)
-        {
-            if (e != null)                                          //здесь также нужно проверять наличие экземпляра мультика
-            {
-                var inkCanv = new InkCanvas();
-                inkCanv.Height = canvas.Height;
-                inkCanv.Width = canvas.Width;
-                inkCanv.EditingMode = InkCanvasEditingMode.Ink;
-                canv.Add(inkCanv);
-                rootGrid.Children.Add(inkCanv);
+        private void AddFrame_Click(object sender, RoutedEventArgs e) {
+            if (ex) {
+                SaveCurrentCanvas();
+                if (e != null)                                          //здесь также нужно проверять наличие экземпляра мультика
+                {
+                    var inkCanv = new InkCanvas();
+                    inkCanv.Height = canvas.Height;
+                    inkCanv.Width = canvas.Width;
+                    inkCanv.EditingMode = InkCanvasEditingMode.Ink;
+                    canv.Add(inkCanv);
+                    rootGrid.Children.Add(inkCanv);
+                }
+                var lbl = new Label();
+                lbl.Content = $"frame_{TotalFrames++}";
+                lbl.Width = 110;
+                lbl.Height = 40;
+                frames.Items.Add(lbl);
+                frames.SelectedItem = frames.Items[frames.Items.Count - 1];
             }
-            var lbl = new Label();
-            lbl.Content = $"frame_{TotalFrames++}";
-            lbl.Width = 110;
-            lbl.Height = 40;
-            frames.Items.Add(lbl);
-            frames.SelectedItem = frames.Items[frames.Items.Count - 1];
         }
 
         private void frames_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -191,6 +193,37 @@ namespace DrawMoar
             }          
             canv[selIndex].Visibility = Visibility.Visible;
             //здесь был функционал полупрозрачности
+        }
+
+
+        private RenderTargetBitmap CanvasToBitmap(InkCanvas canvas) {
+            var width = canvas.ActualWidth;
+            var height = canvas.ActualHeight;
+
+            var size = new Size(width, height);
+            canvas.Measure(size);
+
+            var rtb = new RenderTargetBitmap(
+                (int)width + 120,
+                (int)height,
+                96, //dpi x 
+                96, //dpi y 
+                PixelFormats.Pbgra32 // pixelformat
+            );
+            rtb.Render(canvas);
+            return rtb;
+        }
+
+
+
+        public void SaveCurrentCanvas() {
+            cartoon.currentFrame.Bitmap = CanvasToBitmap(canvas);
+        }
+
+        /// Кнопка сохранения в меню 
+        /// Ctrl + S 
+        private void ButtonSaveClicked(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
+            SaveCurrentCanvas();
         }
     }
 }
