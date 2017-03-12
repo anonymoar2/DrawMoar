@@ -10,7 +10,7 @@ namespace BaseElements.Brush
     {
         int Width { get; set; }
 
-        Color MainColor { get; set; }
+        System.Drawing.Color MainColor { get; set; }
         
     }
 }

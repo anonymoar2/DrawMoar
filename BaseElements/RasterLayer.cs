@@ -1,41 +1,60 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
-
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace BaseElements
 {
-    // I don't yet know why it's internal 
-    internal class RasterLayer: Layer
+    /// TODO: Реализовать растровый слой
+    public class RasterLayer : ILayer
     {
-        private string pathToPicture;
-        private Image image;
-        private Bitmap bitmap;
-        
-        
-        //public RasterLayer(string pathToPicture) {
-        //    MemoryStream mstream = new MemoryStream(File.ReadAllBytes(pathToPicture));
-        //    image = Image.FromStream(mstream);
-        //    bitmap = new Bitmap(image);
-        //    save = true;
-        //}
-
-        // ещё один конструктор который создаёт изображение из чего-то другого
-        // и вызывает метод Save сразу же
-
-        
         /// <summary>
-        /// Save layer
+        /// Название (имя) слоя
         /// </summary>
-        /// <param name="WorkingDirectory"></param>
-        /// <returns></returns>
-        public override void Save(string WorkingDirectory) {
-            string pathToFile = Path.Combine(WorkingDirectory, $"{Name}.png");
-            image.Save(pathToFile);
+        private string name;
+        public string Name {
+            get { return name; }
+            set {
+                // TODO: Изменить регулярное выражение на более подходящее
+                if (Regex.IsMatch(value, @"[a-zA-Z0-9]+")) {
+                    name = value;
+                }
+                else {
+                    throw new ArgumentException("Название слоя должно состоять только " +
+                                                "из латинских букв и цифр.");
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// True - слой видимый, false - невидимый
+        /// </summary>
+        private bool visible = true;
+        public bool Visible {
+            get {
+                return visible;
+            }
+
+            set {
+                visible = value;
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public RasterLayer() {
+
+        }
+
+        public virtual void Draw() {
+            throw new NotImplementedException();
         }
     }
 }

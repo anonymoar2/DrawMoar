@@ -26,7 +26,7 @@
                 <MenuItem Header="New"
                           Click="CreateCartoon"/>
                 <MenuItem Header="Open"/>
-                <MenuItem Header="Save"/>
+                <MenuItem Name="menuSave" Header="Save" Command="Save" InputGestureText="Ctrl+S"/>
                 <MenuItem Header="Save as...">
                     <MenuItem Header="MP4"
                               Click="ExportToMP4"/>
@@ -70,4 +70,10 @@
         </ListBox>
         <Canvas Name="canvas" Width="250" Height="300" Visibility="Hidden" Background="White" Grid.RowSpan="4" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </Grid>
+    <Window.CommandBindings>
+        <CommandBinding Command="Save" Executed="ButtonSaveClicked"></CommandBinding>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="S" Modifiers="Control" Command="Save"></KeyBinding>
+    </Window.InputBindings>
 </Window>

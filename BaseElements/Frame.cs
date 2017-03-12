@@ -1,98 +1,165 @@
 ﻿using System;
-using System.IO;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
+using System.Collections.Generic;
 
 namespace BaseElements
 {
     public class Frame
     {
-        private string workingDirectory;
+        /// <summary>
+        /// Текущий слой.
+        /// </summary>
+        public Layer CurrentLayer { get; set; }
+
+        /// <summary>
+        /// Список слоёв кадра.
+        /// </summary>
         private List<Layer> layers = new List<Layer>();
 
-        public float duration {
-            // May be need to check something
-            get;
-            set;
-        }
+        /// <summary>
+        /// Продолжительность кадра.
+        /// </summary>
+        private float duration;
 
         /// <summary>
-        /// It is the subdirectory of cartoon which contain internal important files.
+        /// Продолжительность кадра.
         /// </summary>
-        public string WorkingDirectory {
+        public float Duration {
             get {
-                return workingDirectory;
+                return duration;
             }
-            private set {
-                if (Directory.Exists(value)) {
-                    workingDirectory = value;
-                }
-                else if (Directory.Exists(Path.GetDirectoryName(value))) {
-                    // TODO: handle all possible exceptions here and rethrow ArgumentException.
-                    Directory.CreateDirectory(value);
-                    workingDirectory = value;
+            set {
+                if (value > 0) {
+                    duration = value;
                 }
                 else {
-                    throw new ArgumentException($"Can't open directory \"{value}\".");
+                    throw new ArgumentException("Длительность кадра не может быть <= 0");
                 }
             }
-        }
-
-        public Frame(string workingDirectory) {
-            WorkingDirectory = workingDirectory;
-            // в будущем создавать новую папку в workingdirectore "rasterlayers" и уже туда закидввать этот новый слой и вообще все растровые
-            layers.Add(new RasterLayer(/*workingDirectory*/));
-        }
-
-        // метод засунуть в cartoon
-        /// <summary>
-        /// Save all layers and return filename
-        /// </summary>
-        /// <returns></returns>
-        public string Save() {
-            return "";
         }
         
 
-        public void GetPicture() {
-            string pathToPicture = ""; // этой строки потом не будет
-            // Вызывает метод из импортера, котрый вернёт путь до картинки string path;
-            layers.Add(new RasterLayer(/*pathToPicture*/));
+        public Frame() {
+            layers.Add(new RasterLayer()); // По умолчанию всегда создается растровый слой
+            CurrentLayer = layers.First();
         }
 
-
-        // объединение текущего слоя с предыдущим если indexLayer >=1, иначе кидаем исключение
-        public void MergeLayers(int indexLayer) {
-            // 1. создаём новый слой-объединение этих вот, где downLayer снизу
-            // 2. удаляем оба слоя из списка слоёв (то есть слои с индексами indexLayer и indexLayer - 1)
-            // 3. вставляем новый получившийся слой по индексу indexLayer -1
+        #region Методы для работы со слоями.
+        /// <summary>
+        /// Создание нового растрового слоя и добавление его в конец списка слоёв.
+        /// </summary>
+        public void AddRasterLayer() {
+            // WARNING: стоит ли обеспечить уникальность имён слоёв?
+            // в многопоточном коде layers.Count может быть одинаковым
+            // для двух разных потоков во время вызова этого метода.
+            layers.Add(new RasterLayer() { Name = $"layer{layers.Count}" });
         }
 
-
-        // Изменение порядка слоёв
-        public void ChangeOrder(int indexOne, int indexTwo) {
-            layers.Insert(indexTwo + 1, layers[indexOne]);
-            var tmp = layers[indexTwo];
-            layers.RemoveAt(indexTwo);
-            layers.RemoveAt(indexOne);
-            layers.Insert(indexOne, tmp);
-
+        /// <summary>
+        /// Создание нового векторного слоя и добавление его в конец списка слоёв.
+        /// </summary>
+        public void AddVectorLayer() {
+            // WARNING: стоит ли обеспечить уникальность имён слоёв?
+            // в многопоточном коде layers.Count может быть одинаковым
+            // для двух разных потоков во время вызова этого метода.
+            layers.Add(new VectorLayer() { Name = $"vector{layers.Count}" });
         }
 
-        public void UpLayer(int index) {
-            if(index >= 0 && index < layers.Count - 1) {
+        /// <summary>
+        /// Удаление слоя.
+        /// </summary>
+        /// <param name="layer">Удаляемый с кадра слой.</param>
+        public void RemoveLayer(Layer layer) {
+            // WARNING: каким будет поведение если layer отсутствует в layers?
+            layers.Remove(layer);
+        }
+
+        /// <summary>
+        /// Изменение имени слоя.
+        /// </summary>
+        /// <param name="index">Позиция переименуемого слоя.</param>
+        /// <param name="layerName">Новое имя слоя.</param>
+        public void ChangeLayerName(int index, string layerName) {
+            // WARNING: Проверить index
+            layers[index].Name = layerName;
+        }
+
+        /// <summary>
+        /// Изменение порядка слоёв.
+        /// </summary>
+        /// <param name="firstLayerIndex">Позиция первого слоя.</param>
+        /// <param name="secondLayerIndex">Позиция второго слоя.</param>
+        public void SwapLayersPositions(int firstLayerIndex, int secondLayerIndex) {
+            layers.Insert(secondLayerIndex + 1, layers[firstLayerIndex]);
+            var tmp = layers[secondLayerIndex];
+            layers.RemoveAt(secondLayerIndex);
+            layers.RemoveAt(firstLayerIndex);
+            layers.Insert(firstLayerIndex, tmp);
+        }
+
+        /// <summary>
+        /// Поднятие слоя вверх на одну позицию.
+        /// </summary>
+        /// <param name="index">Позиция поднимаемого слоя.</param>
+        public void PutLayerUp(int index) {
+            if (index >= 0 && index < layers.Count - 1) {
                 layers.Insert(index + 2, layers[index]);
                 layers.RemoveAt(index);
             }
         }
 
-        public void DownLayer(int index) {
+        /// <summary>
+        /// Опускание слоя вниз на одну позицию.
+        /// </summary>
+        /// <param name="index">Позиция опускаемого слоя.</param>
+        public void PutLayerDown(int index) {
             if (index > 0 && index < layers.Count) {
                 layers.Insert(index - 1, layers[index]);
                 layers.RemoveAt(index + 1);
             }
         }
+
+        //// TODO: Переписать MergeLayers на 1) произвольное количество 2) когда буду точно знать как это вот всё хранить
+        //// объединение текущего слоя с предыдущим если indexLayer >=1, иначе кидаем исключение
+        //public void MergeLayers(int indexLayer) {
+        //    if (indexLayer > 0) {
+        //        // Если оба слоя растровые
+        //        if ((layers[indexLayer] is RasterLayer) && (layers[indexLayer - 1] is RasterLayer)) {
+
+        //            using (Graphics gr = Graphics.FromImage(((RasterLayer)layers[indexLayer]).Image)) {
+        //                gr.DrawImage(((RasterLayer)layers[indexLayer - 1]).Image, new Point(0, 0));
+        //            }
+        //            layers.RemoveAt(indexLayer);
+        //            layers.RemoveAt(indexLayer);
+        //            layers.Insert(indexLayer - 1, new RasterLayer(((RasterLayer)layers[indexLayer - 1]).Image));
+        //        }
+        //    }
+        //    else {
+        //        throw new ArgumentException("Переданный параметр indexLayer не может быть <= 0");
+        //    }
+        //}
+        #endregion
+
+        // Использовать только если для каждого фрейма будет своя директория.
+        //private string workingDirectory;
+        //public string WorkingDirectory {
+        //    get {
+        //        return workingDirectory;
+        //    }
+        //    private set {
+        //        if (Directory.Exists(value)) {
+        //            workingDirectory = value;
+        //        }
+        //        else if (Directory.Exists(Path.GetDirectoryName(value))) {
+        //            // TODO: handle all possible exceptions here and rethrow ArgumentException.
+        //            Directory.CreateDirectory(value);
+        //            workingDirectory = value;
+        //        }
+        //        else {
+        //            throw new ArgumentException($"Can't open directory \"{value}\".");
+        //        }
+        //    }
+        //}
     }
 }
