@@ -31,6 +31,7 @@ namespace DrawMoar
             this.MouseLeftButtonUp += new MouseButtonEventHandler(VisualHost_MouseLeftButtonUp);
             this.MouseLeftButtonDown += new MouseButtonEventHandler(VisualHost_MouseLeftButtonDown);
             this.MouseMove += new MouseEventHandler(VisualHost_MouseMove);
+            //this.MouseLeave += new MouseEventHandler(VisualHost_MouseLeave);      ПОЧЕМУ ЭТО НЕ РАБОТАЕТ?!
         }  
 
         /// <summary>
@@ -59,6 +60,10 @@ namespace DrawMoar
             return drawingVisual;
         }
 
+         void VisualHost_MouseLeave(object sender, MouseEventHandler e)     //см. выше
+        {
+            VisualHost_MouseLeftButtonUp(null, null);
+        }
 
         private DrawingVisual ClearVisualSpace()
         {
@@ -109,6 +114,7 @@ namespace DrawMoar
         {
             GlobalState.PressLeftButton = true;
             VisualHost_MouseMove(sender, e);
+            
         }
 
         /// <summary>

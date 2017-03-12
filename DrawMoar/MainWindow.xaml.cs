@@ -133,6 +133,11 @@ namespace DrawMoar
             }
         }
 
+        /// <summary>
+        /// "Успешное" закрытие окна создания мультфильма.
+        /// Выполняется при нажатии кнопки Create (Создать)
+        /// </summary>
+        /// <param name="cartoon"></param>
         public void Success(Cartoon cartoon)
         {
             canvas.Visibility = Visibility.Visible;
@@ -169,13 +174,22 @@ namespace DrawMoar
             // переключение и отображение предыдущего/следующего кадра
         }
 
-
+        /// <summary>
+        /// Смена рабочего цвета на выбранный в основной палитре
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e)
         {
-            //позже
+            GlobalState.Color = new SolidColorBrush(ClrPcker_Background.SelectedColor.Value);
         }
 
-
+        /// <summary>
+        /// Добавление нового кадра в мультфильм.
+        /// Подразумевает добавление одного слоя на новый кадр.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddFrame_Click(object sender, RoutedEventArgs e)
         {
             var frame = new FrameControl();
@@ -208,6 +222,11 @@ namespace DrawMoar
             }
         }
 
+        /// <summary>
+        /// Обработка выбора элемента из элемента, отображающего кадры
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UIElement frame = canvas.Children[framesList.SelectedIndex];            
