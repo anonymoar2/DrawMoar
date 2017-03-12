@@ -11,6 +11,7 @@ namespace BaseElements.Figures
 {
     /// <summary>
     /// Каждая фигура это слой новый векорный поэтому наследуется от этого класса
+    /// Или от View? Подумать надо над этим немного
     /// </summary>
     public class Line : VectorLayer
     {
