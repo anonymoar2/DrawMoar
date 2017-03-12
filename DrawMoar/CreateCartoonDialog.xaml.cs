@@ -4,6 +4,7 @@ using System.Windows.Forms;
 
 using BaseElements;
 using System.IO;
+using System.Windows.Input;
 
 namespace DrawMoar
 {
@@ -15,7 +16,7 @@ namespace DrawMoar
         public CreateCartoonDialog() {
             InitializeComponent();
         }
-        
+
         private void creating_Click(object sender, RoutedEventArgs e) {
             
             if (getName.Text == "") System.Windows.MessageBox.Show("You haven't entered the name");
@@ -58,5 +59,18 @@ namespace DrawMoar
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
         }
+
+        // PreviewTextInput="PreviewTextInput"
+
+        //private void getHeight_PreviewTextInput(object sender, TextCompositionEventArgs e) {
+        //    if (!char.IsDigit(e.Text, e.Text.Length - 1))
+        //        e.Handled = true;
+        //}
+
+        //private void getWidth_PreviewTextInput(object sender, TextCompositionEventArgs e) {
+        //    if (!char.IsDigit(e.Text, e.Text.Length - 1))
+        //        e.Handled = true;
+        //}
+
     }
 }
