@@ -42,9 +42,10 @@ namespace DrawMoar
             GlobalState.BrushSize = new Size(5, 5);
         }
 
-        private int TotalFrames = 0;
-        private List<Label> labels = new List<Label>();
-        private List<InkCanvas> canv = new List<InkCanvas>();
+        private int TotalFrames = 0;                        //перенести в GlobalState?
+        private List<Label> labels = new List<Label>();     //реализовать пользовательский контрол?
+        private List<InkCanvas> canv = new List<InkCanvas>();       //ОДНОЗНАЧНО ПЕРЕДЕЛАТЬ (обычный канвас, добавляем в Children и меняем по фокусу)
+                                                                     //тогда отрисовку придется выносить в отдельный класс и она будет сложнее - много работы в плане 
 
         private void CreateCartoon(object sender, RoutedEventArgs e)
         {
@@ -185,12 +186,15 @@ namespace DrawMoar
             {
                 if (e != null)
                 {
-                    var inkCanv = new InkCanvas();
+                    var inkCanv = new InkCanvas();    //перестать так делать и удалить весь блок  
                     inkCanv.Height = canvas.Height;
                     inkCanv.Width = canvas.Width;
                     inkCanv.EditingMode = InkCanvasEditingMode.Ink;
-                    //нужно как-тоего обрезать, чтобы не залазил на панели
                     canv.Add(inkCanv);
+                    var heightDiff = this.Height - leftPanel.MinHeight - rightPanel.MinHeight - inkCanv.Height;
+                    var widthDiff = this.Width - leftPanel.MinWidth - rightPanel.MinWidth - inkCanv.Width;
+                    if (heightDiff < 0) this.Height += Math.Abs(heightDiff);                        //скорее всего, должно выглядеть по-другому
+                    if (widthDiff < 0) this.Width += Math.Abs(widthDiff);                           //не стал делать вычитание отрицательного числа
                     rootGrid.Children.Add(inkCanv);
                 }
                 var lbl = new Label();
@@ -199,25 +203,19 @@ namespace DrawMoar
                 lbl.Height = 40;
                 frames.Items.Add(lbl);
                 frames.SelectedItem = frames.Items[frames.Items.Count - 1];
+                ((UIElement)frames.Items[frames.Items.Count - 1]).Focus();      //все равно не получается выделить полноценно синим, как при клике мышкой
             }
         }
 
         private void frames_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var snd = sender as ListBox;
-            var selIndex = snd.SelectedIndex;   //дальше в коде употреблялось
             foreach (var item in canv)              //переделаю в for()
             {
                 item.Visibility = Visibility.Hidden;
             }          
-            canv[selIndex].Visibility = Visibility.Visible;
-            //здесь был функционал  тестирования полупрозрачности
+            canv[snd.SelectedIndex].Visibility = Visibility.Visible;
         }
 
-        private void CenterGrid_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            CenterGrid.Height = this.Height - leftPanel.Height - rightPanel.Height;
-            CenterGrid.Width= this.Width - leftPanel.Width - rightPanel.Width;
-        }
     }
 }

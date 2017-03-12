@@ -53,7 +53,7 @@
                           BorderBrush="LightGray" ItemsSource="{Binding labels}" SelectionChanged="frames_SelectionChanged" MinHeight="120">
                 </ListBox>
             </StackPanel>
-            <Grid Name="CenterGrid" SizeChanged="CenterGrid_SizeChanged">
+            <Grid Name="CenterGrid">
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
