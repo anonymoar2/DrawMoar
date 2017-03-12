@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace BaseElements
 {
-    // с этим будет сложно, уже вижу всю боль
+    // TODO: Сделать интерфейсом, реализовать интерфейс во всех трансформациях
+    // Перенести трансформации в отдельный неймспейс.
     class Transformation
     {
     }

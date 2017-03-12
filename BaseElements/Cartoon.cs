@@ -8,13 +8,39 @@ namespace BaseElements
 {
     public class Cartoon
     {
-        // Lower bound is 144p.
-        private const int MINIMAL_WIDTH = 256;
-        private const int MINIMAL_HEIGHT = 144; 
+        /// <summary>
+        /// Текущая сцена.
+        /// </summary>
+        public Scene CurrentScene { get; set; }
 
-        // Upper bound is 4K.
-        private const int MAXIMUM_WIDTH = 3840;
-        private const int MAXIMUM_HEIGHT = 2160; // MAXIMUM HATE 😡/
+        /// <summary>
+        /// Список сцен мультфильма.
+        /// </summary>
+        private List<Scene> scenes = new List<Scene>();
+
+        /// <summary>
+        /// Минимальная ширина холста мультфильма в пикселях.
+        /// Соответствует разрешению 144p.
+        /// </summary>
+        private const int MinimalWidth = 256;
+
+        /// <summary>
+        /// Минимальная высота холста мультфильма в пикселях.
+        /// Соответствует разрешению 144p.
+        /// </summary>
+        private const int MinimalHeight = 144;
+
+        /// <summary>
+        /// Максимальная ширина холста мультфильма в пикселях.
+        /// Соответствует разрешению 4K.
+        /// </summary>
+        private const int MaximumWidth = 3840;
+
+        /// <summary>
+        /// Максимальная высота холста мультфильма в пикселях.
+        /// Соответствует разрешению 4K.
+        /// </summary>
+        private const int MaximumHeight = 2160; // MAXIMUM HATE 😡/
 
         private string name;
         public string Name {
@@ -34,13 +60,13 @@ namespace BaseElements
         public int Width {
             get { return width; }
             private set {
-                if (value >= MINIMAL_WIDTH && value <= MAXIMUM_WIDTH) {
+                if (value >= MinimalWidth && value <= MaximumWidth) {
                     width = value;
                 }
                 else {
                     throw new ArgumentException($"Cartoon's width must not be lower " +
-                                                $"than {MINIMAL_WIDTH} or bigger " +
-                                                $"than {MAXIMUM_WIDTH} pixels.");
+                                                $"than {MinimalWidth} or bigger " +
+                                                $"than {MaximumWidth} pixels.");
                 }
             }
         }
@@ -49,13 +75,13 @@ namespace BaseElements
         public int Height {
             get { return height; }
             private set {
-                if (value >= MINIMAL_HEIGHT || value <= MAXIMUM_HEIGHT) {
+                if (value >= MinimalHeight || value <= MaximumHeight) {
                     height = value;
                 }
                 else {
                     throw new ArgumentException($"Cartoon's height must not be lower " +
-                                                $"than {MINIMAL_HEIGHT} or bigger " +
-                                                $"than {MAXIMUM_HEIGHT} pixels.");
+                                                $"than {MinimalHeight} or bigger " +
+                                                $"than {MaximumHeight} pixels.");
                 }
             }
         }
@@ -84,64 +110,51 @@ namespace BaseElements
             Name = name;
             Width = width;
             Height = height;
-            Directory.CreateDirectory(Path.Combine(workingDirectory, name));
-            WorkingDirectory = Path.Combine(workingDirectory, name);
+            WorkingDirectory = workingDirectory;
+
             scenes.Add(new Scene($"scene{scenes.Count}"));
-            currentScene = scenes.First();
+            CurrentScene = scenes.First();
         }
 
-
-        private List<Scene> scenes = new List<Scene>();
-        public Scene currentScene; // выбранная сцена (текущая сцена)
-
-
-        // Методы для работы со списком сцен
-
-
+        #region Методы для работы со сценами.
+        /// <summary>
+        /// Получение сцены по её позиции.
+        /// </summary>
+        /// <param name="index">Позиция сцены в мультфильме.</param>
+        /// <returns>Сцена находящаяся по указанной позиции.</returns>
         public Scene GetScene(int index) {
             if (index >= 0 && index < scenes.Count) {
                 var scene = scenes[index];
                 return scene;
             }
-            else throw new ArgumentException($"Переданный параметр index не может быть < 0 или > {scenes.Count}");
+            else {
+                throw new ArgumentException("Переданный параметр index не может " +
+                                            $"быть < 0 или > {scenes.Count}");
+            }
         }
 
-
+        /// <summary>
+        /// Получение списка всех сцен добавленных в мультфильм.
+        /// </summary>
+        /// <returns>Список добавленных в мультфильм сцен.</returns>
         public List<Scene> GetAllScenes() {
             return scenes;
         }
 
-
-        // Добавлене сцены в конец списка сцен
+        /// <summary>
+        /// Добавление пустой сцены в конец списка.
+        /// </summary>
         public void AddScene() {
             scenes.Add(new Scene($"scene{scenes.Count}"));
-            currentScene = scenes.Last();
+            CurrentScene = scenes.Last();
         }
 
-
-        // Удаление сцены по индексу
-        public void RemoveAt(int index) {
-            if (index >= 0 && index <= scenes.Count) {
-                scenes.RemoveAt(index);
-            }
-            else {
-                throw new ArgumentException($"Переданный индекс должен быть >= 0 и <= {scenes.Count}");
-            }
-        }
-
-
-        public int IndexOf(Scene scene) {
-            return scenes.IndexOf(scene);
-        }
-
-
-        public void RemoveFrame(Scene scene) {
-            scenes.Remove(scene);
-        }
-
-
-        // Вставка сцены по индексу
-        public void InsertFrame(int index, Scene scene) {
+        /// <summary>
+        /// Вставка сцены на указанную позицию.
+        /// </summary>
+        /// <param name="index">Позиция вставки сцены.</param>
+        /// <param name="scene">Добавляемая к мультфильму сцена.</param>
+        public void InsertScene(int index, Scene scene) {
             if (index >= 0 && index <= scenes.Count) {
                 scenes.Insert(index, scene);
             }
@@ -150,32 +163,73 @@ namespace BaseElements
             }
         }
 
-
-        // Изменение порядка сцен
-        public void ChangeOrder(int indexOne, int indexTwo) {
-            scenes.Insert(indexTwo + 1, scenes[indexOne]);
-            var tmp = scenes[indexTwo];
-            scenes.RemoveAt(indexTwo);
-            scenes.RemoveAt(indexOne);
-            scenes.Insert(indexOne, tmp);
+        /// <summary>
+        /// Получение позиции сцены в мультфильме.
+        /// </summary>
+        /// <param name="scene">Интересуемая сцена.</param>
+        /// <returns>Позиция запрошенной сцены в мультфильме.</returns>
+        public int IndexOfScene(Scene scene) {
+            // WARNING: каким будет поведение если такой сцены нет?
+            return scenes.IndexOf(scene);
         }
 
+        /// <summary>
+        /// Удаление сцены из списка сцен.
+        /// </summary>
+        /// <param name="scene">Удаляемая сцена.</param>
+        public void RemoveScene(Scene scene) {
+            // WARNING: каким будет поведение если такой сцены нет?
+            scenes.Remove(scene);
+        }
 
-        // Поднятие сцены вверх
-        public void UpFrame(int index) {
+        /// <summary>
+        /// Удаление сцены по позиции.
+        /// </summary>
+        /// <param name="index">Позиция сцены в мультфильме.</param>
+        public void RemoveSceneAt(int index) {
+            if (index >= 0 && index <= scenes.Count) {
+                scenes.RemoveAt(index);
+            }
+            else {
+                throw new ArgumentException($"Переданный индекс должен быть >= 0 и <= {scenes.Count}");
+            }
+        }
+
+        /// <summary>
+        /// Изменение порядка сцен.
+        /// </summary>
+        /// <param name="firstSceneIndex">Позиция первой сцены.</param>
+        /// <param name="secondSceneIndex">Позиция второй сцены.</param>
+        public void SwapScenesPositions(int firstSceneIndex, int secondSceneIndex) {
+            // WARNING: Проверить индексы.
+            scenes.Insert(secondSceneIndex + 1, scenes[firstSceneIndex]);
+            var tmp = scenes[secondSceneIndex];
+            scenes.RemoveAt(secondSceneIndex);
+            scenes.RemoveAt(firstSceneIndex);
+            scenes.Insert(firstSceneIndex, tmp);
+        }
+
+        /// <summary>
+        /// Поднятие сцены вверх.
+        /// </summary>
+        /// <param name="index">Позиция поднимаемой сцены.</param>
+        public void PutSceneUp(int index) {
             if (index >= 0 && index < scenes.Count - 1) {
                 scenes.Insert(index + 2, scenes[index]);
                 scenes.RemoveAt(index);
             }
         }
 
-
-        // Опускание сцены вниз
-        public void DownFrame(int index) {
+        /// <summary>
+        /// Опускание сцены вниз.
+        /// </summary>
+        /// <param name="index">Позиция опускаемой сцены.</param>
+        public void PutSceneDown(int index) {
             if (index > 0 && index < scenes.Count) {
                 scenes.Insert(index - 1, scenes[index]);
                 scenes.RemoveAt(index + 1);
             }
         }
+        #endregion
     }
 }

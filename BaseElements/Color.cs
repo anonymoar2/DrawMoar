@@ -1,11 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace BaseElements
 {
+    /// <summary>
+    /// Рекомендую воспользоваться готовой структурой Color из System.Drawing,
+    /// либо Color из System.Windows.Media (WPF).
+    /// https://msdn.microsoft.com/en-us/library/system.drawing.color(v=vs.110).aspx
+    /// </summary>
     public class Color
     {
         int R;
