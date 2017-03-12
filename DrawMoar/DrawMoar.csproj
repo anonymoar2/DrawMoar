@@ -79,7 +79,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Controls\FrameControl.xaml">
+    <Page Include="Controls\LayerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -95,8 +95,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controls\FrameControl.xaml.cs">
-      <DependentUpon>FrameControl.xaml</DependentUpon>
+    <Compile Include="Controls\LayerControl.xaml.cs">
+      <DependentUpon>LayerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\VisualHost.cs" />
     <Compile Include="CreateCartoonDialog.xaml.cs">

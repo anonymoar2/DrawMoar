@@ -26,7 +26,8 @@ namespace DrawMoar
     {
         private Cartoon cartoon;
 
-        public MainWindow() {
+        public MainWindow()
+        {
             InitializeComponent();
             // при создании окна области рисования нет
 
@@ -44,7 +45,6 @@ namespace DrawMoar
             GlobalState.BrushSize = new Size(5, 5);
         }
 
-        private List<FrameControl> frames = new List<FrameControl>();
         private List<Label> labels = new List<Label>();
         //тогда отрисовку придется выносить в отдельный класс и она будет сложнее - много работы в плане 
 
@@ -90,20 +90,24 @@ namespace DrawMoar
             // 3) удалить вспомогательные файлы
         }
 
-        private void SaveToPNG(object sender, RoutedEventArgs e) {
-            var saveDlg = new SaveFileDialog {
+        private void SaveToPNG(object sender, RoutedEventArgs e)
+        {
+            var saveDlg = new SaveFileDialog
+            {
                 FileName = "img",
                 DefaultExt = ".png",
                 Filter = "PNG (.png)|*.png"
             };
 
-            if (saveDlg.ShowDialog() == true) {
+            if (saveDlg.ShowDialog() == true)
+            {
                 //SaveCanvas(canvas, 96, saveDlg.FileName);
             }
-        } 
+        }
 
 
-        private void SaveCanvas(InkCanvas canvas, int dpi, string filename) {
+        private void SaveCanvas(InkCanvas canvas, int dpi, string filename)
+        {
             var width = canvas.ActualWidth;
             var height = canvas.ActualHeight;
 
@@ -147,30 +151,32 @@ namespace DrawMoar
             GlobalState.canvSize = new Size(canvas.Width, canvas.Height);
             this.Height = canvas.Height;
             this.Width = canvas.Width + 260;        //пока что так (ширина двух крайних колонок грида)
-            AddFrame_Click(null, null);
+            AddScene_Click(null, null);         // должно быть добавление сцены
         }
 
 
         private int i = 0;
-        public void CreateNewFrame(object sender, RoutedEventArgs e) {
+        public void CreateNewFrame(object sender, RoutedEventArgs e)
+        {
 
             string frameName = $"img{i++}.png";
-           // SaveCanvas(canvas, 90, System.IO.Path.Combine(cartoon.WorkingDirectory, /*cartoon.Name*/frameName));
-           // canvas.Strokes.Clear();
+            // SaveCanvas(canvas, 90, System.IO.Path.Combine(cartoon.WorkingDirectory, /*cartoon.Name*/frameName));
+            // canvas.Strokes.Clear();
             cartoon.frames.Add(new BaseElements.Frame(cartoon.WorkingDirectory));
             cartoon.currentFrame = cartoon.frames.Last();
             // сделать миниатюру и отображение в списке кадров 
-            
+
 
         }
 
 
         // https://github.com/artesdi/Paint.WPF
-        public void DeleteFrame(object sender, RoutedEventArgs e) {
+        public void DeleteFrame(object sender, RoutedEventArgs e)
+        {
 
             cartoon.frames.Remove(cartoon.currentFrame);
             // удаление из списка кадров на экране
-           // canvas.Strokes.Clear();
+            // canvas.Strokes.Clear();
             // переключение и отображение предыдущего/следующего кадра
         }
 
@@ -190,18 +196,19 @@ namespace DrawMoar
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AddFrame_Click(object sender, RoutedEventArgs e)
+        private void AddLayer_Click(object sender, RoutedEventArgs e)
         {
-            var frame = new FrameControl();
-            canvas.Children.Add(frame);
+            //проверка на то, выделен ли какой-либо кадр
+            var layer = new LayerControl();     //может, это вынести в Base Elements - ?
+            canvas.Children.Add(layer);         //куда добавлять - ?
             var lbl = new Label();
-            lbl.Content = $"frame_{GlobalState.FramesCount}";
+            lbl.Content = $"layer_{framesList.LayersCount++}";   //внутри кадра должен быть счетчик - ?
             lbl.Height = 40;
             lbl.Width = 70;
-            framesList.Items.Add(lbl);
-            GlobalState.LayersIndexes++;
-            framesList.SelectedIndex = framesList.Items.Count-1;
-            canvas.Children[framesList.SelectedIndex].Focus();
+            layersList.Items.Add(lbl);
+            //GlobalState.LayersIndexes++;
+            layersList.SelectedIndex = layersList.Items.Count - 1;
+            canvas.Children[layersList.SelectedIndex].Focus();
         }
 
         /// <summary>
@@ -229,18 +236,21 @@ namespace DrawMoar
         /// <param name="e"></param>
         private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            UIElement frame = canvas.Children[framesList.SelectedIndex];            
-            frame.Visibility = Visibility.Visible;
-            frame.Focus();
-            foreach (FrameControl child in canvas.Children)
+            UIElement layer = canvas.Children[framesList.SelectedIndex];
+            layer.Visibility = Visibility.Visible;
+            layer.Focus();
+            foreach (LayerControl child in canvas.Children) //ищем не здесь, а в кадре
             {
-                if (child != frame)
+                if (child != layer)
                 {
                     child.Visibility = Visibility.Hidden;
                     child.NonFocus(null, null);
                 }
             }
         }
+
+
+        //ТАКЖЕ НУЖНО СДЕЛАТЬ SCENELIST И LAYERLIST_SELECTIONCHANGED
 
         private void testButton_Click(object sender, RoutedEventArgs e)
         {
@@ -250,6 +260,21 @@ namespace DrawMoar
         private void testButton2_Click(object sender, RoutedEventArgs e)
         {
             GlobalState.CurrentTool = Instruments.Arrow;
+        }
+
+        private void AddFrame_Click(object sender, RoutedEventArgs e)
+        {
+            var newFrame = new Frame();
+            //создаем фрейм, берем его в фокус, создаем в нем слой, запихиваем его в активную сцену
+        }
+
+        private void AddScene_Click(object sender, RoutedEventArgs e)
+        {
+            var newScene = new Scene();
+            //делаем что-то осмысленное: создаем внутри сцены кадр, внутри кадра - слой(в целом, а не здесь)
+            //добавляем сцену в список, который еще на окне нужно как-то отразить (и где-то)
+            cartoon.Scenes.Add(newScene);
+            AddFrame_Click(scenesList,null);
         }
     }
 }

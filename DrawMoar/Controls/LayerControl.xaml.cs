@@ -23,7 +23,7 @@ namespace DrawMoar
     /// <summary>
     /// Контрол, представляющий экземпляр слоя для рисования
     /// </summary>
-    public partial class FrameControl : UserControl, INotifyPropertyChanged
+    public partial class LayerControl : UserControl, INotifyPropertyChanged
     {
 
         public event EventHandler Delete;
@@ -56,7 +56,7 @@ namespace DrawMoar
         /// <summary>
         /// Конструктор
         /// </summary>
-        public FrameControl()
+        public LayerControl()
         {
             InitializeComponent();
             LayerIndex = GlobalState.FramesCount++;
@@ -70,7 +70,7 @@ namespace DrawMoar
 
         private void Del(Object sender, EventArgs e)
         {
-            GlobalState.FramesCount--;
+            //GlobalState.LayerCount--;
             Delete(this, e);
         }
 
@@ -95,7 +95,7 @@ namespace DrawMoar
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void FrameControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void LayerControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             /*if (GlobalState.CurrentTool == Instruments.Arrow)
             {
@@ -110,7 +110,7 @@ namespace DrawMoar
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void FrameControl_MouseMove(object sender, MouseEventArgs e)
+        private void LayerControl_MouseMove(object sender, MouseEventArgs e)
         {
             /*if (GlobalState.CurrentTool == Instruments.Arrow)
             {
