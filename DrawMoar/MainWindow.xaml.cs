@@ -44,7 +44,6 @@ namespace DrawMoar
 
         private int TotalFrames = 0;                        //перенести в GlobalState?
         private List<Label> labels = new List<Label>();     //реализовать пользовательский контрол?
-        private List<InkCanvas> canv = new List<InkCanvas>();       //ОДНОЗНАЧНО ПЕРЕДЕЛАТЬ (обычный канвас, добавляем в Children и меняем по фокусу)
                                                                      //тогда отрисовку придется выносить в отдельный класс и она будет сложнее - много работы в плане 
 
         private void CreateCartoon(object sender, RoutedEventArgs e)
@@ -77,7 +76,7 @@ namespace DrawMoar
             myLine.HorizontalAlignment = HorizontalAlignment.Left;
             myLine.VerticalAlignment = VerticalAlignment.Center;
             myLine.StrokeThickness = 2;
-            //canvas.Children.Add(myLine);
+            canvas.Children.Add(myLine);
         }
 
 
@@ -97,7 +96,7 @@ namespace DrawMoar
             };
 
             if (saveDlg.ShowDialog() == true) {
-                SaveCanvas(canvas, 96, saveDlg.FileName);
+                //SaveCanvas(canvas, 96, saveDlg.FileName);
             }
         } 
 
@@ -137,8 +136,8 @@ namespace DrawMoar
             canvas.Visibility = Visibility.Visible;
             canvas.Width = cartoon.Width;
             canvas.Height = cartoon.Height;
-            canvas.EditingMode = InkCanvasEditingMode.Ink;
-            canv.Add(canvas);
+            //canvas.EditingMode = InkCanvasEditingMode.Ink;
+            //canv.Add(canvas);
             this.cartoon = cartoon;
             AddFrame_Click(null, null);
         }
@@ -148,8 +147,8 @@ namespace DrawMoar
         public void CreateNewFrame(object sender, RoutedEventArgs e) {
 
             string frameName = $"img{i++}.png";
-            SaveCanvas(canvas, 90, System.IO.Path.Combine(cartoon.WorkingDirectory, /*cartoon.Name*/frameName));
-            canvas.Strokes.Clear();
+           // SaveCanvas(canvas, 90, System.IO.Path.Combine(cartoon.WorkingDirectory, /*cartoon.Name*/frameName));
+           // canvas.Strokes.Clear();
             cartoon.frames.Add(new BaseElements.Frame(cartoon.WorkingDirectory));
             cartoon.currentFrame = cartoon.frames.Last();
             // сделать миниатюру и отображение в списке кадров 
@@ -163,22 +162,16 @@ namespace DrawMoar
 
             cartoon.frames.Remove(cartoon.currentFrame);
             // удаление из списка кадров на экране
-            canvas.Strokes.Clear();
+           // canvas.Strokes.Clear();
             // переключение и отображение предыдущего/следующего кадра
         }
 
 
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e)
         {
-            canv[frames.SelectedIndex].DefaultDrawingAttributes.Color = ClrPcker_Background.SelectedColor.Value;
+            //canv[frames.SelectedIndex].DefaultDrawingAttributes.Color = ClrPcker_Background.SelectedColor.Value;
         }
 
-
-        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            frames.Height = (rootGrid.ActualHeight - buttons.ActualHeight - smth.ActualHeight) / 2;     //не знаю, стоит ли так делать
-            layers.Height = (rootGrid.ActualHeight - buttons.ActualHeight - smth.ActualHeight) / 2;         //smth - выделение места под что-то (макет Ирины)
-        }
 
         private void AddFrame_Click(object sender, RoutedEventArgs e)
         {
@@ -186,36 +179,26 @@ namespace DrawMoar
             {
                 if (e != null)
                 {
-                    var inkCanv = new InkCanvas();    //перестать так делать и удалить весь блок  
-                    inkCanv.Height = canvas.Height;
-                    inkCanv.Width = canvas.Width;
-                    inkCanv.EditingMode = InkCanvasEditingMode.Ink;
-                    canv.Add(inkCanv);
-                    var heightDiff = this.Height - leftPanel.MinHeight - rightPanel.MinHeight - inkCanv.Height;
-                    var widthDiff = this.Width - leftPanel.MinWidth - rightPanel.MinWidth - inkCanv.Width;
-                    if (heightDiff < 0) this.Height += Math.Abs(heightDiff);                        //скорее всего, должно выглядеть по-другому
-                    if (widthDiff < 0) this.Width += Math.Abs(widthDiff);                           //не стал делать вычитание отрицательного числа
-                    rootGrid.Children.Add(inkCanv);
+                                 
                 }
                 var lbl = new Label();
                 lbl.Content = $"frame_{TotalFrames++}";
                 lbl.Width = 110;
                 lbl.Height = 40;
-                frames.Items.Add(lbl);
-                frames.SelectedItem = frames.Items[frames.Items.Count - 1];
-                ((UIElement)frames.Items[frames.Items.Count - 1]).Focus();      //все равно не получается выделить полноценно синим, как при клике мышкой
+                framesList.Items.Add(lbl);
+                framesList.SelectedItem = framesList.Items[framesList.Items.Count - 1];
+               ((UIElement)framesList.Items[framesList.Items.Count - 1]).Focus();      //все равно не получается выделить полноценно синим, как при клике мышкой
             }
         }
 
         private void frames_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var snd = sender as ListBox;
-            foreach (var item in canv)              //переделаю в for()
-            {
-                item.Visibility = Visibility.Hidden;
-            }          
-            canv[snd.SelectedIndex].Visibility = Visibility.Visible;
+           // foreach (var item in canv)              //переделаю в for()
+            //{
+                //item.Visibility = Visibility.Hidden;
+            //}          
+           // canv[snd.SelectedIndex].Visibility = Visibility.Visible;
         }
-
     }
 }
