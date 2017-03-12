@@ -31,9 +31,9 @@ namespace BaseElements
 
         private List<Frame> frames = new List<Frame>();
         public Frame currentFrame;
+        
 
-        // Методы для работы со списком кадров
-
+        #region Методы для работы со списокм кадров
 
         public Frame GetFrame(int index) {
             if (index >= 0 && index < frames.Count) {
@@ -114,6 +114,6 @@ namespace BaseElements
                 frames.RemoveAt(index + 1);
             }
         }
-
+        #endregion
     }
 }

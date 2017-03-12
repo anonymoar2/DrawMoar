@@ -11,7 +11,7 @@ namespace BaseElements.Brush
         public const int minWidth = 1;
         public const int maxWidth = 256;// хз какой максимальный, измените эту циферку
 
-        private int width = minWidth; // толщина линии
+        private int width = minWidth; // толщина
 
         public int Width {
             get {
@@ -27,8 +27,8 @@ namespace BaseElements.Brush
             }
         }
 
-        private Color mainColor;
-        public Color MainColor {
+        private System.Drawing.Color mainColor;
+        public System.Drawing.Color MainColor {
             get; set;
         }
     }

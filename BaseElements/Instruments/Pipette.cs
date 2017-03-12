@@ -9,10 +9,10 @@ namespace BaseElements.Instruments
 {
     class Pipette
     {
-        Color color;
+        System.Drawing.Color color;
 
-        public string GetPixel(Bitmap bitmap, int x, int y) {
-            return new BaseElements.Color(bitmap.GetPixel(x, y)).ToString();
+        public Color GetPixel(Bitmap bitmap, int x, int y) {
+            return bitmap.GetPixel(x, y);
         }
     }
 }

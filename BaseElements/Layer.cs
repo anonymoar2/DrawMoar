@@ -16,10 +16,6 @@ namespace BaseElements
         /// Название слоя.
         /// </summary>
         protected string name;
-
-        /// <summary>
-        /// Название слоя.
-        /// </summary>
         public string Name {
             get { return name; }
             internal set {
@@ -33,11 +29,10 @@ namespace BaseElements
                 }
             }
         }
-
+        
         /// <summary>
         /// Сохранение слоя.
         /// </summary>
-        /// <param name="WorkingDirectory">Директория в которую сохраняется слой.</param>
-        public abstract void Save(string WorkingDirectory);
+        public abstract void Save();
     }
 }

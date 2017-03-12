@@ -107,11 +107,10 @@ namespace BaseElements
         }
 
         public Cartoon(string name, int width, int height, string workingDirectory) {
-            Name = name;
-            Width = width;
-            Height = height;
-            WorkingDirectory = workingDirectory;
-
+                Name = name;
+                Width = width;
+                Height = height;
+                WorkingDirectory = workingDirectory;
             scenes.Add(new Scene($"scene{scenes.Count}"));
             CurrentScene = scenes.First();
         }
@@ -201,7 +200,6 @@ namespace BaseElements
         /// <param name="firstSceneIndex">Позиция первой сцены.</param>
         /// <param name="secondSceneIndex">Позиция второй сцены.</param>
         public void SwapScenesPositions(int firstSceneIndex, int secondSceneIndex) {
-            // WARNING: Проверить индексы.
             scenes.Insert(secondSceneIndex + 1, scenes[firstSceneIndex]);
             var tmp = scenes[secondSceneIndex];
             scenes.RemoveAt(secondSceneIndex);

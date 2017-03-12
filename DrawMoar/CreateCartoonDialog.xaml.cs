@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Forms;
 
 using BaseElements;
+using System.IO;
 
 namespace DrawMoar
 {
@@ -13,34 +15,39 @@ namespace DrawMoar
         public CreateCartoonDialog() {
             InitializeComponent();
         }
-
-        //!!!ОЧЕНЬ КРИВО!!!
-        //часть проверок есть в Cartoon
+        
         private void creating_Click(object sender, RoutedEventArgs e) {
-            //после презентации, когда будет время сделаю нормально
-            if (getName.Text == "") MessageBox.Show("You haven't entered the name");
-            else if (getHeight.Text == "") MessageBox.Show("You haven't entered the height");
-            else if (getWidth.Text == "") MessageBox.Show("You haven't entered the width");
+            
+            if (getName.Text == "") System.Windows.MessageBox.Show("You haven't entered the name");
+            else if (getHeight.Text == "") System.Windows.MessageBox.Show("You haven't entered the height");
+            else if (getWidth.Text == "") System.Windows.MessageBox.Show("You haven't entered the width");
             else {
                 try {
-                    var CartoonName = getName.Text;
-                    var CartoonHeight = Int32.Parse(getHeight.Text);
-                    var CartoonWidth = Int32.Parse(getWidth.Text);
-                    if (CartoonHeight <= 0 || CartoonWidth <= 0) throw new FormatException();
-                    Hide();
-                    MainWindow mw = (MainWindow)Owner;
-
-                    // TODO: 1) Спросить у пользователя через диалог в каком месте создавать
-                    // рабочую директорию мультфильма. 2) Проверить возможность создания 
-                    // такой директории. 3) Создать или выдать предупреждение и попросить
-                    // попробовать снова.
-                    var dummyPath = Environment.ExpandEnvironmentVariables(@"%USERPROFILE%\Desktop\test");
-                    var cartoon = new Cartoon(CartoonName, CartoonWidth, CartoonHeight, dummyPath);
-                    mw.Success(cartoon);
-
+                    var cartoonName = getName.Text;
+                    var cartoonHeight = Int32.Parse(getHeight.Text);
+                    var cartoonWidth = Int32.Parse(getWidth.Text);
+                    if (cartoonHeight <= 0 || cartoonWidth <= 0) throw new FormatException();
+                    
+                    var folderDDialog = new FolderBrowserDialog();
+                    folderDDialog.ShowDialog();
+                    string selectedDirectory = folderDDialog.SelectedPath;
+                    if (selectedDirectory == "") System.Windows.MessageBox.Show("You doesn't choose the folder");
+                    else {
+                        string workingDirectory = Path.Combine(selectedDirectory, cartoonName);
+                        Directory.CreateDirectory(workingDirectory);
+                        try {
+                            var cartoon = new Cartoon(cartoonName, cartoonWidth, cartoonHeight, workingDirectory);
+                            MainWindow mw = (MainWindow)Owner;
+                            mw.Success(cartoon);
+                            Hide();
+                        }
+                        catch (ArgumentException exeption) {
+                            System.Windows.MessageBox.Show(exeption.Message);
+                        }
+                    }
                 }
                 catch (FormatException) {
-                    MessageBox.Show("Ширина и высота холста должны быть больше 0.");
+                    System.Windows.MessageBox.Show("Ширина и высота холста должны быть больше 0.");
                 }
             }
         }

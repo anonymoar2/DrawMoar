@@ -42,12 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Color.cs" />
     <Compile Include="Instruments\Brush.cs" />
     <Compile Include="Instruments\IBrush.cs" />
     <Compile Include="Cartoon.cs" />
-    <Compile Include="Figures\IFigure.cs" />
-    <Compile Include="Figures\Line.cs" />
+    <Compile Include="Shapes\IShape.cs" />
+    <Compile Include="Shapes\Line.cs" />
     <Compile Include="Frame.cs" />
     <Compile Include="Instruments\Pipette.cs" />
     <Compile Include="Layer.cs" />

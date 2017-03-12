@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BaseElements.Figures
 {
-    public class Line : IFigure
+    public class Line : IShape
     {
         public const int minWidth = 1;
         public const int maxWidth = 256;// хз какой максимальный, измените эту циферку
@@ -27,10 +28,8 @@ namespace BaseElements.Figures
             }
         }
 
-        private Color mainColor;
-        public Color MainColor {
-            get; set;
-        }
+        private Color mainColor = Color.Black;
+        public Color MainColor { get; set; }
     }
 }
 

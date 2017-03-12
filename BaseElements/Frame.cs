@@ -38,13 +38,10 @@ namespace BaseElements
                 }
             }
         }
+        
 
-        // TODO: Подумать, взм переделать конструктор
-        // Пусть в GUI будет задаваться вопрос: Какой слой создавать?
-        // Тогда в конструктор пусть передаётся тип слоя и вызывается
-        // AddRasterLayer() или AddVectorLayer() в зависимости от ситуации.
         public Frame() {
-            layers.Add(new RasterLayer());
+            layers.Add(new RasterLayer()); // По умолчанию всегда создается растровый слой
             CurrentLayer = layers.First();
         }
 
@@ -94,7 +91,6 @@ namespace BaseElements
         /// <param name="firstLayerIndex">Позиция первого слоя.</param>
         /// <param name="secondLayerIndex">Позиция второго слоя.</param>
         public void SwapLayersPositions(int firstLayerIndex, int secondLayerIndex) {
-            // WARNING: проверить индексы.
             layers.Insert(secondLayerIndex + 1, layers[firstLayerIndex]);
             var tmp = layers[secondLayerIndex];
             layers.RemoveAt(secondLayerIndex);
@@ -108,7 +104,7 @@ namespace BaseElements
         /// <param name="index">Позиция поднимаемого слоя.</param>
         public void PutLayerUp(int index) {
             if (index >= 0 && index < layers.Count - 1) {
-                layers.Insert(index + 2, layers[index]); // WARNING: +2 ??
+                layers.Insert(index + 2, layers[index]);
                 layers.RemoveAt(index);
             }
         }
@@ -124,41 +120,25 @@ namespace BaseElements
             }
         }
 
-        // TODO: Переписать MergeLayers на 1) произвольное количество 2) когда буду точно знать как это вот всё хранить
-        // объединение текущего слоя с предыдущим если indexLayer >=1, иначе кидаем исключение
-        public void MergeLayers(int indexLayer) {
-            if (indexLayer > 0) {
-                // Если оба слоя растровые
-                if ((layers[indexLayer] is RasterLayer) && (layers[indexLayer - 1] is RasterLayer)) {
+        //// TODO: Переписать MergeLayers на 1) произвольное количество 2) когда буду точно знать как это вот всё хранить
+        //// объединение текущего слоя с предыдущим если indexLayer >=1, иначе кидаем исключение
+        //public void MergeLayers(int indexLayer) {
+        //    if (indexLayer > 0) {
+        //        // Если оба слоя растровые
+        //        if ((layers[indexLayer] is RasterLayer) && (layers[indexLayer - 1] is RasterLayer)) {
 
-                    using (Graphics gr = Graphics.FromImage(((RasterLayer)layers[indexLayer]).Image)) {
-                        gr.DrawImage(((RasterLayer)layers[indexLayer - 1]).Image, new Point(0, 0));
-                    }
-                    layers.RemoveAt(indexLayer);
-                    layers.RemoveAt(indexLayer);
-                    layers.Insert(indexLayer - 1, new RasterLayer(((RasterLayer)layers[indexLayer - 1]).Image));
-                }
-                // Если нижний слой растровый, а верхний векторный
-                if ((layers[indexLayer] is RasterLayer) && (layers[indexLayer - 1] is VectorLayer)) {
-                    /// TODO: Запилить склейку слоёв
-                }
-                // Если нижний векторный а верхний растровый
-                if ((layers[indexLayer] is VectorLayer) && (layers[indexLayer - 1] is RasterLayer)) {
-                    /// TODO: Запилить склейку слоёв x2
-                }
-                if ((layers[indexLayer] is VectorLayer) && (layers[indexLayer - 1] is VectorLayer)) {
-                    var layer = new VectorLayer();
-                    var firstFigures = ((VectorLayer)layers[indexLayer - 1]).figures;
-                    var lastFigures = ((VectorLayer)layers[indexLayer]).figures;
-                    layer.figures.AddRange(firstFigures);
-                    layer.figures.AddRange(lastFigures);
-                    layers.Insert(indexLayer - 1, layer);
-                }
-            }
-            else {
-                throw new ArgumentException("Переданный параметр indexLayer не может быть <= 0");
-            }
-        }
+        //            using (Graphics gr = Graphics.FromImage(((RasterLayer)layers[indexLayer]).Image)) {
+        //                gr.DrawImage(((RasterLayer)layers[indexLayer - 1]).Image, new Point(0, 0));
+        //            }
+        //            layers.RemoveAt(indexLayer);
+        //            layers.RemoveAt(indexLayer);
+        //            layers.Insert(indexLayer - 1, new RasterLayer(((RasterLayer)layers[indexLayer - 1]).Image));
+        //        }
+        //    }
+        //    else {
+        //        throw new ArgumentException("Переданный параметр indexLayer не может быть <= 0");
+        //    }
+        //}
         #endregion
 
         // Использовать только если для каждого фрейма будет своя директория.
