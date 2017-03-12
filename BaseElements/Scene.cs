@@ -25,10 +25,8 @@ namespace BaseElements
             name = sceneName;
         }
 
-        public Layer[] layers = null; // TODO: Подумать над контейнером слоёв, возможно запилить отдельный класс
-        // TODO: Метод для добавления в контейнер слоёв нового слоя
-
-
+        private List<Layer> savedLayers = new List<Layer>(); 
+        
         private List<Frame> frames = new List<Frame>();
         public Frame currentFrame;
         
@@ -49,15 +47,15 @@ namespace BaseElements
         }
 
 
-        // Добавлене кадра в конец списка кадров
-        public void AddScene() {
+        // Добавлене пустого кадра в конец списка кадров
+        public void AddFrame() {
             frames.Add(new Frame());
             currentFrame = frames.Last();
         }
 
 
         // Удаление кадра по индексу
-        public void RemoveAt(int index) {
+        public void RemoveFrameAt(int index) {
             if (index >= 0 && index <= frames.Count) {
                 frames.RemoveAt(index);
             }
@@ -115,5 +113,60 @@ namespace BaseElements
             }
         }
         #endregion
+
+        #region Методы для работы с контейнером слоёв
+
+
+        public Layer GetSavedLayers(int index) {
+            if (index >= 0 && index < savedLayers.Count) {
+                var layer = savedLayers[index];
+                return layer;
+            }
+            else throw new ArgumentException($"Переданный параметр index не может быть < 0 или > {savedLayers.Count}");
+        }
+
+
+        public List<Layer> GetSavedLayers() {
+            return savedLayers;
+        }
+
+
+        // Добавлене слоя в конец контейнера слоёв
+        public void AddSavedLayers(Layer layer) {
+            savedLayers.Add(layer);
+        }
+
+
+        // Удаление слоя из контейнера слоёв по индексу
+        public void RemoveSavedLayerAt(int index) {
+            if (index >= 0 && index <= frames.Count) {
+                frames.RemoveAt(index);
+            }
+            else {
+                throw new ArgumentException($"Переданный индекс должен быть >= 0 и <= {frames.Count}");
+            }
+        }
+
+
+        public int IndexOf(Frame frame) {
+            return frames.IndexOf(frame);
+        }
+
+
+        public void RemoveFrame(Frame frame) {
+            frames.Remove(frame);
+        }
+
+
+        // Вставка кадра по индексу
+        public void InsertFrame(int index, Frame frame) {
+            if (index >= 0 && index <= frames.Count) {
+                frames.Insert(index, frame);
+            }
+            else {
+                throw new ArgumentException($"Переданный индекс должен быть >= 0 и <= {frames.Count}");
+            }
+        }
+
     }
 }
