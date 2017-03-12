@@ -5,37 +5,39 @@ namespace BaseElements
 {
     public abstract class Layer
     {
-        // true - слой видимый, false - невидимый, при экспорте кадра в картинку 
-        // картинка получается только из видимых слоёв
+        /// <summary>
+        /// Состояние видимости слоя. 
+        /// true - слой видимый, false - невидимый.
+        /// При экспорте кадра в картинку картинка получается только из видимых слоёв.
+        /// </summary>
         public bool Visible { get; set; }
+
+        /// <summary>
+        /// Название слоя.
+        /// </summary>
         protected string name;
 
         /// <summary>
-        /// Layer's name.
+        /// Название слоя.
         /// </summary>
         public string Name {
             get { return name; }
             internal set {
-                // Change regex to more acceptable.
+                // TODO: Изменить регулярное выражение на более подходящее
                 if (Regex.IsMatch(value, @"[a-zA-Z0-9]+")) {
                     name = value;
                 }
                 else {
-                    throw new ArgumentException("Cartoon name must contain only letters and numbers.");
+                    throw new ArgumentException("Название слоя должно состоять только " + 
+                                                "из латинских букв и цифр.");
                 }
             }
         }
 
-        // Какие-то ещё параметры в будущем возможно
-
         /// <summary>
-        /// Save layer in WorkingDirectory
+        /// Сохранение слоя.
         /// </summary>
-        /// <returns></returns>
-        public virtual void Save(string WorkingDirectory) {
-            // xz
-        }
-        
-        // Ещё тут будет transformation, чуть позже добавлю, пока думаю и так работы хватит
+        /// <param name="WorkingDirectory">Директория в которую сохраняется слой.</param>
+        public abstract void Save(string WorkingDirectory);
     }
 }

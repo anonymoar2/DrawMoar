@@ -1,38 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
-
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace BaseElements
 {
-    internal class RasterLayer: Layer
+    internal class RasterLayer : Layer
     {
         // Конструктор из картинки будет в импортере, там делаем из картинки Image и сюда пихаем
-        public Image image { get; private set; }
-        public Bitmap bitmap { get; private set; } // нужно ли?
-
+        public Image Image { get; private set; }
+        public Bitmap Bitmap { get; private set; } // нужно ли?
 
         public RasterLayer() {
-            /// TODO: Конструкторы
+            // TODO: Конструкторы
         }
-        
-        
+
         public RasterLayer(Image image) {
-            this.image = image;
+            Image = image;
         }
-        
+
         /// <summary>
-        /// Save layer
+        /// Сохранение слоя.
         /// </summary>
-        /// <param name="WorkingDirectory"></param>
-        /// <returns></returns>
+        /// <param name="WorkingDirectory">Директория в которую сохраняется слой.</param>
         public override void Save(string WorkingDirectory) {
             string pathToFile = Path.Combine(WorkingDirectory, $"{Name}.png");
-            image.Save(pathToFile);
+            Image.Save(pathToFile);
             // потом будет метод в экспорте, и будет вызываться он отсюда, а это как обертка такая просто будет
         }
     }

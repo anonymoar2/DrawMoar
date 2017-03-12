@@ -1,13 +1,9 @@
-﻿using BaseElements;
-using Exporter.Photo;
-using Exporter.Video;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -17,6 +13,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
+
+using BaseElements;
+using Exporter.Photo;
+using Exporter.Video;
 
 namespace DrawMoar
 {
@@ -25,10 +26,10 @@ namespace DrawMoar
     /// </summary>
     public partial class MainWindow : Window
     {
-        Cartoon cartoon;
+        private Cartoon cartoon;
         public bool ex = false;
-        public MainWindow()
-        {
+
+        public MainWindow() {
             InitializeComponent();
             // при создании окна области рисования нет
 
@@ -40,7 +41,7 @@ namespace DrawMoar
             // и на нём первый пустой слой
 
             // для теста, потом всё это можно будет поменять без проблем
-            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
             GlobalState.Color = Brushes.Black;
             GlobalState.BrushSize = new Size(5, 5);
         }
@@ -49,24 +50,20 @@ namespace DrawMoar
         private List<Label> labels = new List<Label>();
         private List<InkCanvas> canv = new List<InkCanvas>();
 
-        private void CreateCartoon(object sender, RoutedEventArgs e)
-        {
+        private void CreateCartoon(object sender, RoutedEventArgs e) {
             // создаём новый пустой кадр
             // на кадре новый пустой слой создаём
             var newCartoonDialog = new CreateCartoonDialog();
             newCartoonDialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             newCartoonDialog.Owner = this;
             newCartoonDialog.Show();
-
         }
 
         /// <summary>
         /// по нажатию в двух местах канваса сделать создание линии и других фигур
         ///  
         /// </summary>
-        private void AddLine(object sender, RoutedEventArgs e)
-        {
-
+        private void AddLine(object sender, RoutedEventArgs e) {
             var myLine = new Line();
             myLine.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
 
@@ -81,10 +78,8 @@ namespace DrawMoar
             //canvas.Children.Add(myLine);
         }
 
-
-        private void ExportToMP4(object sender, RoutedEventArgs e)
-        {
-            for(int i = 0; i < canv.Count; i++) {
+        private void ExportToMP4(object sender, RoutedEventArgs e) {
+            for (int i = 0; i < canv.Count; i++) {
                 if (canv[i].Visibility == Visibility.Hidden) {
                     canv[i].Visibility = Visibility.Visible;
                     cartoon.GetFrame(i).Bitmap = CanvasToBitmap(canv[i]);
@@ -158,8 +153,7 @@ namespace DrawMoar
         //    }
         //}
 
-        public void Success(Cartoon cartoon)
-        {
+        public void Success(Cartoon cartoon) {
             ex = true;
             this.cartoon = cartoon;
             canvas.Visibility = Visibility.Visible;
@@ -175,14 +169,11 @@ namespace DrawMoar
             canvas.Opacity = 1;*/
         }
 
-        private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e)
-        {
+        private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e) {
             canv[frames.SelectedIndex].DefaultDrawingAttributes.Color = ClrPcker_Background.SelectedColor.Value;
         }
 
-
-        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
+        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e) {
             frames.Height = (rootGrid.ActualHeight - buttons.ActualHeight - smth.ActualHeight) / 2;     //не знаю, стоит ли так делать
             layers.Height = (rootGrid.ActualHeight - buttons.ActualHeight - smth.ActualHeight) / 2;         //smth - выделение места под что-то (макет Ирины)
         }
@@ -209,16 +200,15 @@ namespace DrawMoar
             }
         }
 
-        private void frames_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        private void frames_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             cartoon.currentFrame.Bitmap = CanvasToBitmap(canvas);
             var snd = sender as ListBox;
             var selIndex = snd.SelectedIndex;   //дальше в коде употреблялось
-            
+
             foreach (var item in canv)              //переделаю в for()
             {
                 item.Visibility = Visibility.Hidden;
-            }          
+            }
             canv[selIndex].Visibility = Visibility.Visible;
             //cartoon.currentFrame = cartoon.GetFrame(frames.SelectedIndex);
             //здесь был функционал полупрозрачности
@@ -242,8 +232,6 @@ namespace DrawMoar
             rtb.Render(canvas);
             return rtb;
         }
-
-
 
         public void SaveCurrentCanvas() {
             cartoon.currentFrame.Bitmap = CanvasToBitmap(canvas);
