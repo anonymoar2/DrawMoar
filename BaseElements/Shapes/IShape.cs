@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaseElements.Brush
+namespace BaseElements.Figures
 {
-    public interface IBrush
+    // May be it must be abstract class
+    interface IShape
     {
         int Width { get; set; }
-
-        System.Drawing.Color MainColor { get; set; }
         
+        System.Drawing.Color MainColor { get; set; } // основной
     }
 }
