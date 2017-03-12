@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 
@@ -15,8 +15,6 @@ namespace DrawMoar
     {
         public static bool PressLeftButton { get; set; }
 
-        
-
         // Используется для изменения порядка слоев 
         public static int LayersCount { get; set; }
 
@@ -24,8 +22,6 @@ namespace DrawMoar
         public static int LayersIndexes { get; set; }
 
         public static Brush Color = Brushes.Black;
-        
-        
 
         private static Size _brushSize;
         public static Size BrushSize {
@@ -33,6 +29,5 @@ namespace DrawMoar
             set { _brushSize = value; }
         }
     }
-    
 }
 

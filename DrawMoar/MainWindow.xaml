@@ -7,13 +7,13 @@
         xmlns:local="clr-namespace:DrawMoar"
         mc:Ignorable="d"
         Title="DrawMoar" Height="350" Width="530">
-    <Grid Background="LightGray">
-        <Menu x:Name="menu" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="120">
+    <Grid Name="rootGrid"  SizeChanged="Grid_SizeChanged" Background="LightGray">
+        <Menu x:Name="menu" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="130">
             <MenuItem Header="File">
                 <MenuItem Header="New"
                           Click="CreateCartoon"/>
                 <MenuItem Header="Open"/>
-                <MenuItem Header="Save"/>
+                <MenuItem Name="menuSave" Header="Save" Command="Save" InputGestureText="Ctrl+S"/>
                 <MenuItem Header="Save as...">
                     <MenuItem Header="MP4"
                               Click="ExportToMP4"/>
@@ -29,31 +29,45 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <DockPanel Name="rootPanel" LastChildFill="False">
-            <Grid DockPanel.Dock="Left"  Background="WhiteSmoke" MinWidth="120" Margin="0,20,0,0" Width="108">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width ="60"></ColumnDefinition>
-                    <ColumnDefinition Width="60"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
+        <DockPanel Name="rootPanel" LastChildFill="True">
+            <StackPanel DockPanel.Dock="Left" Margin="0,20,0,0" Background="WhiteSmoke" MinWidth="130" MaxWidth="120">
+                <WrapPanel Height="160">
+                    <Button x:Name="button1" Height ="25" Width="37" Margin="5,5" Content="Lines" Click="AddLine"/>
+                </WrapPanel>
+                <WrapPanel Height="40">
+                    <xctk:ColorPicker x:Name="ClrPcker_Background"  Margin="65,7,0,0" SelectedColorChanged="ClrPcker_Background_SelectedColorChanged" Height="25" Width="50"/>
+                </WrapPanel>
+                <WrapPanel Height="100">
+                    <Slider x:Name="slider" Width="100" Margin="10,10"/>
+                </WrapPanel>
+
+            </StackPanel>
+            <StackPanel Name="rightPanel" DockPanel.Dock="Right" Background="WhiteSmoke" MinWidth="130">
+                <WrapPanel Name="buttons" Height="40">
+                    <Button x:Name="AddFrame" Content="+Frame" Width="50" Margin="5,10" Click="AddFrame_Click"/>
+                </WrapPanel>
+                <ListBox Name="layers" Width="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                         BorderBrush="LightGray" MinHeight="120"/>
+                <WrapPanel Name="smth" Width="120" MinHeight="40"/>
+                <ListBox  x:Name="frames" Width="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                          BorderBrush="LightGray" ItemsSource="{Binding labels}" SelectionChanged="frames_SelectionChanged" MinHeight="120">
+                </ListBox>
+            </StackPanel>
+            <Grid Name="CenterGrid">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="40"></RowDefinition>
-                    <RowDefinition Height="40"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <Button x:Name="button1" Height ="30" Width="50" Content="Lines" Click="AddLine"/>
-                <Button x:Name="button" Content="Brush" Height="30" Width="50" Grid.Column="1" />
-                <Button x:Name="button2" Content="Button" Height="30" Width="50" Grid.Row="1"/>
-                <Button x:Name="button3" Grid.Column="1" Height="30" Width="50" Grid.Row="1" Click="button3_Click"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <InkCanvas Name="canvas" Width="200" Height="200" Visibility="Hidden" VerticalAlignment="Center" HorizontalAlignment="Center" />
             </Grid>
-            <StackPanel DockPanel.Dock="Right" MinWidth="120">
-                <WrapPanel x:Name="listBox" HorizontalAlignment="Left" Width="121" MinHeight="160" 
-                           Background="WhiteSmoke" VerticalAlignment="Top"/>
-                <WrapPanel x:Name="listBox1" HorizontalAlignment="Left" Width="120" MinHeight="160" Background="WhiteSmoke" VerticalAlignment="Top">
-                    <xctk:ColorPicker x:Name="ClrPcker_Background" Margin="65,5,0,0" SelectedColorChanged="ClrPcker_Background_SelectedColorChanged" Height="25" Width="50"/>
-                </WrapPanel>
-            </StackPanel>
         </DockPanel>
-        <InkCanvas x:Name="canvas" EditingMode="None" x:FieldModifier="private" 
-                       Opacity="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="160,34,162,85" Width="200" Height="200"/>
     </Grid>
+    <Window.CommandBindings>
+        <CommandBinding Command="Save" Executed="ButtonSaveClicked"></CommandBinding>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="S" Modifiers="Control" Command="Save"></KeyBinding>
+    </Window.InputBindings>
 </Window>
