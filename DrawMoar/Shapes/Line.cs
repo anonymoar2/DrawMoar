@@ -5,9 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BaseElements;
+
 namespace BaseElements.Figures
 {
-    public class Line : IShape
+    /// <summary>
+    /// Каждая фигура это слой новый векорный поэтому наследуется от этого класса
+    /// </summary>
+    public class Line : VectorLayer
     {
         public const int minWidth = 1;
         public const int maxWidth = 256;// хз какой максимальный, измените эту циферку

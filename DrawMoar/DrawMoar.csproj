@@ -83,7 +83,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="RasterLayerView.cs" />
-    <Compile Include="Shapes\IShape.cs" />
     <Compile Include="Shapes\Line.cs" />
     <Compile Include="VectorLayerView.cs" />
     <Page Include="CreateCartoonDialog.xaml">
