@@ -7,6 +7,9 @@ namespace BaseElements
 {
     public class Scene
     {
+        /// <summary>
+        /// Название (имя) сцены
+        /// </summary>
         private string name;
         public string Name {
             get { return name; }
@@ -21,18 +24,48 @@ namespace BaseElements
             }
         }
 
+
+        /// <summary>
+        /// Контейнер слоёв, не путаем со списком слоёв в каждом кадре
+        /// </summary>
+        private List<Layer> savedLayers = new List<Layer>();
+
+
+        /// <summary>
+        /// Список кадров сцены
+        /// </summary>
+        private List<Frame> frames = new List<Frame>();
+
+
+        /// <summary>
+        /// Текущий кадр
+        /// </summary>
+        public Frame currentFrame;
+
+        /// <summary>
+        /// Создает сцену с указанным именем
+        /// </summary>
+        /// <param name="sceneName">Имя сцены</param>
         public Scene(string sceneName) {
             name = sceneName;
         }
 
-        private List<Layer> savedLayers = new List<Layer>(); 
-        
-        private List<Frame> frames = new List<Frame>();
-        public Frame currentFrame;
-        
+
+        /// <summary>
+        /// Создает сцену со стандартным именем "newScene"
+        /// </summary>
+        public Scene() {
+            name = "newScene";
+        }
+
 
         #region Методы для работы со списокм кадров
 
+        /// <summary>
+        /// Получение кадра
+        /// </summary>
+        /// <param name="index">Индекс кадра который хотим получить</param>
+        /// <returns>Кадр с перееданным индексом</returns>
         public Frame GetFrame(int index) {
             if (index >= 0 && index < frames.Count) {
                 var frame = frames[index];
@@ -42,22 +75,44 @@ namespace BaseElements
         }
 
 
-        public List<Frame> GetAllScenes() {
+        /// <summary>
+        /// Получить все кадры сцены
+        /// </summary>
+        /// <returns>Список всех кадров сцены</returns>
+        public List<Frame> GetAllFrames() {
             return frames;
         }
 
 
-        // Добавлене пустого кадра в конец списка кадров
+        /// <summary>
+        /// Добавить новый пустой кадр в конец списка кадров
+        /// </summary>
         public void AddFrame() {
             frames.Add(new Frame());
             currentFrame = frames.Last();
         }
 
 
-        // Удаление кадра по индексу
+        /// <summary>
+        /// Добавить кадр в конец списка кадров
+        /// </summary>
+        /// <param name="frame">Кадр, который нужно добавить в конец списка кадров</param>
+        public void AddFrame(Frame frame) {
+            frames.Add(frame);
+            currentFrame = frames.Last();
+        }
+
+
+        /// <summary>
+        /// Удаление кадра с переданным индексом
+        /// </summary>
+        /// <param name="index">Индекс кадра который нужно удалить</param>
         public void RemoveFrameAt(int index) {
-            if (index >= 0 && index <= frames.Count) {
+            if (index >= 0 && index < frames.Count) {
                 frames.RemoveAt(index);
+                if(index == frames.Count - 1) {
+                    currentFrame = frames.Last();
+                }
             }
             else {
                 throw new ArgumentException($"Переданный индекс должен быть >= 0 и <= {frames.Count}");
@@ -65,20 +120,53 @@ namespace BaseElements
         }
 
 
+        /// <summary>
+        /// Получение индекса переданного кадра
+        /// </summary>
+        /// <param name="frame">Кадр индекс которого нужно получить</param>
+        /// <returns>Индекс переданного кадра</returns>
         public int IndexOf(Frame frame) {
             return frames.IndexOf(frame);
         }
 
 
+        /// <summary>
+        /// Удаление кадра
+        /// </summary>
+        /// <param name="frame">Кадр который необходимо удалить</param>
         public void RemoveFrame(Frame frame) {
             frames.Remove(frame);
         }
 
-
-        // Вставка кадра по индексу
+        
+        /// <summary>
+        /// Вставка кадра по индексу
+        /// </summary>
+        /// <param name="index">Индекс по которому нужно вставить кадр</param>
+        /// <param name="frame">Кадр который нужно вставить</param>
         public void InsertFrame(int index, Frame frame) {
             if (index >= 0 && index <= frames.Count) {
                 frames.Insert(index, frame);
+                if(index == frames.Count) {
+                    currentFrame = frames.Last();
+                }
+            }
+            else {
+                throw new ArgumentException($"Переданный индекс должен быть >= 0 и <= {frames.Count}");
+            }
+        }
+        
+
+        /// <summary>
+        /// Добавление пустого кадра по переданному индексу
+        /// </summary>
+        /// <param name="index">Индекс по которому нужно вставить кадр</param>
+        public void InsertEmptyFrame(int index) {
+            if (index >= 0 && index <= frames.Count) {
+                frames.Insert(index, new Frame());
+                if (index == frames.Count) {
+                    currentFrame = frames.Last();
+                }
             }
             else {
                 throw new ArgumentException($"Переданный индекс должен быть >= 0 и <= {frames.Count}");
@@ -86,17 +174,24 @@ namespace BaseElements
         }
 
 
-        // Изменение порядка кадров
-        public void ChangeOrder(int indexOne, int indexTwo) {
-            frames.Insert(indexTwo + 1, frames[indexOne]);
-            var tmp = frames[indexTwo];
-            frames.RemoveAt(indexTwo);
-            frames.RemoveAt(indexOne);
-            frames.Insert(indexOne, tmp);
+        /// <summary>
+        /// Изменение порядка кадров с переданными индексами
+        /// </summary>
+        /// <param name="firstFrameIndex">Индекс первого кадра</param>
+        /// <param name="secondFrameIndex">Индекс второго кадра</param>
+        public void ChangeOrderFrames(int firstFrameIndex, int secondFrameIndex) {
+            frames.Insert(secondFrameIndex + 1, frames[firstFrameIndex]);
+            var tmp = frames[secondFrameIndex];
+            frames.RemoveAt(secondFrameIndex);
+            frames.RemoveAt(firstFrameIndex);
+            frames.Insert(firstFrameIndex, tmp);
         }
 
 
-        // Поднятие кадра вверх
+        /// <summary>
+        /// Поднятие кадра по списку кадров на позицию вверх
+        /// </summary>
+        /// <param name="index">Индекс кадра который нужно поднять</param>
         public void UpFrame(int index) {
             if (index >= 0 && index < frames.Count - 1) {
                 frames.Insert(index + 2, frames[index]);
@@ -104,8 +199,10 @@ namespace BaseElements
             }
         }
 
-
-        // Опускание кадра вниз
+        /// <summary>
+        /// Перемещение кадра из списка кадров на позицию вниз
+        /// </summary>
+        /// <param name="index">Индекс кадра который нужно переместить вниз</param>
         public void DownFrame(int index) {
             if (index > 0 && index < frames.Count) {
                 frames.Insert(index - 1, frames[index]);
@@ -117,7 +214,12 @@ namespace BaseElements
         #region Методы для работы с контейнером слоёв
 
 
-        public Layer GetSavedLayers(int index) {
+        /// <summary>
+        /// Получение слоя
+        /// </summary>
+        /// <param name="index">Индекс слоя который хотим получить</param>
+        /// <returns>Слой с перееданным индексом</returns>
+        public Layer GetSavedLayer(int index) {
             if (index >= 0 && index < savedLayers.Count) {
                 var layer = savedLayers[index];
                 return layer;
@@ -126,47 +228,108 @@ namespace BaseElements
         }
 
 
-        public List<Layer> GetSavedLayers() {
+        /// <summary>
+        /// Получить все слои из контейнера слоёв
+        /// </summary>
+        /// <returns>Список всех слоёв из контейнера сцены</returns>
+        public List<Layer> GetAllSavedLayer() {
             return savedLayers;
         }
 
 
-        // Добавлене слоя в конец контейнера слоёв
-        public void AddSavedLayers(Layer layer) {
-            savedLayers.Add(layer);
+        /// <summary>
+        /// Добавить текущий слой текущего кадра в конец контейнера слоёв
+        /// </summary>
+        public void SaveSavedLayer() {
+            savedLayers.Add(currentFrame.CurrentLayer);
         }
 
 
-        // Удаление слоя из контейнера слоёв по индексу
+        /// <summary>
+        /// Удаление слоя с переданным индексом
+        /// </summary>
+        /// <param name="index">Индекс слоя который нужно удалить</param>
         public void RemoveSavedLayerAt(int index) {
-            if (index >= 0 && index <= frames.Count) {
-                frames.RemoveAt(index);
+            if (index >= 0 && index < savedLayers.Count) {
+                savedLayers.RemoveAt(index);
             }
             else {
-                throw new ArgumentException($"Переданный индекс должен быть >= 0 и <= {frames.Count}");
+                throw new ArgumentException($"Переданный индекс должен быть >= 0 и <= {savedLayers.Count}");
             }
         }
 
 
-        public int IndexOf(Frame frame) {
-            return frames.IndexOf(frame);
+        /// <summary>
+        /// Получение индекса переданного слоя
+        /// </summary>
+        /// <param name="layer">Слой индекс которого нужно получить</param>
+        /// <returns>Индекс переданного кадра</returns>
+        public int IndexOf(Layer layer) {
+            return savedLayers.IndexOf(layer);
         }
 
 
-        public void RemoveFrame(Frame frame) {
-            frames.Remove(frame);
+        /// <summary>
+        /// Удаление слоя
+        /// </summary>
+        /// <param name="layer">Слой который необходимо удалить</param>
+        public void RemoveSavedLayer(Layer layer) {
+            savedLayers.Remove(layer);
         }
 
 
-        // Вставка кадра по индексу
-        public void InsertFrame(int index, Frame frame) {
-            if (index >= 0 && index <= frames.Count) {
-                frames.Insert(index, frame);
+        /// <summary>
+        /// Вставка слоя по индексу
+        /// </summary>
+        /// <param name="index">Индекс по которому нужно вставить слой</param>
+        /// <param name="layer">слой который нужно вставить</param>
+        public void InsertFrame(int index, Layer layer) {
+            if (index >= 0 && index <= savedLayers.Count) {
+                savedLayers.Insert(index, layer);
             }
             else {
-                throw new ArgumentException($"Переданный индекс должен быть >= 0 и <= {frames.Count}");
+                throw new ArgumentException($"Переданный индекс должен быть >= 0 и <= {savedLayers.Count}");
             }
         }
+
+
+        /// <summary>
+        /// Изменение порядка слоёв с переданными индексами
+        /// </summary>
+        /// <param name="firstSavedLayerIndex">Индекс первого слоя</param>
+        /// <param name="secondSavedLayerIndex">Индекс второго слоя</param>
+        public void ChangeOrderSavedLayers(int firstSavedLayerIndex, int secondSavedLayerIndex) {
+            frames.Insert(secondSavedLayerIndex + 1, frames[firstSavedLayerIndex]);
+            var tmp = frames[secondSavedLayerIndex];
+            frames.RemoveAt(secondSavedLayerIndex);
+            frames.RemoveAt(firstSavedLayerIndex);
+            frames.Insert(firstSavedLayerIndex, tmp);
+        }
+
+
+        /// <summary>
+        /// Поднятие слоя по списку слоёв на позицию вверх
+        /// </summary>
+        /// <param name="index">Индекс слоя который нужно поднять</param>
+        public void UpSavedLayer(int index) {
+            if (index >= 0 && index < savedLayers.Count - 1) {
+                savedLayers.Insert(index + 2, savedLayers[index]);
+                savedLayers.RemoveAt(index);
+            }
+        }
+
+
+        /// <summary>
+        /// Перемещение слоя из списка слоёв на позицию вниз
+        /// </summary>
+        /// <param name="index">Индекс слоя который нужно переместить вниз</param>
+        public void DownSavedLayer(int index) {
+            if (index > 0 && index < savedLayers.Count) {
+                savedLayers.Insert(index - 1, savedLayers[index]);
+                savedLayers.RemoveAt(index + 1);
+            }
+        }
+        #endregion
 
     }
 }
