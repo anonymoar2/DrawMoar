@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using BaseElements;
 
-namespace BaseElements.Figures
+namespace DrawMoar.Shapes
 {
     /// <summary>
     /// Каждая фигура это слой новый векорный поэтому наследуется от этого класса

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaseElements.Instruments
+namespace DrawMoar.Instruments
 {
     class Pipette
     {
