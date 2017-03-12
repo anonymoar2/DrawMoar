@@ -44,8 +44,11 @@
         </Menu>
         <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="5" Background="Snow"/>
         <Border Grid.Column="3" Grid.Row="0" Grid.RowSpan="6" Background="Snow"/>
-        <WrapPanel Name="figurePanel" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
+        <WrapPanel Name="figurePanel" Grid.Column="0" Grid.Row="1"  MaxWidth="130" Grid.RowSpan="2">
             <Button x:Name="button1" Height ="25" Width="37" Margin="5,5" Content="Lines" Click="AddLine"/>
+            <Button x:Name="testButton" Height ="25" Width="37" Margin="5,5" Content="Brush" Click="testButton_Click"/>
+            <Button x:Name="testButton2" Height ="25" Width="37" Margin="5,5" Content="Arrow" Click="testButton2_Click"/>
+            
         </WrapPanel>
         <WrapPanel Name="palette" Grid.Column="0" Grid.Row="3">
             <xctk:ColorPicker x:Name="ClrPcker_Background"  Margin="65,7,0,0" SelectedColorChanged="ClrPcker_Background_SelectedColorChanged" Height="25" Width="50"/>
@@ -60,9 +63,9 @@
                          BorderBrush="LightGray" Grid.Column="2" Grid.Row="2"/>
         <WrapPanel Name="smth" Width="120" Grid.Column="2" Grid.Row="3"/>
         <ListBox  x:Name="framesList" Width="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                          BorderBrush="LightGray" ItemsSource="{Binding labels}" SelectionChanged="frames_SelectionChanged"
+                          BorderBrush="LightGray" ItemsSource="{Binding layers}" SelectionChanged="framesList_SelectionChanged"
                           Grid.Column="2" Grid.Row="4">
         </ListBox>
-        <Canvas Name="canvas" Width="250" Height="300" Grid.RowSpan="4" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Canvas Name="canvas" Width="250" Height="300" Visibility="Hidden" Background="White" Grid.RowSpan="4" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </Grid>
 </Window>

@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BaseElements;
+using BaseElements.Instruments;
 
 namespace DrawMoar
 {
@@ -38,13 +39,14 @@ namespace DrawMoar
 
             // для теста, потом всё это можно будет поменять без проблем
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            GlobalState.ChangeInstrument += SetCursorStyle;
             GlobalState.Color = Brushes.Black;
             GlobalState.BrushSize = new Size(5, 5);
         }
 
-        private int TotalFrames = 0;                        //перенести в GlobalState?
-        private List<Label> labels = new List<Label>();     //реализовать пользовательский контрол?
-                                                                     //тогда отрисовку придется выносить в отдельный класс и она будет сложнее - много работы в плане 
+        private List<FrameControl> frames = new List<FrameControl>();
+        private List<Label> labels = new List<Label>();
+        //тогда отрисовку придется выносить в отдельный класс и она будет сложнее - много работы в плане 
 
         private void CreateCartoon(object sender, RoutedEventArgs e)
         {
@@ -136,9 +138,10 @@ namespace DrawMoar
             canvas.Visibility = Visibility.Visible;
             canvas.Width = cartoon.Width;
             canvas.Height = cartoon.Height;
-            //canvas.EditingMode = InkCanvasEditingMode.Ink;
-            //canv.Add(canvas);
             this.cartoon = cartoon;
+            GlobalState.canvSize = new Size(canvas.Width, canvas.Height);
+            this.Height = canvas.Height;
+            this.Width = canvas.Width + 260;        //пока что так (ширина двух крайних колонок грида)
             AddFrame_Click(null, null);
         }
 
@@ -169,36 +172,65 @@ namespace DrawMoar
 
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e)
         {
-            //canv[frames.SelectedIndex].DefaultDrawingAttributes.Color = ClrPcker_Background.SelectedColor.Value;
+            //позже
         }
 
 
         private void AddFrame_Click(object sender, RoutedEventArgs e)
         {
-            if (cartoon != null)
+            var frame = new FrameControl();
+            canvas.Children.Add(frame);
+            var lbl = new Label();
+            lbl.Content = $"frame_{GlobalState.FramesCount}";
+            lbl.Height = 40;
+            lbl.Width = 70;
+            framesList.Items.Add(lbl);
+            GlobalState.LayersIndexes++;
+            framesList.SelectedIndex = framesList.Items.Count-1;
+            canvas.Children[framesList.SelectedIndex].Focus();
+        }
+
+        /// <summary>
+        ///     Изменение курсора мыши в зависимости от выбранного инструмента
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SetCursorStyle(Object sender, EventArgs e)
+        {
+            switch (GlobalState.CurrentTool)
             {
-                if (e != null)
-                {
-                                 
-                }
-                var lbl = new Label();
-                lbl.Content = $"frame_{TotalFrames++}";
-                lbl.Width = 110;
-                lbl.Height = 40;
-                framesList.Items.Add(lbl);
-                framesList.SelectedItem = framesList.Items[framesList.Items.Count - 1];
-               ((UIElement)framesList.Items[framesList.Items.Count - 1]).Focus();      //все равно не получается выделить полноценно синим, как при клике мышкой
+                case Instruments.Brush:
+                    canvas.Cursor = Cursors.Cross;
+                    break;
+                default:
+                    canvas.Cursor = Cursors.Arrow;
+                    break;
             }
         }
 
-        private void frames_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var snd = sender as ListBox;
-           // foreach (var item in canv)              //переделаю в for()
-            //{
-                //item.Visibility = Visibility.Hidden;
-            //}          
-           // canv[snd.SelectedIndex].Visibility = Visibility.Visible;
+            UIElement frame = canvas.Children[framesList.SelectedIndex];            
+            frame.Visibility = Visibility.Visible;
+            frame.Focus();
+            foreach (FrameControl child in canvas.Children)
+            {
+                if (child != frame)
+                {
+                    child.Visibility = Visibility.Hidden;
+                    child.NonFocus(null, null);
+                }
+            }
+        }
+
+        private void testButton_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalState.CurrentTool = Instruments.Brush;
+        }
+
+        private void testButton2_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalState.CurrentTool = Instruments.Arrow;
         }
     }
 }

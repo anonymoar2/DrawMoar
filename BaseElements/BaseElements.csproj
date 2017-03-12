@@ -48,6 +48,7 @@
     <Compile Include="Figures\IFigure.cs" />
     <Compile Include="Figures\Line.cs" />
     <Compile Include="Frame.cs" />
+    <Compile Include="Instruments\Instruments.cs" />
     <Compile Include="Instruments\Pipette.cs" />
     <Compile Include="Layer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

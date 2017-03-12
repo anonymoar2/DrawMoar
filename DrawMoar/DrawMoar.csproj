@@ -79,6 +79,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\FrameControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CreateCartoonDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -91,6 +95,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\FrameControl.xaml.cs">
+      <DependentUpon>FrameControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\VisualHost.cs" />
     <Compile Include="CreateCartoonDialog.xaml.cs">
       <DependentUpon>CreateCartoonDialog.xaml</DependentUpon>
     </Compile>
@@ -134,6 +142,7 @@
       <Name>BaseElements</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
