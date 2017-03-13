@@ -63,7 +63,7 @@ namespace BaseElements
             // WARNING: стоит ли обеспечить уникальность имён слоёв?
             // в многопоточном коде layers.Count может быть одинаковым
             // для двух разных потоков во время вызова этого метода.
-            layers.Add(new VectorLayer() { Name = $"vector{layers.Count}" });
+            layers.Add(new IVectorLayer() { Name = $"vector{layers.Count}" });
         }
 
         /// <summary>

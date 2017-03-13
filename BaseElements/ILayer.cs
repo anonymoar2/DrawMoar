@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace BaseElements
 {
-    interface ILayer
+    public interface ILayer
     {
         /// <summary>
         /// Состояние видимости слоя. 
@@ -15,11 +16,16 @@ namespace BaseElements
         /// </summary>
         bool Visible { get; set; }
 
+
         /// <summary>
         /// Название слоя.
         /// </summary>
         string Name { get; set; }
 
+        
+        /// <summary>
+        /// Отображает содержимое слоя в консоли/на канвасе
+        /// </summary>
         void Draw();
     }
 }
