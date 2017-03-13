@@ -40,7 +40,7 @@ namespace BaseElements
         /// Максимальная высота холста мультфильма в пикселях.
         /// Соответствует разрешению 4K.
         /// </summary>
-        private const int MaximumHeight = 2160; // MAXIMUM HATE 😡/
+        private const int MaximumHeight = 2160; // MAXIMUM HATE 😡
 
         private string name;
         public string Name {

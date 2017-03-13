@@ -2,20 +2,42 @@
 using System.Linq;
 using System.Drawing;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace BaseElements
 {
     public class Frame
     {
         /// <summary>
+        /// Название (имя) кадра
+        /// </summary>
+        private string name;
+        public string Name
+        {
+            get { return name; }
+            private set
+            {
+                // Change regex to more acceptable.
+                if (Regex.IsMatch(value, @"[a-zA-Z0-9]+"))
+                {
+                    name = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Frame name must contain only letters and numbers.");
+                }
+            }
+        }
+
+        /// <summary>
         /// Текущий слой.
         /// </summary>
-        public Layer CurrentLayer { get; set; }
+        public ILayer CurrentLayer { get; set; }
 
         /// <summary>
         /// Список слоёв кадра.
         /// </summary>
-        private List<Layer> layers = new List<Layer>();
+        private List<ILayer> layers = new List<ILayer>();
 
         /// <summary>
         /// Продолжительность кадра.
@@ -45,6 +67,15 @@ namespace BaseElements
             CurrentLayer = layers.First();
         }
 
+        /// <summary>
+        /// Получить все слои кадра
+        /// </summary>
+        /// <returns>Список всех слоев кадра</returns>
+        public List<ILayer> GetAllLayers()
+        {
+            return layers;
+        }
+
         #region Методы для работы со слоями.
         /// <summary>
         /// Создание нового растрового слоя и добавление его в конец списка слоёв.
@@ -70,7 +101,7 @@ namespace BaseElements
         /// Удаление слоя.
         /// </summary>
         /// <param name="layer">Удаляемый с кадра слой.</param>
-        public void RemoveLayer(Layer layer) {
+        public void RemoveLayer(ILayer layer) {
             // WARNING: каким будет поведение если layer отсутствует в layers?
             layers.Remove(layer);
         }

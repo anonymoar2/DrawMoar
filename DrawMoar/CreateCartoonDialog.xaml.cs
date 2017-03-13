@@ -32,7 +32,7 @@ namespace DrawMoar
                     var folderDDialog = new FolderBrowserDialog();
                     folderDDialog.ShowDialog();
                     string selectedDirectory = folderDDialog.SelectedPath;
-                    if (selectedDirectory == "") System.Windows.MessageBox.Show("You doesn't choose the folder");
+                    if (selectedDirectory == "") System.Windows.MessageBox.Show("You haven't chosen the folder");
                     else {
                         string workingDirectory = Path.Combine(selectedDirectory, cartoonName);
                         Directory.CreateDirectory(workingDirectory);
