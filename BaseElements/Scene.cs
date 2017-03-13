@@ -28,7 +28,7 @@ namespace BaseElements
         /// <summary>
         /// Контейнер слоёв, не путаем со списком слоёв в каждом кадре
         /// </summary>
-        private List<Layer> savedLayers = new List<Layer>();
+        private List<ILayer> savedLayers = new List<ILayer>();
 
 
         /// <summary>
@@ -219,7 +219,7 @@ namespace BaseElements
         /// </summary>
         /// <param name="index">Индекс слоя который хотим получить</param>
         /// <returns>Слой с перееданным индексом</returns>
-        public Layer GetSavedLayer(int index) {
+        public ILayer GetSavedLayer(int index) {
             if (index >= 0 && index < savedLayers.Count) {
                 var layer = savedLayers[index];
                 return layer;
@@ -232,7 +232,7 @@ namespace BaseElements
         /// Получить все слои из контейнера слоёв
         /// </summary>
         /// <returns>Список всех слоёв из контейнера сцены</returns>
-        public List<Layer> GetAllSavedLayer() {
+        public List<ILayer> GetAllSavedLayer() {
             return savedLayers;
         }
 
@@ -264,7 +264,7 @@ namespace BaseElements
         /// </summary>
         /// <param name="layer">Слой индекс которого нужно получить</param>
         /// <returns>Индекс переданного кадра</returns>
-        public int IndexOf(Layer layer) {
+        public int IndexOf(ILayer layer) {
             return savedLayers.IndexOf(layer);
         }
 
@@ -273,7 +273,7 @@ namespace BaseElements
         /// Удаление слоя
         /// </summary>
         /// <param name="layer">Слой который необходимо удалить</param>
-        public void RemoveSavedLayer(Layer layer) {
+        public void RemoveSavedLayer(ILayer layer) {
             savedLayers.Remove(layer);
         }
 
@@ -283,7 +283,7 @@ namespace BaseElements
         /// </summary>
         /// <param name="index">Индекс по которому нужно вставить слой</param>
         /// <param name="layer">слой который нужно вставить</param>
-        public void InsertFrame(int index, Layer layer) {
+        public void InsertFrame(int index, ILayer layer) {
             if (index >= 0 && index <= savedLayers.Count) {
                 savedLayers.Insert(index, layer);
             }
