@@ -27,11 +27,12 @@ namespace BaseElements
         /// Отображает содержимое слоя в консоли/на канвасе
         /// </summary>
         void Draw();
+        
 
 
         /// <summary>
         /// Потому что в видео склеиваем bitmap-ы, поэтому будем делать bitmap и из вектора если нужно будет
         /// </summary>
-        Bitmap bitmap { get; set; }
+        Bitmap Bitmap { get; set; }
     }
 }

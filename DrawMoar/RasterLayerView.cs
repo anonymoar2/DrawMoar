@@ -10,7 +10,7 @@ using System.Drawing;
 
 namespace DrawMoar
 {
-    class RasterLayerView : IRasterLayer
+    class RasterLayerView : RasterLayer
     {
         /// <summary>
         /// Название (имя) слоя

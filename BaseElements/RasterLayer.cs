@@ -1,15 +1,16 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-
 using System.Text.RegularExpressions;
-using System.Drawing;
 
 namespace BaseElements
 {
-    public class VectorLayer : ILayer
+    /// TODO: Реализовать растровый слой
+    public class RasterLayer : ILayer
     {
         public Bitmap bitmap {
             get {
@@ -42,14 +43,15 @@ namespace BaseElements
         }
 
         /// <summary>
-        /// Место на холсте куда будет накладываться что-то, в общем важна величина "откуда мы рисуем" - смещение по X и Y
+        /// Место на холсте куда будет накладываться левый верхний угол изображения
         /// </summary>
         Size Position { get; set; }
 
         /// <summary>
-        /// Толщина линии/контура/всего крч, ибо тудем линиями отрисовывать
+        ///  Угол поворота изображения
         /// </summary>
-        int Width { get; set; }
+        float Rotation { get; set; }
+
 
         public void Draw() {
             throw new NotImplementedException();

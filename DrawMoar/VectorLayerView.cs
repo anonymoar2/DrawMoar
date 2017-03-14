@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BaseElements;
+using System.Text.RegularExpressions;
 
 namespace DrawMoar
 {
-    class VectorLayerView : IVectorLayer
+    class VectorLayerView : VectorLayer
     {
         /// <summary>
         /// Название (имя) слоя
