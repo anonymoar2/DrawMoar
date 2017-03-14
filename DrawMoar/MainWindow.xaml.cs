@@ -198,7 +198,8 @@ namespace DrawMoar
         /// <param name="e"></param>
         private void AddLayer_Click(object sender, RoutedEventArgs e)
         {
-            //проверка на то, выделен ли какой-либо кадр
+            if (cartoon == null) return;
+            //проверка на то, выделен ли какой-либо кадр(когда реализуем удаление)
             var layer = new LayerControl();
             if (sender != null)
             {
@@ -274,6 +275,7 @@ namespace DrawMoar
 
         private void AddFrame_Click(object sender, RoutedEventArgs e)
         {
+            if (cartoon == null) return;
             cartoon.CurrentScene.AddFrame();
             var frames = cartoon.CurrentScene.GetAllFrames();
             AddListBoxElement(framesList, $"frame_{frames.Count-1}");
@@ -283,6 +285,7 @@ namespace DrawMoar
 
         private void AddScene_Click(object sender, RoutedEventArgs e)
         {
+            if (cartoon == null) return;
             if (sender != null)
             {
                 cartoon.AddScene();

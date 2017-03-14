@@ -56,9 +56,9 @@
         <ListBox Name="scenesList" Grid.Column="2" Grid.Row="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  BorderBrush="LightGray" SelectionChanged="scenesList_SelectionChanged"></ListBox>
         <WrapPanel Name="buttons" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2">
-            <Button x:Name="AddFrame" Content="+Frame" Width="50"  Height="20" Margin="5,7" Click="AddFrame_Click"/>
-            <Button x:Name="AddScene" Content="+Scene" Width="50"  Height="20" Margin="5,7" Click="AddScene_Click"/>
-            <Button x:Name="AddLayer" Content="+Layer" Width="50"  Height="20" Margin="5,7" Click="AddLayer_Click"/>
+            <Button x:Name="AddFrame" Content="+Frame" Width="50"  Height="23" Margin="5,7" Click="AddFrame_Click"/>
+            <Button x:Name="AddScene" Content="+Scene" Width="50"  Height="23" Margin="5,7" Click="AddScene_Click"/>
+            <Button x:Name="AddLayer" Content="+Layer" Width="50"  Height="23" Margin="5,7" Click="AddLayer_Click"/>
         </WrapPanel>
         <ListBox Name="layersList" Width="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                          BorderBrush="LightGray" Grid.Column="0" Grid.Row="4"/>
