@@ -12,49 +12,87 @@ namespace BaseElements
     /// TODO: Реализовать растровый слой
     public class RasterLayer : ILayer
     {
-        public Bitmap bitmap {
+        /// <summary>
+        /// По сути сама картинка-растровый слой
+        /// </summary>
+        private Bitmap bitmap;
+        public Bitmap Bitmap {
             get {
-                throw new NotImplementedException();
+                return bitmap;
             }
-
             set {
-                throw new NotImplementedException();
+                // Возможно проверки, если понадобятся в дальнейшем
+                bitmap = value;
             }
         }
 
+
+        /// <summary>
+        /// Название (имя) слоя
+        /// </summary>
+        private string name;
         public string Name {
-            get {
-                throw new NotImplementedException();
-            }
-
+            get { return name; }
             set {
-                throw new NotImplementedException();
+                // TODO: Изменить регулярное выражение на более подходящее
+                if (Regex.IsMatch(value, @"[a-zA-Z0-9]+")) {
+                    name = value;
+                }
+                else {
+                    throw new ArgumentException("Название слоя должно состоять только " +
+                                                "из латинских букв и цифр.");
+                }
             }
         }
 
+
+        /// <summary>
+        /// true - слой видимый, false - невидимый
+        /// </summary>
+        private bool visible = true;
         public bool Visible {
             get {
-                throw new NotImplementedException();
+                return visible;
             }
-
             set {
-                throw new NotImplementedException();
+                visible = value;
             }
         }
+
 
         /// <summary>
         /// Место на холсте куда будет накладываться левый верхний угол изображения
         /// </summary>
-        Size Position { get; set; }
+        private Size position = new Size(0, 0);
+        public Size Position {
+            get {
+                return position;
+            }
+            set {
+                // Возможность принадлежности к холсту
+                position = value;
+            }
+        }
+
 
         /// <summary>
         ///  Угол поворота изображения
         /// </summary>
-        float Rotation { get; set; }
+        private float rotation = 0f;
+        public float Rotation {
+            get {
+                return rotation;
+            }
+            set {
+                rotation = value;
+            }
+        }
 
 
+        /// <summary>
+        /// Ну тут ничего в принципе
+        /// </summary>
         public void Draw() {
-            throw new NotImplementedException();
         }
     }
 }

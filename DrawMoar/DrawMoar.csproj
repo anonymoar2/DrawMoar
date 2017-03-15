@@ -82,6 +82,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="LightVector.cs" />
     <Compile Include="RasterLayerView.cs" />
     <Compile Include="Shapes\Line.cs" />
     <Compile Include="VectorLayerView.cs" />

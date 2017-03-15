@@ -28,32 +28,43 @@ namespace BaseElements
 
 
         /// <summary>
-        /// Название слоя
+        /// Название (имя) слоя
         /// </summary>
         private string name;
         public string Name {
-            get {
-                return name;
-            }
-
+            get { return name; }
             set {
-                name = value;
+                // TODO: Изменить регулярное выражение на более подходящее
+                if (Regex.IsMatch(value, @"[a-zA-Z0-9]+")) {
+                    name = value;
+                }
+                else {
+                    throw new ArgumentException("Название слоя должно состоять только " +
+                                                "из латинских букв и цифр.");
+                }
             }
         }
-        
 
+
+        /// <summary>
+        /// true - видимый слой, false - невидимый
+        /// </summary>
+        private bool visible = true;
         public bool Visible {
             get {
-                throw new NotImplementedException();
+                return visible;
             }
 
             set {
-                throw new NotImplementedException();
+                visible = value;
             }
         }
 
+
+        /// <summary>
+        /// Пока ничего
+        /// </summary>
         public void Draw() {
-            throw new NotImplementedException();
         }
     }
 }
