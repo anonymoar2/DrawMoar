@@ -13,7 +13,7 @@ namespace DrawMoar.Shapes
     /// Каждая фигура это слой новый векорный поэтому наследуется от этого класса
     /// Или от View? Подумать надо над этим немного
     /// </summary>
-    public class Line : VectorLayer
+    public class Line : IVectorLayer
     {
         public const int minWidth = 1;
         public const int maxWidth = 256;// хз какой максимальный, измените эту циферку

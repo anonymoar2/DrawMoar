@@ -13,6 +13,21 @@ namespace BaseElements
     public class RasterLayer : ILayer
     {
         /// <summary>
+        /// По сути сама картинка-растровый слой
+        /// </summary>
+        private Bitmap bitmap;
+        public Bitmap Bitmap {
+            get {
+                return bitmap;
+            }
+            set {
+                // Возможно проверки, если понадобятся в дальнейшем
+                bitmap = value;
+            }
+        }
+
+
+        /// <summary>
         /// Название (имя) слоя
         /// </summary>
         private string name;
@@ -32,14 +47,13 @@ namespace BaseElements
 
 
         /// <summary>
-        /// True - слой видимый, false - невидимый
+        /// true - слой видимый, false - невидимый
         /// </summary>
         private bool visible = true;
         public bool Visible {
             get {
                 return visible;
             }
-
             set {
                 visible = value;
             }
@@ -47,14 +61,38 @@ namespace BaseElements
 
 
         /// <summary>
-        /// 
+        /// Место на холсте куда будет накладываться левый верхний угол изображения
         /// </summary>
-        public RasterLayer() {
-
+        private Size position = new Size(0, 0);
+        public Size Position {
+            get {
+                return position;
+            }
+            set {
+                // Возможность принадлежности к холсту
+                position = value;
+            }
         }
 
-        public virtual void Draw() {
-            throw new NotImplementedException();
+
+        /// <summary>
+        ///  Угол поворота изображения
+        /// </summary>
+        private float rotation = 0f;
+        public float Rotation {
+            get {
+                return rotation;
+            }
+            set {
+                rotation = value;
+            }
+        }
+
+
+        /// <summary>
+        /// Ну тут ничего в принципе
+        /// </summary>
+        public void Draw() {
         }
     }
 }

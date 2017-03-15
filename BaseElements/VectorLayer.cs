@@ -4,13 +4,29 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using BaseElements.Figures;
 using System.Text.RegularExpressions;
+using System.Drawing;
 
 namespace BaseElements
 {
     public class VectorLayer : ILayer
     {
+        /// <summary>
+        /// Нужен для того чтобы лепить видяшки
+        /// </summary>
+        private Bitmap bitmap = new Bitmap(0, 0);
+        public Bitmap Bitmap {
+            get {
+                return bitmap;
+            }
+
+            set {
+                /// Здесь и будет то как мы будем это конвертить в bitmap
+                throw new NotImplementedException();
+            }
+        }
+
+
         /// <summary>
         /// Название (имя) слоя
         /// </summary>
@@ -31,7 +47,7 @@ namespace BaseElements
 
 
         /// <summary>
-        /// True - слой видимый, false - невидимый
+        /// true - видимый слой, false - невидимый
         /// </summary>
         private bool visible = true;
         public bool Visible {
@@ -45,12 +61,10 @@ namespace BaseElements
         }
 
 
-        public VectorLayer() {
-
-        }
-
-        public virtual void Draw() {
-            throw new NotImplementedException();
+        /// <summary>
+        /// Пока ничего
+        /// </summary>
+        public void Draw() {
         }
     }
 }

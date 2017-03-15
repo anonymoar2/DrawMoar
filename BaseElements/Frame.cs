@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Drawing;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
 
 namespace BaseElements
 {
@@ -10,12 +12,12 @@ namespace BaseElements
         /// <summary>
         /// Текущий слой.
         /// </summary>
-        public Layer CurrentLayer { get; set; }
+        public ILayer CurrentLayer { get; set; }
 
         /// <summary>
         /// Список слоёв кадра.
         /// </summary>
-        private List<Layer> layers = new List<Layer>();
+        private List<ILayer> layers = new List<ILayer>();
 
         /// <summary>
         /// Продолжительность кадра.
@@ -38,12 +40,44 @@ namespace BaseElements
                 }
             }
         }
-        
 
+
+        /// <summary>
+        /// Ширина типа, нужна толко для метода SaveLayer
+        /// </summary>
+        private int width;
+        public int Width {
+            get {
+                return width;
+            }
+            set {
+                width = value;
+            }
+        }
+
+
+        /// <summary>
+        /// Высота кадра, ну и мультика заодно тоже, для SaveLayer
+        /// </summary>
+        private int height;
+        public int Height {
+            get {
+                return height;
+            }
+            set {
+                height = value;
+            }
+        }
+
+
+        /// <summary>
+        /// TODO: вернуть классы или подумать ещё тут крч
+        /// </summary>
         public Frame() {
             layers.Add(new RasterLayer()); // По умолчанию всегда создается растровый слой
             CurrentLayer = layers.First();
         }
+
 
         #region Методы для работы со слоями.
         /// <summary>
@@ -70,7 +104,7 @@ namespace BaseElements
         /// Удаление слоя.
         /// </summary>
         /// <param name="layer">Удаляемый с кадра слой.</param>
-        public void RemoveLayer(Layer layer) {
+        public void RemoveLayer(ILayer layer) {
             // WARNING: каким будет поведение если layer отсутствует в layers?
             layers.Remove(layer);
         }
@@ -140,6 +174,29 @@ namespace BaseElements
         //    }
         //}
         #endregion
+
+        
+        /// <summary>
+        /// Создание bitmap из всех видимых слоёв кадра, типа склеивает все в один
+        /// </summary>
+        /// <returns>bitmap</returns>
+        public Bitmap SaveLayer() {
+            Bitmap result = new Bitmap(Width, Height, PixelFormat.Format32bppArgb); // наша новая картинка
+            var graphics = Graphics.FromImage(result);
+            graphics.CompositingMode = CompositingMode.SourceOver;
+            for (int i = 0; i < layers.Count; i++) {
+                if (layers[i].Visible) {
+                    graphics.DrawImage(layers[i].bitmap, 0, 0); // По идее не с нуля, а с какой-то точки
+                    for (int j = i + 1; j < layers.Count; j++) {
+                        if (layers[j].Visible) {
+                            graphics.DrawImage(layers[i + 1].bitmap, 0, 0); // тут тоже с какой-то точки крч, все эти точки вычислятся в методе который будет возвращать bitmap от векторного слоя
+                        }
+                    }
+                    break;
+                }
+            }
+            return result;
+        }
 
         // Использовать только если для каждого фрейма будет своя директория.
         //private string workingDirectory;
