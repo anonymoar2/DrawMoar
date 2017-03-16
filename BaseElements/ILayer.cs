@@ -22,17 +22,17 @@ namespace BaseElements
         /// </summary>
         string Name { get; set; }
 
-        
+
         /// <summary>
         /// Отображает содержимое слоя в консоли/на канвасе
         /// </summary>
         void Draw();
-        
 
 
         /// <summary>
-        /// Потому что в видео склеиваем bitmap-ы, поэтому будем делать bitmap и из вектора если нужно будет
+        /// Получает image из картинки
         /// </summary>
-        Bitmap Bitmap { get; set; }
+        /// <returns>image</returns>
+        Image GetImage();
     }
 }

@@ -15,17 +15,26 @@ namespace BaseElements
         /// <summary>
         /// По сути сама картинка-растровый слой
         /// </summary>
-        private Bitmap bitmap;
-        public Bitmap Bitmap {
-            get {
-                return bitmap;
-            }
-            set {
-                // Возможно проверки, если понадобятся в дальнейшем
-                bitmap = value;
-            }
+        private Image image;
+
+
+        /// <summary>
+        /// Возвращат image из картинки
+        /// </summary>
+        /// <returns>image</returns>
+        public Image GetImage() {
+            return image;
         }
 
+
+        public RasterLayer(Image image) {
+            this.image = image;
+        }
+
+
+        public RasterLayer() {
+            /// TODO: Создает пустой слой
+        }
 
         /// <summary>
         /// Название (имя) слоя

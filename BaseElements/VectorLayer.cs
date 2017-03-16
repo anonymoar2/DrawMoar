@@ -12,22 +12,6 @@ namespace BaseElements
     public class VectorLayer : ILayer
     {
         /// <summary>
-        /// Нужен для того чтобы лепить видяшки
-        /// </summary>
-        private Bitmap bitmap = new Bitmap(0, 0);
-        public Bitmap Bitmap {
-            get {
-                return bitmap;
-            }
-
-            set {
-                /// Здесь и будет то как мы будем это конвертить в bitmap
-                throw new NotImplementedException();
-            }
-        }
-
-
-        /// <summary>
         /// Название (имя) слоя
         /// </summary>
         private string name;
@@ -65,6 +49,16 @@ namespace BaseElements
         /// Пока ничего
         /// </summary>
         public void Draw() {
+        }
+
+
+        /// <summary>
+        /// image не храним, а в этом методе его пилим крч из составляющего 
+        /// </summary>
+        /// <returns>image</returns>
+        public Image GetImage() {
+            /// Реализация метода
+            throw new NotImplementedException();
         }
     }
 }

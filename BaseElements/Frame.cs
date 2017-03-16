@@ -216,10 +216,10 @@ namespace BaseElements
             graphics.CompositingMode = CompositingMode.SourceOver;
             for (int i = 0; i < layers.Count; i++) {
                 if (layers[i].Visible) {
-                    graphics.DrawImage(layers[i].bitmap, 0, 0); // По идее не с нуля, а с какой-то точки
+                    graphics.DrawImage(layers[i].GetImage(), 0, 0); // По идее не с нуля, а с какой-то точки
                     for (int j = i + 1; j < layers.Count; j++) {
                         if (layers[j].Visible) {
-                            graphics.DrawImage(layers[i + 1].bitmap, 0, 0); // тут тоже с какой-то точки крч, все эти точки вычислятся в методе который будет возвращать bitmap от векторного слоя
+                            graphics.DrawImage(layers[i + 1].GetImage(), 0, 0); // тут тоже с какой-то точки крч, все эти точки вычислятся в методе который будет возвращать bitmap от векторного слоя
                         }
                     }
                     break;
@@ -227,6 +227,7 @@ namespace BaseElements
             }
             return result;
         }
+        
 
         // Использовать только если для каждого фрейма будет своя директория.
         //private string workingDirectory;
