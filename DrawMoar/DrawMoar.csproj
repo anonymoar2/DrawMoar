@@ -87,9 +87,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="Instrument.cs" />
+    <Compile Include="Instruments\LightVector.cs" />
     <Compile Include="RasterLayerView.cs" />
     <Compile Include="Shapes\Line.cs" />
-    <Compile Include="VectorLayerView.cs" />
+    <Compile Include="LightVectorLayer.cs" />
     <Page Include="CreateCartoonDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
