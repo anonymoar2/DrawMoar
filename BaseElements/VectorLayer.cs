@@ -53,10 +53,10 @@ namespace BaseElements
 
 
         /// <summary>
-        /// image не храним, а в этом методе его пилим крч из составляющего 
+        /// bitmap не храним, а в этом методе его пилим крч из составляющего 
         /// </summary>
-        /// <returns>image</returns>
-        public Image GetImage() {
+        /// <returns>bitmap</returns>
+        public Bitmap GetBitmap() {
             /// Реализация метода
             throw new NotImplementedException();
         }

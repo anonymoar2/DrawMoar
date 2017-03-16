@@ -96,7 +96,7 @@ namespace BaseElements
         /// TODO: вернуть классы или подумать ещё тут крч
         /// </summary>
         public Frame() {
-            layers.Add(new RasterLayer()); // По умолчанию всегда создается растровый слой
+            layers.Add(new RasterLayer(new Bitmap(Width, Height))); // По умолчанию всегда создается растровый слой
             CurrentLayer = layers.First();
         }
 
@@ -117,7 +117,7 @@ namespace BaseElements
             // WARNING: стоит ли обеспечить уникальность имён слоёв?
             // в многопоточном коде layers.Count может быть одинаковым
             // для двух разных потоков во время вызова этого метода.
-            layers.Add(new RasterLayer() { Name = $"layer{layers.Count}" });
+            layers.Add(new RasterLayer(new Bitmap(Width, Height)) { Name = $"layer{layers.Count}" });
         }
 
         /// <summary>
@@ -216,10 +216,10 @@ namespace BaseElements
             graphics.CompositingMode = CompositingMode.SourceOver;
             for (int i = 0; i < layers.Count; i++) {
                 if (layers[i].Visible) {
-                    graphics.DrawImage(layers[i].GetImage(), 0, 0); // По идее не с нуля, а с какой-то точки
+                    graphics.DrawImage(layers[i].GetBitmap(), 0, 0); // По идее не с нуля, а с какой-то точки
                     for (int j = i + 1; j < layers.Count; j++) {
                         if (layers[j].Visible) {
-                            graphics.DrawImage(layers[i + 1].GetImage(), 0, 0); // тут тоже с какой-то точки крч, все эти точки вычислятся в методе который будет возвращать bitmap от векторного слоя
+                            graphics.DrawImage(layers[i + 1].GetBitmap(), 0, 0); // тут тоже с какой-то точки крч, все эти точки вычислятся в методе который будет возвращать bitmap от векторного слоя
                         }
                     }
                     break;

@@ -33,6 +33,6 @@ namespace BaseElements
         /// Получает image из картинки
         /// </summary>
         /// <returns>image</returns>
-        Image GetImage();
+        Bitmap GetBitmap();
     }
 }
