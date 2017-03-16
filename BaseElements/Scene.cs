@@ -19,7 +19,7 @@ namespace BaseElements
                     name = value;
                 }
                 else {
-                    throw new ArgumentException("Cartoon name must contain only letters and numbers.");
+                    throw new ArgumentException("Scene name must contain only letters and numbers.");
                 }
             }
         }
@@ -62,7 +62,7 @@ namespace BaseElements
         #region Методы для работы со списокм кадров
 
         /// <summary>
-        /// Получение кадра
+        /// Получение кадраC:\Users\Никита\Source\Repos\DrawMoar\BaseElements\Scene.cs
         /// </summary>
         /// <param name="index">Индекс кадра который хотим получить</param>
         /// <returns>Кадр с перееданным индексом</returns>

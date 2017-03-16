@@ -7,8 +7,21 @@
         xmlns:local="clr-namespace:DrawMoar"
         mc:Ignorable="d"
         Title="DrawMoar" Height="350" Width="530">
-    <Grid Name="rootGrid"  SizeChanged="Grid_SizeChanged" Background="LightGray">
-        <Menu x:Name="menu" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="130">
+    <Grid Name="rootGrid" Background="LightGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="1*" MinHeight="60"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="1*" MinHeight="60"></RowDefinition>
+            <RowDefinition Height="0.1*" MaxHeight="20"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition  MinWidth="130" MaxWidth="130"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition MinWidth="130" MaxWidth="130"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Menu x:Name="menu" Background="LightGray" HorizontalAlignment="Left" Grid.ColumnSpan="3" Height="20" VerticalAlignment="Top" Width="520">
             <MenuItem Header="File">
                 <MenuItem Header="New"
                           Click="CreateCartoon"/>
@@ -29,45 +42,31 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <DockPanel Name="rootPanel" LastChildFill="True">
-            <StackPanel DockPanel.Dock="Left" Margin="0,20,0,0" Background="WhiteSmoke" MinWidth="130" MaxWidth="120">
-                <WrapPanel Height="160">
-                    <Button x:Name="button1" Height ="25" Width="37" Margin="5,5" Content="Lines" Click="AddLine"/>
-                </WrapPanel>
-                <WrapPanel Height="40">
-                    <xctk:ColorPicker x:Name="ClrPcker_Background"  Margin="65,7,0,0" SelectedColorChanged="ClrPcker_Background_SelectedColorChanged" Height="25" Width="50"/>
-                </WrapPanel>
-                <WrapPanel Height="100">
-                    <Slider x:Name="slider" Width="100" Margin="10,10"/>
-                </WrapPanel>
+        <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="5" Background="Snow"/>
+        <Border Grid.Column="3" Grid.Row="1" Grid.RowSpan="5" Background="Snow"/>
+        <WrapPanel Name="figurePanel" Grid.Column="0" Grid.Row="1"  MaxWidth="130" Grid.RowSpan="2">
+            <Button x:Name="button1" Height ="25" Width="37" Margin="5,5" Content="Lines" Click="AddLine"/>
+            <Button x:Name="testButton" Height ="25" Width="37" Margin="5,5" Content="Brush" Click="testButton_Click"/>
+            <Button x:Name="testButton2" Height ="25" Width="37" Margin="5,5" Content="Arrow" Click="testButton2_Click"/>
 
-            </StackPanel>
-            <StackPanel Name="rightPanel" DockPanel.Dock="Right" Background="WhiteSmoke" MinWidth="130">
-                <WrapPanel Name="buttons" Height="40">
-                    <Button x:Name="AddFrame" Content="+Frame" Width="50" Margin="5,10" Click="AddFrame_Click"/>
-                </WrapPanel>
-                <ListBox Name="layers" Width="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                         BorderBrush="LightGray" MinHeight="120"/>
-                <WrapPanel Name="smth" Width="120" MinHeight="40"/>
-                <ListBox  x:Name="frames" Width="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                          BorderBrush="LightGray" ItemsSource="{Binding labels}" SelectionChanged="frames_SelectionChanged" MinHeight="120">
-                </ListBox>
-            </StackPanel>
-            <Grid Name="CenterGrid">
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <InkCanvas Name="canvas" Width="200" Height="200" Visibility="Hidden" VerticalAlignment="Center" HorizontalAlignment="Center" />
-            </Grid>
-        </DockPanel>
+        </WrapPanel>
+        <WrapPanel Name="palette" Grid.Column="0" Grid.Row="3">
+            <xctk:ColorPicker x:Name="ClrPcker_Background"  Margin="65,7,0,0" SelectedColorChanged="ClrPcker_Background_SelectedColorChanged" Height="25" Width="50"/>
+        </WrapPanel>
+        <ListBox Name="scenesList" Width="120" Grid.Column="2" Grid.Row="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 BorderBrush="LightGray" SelectionChanged="scenesList_SelectionChanged"></ListBox>
+        <WrapPanel Name="buttons" Grid.Column="2" Grid.Row="1">
+            <Button x:Name="AddFrame" Content="+F" Width="30"  Height="20" Margin="6,7" Click="AddFrame_Click"/>
+            <Button x:Name="AddScene" Content="+S" Width="30"  Height="20" Margin="6,7" Click="AddScene_Click"/>
+            <Button x:Name="AddLayer" Content="+L" Width="30"  Height="20" Margin="6,7" Click="AddLayer_Click"/>
+        </WrapPanel>
+        <ListBox Name="layersList" Width="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                         BorderBrush="LightGray" Grid.Column="0" Grid.Row="4"/>
+        <WrapPanel Name="smth" Width="120" Grid.Column="2" Grid.Row="3"/>
+        <ListBox  x:Name="framesList" Width="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                          BorderBrush="LightGray" SelectionChanged="framesList_SelectionChanged"
+                          Grid.Column="2" Grid.Row="4">
+        </ListBox>
+        <Canvas Name="canvas" Width="250" Height="300" Visibility="Hidden" Background="White" Grid.RowSpan="4" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </Grid>
-    <Window.CommandBindings>
-        <CommandBinding Command="Save" Executed="ButtonSaveClicked"></CommandBinding>
-    </Window.CommandBindings>
-    <Window.InputBindings>
-        <KeyBinding Key="S" Modifiers="Control" Command="Save"></KeyBinding>
-    </Window.InputBindings>
 </Window>
