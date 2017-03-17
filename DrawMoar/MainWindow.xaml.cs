@@ -300,5 +300,10 @@ namespace DrawMoar
             lBox.SelectedIndex = lBox.Items.Count - 1;
         }
 
+        private void StartLightVector(object sender, RoutedEventArgs e) {
+            GlobalState.lightVector = new Instruments.LightVector(cartoon);
+            GlobalState.lightVector.Start();
+
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace DrawMoar
     /// Класс реализующий DrawingVisual и отвечающий за рисование
     /// </summary>
     public class VisualHost : FrameworkElement
-    {   
+    {
         public new bool IsFocused { get; set; }
 
         // Коллекция для хранения DrawingVisual
@@ -22,8 +22,7 @@ namespace DrawMoar
         private Point Position { get; set; }
         public Size SpaceSize { get; private set; }
 
-        public VisualHost()
-        {
+        public VisualHost() {
             _visuals = new VisualCollection(this);
             _visuals.Add(ClearVisualSpace());
 
@@ -31,7 +30,7 @@ namespace DrawMoar
             this.MouseLeftButtonDown += new MouseButtonEventHandler(VisualHost_MouseLeftButtonDown);
             this.MouseMove += new MouseEventHandler(VisualHost_MouseMove);
             //this.MouseLeave += new MouseEventHandler(VisualHost_MouseLeave);      ПОЧЕМУ ЭТО НЕ РАБОТАЕТ?!
-        }  
+        }
 
         /// <summary>
         /// Создание корневого элемента VisualCollection
@@ -41,15 +40,13 @@ namespace DrawMoar
         /// <param name="position">Начальное положение холста</param>
         /// <param name="size">Размер холста</param>
         /// <returns></returns>
-        private DrawingVisual CreateDrawingVisualSpace(Brush borderBrush, Brush backgroundBrush, Point position, Size size)
-        {
+        private DrawingVisual CreateDrawingVisualSpace(Brush borderBrush, Brush backgroundBrush, Point position, Size size) {
             FillBrush = backgroundBrush;
             Position = position;
             SpaceSize = size;
 
             DrawingVisual drawingVisual = new DrawingVisual();
-            using (DrawingContext drawingContext = drawingVisual.RenderOpen())
-            {
+            using (DrawingContext drawingContext = drawingVisual.RenderOpen()) {
                 Rect rect = new Rect(Position, SpaceSize);
                 Pen pen = new Pen(borderBrush, 1);
 
@@ -59,47 +56,40 @@ namespace DrawMoar
             return drawingVisual;
         }
 
-         void VisualHost_MouseLeave(object sender, MouseEventHandler e)     //см. выше
-        {
+        void VisualHost_MouseLeave(object sender, MouseEventHandler e)     //см. выше
+       {
             VisualHost_MouseLeftButtonUp(null, null);
         }
 
-        private DrawingVisual ClearVisualSpace()
-        {
+        private DrawingVisual ClearVisualSpace() {
             return CreateDrawingVisualSpace(Brushes.Silver, Brushes.Transparent, new Point(0, 0), GlobalState.canvSize);
         }
 
-        public void FocusSpace()
-        {
+        public void FocusSpace() {
             _visuals[0] = null;
             _visuals[0] = CreateDrawingVisualSpace(Brushes.DimGray, FillBrush, Position, SpaceSize);
         }
 
-        public void UnFocusSpace()
-        {
+        public void UnFocusSpace() {
             _visuals[0] = null;
             _visuals[0] = CreateDrawingVisualSpace(Brushes.Silver, FillBrush, Position, SpaceSize);
         }
 
-        public void ChangeFill(Brush backgroundBrush)
-        {
+        public void ChangeFill(Brush backgroundBrush) {
             _visuals[0] = null;
             _visuals[0] = CreateDrawingVisualSpace(Brushes.DimGray, backgroundBrush, Position, SpaceSize);
         }
 
-        public void ChangeSize(Size newSize)
-        {
+        public void ChangeSize(Size newSize) {
             _visuals[0] = null;
             _visuals[0] = CreateDrawingVisualSpace(Brushes.DimGray, FillBrush, Position, newSize);
         }
 
-        public void HideWorkSpace()
-        {
+        public void HideWorkSpace() {
             _visuals[0] = null;
         }
 
-        public void RestoreWorkSpace()
-        {
+        public void RestoreWorkSpace() {
             if (_visuals[0] == null)
                 _visuals[0] = CreateDrawingVisualSpace(Brushes.Silver, FillBrush, Position, SpaceSize);
         }
@@ -109,11 +99,10 @@ namespace DrawMoar
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void VisualHost_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
+        void VisualHost_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             GlobalState.PressLeftButton = true;
             VisualHost_MouseMove(sender, e);
-            
+
         }
 
         /// <summary>
@@ -121,22 +110,19 @@ namespace DrawMoar
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void VisualHost_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
+        void VisualHost_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
             GlobalState.PressLeftButton = false;
             //Point pt = e.GetPosition((UIElement)sender);
         }
 
-   
+
         /// <summary>
         /// Метода для рисования точек кистью
         /// </summary>
         /// <param name="pt"></param>
-        private void DrawPoint(Point pt)
-        {
+        private void DrawPoint(Point pt) {
             var drawingVisual = new DrawingVisual();
-            using (DrawingContext drawingContext = drawingVisual.RenderOpen())
-            {
+            using (DrawingContext drawingContext = drawingVisual.RenderOpen()) {
                 drawingContext.DrawEllipse(new SolidColorBrush(Colors.Black), null, pt, GlobalState.BrushSize.Width, GlobalState.BrushSize.Height);
             }
             _visuals.Add(drawingVisual);
@@ -147,24 +133,37 @@ namespace DrawMoar
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void VisualHost_MouseMove(object sender, MouseEventArgs e)
-        {
-            switch (GlobalState.CurrentTool)
-            {
+        void VisualHost_MouseMove(object sender, MouseEventArgs e) {
+            switch (GlobalState.CurrentTool) {
                 case Instrument.Arrow:
                     break;
+
                 case Instrument.Brush:
- 
-                    if (GlobalState.PressLeftButton)
-                    {
+
+                    if (GlobalState.PressLeftButton) {
                         Point pt = e.GetPosition((UIElement)sender);
 
-                        if (   pt.X >= (Position.X + GlobalState.BrushSize.Width  / 2)
+                        if (pt.X >= (Position.X + GlobalState.BrushSize.Width / 2)
                             && pt.Y >= (Position.Y + GlobalState.BrushSize.Height / 2)
-                            && pt.X <= (Position.X + SpaceSize.Width  - GlobalState.BrushSize.Width  / 2) 
-                            && pt.Y <= (Position.Y + SpaceSize.Height - GlobalState.BrushSize.Height / 2))
-                        {
+                            && pt.X <= (Position.X + SpaceSize.Width - GlobalState.BrushSize.Width / 2)
+                            && pt.Y <= (Position.Y + SpaceSize.Height - GlobalState.BrushSize.Height / 2)) {
+
                             DrawPoint(pt);
+                        }
+                    }
+                    break;
+
+                case Instrument.Light:
+
+                    if (GlobalState.PressLeftButton) {
+                        Point pt = e.GetPosition((UIElement)sender);
+
+                        if (pt.X >= (Position.X + GlobalState.BrushSize.Width / 2)
+                            && pt.Y >= (Position.Y + GlobalState.BrushSize.Height / 2)
+                            && pt.X <= (Position.X + SpaceSize.Width - GlobalState.BrushSize.Width / 2)
+                            && pt.Y <= (Position.Y + SpaceSize.Height - GlobalState.BrushSize.Height / 2)) {
+
+                            GlobalState.lightVector.DrawOneSegment(pt);
                         }
                     }
                     break;
@@ -172,15 +171,12 @@ namespace DrawMoar
         }
 
 
-        protected override int VisualChildrenCount
-        {
+        protected override int VisualChildrenCount {
             get { return _visuals.Count; }
         }
 
-        protected override Visual GetVisualChild(int index)
-        {
-            if (index < 0 || index >= _visuals.Count)
-            {
+        protected override Visual GetVisualChild(int index) {
+            if (index < 0 || index >= _visuals.Count) {
                 throw new ArgumentOutOfRangeException();
             }
 

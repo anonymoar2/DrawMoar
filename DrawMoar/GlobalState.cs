@@ -18,6 +18,8 @@ namespace DrawMoar
 
         public static event EventHandler ChangeInstrument;
 
+        public static Instruments.LightVector lightVector { get; set; }
+
 
         // Используется для изменения порядка слоев 
         public static int FramesCount { get; set; }

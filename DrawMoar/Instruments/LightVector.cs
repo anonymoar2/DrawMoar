@@ -1,22 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Windows;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BaseElements;
+using System.Windows.Media;
 
 namespace DrawMoar.Instruments
 {
     class LightVector : IBrush
     {
-        private List<Size> points;
+        private List<System.Windows.Point> points = new List<System.Windows.Point>();
+        Cartoon cartoon; // Ссылка на наш мультик, после слияния будет нормально, это временно пока
+
+        public LightVector(Cartoon cartoon) {
+            this.cartoon = cartoon;
+        }
 
 
         /// <summary>
         /// Добавление точки в конец списка
         /// </summary>
         /// <param name="newPoint">координаты новой точки</param>
-        public void Push(Size newPoint) {
+        public void Push(System.Windows.Point newPoint) {
             points.Add(newPoint);
         }
 
@@ -40,10 +48,12 @@ namespace DrawMoar.Instruments
         /// Вызывать каждый раз после нажатия на холст после того как вызвали старт
         /// </summary>
         /// <param name="newPoint"></param>
-        private void DrawOneSegment(Size newPoint) {
+        public void DrawOneSegment(System.Windows.Point newPoint) {
             if (this.active) {
                 if (!this.IsEmpty()) {
+                    //((LayerControl)cartoon.CurrentScene.currentFrame.CurrentLayer.drawingControl)
                     /// Тут добавляем на канвас линию с координатами (points.Last(); newPoint)
+                    
                 }
                 this.Push(newPoint);
                 /// Вызываем метод который будет тащить за собой линию от этой точки(последней в списке) до клика
@@ -82,6 +92,10 @@ namespace DrawMoar.Instruments
             active = true;
             /// Если текущий слой не LightVectorLayer
             /// Создаем новый слой типа LightVectorLayer
+            if(cartoon.CurrentScene.currentFrame.CurrentLayer.GetType().Name != "LightVectorLayer") {
+                cartoon.CurrentScene.currentFrame.AddLayer(new LightVectorLayer());
+            }
+            
             /// 
             /// Если список точек НЕ пустой
             /// Вызываем метод который будет тащить за собой линию от этой точки до клика
