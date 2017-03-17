@@ -12,10 +12,14 @@ namespace BaseElements
     /// TODO: Реализовать растровый слой
     public class RasterLayer : ILayer
     {
+        ///TODO: Сделать нормально вот это вот всё
         /// <summary>
         /// По сути сама картинка-растровый слой
         /// </summary>
-        protected Bitmap bitmap;
+        public Bitmap bitmap {
+            get;
+            set;
+        }
 
 
         /// <summary>
@@ -94,6 +98,8 @@ namespace BaseElements
                 rotation = value;
             }
         }
+
+        
 
 
         /// <summary>

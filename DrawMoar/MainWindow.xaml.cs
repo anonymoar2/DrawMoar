@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BaseElements;
 using System.Drawing;
+using Exporter.Video;
 
 namespace DrawMoar
 {
@@ -77,12 +78,29 @@ namespace DrawMoar
             canvas.Children.Add(myLine);
         }
 
+        private void SaveControlsToBitmap() {
+            foreach (var scene in cartoon.GetAllScenes()) {
+                foreach (var frame in scene.GetAllFrames()) {
+                    foreach (var layer in frame.GetAllLayers()) {
+                        var renderBitmap = new RenderTargetBitmap(cartoon.Width, cartoon.Height, 96.0, 96.0, PixelFormats.Pbgra32);
+                        foreach (DrawingVisual item in ((LayerControl)layer.drawingControl).VisualHost.GetVisuals()) {
+                            renderBitmap.Render(item);
+                            BitmapSource bmp = renderBitmap;
+                            using (MemoryStream outStream = new MemoryStream()) {
+                                BitmapEncoder enc = new BmpBitmapEncoder();
+                                enc.Frames.Add(BitmapFrame.Create(bmp));
+                                enc.Save(outStream);
+                                layer.bitmap = new System.Drawing.Bitmap(outStream);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         private void ExportToMP4(object sender, RoutedEventArgs e) {
-            // должны 1) пройтись по кадрам и сохранить все в картинки
-            // 
-            // 2) запилить видео
-            // 3) удалить вспомогательные файлы
+            var exp = new Mp4Exporter();
+            exp.Save(cartoon, cartoon.WorkingDirectory);
         }
 
         private void SaveToPNG(object sender, RoutedEventArgs e) {

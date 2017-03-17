@@ -28,7 +28,7 @@ namespace DrawMoar
         public static int LayersIndexes { get; set; }
         public static Size canvSize { get; set; }
 
-        private static Brush _color = Brushes.Black;
+        private static Brush _color = Brushes.Red;
         public static Brush Color
         {
             get

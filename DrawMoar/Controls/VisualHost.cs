@@ -17,6 +17,10 @@ namespace DrawMoar
         // Коллекция для хранения DrawingVisual
         private readonly VisualCollection _visuals;
 
+        public VisualCollection GetVisuals() {
+            return _visuals;
+        }
+
         //Свойства для хранения состояния о корневом экземпляре коллекции _visuals
         private Brush FillBrush { get; set; }
         private Point Position { get; set; }
@@ -29,7 +33,6 @@ namespace DrawMoar
             this.MouseLeftButtonUp += new MouseButtonEventHandler(VisualHost_MouseLeftButtonUp);
             this.MouseLeftButtonDown += new MouseButtonEventHandler(VisualHost_MouseLeftButtonDown);
             this.MouseMove += new MouseEventHandler(VisualHost_MouseMove);
-            //this.MouseLeave += new MouseEventHandler(VisualHost_MouseLeave);      ПОЧЕМУ ЭТО НЕ РАБОТАЕТ?!
         }
 
         /// <summary>
@@ -55,11 +58,7 @@ namespace DrawMoar
 
             return drawingVisual;
         }
-
-        void VisualHost_MouseLeave(object sender, MouseEventHandler e)     //см. выше
-       {
-            VisualHost_MouseLeftButtonUp(null, null);
-        }
+        
 
         private DrawingVisual ClearVisualSpace() {
             return CreateDrawingVisualSpace(Brushes.Silver, Brushes.Transparent, new Point(0, 0), GlobalState.canvSize);
@@ -124,7 +123,7 @@ namespace DrawMoar
 
                     var drawingVisual = new DrawingVisual();
                     using (DrawingContext drawingContext = drawingVisual.RenderOpen()) {
-                        drawingContext.DrawLine(new Pen(Brushes.Black, GlobalState.BrushSize.Width), GlobalState.lightVector.GetLastPoint(), newPt);
+                        drawingContext.DrawLine(new Pen(Brushes.Red, GlobalState.BrushSize.Width), GlobalState.lightVector.GetLastPoint(), newPt);
                         _visuals.Add(drawingVisual);
                     }
                 }
@@ -139,7 +138,7 @@ namespace DrawMoar
         private void DrawPoint(Point pt) {
             var drawingVisual = new DrawingVisual();
             using (DrawingContext drawingContext = drawingVisual.RenderOpen()) {
-                drawingContext.DrawEllipse(new SolidColorBrush(Colors.Black), null, pt, GlobalState.BrushSize.Width, GlobalState.BrushSize.Height);
+                drawingContext.DrawEllipse(new SolidColorBrush(Colors.Red), null, pt, GlobalState.BrushSize.Width, GlobalState.BrushSize.Height);
             }
             _visuals.Add(drawingVisual);
         }

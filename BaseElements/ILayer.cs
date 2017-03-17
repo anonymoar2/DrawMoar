@@ -37,5 +37,8 @@ namespace BaseElements
         /// </summary>
         /// <returns>image</returns>
         Bitmap GetBitmap();
+
+        Bitmap bitmap { get; set; }
+
     }
 }
