@@ -14,6 +14,6 @@
              Focusable="True"
              GotFocus="UserControl_GotFocus">
     <Grid>
-        <local:VisualHost x:Name="VisualHost" />
+        <local:VisualHost x:Name="VisualHost"/>
     </Grid>
 </UserControl>
