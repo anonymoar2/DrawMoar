@@ -116,6 +116,22 @@ namespace DrawMoar
         }
 
 
+        private void DrawLine(Point newPt) {
+
+            if (GlobalState.lightVector.active) {
+
+                if (!GlobalState.lightVector.IsEmpty()) {
+
+                    var drawingVisual = new DrawingVisual();
+                    using (DrawingContext drawingContext = drawingVisual.RenderOpen()) {
+                        drawingContext.DrawLine(new Pen(Brushes.Black, GlobalState.BrushSize.Width), GlobalState.lightVector.GetLastPoint(), newPt);
+                        _visuals.Add(drawingVisual);
+                    }
+                }
+            }
+        }
+
+
         /// <summary>
         /// Метода для рисования точек кистью
         /// </summary>
@@ -127,6 +143,7 @@ namespace DrawMoar
             }
             _visuals.Add(drawingVisual);
         }
+
 
         /// <summary>
         /// Событие для определения координат рисования
@@ -155,6 +172,7 @@ namespace DrawMoar
 
                 case Instrument.Light:
 
+                    // Скорее всего делаю это неправильно, по сути нужно просто клик отслеживать и его координаты
                     if (GlobalState.PressLeftButton) {
                         Point pt = e.GetPosition((UIElement)sender);
 
@@ -163,7 +181,10 @@ namespace DrawMoar
                             && pt.X <= (Position.X + SpaceSize.Width - GlobalState.BrushSize.Width / 2)
                             && pt.Y <= (Position.Y + SpaceSize.Height - GlobalState.BrushSize.Height / 2)) {
 
-                            GlobalState.lightVector.DrawOneSegment(pt);
+                            if (!GlobalState.lightVector.IsEmpty()) {
+                                DrawLine(pt);
+                            }
+                            GlobalState.lightVector.Push(pt);
                         }
                     }
                     break;

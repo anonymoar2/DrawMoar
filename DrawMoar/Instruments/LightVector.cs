@@ -19,6 +19,10 @@ namespace DrawMoar.Instruments
             this.cartoon = cartoon;
         }
 
+        public System.Windows.Point GetLastPoint() {
+            return points.Last();
+        }
+
 
         /// <summary>
         /// Добавление точки в конец списка
@@ -44,25 +48,25 @@ namespace DrawMoar.Instruments
         }
 
 
-        /// <summary>
-        /// Вызывать каждый раз после нажатия на холст после того как вызвали старт
-        /// </summary>
-        /// <param name="newPoint"></param>
-        public void DrawOneSegment(System.Windows.Point newPoint) {
-            if (this.active) {
-                if (!this.IsEmpty()) {
-                    //((LayerControl)cartoon.CurrentScene.currentFrame.CurrentLayer.drawingControl)
-                    /// Тут добавляем на канвас линию с координатами (points.Last(); newPoint)
+        ///// <summary>
+        ///// Вызывать каждый раз после нажатия на холст после того как вызвали старт
+        ///// </summary>
+        ///// <param name="newPoint"></param>
+        //public void DrawOneSegment(System.Windows.Point newPoint) {
+        //    if (this.active) {
+        //        if (!this.IsEmpty()) {
+        //            //((LayerControl)cartoon.CurrentScene.currentFrame.CurrentLayer.drawingControl)
+        //            /// Тут добавляем на канвас линию с координатами (points.Last(); newPoint)
                     
-                }
-                this.Push(newPoint);
-                /// Вызываем метод который будет тащить за собой линию от этой точки(последней в списке) до клика
-                /// (метод тащит линию, а потом прекращается при клике на холст)
-            }
-        }
+        //        }
+        //        this.Push(newPoint);
+        //        /// Вызываем метод который будет тащить за собой линию от этой точки(последней в списке) до клика
+        //        /// (метод тащит линию, а потом прекращается при клике на холст)
+        //    }
+        //}
 
 
-        public Color MainColor {
+        public System.Drawing.Color MainColor {
             get {
                 throw new NotImplementedException();
             }
@@ -83,22 +87,22 @@ namespace DrawMoar.Instruments
         }
 
 
-        private bool active = false;
+        public bool active = false;
 
-        /// <summary>
-        /// То что происходит при нажатии на кнопку нашего вектора
-        /// </summary>
-        public void Start() {
-            active = true;
-            /// Если текущий слой не LightVectorLayer
-            /// Создаем новый слой типа LightVectorLayer
-            if(cartoon.CurrentScene.currentFrame.CurrentLayer.GetType().Name != "LightVectorLayer") {
-                cartoon.CurrentScene.currentFrame.AddLayer(new LightVectorLayer());
-            }
+        ///// <summary>
+        ///// То что происходит при нажатии на кнопку нашего вектора
+        ///// </summary>
+        //public void Start() {
+        //    active = true;
+        //    /// Если текущий слой не LightVectorLayer
+        //    /// Создаем новый слой типа LightVectorLayer
+        //    if(cartoon.CurrentScene.currentFrame.CurrentLayer.GetType().Name != "LightVectorLayer") {
+        //        cartoon.CurrentScene.currentFrame.AddLayer(new LightVectorLayer());
+        //    }
             
-            /// 
-            /// Если список точек НЕ пустой
-            /// Вызываем метод который будет тащить за собой линию от этой точки до клика
-        }
+        //    /// 
+        //    /// Если список точек НЕ пустой
+        //    /// Вызываем метод который будет тащить за собой линию от этой точки до клика
+        //}
     }
 }

@@ -12,7 +12,7 @@ namespace DrawMoar
 {
     class LightVectorLayer : VectorLayer
     {
-        private List<Size> points;
+        private List<Size> points = new List<Size>();
 
         public LightVectorLayer() {
 
@@ -23,7 +23,7 @@ namespace DrawMoar
         }
 
         /// <summary>
-        /// А тут отрисовочка
+        /// А тут отрисовочка для показа содержимого слоя при переключении слоёв
         /// </summary>
         new public void Draw() {
             /// Проходим по списку точек и рисуем их линиями
