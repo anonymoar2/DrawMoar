@@ -61,7 +61,7 @@
             <Button x:Name="AddLayer" Content="+L" Width="30"  Height="20" Margin="6,7" Click="AddLayer_Click"/>
         </WrapPanel>
         <ListBox Name="layersList" Width="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                         BorderBrush="LightGray" Grid.Column="0" Grid.Row="4"/>
+                         BorderBrush="LightGray" SelectionChanged="layersList_SelectionChanged" Grid.Column="0" Grid.Row="4"/>
         <WrapPanel Name="smth" Width="120" Grid.Column="2" Grid.Row="3"/>
         <ListBox  x:Name="framesList" Width="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                           BorderBrush="LightGray" SelectionChanged="framesList_SelectionChanged"

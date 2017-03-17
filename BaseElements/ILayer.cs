@@ -29,6 +29,9 @@ namespace BaseElements
         void Draw();
 
 
+        object drawingControl { get; set; }
+
+
         /// <summary>
         /// Получает image из картинки
         /// </summary>

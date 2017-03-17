@@ -45,6 +45,8 @@ namespace BaseElements
         }
 
 
+        public object drawingControl { get; set; }
+
         /// <summary>
         /// Пока ничего
         /// </summary>

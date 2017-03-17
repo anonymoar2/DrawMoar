@@ -111,7 +111,7 @@ namespace BaseElements
                 Width = width;
                 Height = height;
                 WorkingDirectory = workingDirectory;
-            scenes.Add(new Scene($"scene{scenes.Count}"));
+            scenes.Add(new Scene($"scene{scenes.Count}",Width, Height));
             CurrentScene = scenes.First();
         }
 
@@ -144,7 +144,7 @@ namespace BaseElements
         /// Добавление пустой сцены в конец списка.
         /// </summary>
         public void AddScene() {
-            scenes.Add(new Scene($"scene{scenes.Count}"));
+            scenes.Add(new Scene($"scene{scenes.Count}", Width, Height));
             CurrentScene = scenes.Last();
         }
 

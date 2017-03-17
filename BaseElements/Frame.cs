@@ -95,8 +95,10 @@ namespace BaseElements
         /// <summary>
         /// TODO: вернуть классы или подумать ещё тут крч
         /// </summary>
-        public Frame() {
-            layers.Add(new RasterLayer(new Bitmap(Width, Height))); // По умолчанию всегда создается растровый слой
+        public Frame(int width, int height) {
+            Width = width;
+            Height = height;
+            layers.Add(new RasterLayer(new Bitmap(Width, Height)) { Name = "layer_0" }); // По умолчанию всегда создается растровый слой
             CurrentLayer = layers.First();
         }
 
@@ -118,6 +120,12 @@ namespace BaseElements
             // в многопоточном коде layers.Count может быть одинаковым
             // для двух разных потоков во время вызова этого метода.
             layers.Add(new RasterLayer(new Bitmap(Width, Height)) { Name = $"layer{layers.Count}" });
+        }
+
+
+        public void AddLayer(ILayer layer)
+        {
+            layers.Add(layer);
         }
 
         /// <summary>

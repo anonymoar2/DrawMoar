@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BaseElements;
+using System.Drawing;
 
 namespace DrawMoar
 {
@@ -40,8 +41,8 @@ namespace DrawMoar
             // для теста, потом всё это можно будет поменять без проблем
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             GlobalState.ChangeInstrument += SetCursorStyle;
-            GlobalState.Color = Brushes.Black;
-            GlobalState.BrushSize = new Size(5, 5);
+            GlobalState.Color = System.Windows.Media.Brushes.Black;
+            GlobalState.BrushSize = new System.Windows.Size(5, 5);
         }
 
         //тогда отрисовку придется выносить в отдельный класс и она будет сложнее - много работы в плане 
@@ -109,7 +110,7 @@ namespace DrawMoar
             var width = canvas.ActualWidth;
             var height = canvas.ActualHeight;
 
-            var size = new Size(width, height);
+            var size = new System.Windows.Size(width, height);
             canvas.Measure(size);
 
             var rtb = new RenderTargetBitmap(
@@ -146,7 +147,7 @@ namespace DrawMoar
             canvas.Width = cartoon.Width;
             canvas.Height = cartoon.Height;
             this.cartoon = cartoon;
-            GlobalState.canvSize = new Size(canvas.Width, canvas.Height);
+            GlobalState.canvSize = new System.Windows.Size(canvas.Width, canvas.Height);
             Height = canvas.Height;
             Width = canvas.Width + 260;        //пока что так (ширина двух крайних колонок грида)
             AddScene_Click(null, null);
@@ -155,7 +156,6 @@ namespace DrawMoar
         }
 
 
-        private int i = 0;
         public void CreateNewFrame(object sender, RoutedEventArgs e)
         {
 
@@ -200,13 +200,19 @@ namespace DrawMoar
         {
             if (cartoon == null) return;
             //проверка на то, выделен ли какой-либо кадр(когда реализуем удаление)
-            var layer = new LayerControl();
+            var drawingControl = new LayerControl();
+            drawingControl.Focus();
+            var layer = new RasterLayerView(new Bitmap(cartoon.CurrentScene.currentFrame.Width,
+                                                        cartoon.CurrentScene.currentFrame.Height));
+            layer.Name = $"layer_{layersList.Items.Count}";
+            layer.drawingControl = drawingControl;
             if (sender != null)
             {
-                cartoon.CurrentScene.currentFrame.AddRasterLayer();
+                cartoon.CurrentScene.currentFrame.AddLayer(layer);
                 string text = $"layer_{layersList.Items.Count}";
                 AddListBoxElement(layersList, text);
             }
+            canvas.Children.Add(drawingControl);
         }
 
         /// <summary>
@@ -235,7 +241,8 @@ namespace DrawMoar
         private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             layersList.Items.Clear();
-            if(framesList.SelectedIndex!=-1)
+            //canvas.Children.Clear();
+            if (framesList.SelectedIndex != -1)
                 cartoon.CurrentScene.currentFrame = cartoon.CurrentScene.GetAllFrames()[framesList.SelectedIndex];
             var lays = cartoon.CurrentScene.currentFrame.GetAllLayers();
             int i = 0;      //пока не пофиксили имена слоев
@@ -258,9 +265,20 @@ namespace DrawMoar
             }
         }
 
-        private void layerList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void layersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //Здесь трудности из-за проблем связывания слоев с контролами
+            var layer = cartoon.CurrentScene.currentFrame.GetAllLayers()[layersList.SelectedIndex];
+            foreach (LayerControl item in canvas.Children)
+            {
+                item.NonFocus(null, null);
+                item.Visibility = Visibility.Hidden;
+            }
+            //LayerControl control = (LayerControl)layer.drawingControl;
+            //control.Visibility = Visibility.Visible;
+            //control.Focus();
+            if(canvas.Children.Count>layersList.SelectedIndex)canvas.Children[layersList.SelectedIndex].Visibility = Visibility.Visible;
+            //canvas.Children[layersList.SelectedIndex].Focus();
+
         }
 
         private void testButton_Click(object sender, RoutedEventArgs e)
@@ -277,8 +295,9 @@ namespace DrawMoar
         {
             if (cartoon == null) return;
             cartoon.CurrentScene.AddFrame();
+            cartoon.CurrentScene.currentFrame.CurrentLayer.drawingControl = new LayerControl();
             var frames = cartoon.CurrentScene.GetAllFrames();
-            AddListBoxElement(framesList, $"frame_{frames.Count-1}");
+            AddListBoxElement(framesList, $"frame_{frames.Count - 1}");
             cartoon.CurrentScene.currentFrame = frames[framesList.SelectedIndex];
 
         }

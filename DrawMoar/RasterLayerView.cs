@@ -17,5 +17,11 @@ namespace DrawMoar
         new public void Draw() {
             throw new NotImplementedException();
         }
+
+        public RasterLayerView(Bitmap bitmap):base(bitmap)
+        {
+            base.bitmap = bitmap;
+        }
+
     }
 }

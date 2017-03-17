@@ -15,7 +15,7 @@ namespace BaseElements
         /// <summary>
         /// По сути сама картинка-растровый слой
         /// </summary>
-        private Bitmap bitmap;
+        protected Bitmap bitmap;
 
 
         /// <summary>
@@ -31,6 +31,8 @@ namespace BaseElements
             this.bitmap = bitmap;
         }
 
+
+        public object drawingControl { get; set; }
 
         /// <summary>
         /// Название (имя) слоя

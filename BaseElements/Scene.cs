@@ -7,6 +7,9 @@ namespace BaseElements
 {
     public class Scene
     {
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+
         /// <summary>
         /// Название (имя) сцены
         /// </summary>
@@ -46,16 +49,20 @@ namespace BaseElements
         /// Создает сцену с указанным именем
         /// </summary>
         /// <param name="sceneName">Имя сцены</param>
-        public Scene(string sceneName) {
+        public Scene(string sceneName, int width, int height) {
             name = sceneName;
+            Width = width;
+            Height = height;
         }
 
 
         /// <summary>
         /// Создает сцену со стандартным именем "newScene"
         /// </summary>
-        public Scene() {
+        public Scene(int width, int height) {
             name = "newScene";
+            Width = width;
+            Height = height;
         }
 
 
@@ -88,7 +95,7 @@ namespace BaseElements
         /// Добавить новый пустой кадр в конец списка кадров
         /// </summary>
         public void AddFrame() {
-            frames.Add(new Frame());
+            frames.Add(new Frame(Width, Height));
             currentFrame = frames.Last();
         }
 
@@ -163,7 +170,7 @@ namespace BaseElements
         /// <param name="index">Индекс по которому нужно вставить кадр</param>
         public void InsertEmptyFrame(int index) {
             if (index >= 0 && index <= frames.Count) {
-                frames.Insert(index, new Frame());
+                frames.Insert(index, new Frame(Width,Height));
                 if (index == frames.Count) {
                     currentFrame = frames.Last();
                 }
