@@ -30,7 +30,6 @@ namespace DrawMoar
             this.MouseLeftButtonUp += new MouseButtonEventHandler(VisualHost_MouseLeftButtonUp);
             this.MouseLeftButtonDown += new MouseButtonEventHandler(VisualHost_MouseLeftButtonDown);
             this.MouseMove += new MouseEventHandler(VisualHost_MouseMove);
-            //this.MouseLeave += new MouseEventHandler(VisualHost_MouseLeave);      ПОЧЕМУ ЭТО НЕ РАБОТАЕТ?!
         }  
 
         /// <summary>
@@ -59,10 +58,6 @@ namespace DrawMoar
             return drawingVisual;
         }
 
-         void VisualHost_MouseLeave(object sender, MouseEventHandler e)     //см. выше
-        {
-            VisualHost_MouseLeftButtonUp(null, null);
-        }
 
         private DrawingVisual ClearVisualSpace()
         {
@@ -138,7 +133,7 @@ namespace DrawMoar
             using (DrawingContext drawingContext = drawingVisual.RenderOpen())
             {
                 Rect rect = new Rect(pt, GlobalState.BrushSize);
-                drawingContext.DrawRoundedRectangle(GlobalState.Color, null, rect, GlobalState.BrushSize.Width, GlobalState.BrushSize.Height);
+                drawingContext.DrawRoundedRectangle(GlobalState.Color,null, rect, GlobalState.BrushSize.Width, GlobalState.BrushSize.Height);
             }
             _visuals.Add(drawingVisual);
         }
@@ -156,7 +151,7 @@ namespace DrawMoar
                     break;
                 case Instrument.Brush:
  
-                    if (GlobalState.PressLeftButton && this.IsFocused)
+                    if (GlobalState.PressLeftButton)
                     {
                         Point pt = e.GetPosition((UIElement)sender);
                         DrawPoint(pt);

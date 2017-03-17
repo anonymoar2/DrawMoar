@@ -142,7 +142,7 @@ namespace DrawMoar
         /// </summary>
         /// <param name="cartoon"></param>
         public void Success(Cartoon cartoon)
-        {
+        {          
             canvas.Visibility = Visibility.Visible;
             canvas.Width = cartoon.Width;
             canvas.Height = cartoon.Height;
@@ -206,11 +206,11 @@ namespace DrawMoar
                                                         cartoon.CurrentScene.currentFrame.Height));
             layer.Name = $"layer_{layersList.Items.Count}";
             layer.drawingControl = drawingControl;
+            AddListBoxElement(layersList, layer.Name);
             if (sender != null)
             {
                 cartoon.CurrentScene.currentFrame.AddLayer(layer);
-                string text = $"layer_{layersList.Items.Count}";
-                AddListBoxElement(layersList, text);
+               
             }
             canvas.Children.Add(drawingControl);
         }
@@ -241,13 +241,14 @@ namespace DrawMoar
         private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             layersList.Items.Clear();
-            //canvas.Children.Clear();
+            canvas.Children.Clear();
             if (framesList.SelectedIndex != -1)
                 cartoon.CurrentScene.currentFrame = cartoon.CurrentScene.GetAllFrames()[framesList.SelectedIndex];
             var lays = cartoon.CurrentScene.currentFrame.GetAllLayers();
             int i = 0;      //пока не пофиксили имена слоев
             foreach (var item in lays)
             {
+                canvas.Children.Add((LayerControl)item.drawingControl);
                 AddListBoxElement(layersList, $"layer{i++}"); //вторым параметром должны быть Names
             }
         }
@@ -267,17 +268,12 @@ namespace DrawMoar
 
         private void layersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var layer = cartoon.CurrentScene.currentFrame.GetAllLayers()[layersList.SelectedIndex];
             foreach (LayerControl item in canvas.Children)
             {
-                item.NonFocus(null, null);
                 item.Visibility = Visibility.Hidden;
             }
-            //LayerControl control = (LayerControl)layer.drawingControl;
-            //control.Visibility = Visibility.Visible;
-            //control.Focus();
-            if(canvas.Children.Count>layersList.SelectedIndex)canvas.Children[layersList.SelectedIndex].Visibility = Visibility.Visible;
-            //canvas.Children[layersList.SelectedIndex].Focus();
+            if(layersList.SelectedIndex!=-1)
+                canvas.Children[layersList.SelectedIndex].Visibility = Visibility.Visible;
 
         }
 
@@ -296,10 +292,10 @@ namespace DrawMoar
             if (cartoon == null) return;
             cartoon.CurrentScene.AddFrame();
             cartoon.CurrentScene.currentFrame.CurrentLayer.drawingControl = new LayerControl();
+            //cartoon.CurrentScene.currentFrame.CurrentLayer.drawingControl = new LayerControl();
             var frames = cartoon.CurrentScene.GetAllFrames();
             AddListBoxElement(framesList, $"frame_{frames.Count - 1}");
-            cartoon.CurrentScene.currentFrame = frames[framesList.SelectedIndex];
-
+            //cartoon.CurrentScene.currentFrame = frames[framesList.SelectedIndex];
         }
 
         private void AddScene_Click(object sender, RoutedEventArgs e)
@@ -319,7 +315,7 @@ namespace DrawMoar
             var lbl = new Label();          //здесь должен быть какой-то другой контрол (возможно, самописный)
             lbl.Content = content;
             lBox.Items.Add(lbl);
-            lBox.SelectedIndex = lBox.Items.Count - 1;
+            //lBox.SelectedIndex = lBox.Items.Count - 1;
         }
 
     }
