@@ -42,7 +42,7 @@ namespace BaseElements
             get { return name; }
             set {
                 // TODO: Изменить регулярное выражение на более подходящее
-                if (Regex.IsMatch(value, @"[a-zA-Z0-9]+")) {
+                if (Regex.IsMatch(value, @"\w")) {
                     name = value;
                 }
                 else {
