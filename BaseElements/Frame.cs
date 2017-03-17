@@ -123,12 +123,14 @@ namespace BaseElements
             // в многопоточном коде layers.Count может быть одинаковым
             // для двух разных потоков во время вызова этого метода.
             layers.Add(new RasterLayer(new Bitmap(Width, Height)) { Name = $"layer{layers.Count}" });
+            CurrentLayer = layers.Last();
         }
 
 
         public void AddLayer(ILayer layer)
         {
             layers.Add(layer);
+            CurrentLayer = layers.Last();
         }
 
         /// <summary>
@@ -139,6 +141,7 @@ namespace BaseElements
             // в многопоточном коде layers.Count может быть одинаковым
             // для двух разных потоков во время вызова этого метода.
             layers.Add(new VectorLayer() { Name = $"vector{layers.Count}" });
+            CurrentLayer = layers.Last();
         }
 
 
@@ -149,6 +152,7 @@ namespace BaseElements
         public void RemoveLayer(ILayer layer) {
             // WARNING: каким будет поведение если layer отсутствует в layers?
             layers.Remove(layer);
+            /// currentlayer
         }
 
 
