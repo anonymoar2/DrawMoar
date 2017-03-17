@@ -26,11 +26,12 @@ namespace DrawMoar.Instruments
                 }
             }
         }
-
-        private System.Drawing.Color mainColor;
+        
         public System.Drawing.Color MainColor {
             get; set;
         }
+
+
     }
 
 }

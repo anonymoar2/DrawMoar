@@ -26,8 +26,7 @@ namespace DrawMoar
     {
         private Cartoon cartoon;
 
-        public MainWindow()
-        {
+        public MainWindow() {
             InitializeComponent();
             // при создании окна области рисования нет
 
@@ -47,8 +46,7 @@ namespace DrawMoar
 
         //тогда отрисовку придется выносить в отдельный класс и она будет сложнее - много работы в плане 
 
-        private void CreateCartoon(object sender, RoutedEventArgs e)
-        {
+        private void CreateCartoon(object sender, RoutedEventArgs e) {
             // создаём новый пустой кадр
             // на кадре новый пустой слой создаём
             var newCartoonDialog = new CreateCartoonDialog();
@@ -63,8 +61,7 @@ namespace DrawMoar
         ///  
         /// </summary>
 
-        private void AddLine(object sender, RoutedEventArgs e)
-        {
+        private void AddLine(object sender, RoutedEventArgs e) {
 
             var myLine = new Line();
             myLine.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
@@ -81,32 +78,27 @@ namespace DrawMoar
         }
 
 
-        private void ExportToMP4(object sender, RoutedEventArgs e)
-        {
+        private void ExportToMP4(object sender, RoutedEventArgs e) {
             // должны 1) пройтись по кадрам и сохранить все в картинки
             // 
             // 2) запилить видео
             // 3) удалить вспомогательные файлы
         }
 
-        private void SaveToPNG(object sender, RoutedEventArgs e)
-        {
-            var saveDlg = new SaveFileDialog
-            {
+        private void SaveToPNG(object sender, RoutedEventArgs e) {
+            var saveDlg = new SaveFileDialog {
                 FileName = "img",
                 DefaultExt = ".png",
                 Filter = "PNG (.png)|*.png"
             };
 
-            if (saveDlg.ShowDialog() == true)
-            {
+            if (saveDlg.ShowDialog() == true) {
                 //SaveCanvas(canvas, 96, saveDlg.FileName);
             }
         }
 
 
-        private void SaveCanvas(InkCanvas canvas, int dpi, string filename)
-        {
+        private void SaveCanvas(InkCanvas canvas, int dpi, string filename) {
             var width = canvas.ActualWidth;
             var height = canvas.ActualHeight;
 
@@ -125,13 +117,11 @@ namespace DrawMoar
             SaveAsPng(rtb, filename);
         }
 
-        private static void SaveAsPng(RenderTargetBitmap bmp, string filename)
-        {
+        private static void SaveAsPng(RenderTargetBitmap bmp, string filename) {
             var enc = new PngBitmapEncoder();
             enc.Frames.Add(BitmapFrame.Create(bmp));
 
-            using (FileStream stm = File.Create(filename))
-            {
+            using (FileStream stm = File.Create(filename)) {
                 enc.Save(stm);
             }
         }
@@ -141,8 +131,7 @@ namespace DrawMoar
         /// Выполняется при нажатии кнопки Create (Создать)
         /// </summary>
         /// <param name="cartoon"></param>
-        public void Success(Cartoon cartoon)
-        {
+        public void Success(Cartoon cartoon) {
             canvas.Visibility = Visibility.Visible;
             canvas.Width = cartoon.Width;
             canvas.Height = cartoon.Height;
@@ -156,8 +145,7 @@ namespace DrawMoar
         }
 
 
-        public void CreateNewFrame(object sender, RoutedEventArgs e)
-        {
+        public void CreateNewFrame(object sender, RoutedEventArgs e) {
 
             //string frameName = $"img{i++}.png";
             // SaveCanvas(canvas, 90, System.IO.Path.Combine(cartoon.WorkingDirectory, /*cartoon.Name*/frameName));
@@ -171,8 +159,7 @@ namespace DrawMoar
 
 
         // https://github.com/artesdi/Paint.WPF
-        public void DeleteFrame(object sender, RoutedEventArgs e)
-        {
+        public void DeleteFrame(object sender, RoutedEventArgs e) {
 
             //cartoon.frames.Remove(cartoon.currentFrame);
             // удаление из списка кадров на экране
@@ -185,8 +172,7 @@ namespace DrawMoar
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e)
-        {
+        private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e) {
             GlobalState.Color = new SolidColorBrush(ClrPcker_Background.SelectedColor.Value);
         }
 
@@ -196,9 +182,10 @@ namespace DrawMoar
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AddLayer_Click(object sender, RoutedEventArgs e)
-        {
-            if (cartoon == null) return;
+        private void AddLayer_Click(object sender, RoutedEventArgs e) {
+            if (cartoon == null) {
+                return;
+            }
             //проверка на то, выделен ли какой-либо кадр(когда реализуем удаление)
             var drawingControl = new LayerControl();
             drawingControl.Focus();
@@ -206,8 +193,7 @@ namespace DrawMoar
                                                         cartoon.CurrentScene.currentFrame.Height));
             layer.Name = $"layer_{layersList.Items.Count}";
             layer.drawingControl = drawingControl;
-            if (sender != null)
-            {
+            if (sender != null) {
                 cartoon.CurrentScene.currentFrame.AddLayer(layer);
                 string text = $"layer_{layersList.Items.Count}";
                 AddListBoxElement(layersList, text);
@@ -220,10 +206,8 @@ namespace DrawMoar
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SetCursorStyle(Object sender, EventArgs e)
-        {
-            switch (GlobalState.CurrentTool)
-            {
+        private void SetCursorStyle(Object sender, EventArgs e) {
+            switch (GlobalState.CurrentTool) {
                 case Instrument.Brush:
                     canvas.Cursor = Cursors.Cross;
                     break;
@@ -238,62 +222,57 @@ namespace DrawMoar
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             layersList.Items.Clear();
             //canvas.Children.Clear();
-            if (framesList.SelectedIndex != -1)
+            if (framesList.SelectedIndex != -1) {
                 cartoon.CurrentScene.currentFrame = cartoon.CurrentScene.GetAllFrames()[framesList.SelectedIndex];
+            }
             var lays = cartoon.CurrentScene.currentFrame.GetAllLayers();
             int i = 0;      //пока не пофиксили имена слоев
-            foreach (var item in lays)
-            {
+            foreach (var item in lays) {
                 AddListBoxElement(layersList, $"layer{i++}"); //вторым параметром должны быть Names
             }
         }
 
 
-        private void scenesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        private void scenesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             framesList.Items.Clear();
             cartoon.CurrentScene = cartoon.GetAllScenes()[scenesList.SelectedIndex];
             var frames = cartoon.CurrentScene.GetAllFrames();
             int i = 0;                                          //с именами большая беда. нужно будет в BaseElements разобраться
-            foreach (var item in frames)
-            {
+            foreach (var item in frames) {
                 AddListBoxElement(framesList, $"frame{i++}");
             }
         }
 
-        private void layersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        private void layersList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             var layer = cartoon.CurrentScene.currentFrame.GetAllLayers()[layersList.SelectedIndex];
-            foreach (LayerControl item in canvas.Children)
-            {
-                item.NonFocus(null, null);
+            foreach (LayerControl item in canvas.Children) {
+                //item.NonFocus(null, null);
                 item.Visibility = Visibility.Hidden;
             }
             //LayerControl control = (LayerControl)layer.drawingControl;
             //control.Visibility = Visibility.Visible;
             //control.Focus();
-            if(canvas.Children.Count>layersList.SelectedIndex)canvas.Children[layersList.SelectedIndex].Visibility = Visibility.Visible;
+            if (canvas.Children.Count > layersList.SelectedIndex) {
+                canvas.Children[layersList.SelectedIndex].Visibility = Visibility.Visible;
+            }
             //canvas.Children[layersList.SelectedIndex].Focus();
-
         }
 
-        private void testButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void testButton_Click(object sender, RoutedEventArgs e) {
             GlobalState.CurrentTool = Instrument.Brush;
         }
 
-        private void testButton2_Click(object sender, RoutedEventArgs e)
-        {
+        private void testButton2_Click(object sender, RoutedEventArgs e) {
             GlobalState.CurrentTool = Instrument.Arrow;
         }
 
-        private void AddFrame_Click(object sender, RoutedEventArgs e)
-        {
-            if (cartoon == null) return;
+        private void AddFrame_Click(object sender, RoutedEventArgs e) {
+            if (cartoon == null) {
+                return;
+            }
             cartoon.CurrentScene.AddFrame();
             cartoon.CurrentScene.currentFrame.CurrentLayer.drawingControl = new LayerControl();
             var frames = cartoon.CurrentScene.GetAllFrames();
@@ -302,11 +281,11 @@ namespace DrawMoar
 
         }
 
-        private void AddScene_Click(object sender, RoutedEventArgs e)
-        {
-            if (cartoon == null) return;
-            if (sender != null)
-            {
+        private void AddScene_Click(object sender, RoutedEventArgs e) {
+            if (cartoon == null) {
+                return;
+            }
+            if (sender != null) {
                 cartoon.AddScene();
                 cartoon.CurrentScene.AddFrame();
                 cartoon.CurrentScene.currentFrame = cartoon.CurrentScene.GetAllFrames()[0];
@@ -314,8 +293,7 @@ namespace DrawMoar
             AddListBoxElement(scenesList, cartoon.CurrentScene.Name);
         }
 
-        private void AddListBoxElement(ListBox lBox, string content)
-        {
+        private void AddListBoxElement(ListBox lBox, string content) {
             var lbl = new Label();          //здесь должен быть какой-то другой контрол (возможно, самописный)
             lbl.Content = content;
             lBox.Items.Add(lbl);

@@ -18,17 +18,23 @@ namespace DrawMoar
         }
 
         private void creating_Click(object sender, RoutedEventArgs e) {
-            
-            if (getName.Text == "") System.Windows.MessageBox.Show("You haven't entered the name");
-            else if (getHeight.Text == "") System.Windows.MessageBox.Show("You haven't entered the height");
-            else if (getWidth.Text == "") System.Windows.MessageBox.Show("You haven't entered the width");
+
+            if (getName.Text == "") {
+                System.Windows.MessageBox.Show("You haven't entered the name");
+            }
+            else if (getHeight.Text == "") {
+                System.Windows.MessageBox.Show("You haven't entered the height");
+            }
+            else if (getWidth.Text == "") {
+                System.Windows.MessageBox.Show("You haven't entered the width");
+            }
             else {
                 try {
                     var cartoonName = getName.Text;
                     var cartoonHeight = Int32.Parse(getHeight.Text);
                     var cartoonWidth = Int32.Parse(getWidth.Text);
                     if (cartoonHeight <= 0 || cartoonWidth <= 0) throw new FormatException();
-                    
+
                     var folderDDialog = new FolderBrowserDialog();
                     folderDDialog.ShowDialog();
                     string selectedDirectory = folderDDialog.SelectedPath;
