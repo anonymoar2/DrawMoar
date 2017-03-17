@@ -123,6 +123,16 @@ namespace DrawMoar
         }
 
    
+        private void DrawLine(Point pt1,Point pt2)
+        {
+            var drawingVisual = new DrawingVisual();
+            using (DrawingContext drawingContext = drawingVisual.RenderOpen())
+            {
+                drawingContext.DrawLine(new Pen(Brushes.Black, GlobalState.BrushSize.Width), pt1, pt2);
+                _visuals.Add(drawingVisual);
+            }
+        }
+
         /// <summary>
         /// Метода для рисования точек кистью
         /// </summary>

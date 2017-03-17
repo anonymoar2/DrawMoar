@@ -227,6 +227,7 @@ namespace DrawMoar
             layersList.Items.Clear();
             canvas.Children.Clear();
             if (framesList.SelectedIndex != -1)
+            {
                 cartoon.CurrentScene.currentFrame = cartoon.CurrentScene.GetAllFrames()[framesList.SelectedIndex];
             }
             var lays = cartoon.CurrentScene.currentFrame.GetAllLayers();
