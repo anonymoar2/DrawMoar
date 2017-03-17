@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Drawing;
 
 namespace BaseElements
 {
@@ -18,11 +19,13 @@ namespace BaseElements
         /// </summary>
         private List<Scene> scenes = new List<Scene>();
 
+
         /// <summary>
         /// Минимальная ширина холста мультфильма в пикселях.
         /// Соответствует разрешению 144p.
         /// </summary>
         private const int MinimalWidth = 256;
+
 
         /// <summary>
         /// Минимальная высота холста мультфильма в пикселях.
@@ -30,17 +33,20 @@ namespace BaseElements
         /// </summary>
         private const int MinimalHeight = 144;
 
+
         /// <summary>
         /// Максимальная ширина холста мультфильма в пикселях.
         /// Соответствует разрешению 4K.
         /// </summary>
         private const int MaximumWidth = 3840;
 
+
         /// <summary>
         /// Максимальная высота холста мультфильма в пикселях.
         /// Соответствует разрешению 4K.
         /// </summary>
         private const int MaximumHeight = 2160; // MAXIMUM HATE 😡
+
 
         private string name;
         public string Name {
@@ -55,6 +61,7 @@ namespace BaseElements
                 }
             }
         }
+
 
         private int width;
         public int Width {
@@ -71,6 +78,7 @@ namespace BaseElements
             }
         }
 
+
         private int height;
         public int Height {
             get { return height; }
@@ -85,6 +93,7 @@ namespace BaseElements
                 }
             }
         }
+
 
         private string workingDirectory;
         public string WorkingDirectory {
@@ -106,6 +115,7 @@ namespace BaseElements
             }
         }
 
+
         public Cartoon(string name, int width, int height, string workingDirectory) {
                 Name = name;
                 Width = width;
@@ -114,6 +124,23 @@ namespace BaseElements
             scenes.Add(new Scene($"scene{scenes.Count}",Width, Height));
             CurrentScene = scenes.First();
         }
+
+
+        /// <summary>
+        /// Проходит по всем сценам муьтика, по всем кадрам каждой сцены и формирует список bitmap, 
+        /// элементами которого являются bitmap-ы всех кадров
+        /// </summary>
+        /// <returns>Список bitmap-в каждого кадра (один bitmap = один кадр)</returns>
+        public List<Bitmap> GetAllFrames() {
+            var list = new List<Bitmap>();
+            foreach(var scene in scenes) {
+                foreach(var frame in scene.GetAllFrames()) {
+                    list.Add(frame.GetBitmap());
+                }
+            }
+            return list;
+        }
+
 
         #region Методы для работы со сценами.
         /// <summary>
@@ -132,6 +159,7 @@ namespace BaseElements
             }
         }
 
+
         /// <summary>
         /// Получение списка всех сцен добавленных в мультфильм.
         /// </summary>
@@ -140,6 +168,7 @@ namespace BaseElements
             return scenes;
         }
 
+
         /// <summary>
         /// Добавление пустой сцены в конец списка.
         /// </summary>
@@ -147,6 +176,7 @@ namespace BaseElements
             scenes.Add(new Scene($"scene{scenes.Count}", Width, Height));
             CurrentScene = scenes.Last();
         }
+
 
         /// <summary>
         /// Вставка сцены на указанную позицию.
@@ -162,6 +192,7 @@ namespace BaseElements
             }
         }
 
+
         /// <summary>
         /// Получение позиции сцены в мультфильме.
         /// </summary>
@@ -172,6 +203,7 @@ namespace BaseElements
             return scenes.IndexOf(scene);
         }
 
+
         /// <summary>
         /// Удаление сцены из списка сцен.
         /// </summary>
@@ -180,6 +212,7 @@ namespace BaseElements
             // WARNING: каким будет поведение если такой сцены нет?
             scenes.Remove(scene);
         }
+
 
         /// <summary>
         /// Удаление сцены по позиции.
@@ -194,6 +227,7 @@ namespace BaseElements
             }
         }
 
+
         /// <summary>
         /// Изменение порядка сцен.
         /// </summary>
@@ -207,6 +241,7 @@ namespace BaseElements
             scenes.Insert(firstSceneIndex, tmp);
         }
 
+
         /// <summary>
         /// Поднятие сцены вверх.
         /// </summary>
@@ -217,6 +252,7 @@ namespace BaseElements
                 scenes.RemoveAt(index);
             }
         }
+
 
         /// <summary>
         /// Опускание сцены вниз.
