@@ -193,13 +193,14 @@ namespace DrawMoar
                                                         cartoon.CurrentScene.currentFrame.Height));
             layer.Name = $"layer_{layersList.Items.Count}";
             layer.drawingControl = drawingControl;
-            AddListBoxElement(layersList, layer.Name);
+
             if (sender != null)
             {
                 cartoon.CurrentScene.currentFrame.AddLayer(layer);
-               
+                AddListBoxElement(layersList, layer.Name);
+                canvas.Children.Add((LayerControl)layer.drawingControl);
             }
-            canvas.Children.Add(drawingControl);
+            
         }
 
         /// <summary>
@@ -237,6 +238,7 @@ namespace DrawMoar
                 canvas.Children.Add((LayerControl)item.drawingControl);
                 AddListBoxElement(layersList, $"layer{i++}"); //вторым параметром должны быть Names
             }
+            layersList.SelectedIndex = 0;
         }
 
 
@@ -256,7 +258,7 @@ namespace DrawMoar
             {
                 item.Visibility = Visibility.Hidden;
             }
-            if(layersList.SelectedIndex!=-1)
+            if((layersList.SelectedIndex!=-1)&&(canvas.Children.Count > layersList.SelectedIndex))
                 canvas.Children[layersList.SelectedIndex].Visibility = Visibility.Visible;
 
         }
@@ -297,7 +299,7 @@ namespace DrawMoar
             var lbl = new Label();          //здесь должен быть какой-то другой контрол (возможно, самописный)
             lbl.Content = content;
             lBox.Items.Add(lbl);
-            //lBox.SelectedIndex = lBox.Items.Count - 1;
+            lBox.SelectedIndex = lBox.Items.Count - 1;
         }
 
     }
