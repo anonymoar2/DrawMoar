@@ -119,7 +119,7 @@ namespace DrawMoar
         void VisualHost_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             GlobalState.PressLeftButton = false;
-            Point pt = e.GetPosition((UIElement)sender);
+            //Point pt = e.GetPosition((UIElement)sender);
         }
 
    
@@ -132,8 +132,7 @@ namespace DrawMoar
             var drawingVisual = new DrawingVisual();
             using (DrawingContext drawingContext = drawingVisual.RenderOpen())
             {
-                Rect rect = new Rect(pt, GlobalState.BrushSize);
-                drawingContext.DrawRoundedRectangle(GlobalState.Color,null, rect, GlobalState.BrushSize.Width, GlobalState.BrushSize.Height);
+                drawingContext.DrawEllipse(new SolidColorBrush(Colors.Black), null, pt, GlobalState.BrushSize.Width, GlobalState.BrushSize.Height);
             }
             _visuals.Add(drawingVisual);
         }
@@ -154,7 +153,14 @@ namespace DrawMoar
                     if (GlobalState.PressLeftButton)
                     {
                         Point pt = e.GetPosition((UIElement)sender);
-                        DrawPoint(pt);
+
+                        if (   pt.X >= (Position.X + GlobalState.BrushSize.Width  / 2)
+                            && pt.Y >= (Position.Y + GlobalState.BrushSize.Height / 2)
+                            && pt.X <= (Position.X + SpaceSize.Width  - GlobalState.BrushSize.Width  / 2) 
+                            && pt.Y <= (Position.Y + SpaceSize.Height - GlobalState.BrushSize.Height / 2))
+                        {
+                            DrawPoint(pt);
+                        }
                     }
                     break;
             }

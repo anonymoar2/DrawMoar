@@ -31,24 +31,23 @@ namespace BaseElements
             }
         }
 
+
         /// <summary>
         /// Текущий слой.
         /// </summary>
         public ILayer CurrentLayer { get; set; }
+
 
         /// <summary>
         /// Список слоёв кадра.
         /// </summary>
         private List<ILayer> layers = new List<ILayer>();
 
-        /// <summary>
-        /// Продолжительность кадра.
-        /// </summary>
-        private float duration;
 
         /// <summary>
         /// Продолжительность кадра.
         /// </summary>
+        private float duration;
         public float Duration {
             get {
                 return duration;
@@ -102,6 +101,7 @@ namespace BaseElements
             CurrentLayer = layers.First();
         }
 
+
         /// <summary>
         /// Получить все слои кадра
         /// </summary>
@@ -111,7 +111,10 @@ namespace BaseElements
             return layers;
         }
 
+
         #region Методы для работы со слоями.
+
+
         /// <summary>
         /// Создание нового растрового слоя и добавление его в конец списка слоёв.
         /// </summary>
@@ -138,6 +141,7 @@ namespace BaseElements
             layers.Add(new VectorLayer() { Name = $"vector{layers.Count}" });
         }
 
+
         /// <summary>
         /// Удаление слоя.
         /// </summary>
@@ -146,6 +150,7 @@ namespace BaseElements
             // WARNING: каким будет поведение если layer отсутствует в layers?
             layers.Remove(layer);
         }
+
 
         /// <summary>
         /// Изменение имени слоя.
@@ -156,6 +161,7 @@ namespace BaseElements
             // WARNING: Проверить index
             layers[index].Name = layerName;
         }
+
 
         /// <summary>
         /// Изменение порядка слоёв.
@@ -170,6 +176,7 @@ namespace BaseElements
             layers.Insert(firstLayerIndex, tmp);
         }
 
+
         /// <summary>
         /// Поднятие слоя вверх на одну позицию.
         /// </summary>
@@ -181,6 +188,7 @@ namespace BaseElements
             }
         }
 
+
         /// <summary>
         /// Опускание слоя вниз на одну позицию.
         /// </summary>
@@ -191,6 +199,7 @@ namespace BaseElements
                 layers.RemoveAt(index + 1);
             }
         }
+
 
         //// TODO: Переписать MergeLayers на 1) произвольное количество 2) когда буду точно знать как это вот всё хранить
         //// объединение текущего слоя с предыдущим если indexLayer >=1, иначе кидаем исключение
@@ -218,7 +227,7 @@ namespace BaseElements
         /// Создание bitmap из всех видимых слоёв кадра, типа склеивает все в один
         /// </summary>
         /// <returns>bitmap</returns>
-        public Bitmap SaveLayer() {
+        public Bitmap GetBitmap() {
             Bitmap result = new Bitmap(Width, Height, PixelFormat.Format32bppArgb); // наша новая картинка
             var graphics = Graphics.FromImage(result);
             graphics.CompositingMode = CompositingMode.SourceOver;

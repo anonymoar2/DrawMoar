@@ -18,10 +18,7 @@ namespace DrawMoar
             throw new NotImplementedException();
         }
 
-        public RasterLayerView(Bitmap bitmap):base(bitmap)
-        {
-            base.bitmap = bitmap;
-        }
+        public RasterLayerView(Bitmap bitmap) : base(bitmap) { }
 
     }
 }
