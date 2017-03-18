@@ -308,6 +308,7 @@ namespace DrawMoar
                 GlobalState.lightVector.active = true;
                 var drawingControl = new LayerControl();
                 drawingControl.Focus();
+                GlobalState.CurrentTool = Instrument.Light;
 
                 if (cartoon.CurrentScene.currentFrame.CurrentLayer.GetType().Name != "LightVectorLayer") {
                     var layer = new LightVectorLayer();
