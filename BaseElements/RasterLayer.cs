@@ -15,7 +15,11 @@ namespace BaseElements
         /// <summary>
         /// По сути сама картинка-растровый слой
         /// </summary>
-        protected Bitmap bitmap;
+        public Bitmap bitmap
+        {
+            get;
+            set;
+        }
 
 
         /// <summary>

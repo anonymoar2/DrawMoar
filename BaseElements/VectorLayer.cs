@@ -53,6 +53,12 @@ namespace BaseElements
         public void Draw() {
         }
 
+        public Bitmap bitmap
+        {
+            get;
+            set;
+        }
+
 
         /// <summary>
         /// bitmap не храним, а в этом методе его пилим крч из составляющего 
