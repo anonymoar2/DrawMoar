@@ -18,7 +18,9 @@ namespace DrawMoar
         // Коллекция для хранения DrawingVisual
         public VisualCollection _visuals { get; private set; }
 
-        private Point prevPt;
+        public VisualCollection GetVisuals() {
+            return _visuals;
+        }
 
         //Свойства для хранения состояния о корневом экземпляре коллекции _visuals
         private Brush FillBrush { get; set; }

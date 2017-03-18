@@ -53,12 +53,10 @@ namespace BaseElements
         public void Draw() {
         }
 
-        public Bitmap bitmap
-        {
+        public Bitmap bitmap {
             get;
             set;
         }
-
 
         /// <summary>
         /// bitmap не храним, а в этом методе его пилим крч из составляющего 
@@ -66,7 +64,7 @@ namespace BaseElements
         /// <returns>bitmap</returns>
         public Bitmap GetBitmap() {
             /// Реализация метода
-            throw new NotImplementedException();
+            return bitmap;
         }
     }
 }
