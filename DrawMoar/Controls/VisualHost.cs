@@ -16,11 +16,13 @@ namespace DrawMoar
         public new bool IsFocused { get; set; }
 
         // Коллекция для хранения DrawingVisual
-        public VisualCollection _visuals { get; private set; }
+        private VisualCollection _visuals;
 
         public VisualCollection GetVisuals() {
             return _visuals;
         }
+
+        private Point prevPt;
 
         //Свойства для хранения состояния о корневом экземпляре коллекции _visuals
         private Brush FillBrush { get; set; }
