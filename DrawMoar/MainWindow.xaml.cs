@@ -57,26 +57,7 @@ namespace DrawMoar
 
         }
 
-        /// <summary>
-        /// по нажатию в двух местах канваса сделать создание линии и других фигур
-        ///  
-        /// </summary>
-
-        private void AddLine(object sender, RoutedEventArgs e) {
-
-            var myLine = new Line();
-            myLine.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
-
-            Random rand = new Random();
-            myLine.X1 = rand.Next(1, 282);
-            myLine.X2 = rand.Next(1, 282);
-            myLine.Y1 = rand.Next(1, 291);
-            myLine.Y2 = rand.Next(1, 291);
-            myLine.HorizontalAlignment = HorizontalAlignment.Left;
-            myLine.VerticalAlignment = VerticalAlignment.Center;
-            myLine.StrokeThickness = 2;
-            canvas.Children.Add(myLine);
-        }
+        
 
         private void SaveControlsToBitmap() {
             foreach (var scene in cartoon.GetAllScenes()) {
@@ -99,6 +80,7 @@ namespace DrawMoar
         }
 
         private void ExportToMP4(object sender, RoutedEventArgs e) {
+            SaveControlsToBitmap();
             var exp = new Mp4Exporter();
             exp.Save(cartoon, cartoon.WorkingDirectory);
         }
@@ -321,22 +303,24 @@ namespace DrawMoar
         }
 
         private void StartLightVector(object sender, RoutedEventArgs e) {
-            GlobalState.lightVector = new Instruments.LightVector(cartoon);
-            GlobalState.lightVector.active = true;
-            var drawingControl = new LayerControl();
-            drawingControl.Focus();
-            GlobalState.CurrentTool = Instrument.Light;
+            if (cartoon != null) {
+                GlobalState.lightVector = new Instruments.LightVector(cartoon);
+                GlobalState.lightVector.active = true;
+                var drawingControl = new LayerControl();
+                drawingControl.Focus();
+                GlobalState.CurrentTool = Instrument.Light;
 
-            if (cartoon.CurrentScene.currentFrame.CurrentLayer.GetType().Name != "LightVectorLayer") {
-                var layer = new LightVectorLayer();
-                layer.Name = $"LIGHTlayer_{layersList.Items.Count}";
-                layer.drawingControl = drawingControl;
-                cartoon.CurrentScene.currentFrame.AddLayer(layer);
-                string text = $"LIGHTlayer_{layersList.Items.Count}";
-                AddListBoxElement(layersList, text);
+                if (cartoon.CurrentScene.currentFrame.CurrentLayer.GetType().Name != "LightVectorLayer") {
+                    var layer = new LightVectorLayer();
+                    layer.Name = $"LIGHTlayer_{layersList.Items.Count}";
+                    layer.drawingControl = drawingControl;
+                    cartoon.CurrentScene.currentFrame.AddLayer(layer);
+                    string text = $"LIGHTlayer_{layersList.Items.Count}";
+                    AddListBoxElement(layersList, text);
+                }
+                canvas.Children.Add(drawingControl);
+
             }
-            canvas.Children.Add(drawingControl);
-            
         }
     }
 }
