@@ -18,12 +18,16 @@ namespace DrawMoar
         // Коллекция для хранения DrawingVisual
         private VisualCollection _visuals;
 
-        public VisualCollection GetVisuals() {
+        public VisualCollection GetVisuals()
+        {
             return _visuals;
         }
 
+        private List<Point> clickPoints = new List<Point>();
+
         private Point prevPt;
 
+        private int draggingPoint = -1;
         //Свойства для хранения состояния о корневом экземпляре коллекции _visuals
         private Brush FillBrush { get; set; }
         private Point Position { get; set; }
@@ -119,7 +123,21 @@ namespace DrawMoar
             if (GlobalState.CurrentTool == Instrument.Light)
             {
                 prevPt = e.GetPosition((UIElement)sender);
+                clickPoints.Add(prevPt);
                 DrawPoint(prevPt);
+            }
+            if (GlobalState.CurrentTool == Instrument.Arrow)
+            {
+                Point pt;
+                for (int i = 0; i < clickPoints.Count; i++)
+                {
+                    pt = clickPoints[i];
+                    if ((Math.Abs(pt.X - e.GetPosition((UIElement)sender).X )< 15) &&
+                       (Math.Abs(pt.Y - e.GetPosition((UIElement)sender).Y) < 15))
+                    {
+                        draggingPoint = i;
+                    }
+                }
             }
             VisualHost_MouseMove(sender, e);
         }
@@ -132,7 +150,8 @@ namespace DrawMoar
         /// <param name="e"></param>
         void VisualHost_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if(GlobalState.CurrentTool!=Instrument.Light)GlobalState.PressLeftButton = false;
+            if (GlobalState.CurrentTool != Instrument.Light) GlobalState.PressLeftButton = false;
+            draggingPoint = -1;
 
         }
 
@@ -181,6 +200,32 @@ namespace DrawMoar
             _visuals.Add(drawingVisual);
         }
 
+        private void DragPoint(Point pt)
+        {
+            if (!GlobalState.PressLeftButton) return;
+            var drawingVisual = new DrawingVisual();
+            using (DrawingContext drawingContext = drawingVisual.RenderOpen())
+            {
+                var count = _visuals.Count;
+                _visuals.RemoveAt(count - 1);
+                drawingContext.DrawEllipse(new SolidColorBrush(Colors.Black), null, pt, GlobalState.BrushSize.Width, GlobalState.BrushSize.Height);
+                _visuals.Add(drawingVisual);
+            }
+        }
+
+        private void ConnectAllPoints()
+        {
+            for (int i = 0; i < clickPoints.Count - 1; i++)
+            {
+                var drawingVisual = new DrawingVisual();
+                using (DrawingContext drawingContext = drawingVisual.RenderOpen())
+                {
+                    drawingContext.DrawLine(new Pen(Brushes.Black, GlobalState.BrushSize.Width), clickPoints[i], clickPoints[i + 1]);
+                    _visuals.Add(drawingVisual);
+                }
+            }
+        }
+
 
         /// <summary>
         /// Событие для определения координат рисования
@@ -212,6 +257,16 @@ namespace DrawMoar
                     }
                     break;
 
+                case Instrument.Arrow:
+                    if (!GlobalState.PressLeftButton) return;
+                    if (draggingPoint != -1)
+                    {
+                        DragPoint(e.GetPosition((UIElement)sender));
+                        clickPoints[draggingPoint] = e.GetPosition((UIElement)sender);
+                        _visuals.Clear();
+                        ConnectAllPoints();
+                    }
+                    break;
                 //case Instrument.Light:
 
                 //    // Скорее всего делаю это неправильно, по сути нужно просто клик отслеживать и его координаты
