@@ -16,6 +16,8 @@ namespace DrawMoar
     {
         public static bool PressLeftButton { get; set; }
 
+        public static bool PressRightButton { get; set; }
+
         public static event EventHandler ChangeInstrument;
 
         public static Instruments.LightVector lightVector { get; set; }
