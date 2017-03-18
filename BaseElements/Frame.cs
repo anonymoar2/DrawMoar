@@ -235,15 +235,9 @@ namespace BaseElements
             Bitmap result = new Bitmap(Width, Height, PixelFormat.Format32bppArgb); // наша новая картинка
             var graphics = Graphics.FromImage(result);
             graphics.CompositingMode = CompositingMode.SourceOver;
-            for (int i = 0; i < layers.Count; i++) {
-                if (layers[i].Visible) {
-                    graphics.DrawImage(layers[i].GetBitmap(), 0, 0); // По идее не с нуля, а с какой-то точки
-                    for (int j = i + 1; j < layers.Count; j++) {
-                        if (layers[j].Visible) {
-                            graphics.DrawImage(layers[i + 1].GetBitmap(), 0, 0); // тут тоже с какой-то точки крч, все эти точки вычислятся в методе который будет возвращать bitmap от векторного слоя
-                        }
-                    }
-                    break;
+            foreach(var layer in layers) {
+                if (layer.Visible) {
+                    graphics.DrawImage(layer.GetBitmap(), 0, 0); 
                 }
             }
             return result;
