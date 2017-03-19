@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DrawMoar
 {
-    public enum Instrument     //паблик, т.к ГлобалСтейт в другом проекте
+    public class Picture
     {
-        Arrow, Brush, Pipette, Light
+
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
-namespace BaseElements
+namespace DrawMoar
 {
     public interface ILayer
     {
@@ -26,19 +26,8 @@ namespace BaseElements
         /// <summary>
         /// Отображает содержимое слоя в консоли/на канвасе
         /// </summary>
-        void Draw();
+        void Draw(Graphics g);
 
-
-        object drawingControl { get; set; }
-
-
-        /// <summary>
-        /// Получает image из картинки
-        /// </summary>
-        /// <returns>image</returns>
-        Bitmap GetBitmap();
-
-        Bitmap bitmap { get; set; }
-
+        Point Position { get; set; }
     }
 }

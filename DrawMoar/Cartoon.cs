@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Drawing;
 
-namespace BaseElements
+namespace DrawMoar
 {
     public class Cartoon
     {
@@ -121,8 +121,8 @@ namespace BaseElements
                 Width = width;
                 Height = height;
                 WorkingDirectory = workingDirectory;
-            scenes.Add(new Scene($"scene{scenes.Count}",Width, Height));
-            CurrentScene = scenes.First();
+            //scenes.Add(new Scene($"scene{scenes.Count}",Width, Height));
+            //CurrentScene = scenes.First();
         }
 
 
@@ -131,15 +131,15 @@ namespace BaseElements
         /// элементами которого являются bitmap-ы всех кадров
         /// </summary>
         /// <returns>Список bitmap-в каждого кадра (один bitmap = один кадр)</returns>
-        public List<Bitmap> GetAllFrames() {
-            var list = new List<Bitmap>();
-            foreach(var scene in scenes) {
-                foreach(var frame in scene.GetAllFrames()) {
-                    list.Add(frame.GetBitmap());
-                }
-            }
-            return list;
-        }
+        //public List<Bitmap> GetAllFrames() {
+        //    var list = new List<Bitmap>();
+        //    foreach(var scene in scenes) {
+        //        foreach(var frame in scene.GetAllFrames()) {
+        //            list.Add(frame.GetBitmap());
+        //        }
+        //    }
+        //    return list;
+        //}
 
 
         #region Методы для работы со сценами.
@@ -173,7 +173,7 @@ namespace BaseElements
         /// Добавление пустой сцены в конец списка.
         /// </summary>
         public void AddScene() {
-            scenes.Add(new Scene($"scene{scenes.Count}", Width, Height));
+            scenes.Add(new Scene() { Name = $"scene{scenes.Count}"});
             CurrentScene = scenes.Last();
         }
 

@@ -58,12 +58,6 @@
     <Compile Include="Video\Mp4Exporter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BaseElements\BaseElements.csproj">
-      <Project>{c6748d84-1c99-45c5-8d30-3da0fc7aa00e}</Project>
-      <Name>BaseElements</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

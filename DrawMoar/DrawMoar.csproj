@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9F8D83EC-A7DD-45AD-BACB-F30E7944388C}</ProjectGuid>
+    <ProjectGuid>{0259AA9E-32DC-4A1C-B50A-2F35334C757B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DrawMoar</RootNamespace>
     <AssemblyName>DrawMoar</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -38,8 +38,6 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Net" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -78,48 +76,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Page Include="Controls\LayerControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Compile Include="Instrument.cs" />
-    <Compile Include="Instruments\LightVector.cs" />
-    <Compile Include="RasterLayerView.cs" />
-    <Compile Include="Shapes\Line.cs" />
-    <Compile Include="LightVectorLayer.cs" />
-    <Page Include="CreateCartoonDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controls\LayerControl.xaml.cs">
-      <DependentUpon>LayerControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\VisualHost.cs" />
-    <Compile Include="CreateCartoonDialog.xaml.cs">
-      <DependentUpon>CreateCartoonDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="GlobalState.cs" />
-    <Compile Include="Instruments\Brush.cs" />
-    <Compile Include="Instruments\IBrush.cs" />
-    <Compile Include="Instruments\Pipette.cs" />
+    <Compile Include="Cartoon.cs" />
+    <Compile Include="Frame.cs" />
+    <Compile Include="ILayer.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="Picture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -133,6 +99,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="RasterLayer.cs" />
+    <Compile Include="Scene.cs" />
+    <Compile Include="Transformation.cs" />
+    <Compile Include="VectorLayer.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -145,24 +115,21 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BaseElements\BaseElements.csproj">
-      <Project>{c6748d84-1c99-45c5-8d30-3da0fc7aa00e}</Project>
-      <Name>BaseElements</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Exporter\Exporter.csproj">
-      <Project>{a3397f33-cb81-4387-b785-6e5ad4006339}</Project>
-      <Name>Exporter</Name>
-    </ProjectReference>
+    <Page Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

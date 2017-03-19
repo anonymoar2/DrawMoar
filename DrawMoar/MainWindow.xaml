@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DrawMoar"
         mc:Ignorable="d"
-        Title="DrawMoar" Height="350" Width="530">
+        Title="Draw_Moar" Height="350" Width="530">
     <Grid Name="rootGrid" Background="LightGray">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>

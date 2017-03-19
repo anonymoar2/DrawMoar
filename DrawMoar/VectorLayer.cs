@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Drawing;
 
-namespace BaseElements
+namespace DrawMoar
 {
     public class VectorLayer : ILayer
     {
@@ -33,38 +33,17 @@ namespace BaseElements
         /// <summary>
         /// true - видимый слой, false - невидимый
         /// </summary>
-        private bool visible = true;
-        public bool Visible {
-            get {
-                return visible;
-            }
+        public bool Visible { get; set; }
 
-            set {
-                visible = value;
-            }
-        }
-
-
-        public object drawingControl { get; set; }
+        public Point Position { get; set; }
 
         /// <summary>
         /// Пока ничего
         /// </summary>
-        public void Draw() {
+        public void Draw(Graphics g) {
+            //Picture.Draw(g);
         }
+        public Picture Picture { get; set; }
 
-        public Bitmap bitmap {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// bitmap не храним, а в этом методе его пилим крч из составляющего 
-        /// </summary>
-        /// <returns>bitmap</returns>
-        public Bitmap GetBitmap() {
-            /// Реализация метода
-            return bitmap;
-        }
     }
 }

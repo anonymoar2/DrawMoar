@@ -6,7 +6,7 @@ using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using System.Text.RegularExpressions;
 
-namespace BaseElements
+namespace DrawMoar
 {
     public class Frame
     {
@@ -97,7 +97,7 @@ namespace BaseElements
         public Frame(int width, int height) {
             Width = width;
             Height = height;
-            layers.Add(new RasterLayer(new Bitmap(Width, Height)) { Name = "layer_0" }); // По умолчанию всегда создается растровый слой
+            layers.Add(new RasterLayer() { Name = "layer_0" }); // По умолчанию всегда создается растровый слой
             CurrentLayer = layers.First();
         }
 
@@ -122,7 +122,7 @@ namespace BaseElements
             // WARNING: стоит ли обеспечить уникальность имён слоёв?
             // в многопоточном коде layers.Count может быть одинаковым
             // для двух разных потоков во время вызова этого метода.
-            layers.Add(new RasterLayer(new Bitmap(Width, Height)) { Name = $"layer{layers.Count}" });
+            layers.Add(new RasterLayer() { Name = $"layer{layers.Count}" });
             CurrentLayer = layers.Last();
         }
 
@@ -231,17 +231,17 @@ namespace BaseElements
         /// Создание bitmap из всех видимых слоёв кадра, типа склеивает все в один
         /// </summary>
         /// <returns>bitmap</returns>
-        public Bitmap GetBitmap() {
-            Bitmap result = new Bitmap(Width, Height, PixelFormat.Format32bppArgb); // наша новая картинка
-            var graphics = Graphics.FromImage(result);
-            graphics.CompositingMode = CompositingMode.SourceOver;
-            foreach(var layer in layers) {
-                if (layer.Visible) {
-                    graphics.DrawImage(layer.GetBitmap(), 0, 0); 
-                }
-            }
-            return result;
-        }
+        //public Bitmap GetBitmap() {
+        //    Bitmap result = new Bitmap(Width, Height, PixelFormat.Format32bppArgb); // наша новая картинка
+        //    var graphics = Graphics.FromImage(result);
+        //    graphics.CompositingMode = CompositingMode.SourceOver;
+        //    foreach(var layer in layers) {
+        //        if (layer.Visible) {
+        //            graphics.DrawImage(layer.GetBitmap(), 0, 0); 
+        //        }
+        //    }
+        //    return result;
+        //}
         
 
         // Использовать только если для каждого фрейма будет своя директория.
