@@ -23,7 +23,7 @@ namespace DrawMoar
     /// </summary>
     public partial class MainWindow : Window
     {
-        //private Cartoon cartoon;
+        private Cartoon cartoon;
 
         public MainWindow() {
             InitializeComponent();
@@ -45,43 +45,51 @@ namespace DrawMoar
 
         //тогда отрисовку придется выносить в отдельный класс и она будет сложнее - много работы в плане 
 
-        // private void CreateCartoon(object sender, RoutedEventArgs e) {
-        //    // создаём новый пустой кадр
-        //    // на кадре новый пустой слой создаём
-        //    var newCartoonDialog = new CreateCartoonDialog();
-        //    newCartoonDialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-        //    newCartoonDialog.Owner = this;
-        //    newCartoonDialog.Show();
+        private void CreateCartoon(object sender, RoutedEventArgs e)
+        {
+            // создаём новый пустой кадр
+            // на кадре новый пустой слой создаём
+            var newCartoonDialog = new CreateCartoonDialog();
+            newCartoonDialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            newCartoonDialog.Owner = this;
+            newCartoonDialog.Show();
 
-        //}
+        }
 
-        
 
-        //private void SaveControlsToBitmap() {
-        //    foreach (var scene in cartoon.GetAllScenes()) {
-        //        foreach (var frame in scene.GetAllFrames()) {
-        //            foreach (var layer in frame.GetAllLayers()) {
-        //                var renderBitmap = new RenderTargetBitmap(cartoon.Width, cartoon.Height, 96.0, 96.0, PixelFormats.Pbgra32);
-        //                foreach (DrawingVisual item in ((LayerControl)layer.drawingControl).VisualHost.GetVisuals()) {
-        //                    renderBitmap.Render(item);
-        //                    BitmapSource bmp = renderBitmap;
-        //                    using (MemoryStream outStream = new MemoryStream()) {
-        //                        BitmapEncoder enc = new BmpBitmapEncoder();
-        //                        enc.Frames.Add(BitmapFrame.Create(bmp));
-        //                        enc.Save(outStream);
-        //                        layer.bitmap = new System.Drawing.Bitmap(outStream);
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
 
-        //private void ExportToMP4(object sender, RoutedEventArgs e) {
-        //    SaveControlsToBitmap();
-        //    var exp = new Mp4Exporter();
-        //    exp.Save(cartoon, cartoon.WorkingDirectory);
-        //}
+        private void SaveControlsToBitmap()
+        {
+            /*foreach (var scene in cartoon.GetAllScenes())
+            {
+                foreach (var frame in scene.GetAllFrames())
+                {
+                    foreach (var layer in frame.GetAllLayers())
+                    {
+                        var renderBitmap = new RenderTargetBitmap(cartoon.Width, cartoon.Height, 96.0, 96.0, PixelFormats.Pbgra32);
+                        foreach (DrawingVisual item in ((LayerControl)layer.drawingControl).VisualHost.GetVisuals())
+                        {
+                            renderBitmap.Render(item);
+                            BitmapSource bmp = renderBitmap;
+                            using (MemoryStream outStream = new MemoryStream())
+                            {
+                                BitmapEncoder enc = new BmpBitmapEncoder();
+                                enc.Frames.Add(BitmapFrame.Create(bmp));
+                                enc.Save(outStream);
+                                layer.bitmap = new System.Drawing.Bitmap(outStream);
+                            }
+                        }
+                    }
+                }
+            }*/
+        }
+
+        private void ExportToMP4(object sender, RoutedEventArgs e)
+        {
+            /*SaveControlsToBitmap();
+            var exp = new Mp4Exporter();
+            exp.Save(cartoon, cartoon.WorkingDirectory);*/
+        }
 
         //private void SaveToPNG(object sender, RoutedEventArgs e) {
         //    var saveDlg = new SaveFileDialog {
@@ -124,23 +132,24 @@ namespace DrawMoar
         //    }
         //}
 
-        ///// <summary>
-        ///// "Успешное" закрытие окна создания мультфильма.
-        ///// Выполняется при нажатии кнопки Create (Создать)
-        ///// </summary>
-        ///// <param name="cartoon"></param>
-        //public void Success(Cartoon cartoon) {
-        //    canvas.Visibility = Visibility.Visible;
-        //    canvas.Width = cartoon.Width;
-        //    canvas.Height = cartoon.Height;
-        //    this.cartoon = cartoon;
-        //    GlobalState.canvSize = new System.Windows.Size(canvas.Width, canvas.Height);
-        //    Height = canvas.Height;
-        //    Width = canvas.Width + 260;        //пока что так (ширина двух крайних колонок грида)
-        //    AddScene_Click(null, null);
-        //    AddFrame_Click(null, null);
-        //    AddLayer_Click(null, null);
-        //}
+        /// <summary>
+        /// "Успешное" закрытие окна создания мультфильма.
+        /// Выполняется при нажатии кнопки Create (Создать)
+        /// </summary>
+        /// <param name="cartoon"></param>
+        public void Success(Cartoon cartoon)
+        {
+            canvas.Visibility = Visibility.Visible;
+            canvas.Width = cartoon.Width;
+            canvas.Height = cartoon.Height;
+            this.cartoon = cartoon;
+            GlobalState.canvSize = new System.Windows.Size(canvas.Width, canvas.Height);
+            Height = canvas.Height;
+            Width = canvas.Width + 260;        //пока что так (ширина двух крайних колонок грида)
+            AddScene_Click(null, null);
+            AddFrame_Click(null, null);
+            AddLayer_Click(null, null);
+        }
 
 
         //public void CreateNewFrame(object sender, RoutedEventArgs e) {
@@ -175,131 +184,146 @@ namespace DrawMoar
         //    GlobalState.Color = new SolidColorBrush(ClrPcker_Background.SelectedColor.Value);
         //}
 
-        ///// <summary>
-        ///// Добавление нового кадра в мультфильм.
-        ///// Подразумевает добавление одного слоя на новый кадр.
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void AddLayer_Click(object sender, RoutedEventArgs e) {
-        //    if (cartoon == null) {
-        //        return;
-        //    }
-        //    //проверка на то, выделен ли какой-либо кадр(когда реализуем удаление)
-        //    var drawingControl = new LayerControl();
-        //    drawingControl.Focus();
-        //    var layer = new RasterLayerView(new Bitmap(cartoon.CurrentScene.currentFrame.Width,
-        //                                                cartoon.CurrentScene.currentFrame.Height));
-        //    layer.Name = $"layer_{layersList.Items.Count}";
-        //    layer.drawingControl = drawingControl;
+        /// <summary>
+        /// Добавление нового кадра в мультфильм.
+        /// Подразумевает добавление одного слоя на новый кадр.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddLayer_Click(object sender, RoutedEventArgs e)
+        {
+            /*if (cartoon == null)
+            {
+                return;
+            }
+            //проверка на то, выделен ли какой-либо кадр(когда реализуем удаление)
+            var drawingControl = new LayerControl();
+            drawingControl.Focus();
+            var layer = new RasterLayerView(new Bitmap(cartoon.CurrentScene.currentFrame.Width,
+                                                        cartoon.CurrentScene.currentFrame.Height));
+            layer.Name = $"layer_{layersList.Items.Count}";
+            layer.drawingControl = drawingControl;
 
-        //    if (sender != null)
-        //    {
-        //        cartoon.CurrentScene.currentFrame.AddLayer(layer);
-        //        AddListBoxElement(layersList, layer.Name);
-        //        canvas.Children.Add((LayerControl)layer.drawingControl);
-        //    }
-            
-        //}
+            if (sender != null)
+            {
+                cartoon.CurrentScene.currentFrame.AddLayer(layer);
+                AddListBoxElement(layersList, layer.Name);
+                canvas.Children.Add((LayerControl)layer.drawingControl);
+            }*/
 
-        ///// <summary>
-        /////     Изменение курсора мыши в зависимости от выбранного инструмента
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void SetCursorStyle(Object sender, EventArgs e) {
-        //    switch (GlobalState.CurrentTool) {
-        //        case Instrument.Brush:
-        //            canvas.Cursor = Cursors.Cross;
-        //            break;
-        //        default:
-        //            canvas.Cursor = Cursors.Arrow;
-        //            break;
-        //    }
-        //}
+        }
 
-        ///// <summary>
-        ///// Обработка выбора элемента из элемента, отображающего кадры
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-        //    layersList.Items.Clear();
-        //    canvas.Children.Clear();
-        //    if (framesList.SelectedIndex != -1)
-        //    {
-        //        cartoon.CurrentScene.currentFrame = cartoon.CurrentScene.GetAllFrames()[framesList.SelectedIndex];
-        //    }
-        //    var lays = cartoon.CurrentScene.currentFrame.GetAllLayers();
-        //    int i = 0;      //пока не пофиксили имена слоев
-        //    foreach (var item in lays)
-        //    {
-        //        canvas.Children.Add((LayerControl)item.drawingControl);
-        //        AddListBoxElement(layersList, $"layer{i++}"); //вторым параметром должны быть Names
-        //    }
-        //    layersList.SelectedIndex = 0;
-        //}
+        /// <summary>
+        ///     Изменение курсора мыши в зависимости от выбранного инструмента
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SetCursorStyle(Object sender, EventArgs e)
+        {
+            switch (GlobalState.CurrentTool)
+            {
+                case Instrument.Brush:
+                    canvas.Cursor = Cursors.Cross;
+                    break;
+                default:
+                    canvas.Cursor = Cursors.Arrow;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Обработка выбора элемента из элемента, отображающего кадры
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            /*layersList.Items.Clear();
+            canvas.Children.Clear();
+            if (framesList.SelectedIndex != -1)
+            {
+                cartoon.CurrentScene.currentFrame = cartoon.CurrentScene.GetAllFrames()[framesList.SelectedIndex];
+            }
+            var lays = cartoon.CurrentScene.currentFrame.GetAllLayers();
+            int i = 0;      //пока не пофиксили имена слоев
+            foreach (var item in lays)
+            {
+                canvas.Children.Add((LayerControl)item.drawingControl);
+                AddListBoxElement(layersList, $"layer{i++}"); //вторым параметром должны быть Names
+            }
+            layersList.SelectedIndex = 0;*/
+        }
 
 
-        //private void scenesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-        //    framesList.Items.Clear();
-        //    cartoon.CurrentScene = cartoon.GetAllScenes()[scenesList.SelectedIndex];
-        //    var frames = cartoon.CurrentScene.GetAllFrames();
-        //    int i = 0;                                          //с именами большая беда. нужно будет в BaseElements разобраться
-        //    foreach (var item in frames) {
-        //        AddListBoxElement(framesList, $"frame{i++}");
-        //    }
-        //}
+        private void scenesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            framesList.Items.Clear();
+            cartoon.CurrentScene = cartoon.GetAllScenes()[scenesList.SelectedIndex];
+            var frames = cartoon.CurrentScene.GetAllFrames();
+            int i = 0;                                          //с именами большая беда. нужно будет в BaseElements разобраться
+            foreach (var item in frames)
+            {
+                AddListBoxElement(framesList, $"frame{i++}");
+            }
+        }
 
-        //private void layersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    foreach (LayerControl item in canvas.Children)
-        //    {
-        //        item.Visibility = Visibility.Hidden;
-        //    }
-        //    if((layersList.SelectedIndex!=-1)&&(canvas.Children.Count > layersList.SelectedIndex))
-        //        canvas.Children[layersList.SelectedIndex].Visibility = Visibility.Visible;
+        private void layersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            /*foreach (LayerControl item in canvas.Children)
+            {
+                item.Visibility = Visibility.Hidden;
+            }
+            if ((layersList.SelectedIndex != -1) && (canvas.Children.Count > layersList.SelectedIndex))
+                canvas.Children[layersList.SelectedIndex].Visibility = Visibility.Visible;*/
 
-        //}
+        }
 
-        //private void testButton_Click(object sender, RoutedEventArgs e) {
-        //    GlobalState.CurrentTool = Instrument.Brush;
-        //}
+        private void testButton_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalState.CurrentTool = Instrument.Brush;
+        }
 
-        //private void testButton2_Click(object sender, RoutedEventArgs e) {
-        //    GlobalState.CurrentTool = Instrument.Arrow;
-        //}
+        private void testButton2_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalState.CurrentTool = Instrument.Arrow;
+        }
 
-        //private void AddFrame_Click(object sender, RoutedEventArgs e) {
-        //    if (cartoon == null) {
-        //        return;
-        //    }
-        //    cartoon.CurrentScene.AddFrame();
-        //    cartoon.CurrentScene.currentFrame.CurrentLayer.drawingControl = new LayerControl();
-        //    //cartoon.CurrentScene.currentFrame.CurrentLayer.drawingControl = new LayerControl();
-        //    var frames = cartoon.CurrentScene.GetAllFrames();
-        //    AddListBoxElement(framesList, $"frame_{frames.Count - 1}");
-        //    //cartoon.CurrentScene.currentFrame = frames[framesList.SelectedIndex];
-        //}
+        private void AddFrame_Click(object sender, RoutedEventArgs e)
+        {
+            /*if (cartoon == null)
+            {
+                return;
+            }
+            cartoon.CurrentScene.AddFrame();
+            cartoon.CurrentScene.currentFrame.CurrentLayer.drawingControl = new LayerControl();
+            //cartoon.CurrentScene.currentFrame.CurrentLayer.drawingControl = new LayerControl();
+            var frames = cartoon.CurrentScene.GetAllFrames();
+            AddListBoxElement(framesList, $"frame_{frames.Count - 1}");
+            //cartoon.CurrentScene.currentFrame = frames[framesList.SelectedIndex];*/
+        }
 
-        //private void AddScene_Click(object sender, RoutedEventArgs e) {
-        //    if (cartoon == null) {
-        //        return;
-        //    }
-        //    if (sender != null) {
-        //        cartoon.AddScene();
-        //        cartoon.CurrentScene.AddFrame();
-        //        cartoon.CurrentScene.currentFrame = cartoon.CurrentScene.GetAllFrames()[0];
-        //    }
-        //    AddListBoxElement(scenesList, cartoon.CurrentScene.Name);
-        //}
+        private void AddScene_Click(object sender, RoutedEventArgs e)
+        {
+            if (cartoon == null)
+            {
+                return;
+            }
+            if (sender != null)
+            {
+                cartoon.AddScene();
+                cartoon.CurrentScene.AddFrame();
+                cartoon.CurrentScene.currentFrame = cartoon.CurrentScene.GetAllFrames()[0];
+            }
+            AddListBoxElement(scenesList, cartoon.CurrentScene.Name);
+        }
 
-        //private void AddListBoxElement(ListBox lBox, string content) {
-        //    var lbl = new Label();          //здесь должен быть какой-то другой контрол (возможно, самописный)
-        //    lbl.Content = content;
-        //    lBox.Items.Add(lbl);
-        //    lBox.SelectedIndex = lBox.Items.Count - 1;
-        //}
+        private void AddListBoxElement(ListBox lBox, string content)
+        {
+            var lbl = new Label();          //здесь должен быть какой-то другой контрол (возможно, самописный)
+            lbl.Content = content;
+            lBox.Items.Add(lbl);
+            lBox.SelectedIndex = lBox.Items.Count - 1;
+        }
 
         //private void StartLightVector(object sender, RoutedEventArgs e) {
         //    if (cartoon != null) {

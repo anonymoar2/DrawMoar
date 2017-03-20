@@ -131,15 +131,18 @@ namespace DrawMoar
         /// элементами которого являются bitmap-ы всех кадров
         /// </summary>
         /// <returns>Список bitmap-в каждого кадра (один bitmap = один кадр)</returns>
-        //public List<Bitmap> GetAllFrames() {
-        //    var list = new List<Bitmap>();
-        //    foreach(var scene in scenes) {
-        //        foreach(var frame in scene.GetAllFrames()) {
-        //            list.Add(frame.GetBitmap());
-        //        }
-        //    }
-        //    return list;
-        //}
+        public List<Bitmap> GetAllFrames()
+        {
+            var list = new List<Bitmap>();
+            foreach (var scene in scenes)
+            {
+                foreach (var frame in scene.GetAllFrames())
+                {
+                    list.Add(frame.GetBitmap());
+                }
+            }
+            return list;
+        }
 
 
         #region Методы для работы со сценами.
@@ -173,7 +176,7 @@ namespace DrawMoar
         /// Добавление пустой сцены в конец списка.
         /// </summary>
         public void AddScene() {
-            scenes.Add(new Scene() { Name = $"scene{scenes.Count}"});
+            scenes.Add(new Scene() { Name = $"scene{scenes.Count}"});   //нужен пустой конструктор - ?
             CurrentScene = scenes.Last();
         }
 

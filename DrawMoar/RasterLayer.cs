@@ -48,7 +48,7 @@ namespace DrawMoar
         /// Ну тут ничего в принципе
         /// </summary>
         public void Draw(Graphics g) {
-            //g.DrawBitmap(Image,Position.X, Position.Y);  //Семен расскажи плес, как это должно работать...
+            g.DrawImage(Image, Position.X, Position.Y);
         }
 
 

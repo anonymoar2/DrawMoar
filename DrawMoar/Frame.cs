@@ -226,23 +226,26 @@ namespace DrawMoar
         //}
         #endregion
 
-        
+
         /// <summary>
         /// Создание bitmap из всех видимых слоёв кадра, типа склеивает все в один
         /// </summary>
         /// <returns>bitmap</returns>
-        //public Bitmap GetBitmap() {
-        //    Bitmap result = new Bitmap(Width, Height, PixelFormat.Format32bppArgb); // наша новая картинка
-        //    var graphics = Graphics.FromImage(result);
-        //    graphics.CompositingMode = CompositingMode.SourceOver;
-        //    foreach(var layer in layers) {
-        //        if (layer.Visible) {
-        //            graphics.DrawImage(layer.GetBitmap(), 0, 0); 
-        //        }
-        //    }
-        //    return result;
-        //}
-        
+        public Bitmap GetBitmap()
+        {
+            Bitmap result = new Bitmap(Width, Height, PixelFormat.Format32bppArgb); // наша новая картинка
+            var graphics = Graphics.FromImage(result);
+            graphics.CompositingMode = CompositingMode.SourceOver;
+            foreach (var layer in layers)
+            {
+                if (layer.Visible)
+                {
+                    graphics.DrawImage(layer.GetBitmap(), 0, 0);
+                }
+            }
+            return result;
+        }
+
 
         // Использовать только если для каждого фрейма будет своя директория.
         //private string workingDirectory;
