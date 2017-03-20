@@ -328,6 +328,12 @@ namespace DrawMoar
             lBox.SelectedIndex = lBox.Items.Count - 1;
         }
 
+        // Удалила эту строку из xaml
+        //  SelectedColorChanged="ClrPcker_Background_SelectedColorChanged"
+        //private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<T> e) {
+
+        //}
+
         //private void StartLightVector(object sender, RoutedEventArgs e) {
         //    if (cartoon != null) {
         //        GlobalState.lightVector = new Instruments.LightVector(cartoon);

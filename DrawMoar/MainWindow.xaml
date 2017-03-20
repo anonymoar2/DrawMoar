@@ -37,7 +37,7 @@
                 <MenuItem Header="Add picture"/>
                 <MenuItem Header="Save as...">
                     <MenuItem Header="PNG"
-                              Click="SaveToPNG"/>
+                              />
                     <MenuItem Header="JPEG"/>
                 </MenuItem>
             </MenuItem>
@@ -45,13 +45,13 @@
         <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="5" Background="Snow"/>
         <Border Grid.Column="3" Grid.Row="1" Grid.RowSpan="5" Background="Snow"/>
         <WrapPanel Name="figurePanel" Grid.Column="0" Grid.Row="1"  MaxWidth="130" Grid.RowSpan="2">
-            <Button x:Name="button1" Height ="25" Width="37" Margin="5,5" Content="Lines" Click="StartLightVector"/>
-            <Button x:Name="testButton" Height ="25" Width="37" Margin="5,5" Content="Brush" Click="testButton_Click"/>
-            <Button x:Name="testButton2" Height ="25" Width="37" Margin="5,5" Content="Arrow" Click="testButton2_Click"/>
+            <Button x:Name="button1" Height ="25" Width="37" Margin="5,5" Content="Lines" />
+            <Button x:Name="testButton" Height ="25" Width="37" Margin="5,5" Content="Brush"/>
+            <Button x:Name="testButton2" Height ="25" Width="37" Margin="5,5" Content="Arrow" />
 
         </WrapPanel>
         <WrapPanel Name="palette" Grid.Column="0" Grid.Row="3">
-            <xctk:ColorPicker x:Name="ClrPcker_Background"  Margin="65,7,0,0" SelectedColorChanged="ClrPcker_Background_SelectedColorChanged" Height="25" Width="50"/>
+            <xctk:ColorPicker x:Name="ClrPcker_Background"  Margin="65,7,0,0" Height="25" Width="50"/>
         </WrapPanel>
         <ListBox Name="scenesList" Width="120" Grid.Column="2" Grid.Row="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  BorderBrush="LightGray" SelectionChanged="scenesList_SelectionChanged"></ListBox>
