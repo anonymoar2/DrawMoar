@@ -1,11 +1,8 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Text;
+
 using System.Drawing;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
+
 
 namespace DrawMoar
 {

@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Drawing;
 
+using DrawMoar.BaseElements;
+
+
 namespace DrawMoar
 {
     public class VectorLayer : ILayer
@@ -35,7 +38,9 @@ namespace DrawMoar
         /// </summary>
         public bool Visible { get; set; }
 
+
         public Point Position { get; set; }
+
 
         /// <summary>
         /// Пока ничего
@@ -43,7 +48,8 @@ namespace DrawMoar
         public void Draw(Graphics g) {
             //Picture.Draw(g);
         }
-        public Picture Picture { get; set; }
 
+
+        public Picture Picture { get; set; }
     }
 }

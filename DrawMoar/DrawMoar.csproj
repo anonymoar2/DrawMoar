@@ -80,18 +80,20 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Cartoon.cs" />
+    <Compile Include="BaseElements\Cartoon.cs" />
+    <Compile Include="BaseElements\CompoundShape.cs" />
+    <Compile Include="BaseElements\IShape.cs" />
     <Compile Include="CreateCartoonDialog.xaml.cs">
       <DependentUpon>CreateCartoonDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Frame.cs" />
+    <Compile Include="BaseElements\Frame.cs" />
     <Compile Include="GlobalState.cs" />
     <Compile Include="ILayer.cs" />
     <Compile Include="Instrument.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Picture.cs" />
+    <Compile Include="BaseElements\Picture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -106,8 +108,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="RasterLayer.cs" />
-    <Compile Include="Scene.cs" />
-    <Compile Include="ITransformation.cs" />
+    <Compile Include="BaseElements\Scene.cs" />
+    <Compile Include="BaseElements\ITransformation.cs" />
     <Compile Include="VectorLayer.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

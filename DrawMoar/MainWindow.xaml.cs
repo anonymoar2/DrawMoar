@@ -16,6 +16,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Drawing;
 
+using DrawMoar.BaseElements;
+
+
 namespace DrawMoar
 {
     /// <summary>
@@ -310,9 +313,9 @@ namespace DrawMoar
             }
             if (sender != null)
             {
-                cartoon.AddScene();
-                cartoon.CurrentScene.AddFrame();
-                cartoon.CurrentScene.currentFrame = cartoon.CurrentScene.GetAllFrames()[0];
+                cartoon.AddEmptyScene();
+                cartoon.CurrentScene.AddEmptyFrame();
+                cartoon.CurrentScene.CurrentFrame = cartoon.CurrentScene.GetAllFrames()[0];
             }
             AddListBoxElement(scenesList, cartoon.CurrentScene.Name);
         }
