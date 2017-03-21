@@ -10,9 +10,7 @@ namespace DrawMoar.BaseElements
     {
         public string Alias { get; set; }
 
-        public void Transform(ITransformation trans) {
-            throw new NotImplementedException();
-        }
+        
         
         List<IShape> shapes = new List<IShape>();
 

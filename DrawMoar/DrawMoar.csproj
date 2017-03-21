@@ -93,7 +93,6 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BaseElements\Picture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -141,6 +140,16 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Exporter\Exporter.csproj">
+      <Project>{a3397f33-cb81-4387-b785-6e5ad4006339}</Project>
+      <Name>Exporter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Importer\Importer.csproj">
+      <Project>{3b3d6e6b-a04d-45f6-9d65-d66ebfff0a7e}</Project>
+      <Name>Importer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
