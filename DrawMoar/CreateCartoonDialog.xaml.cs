@@ -53,7 +53,7 @@ namespace DrawMoar
                         {
                             var cartoon = new Cartoon(cartoonName, cartoonWidth, cartoonHeight, workingDirectory);
                             MainWindow mw = (MainWindow)Owner;
-                            //mw.Success(cartoon);
+                            mw.Success(cartoon);
                             Hide();
                         }
                         catch (ArgumentException exeption)

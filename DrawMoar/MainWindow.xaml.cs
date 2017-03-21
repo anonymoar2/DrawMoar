@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Drawing;
+
 
 using DrawMoar.BaseElements;
 
@@ -41,10 +41,13 @@ namespace DrawMoar
 
             // для теста, потом всё это можно будет поменять без проблем
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            //GlobalState.ChangeInstrument += SetCursorStyle;
-            //GlobalState.Color = System.Windows.Media.Brushes.Black;
-            //GlobalState.BrushSize = new System.Windows.Size(5, 5);
-        }
+            canvas.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(canvas_PreviewMouseLeftButtonDown);
+            canvas.PreviewMouseMove += new MouseEventHandler(canvas_PreviewMouseMove);
+            canvas.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(canvas_PreviewMouseLeftButtonUp);
+        //GlobalState.ChangeInstrument += SetCursorStyle;
+        //GlobalState.Color = System.Windows.Media.Brushes.Black;
+        //GlobalState.BrushSize = new System.Windows.Size(5, 5);
+    }
 
         //тогда отрисовку придется выносить в отдельный класс и она будет сложнее - много работы в плане 
 
@@ -326,6 +329,41 @@ namespace DrawMoar
             lbl.Content = content;
             lBox.Items.Add(lbl);
             lBox.SelectedIndex = lBox.Items.Count - 1;
+        }
+
+        Line newLine;
+        Point clickPoint;
+        Point drawPoint;
+
+        void canvas_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            clickPoint = (Point)e.GetPosition(canvas);
+            newLine = new Line();
+            newLine.Stroke = Brushes.Black;
+            newLine.Fill = Brushes.Black;
+            newLine.StrokeLineJoin = PenLineJoin.Bevel;
+            newLine.X1 = clickPoint.X;
+            newLine.Y1 = clickPoint.Y;
+            newLine.X2 = clickPoint.X + 10;
+            newLine.Y2 = clickPoint.Y + 10;
+            newLine.StrokeThickness = 2;
+            canvas.Children.Add(newLine);
+            int zindex = canvas.Children.Count;
+            Canvas.SetZIndex(newLine, zindex);
+        }
+
+        void canvas_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            drawPoint = (Point)e.GetPosition(canvas);
+            if (newLine != null & e.LeftButton == MouseButtonState.Pressed)
+            {
+                newLine.X2 = drawPoint.X;
+                newLine.Y2 = drawPoint.Y;
+            }
+        }
+        void canvas_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            newLine = null;
         }
 
         // Удалила эту строку из xaml
