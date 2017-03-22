@@ -4,7 +4,6 @@ using System.Drawing;
 
 using DrawMoar.BaseElements;
 
-
 namespace DrawMoar
 {
     public interface ILayer
@@ -23,22 +22,13 @@ namespace DrawMoar
         string Name { get; set; }
 
 
-        /// <summary>
-        /// Отображает содержимое слоя в консоли/на канвасе
-        /// </summary>
         void Draw(Graphics g);
 
 
         Point Position { get; set; }
 
 
-        ILayer Transform(List<ITransformation> transforations);
-
-
-        /// <summary>
-        /// Скорость слоя определеяется количеством кадров(копий этого слоя со смещением содержимого) 
-        /// на всю длительность сцены. (конкретно тут хранится количество кадров (копий слоя))
-        /// </summary>
-        int Speed { get; set; }
+        void Transform(Transformation transformation);
+        
     }
 }

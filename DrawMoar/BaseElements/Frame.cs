@@ -30,33 +30,13 @@ namespace DrawMoar.BaseElements
         /// <summary>
         /// Текущий слой.
         /// </summary>
-        public Tuple<ILayer, List<ITransformation>> CurrentLayer { get; set; }
+        public ILayer CurrentLayer { get; set; }
 
 
         /// <summary>
         /// Список слоёв кадра.
         /// </summary>
-        private List<Tuple<ILayer, List<ITransformation>>> layers = new List<Tuple<ILayer, List<ITransformation>>>();
-
-
-        ///Возможно её не будет
-        ///// <summary>
-        ///// Продолжительность кадра.
-        ///// </summary>
-        //private float duration;
-        //public float Duration {
-        //    get {
-        //        return duration;
-        //    }
-        //    set {
-        //        if (value > 0) {
-        //            duration = value;
-        //        }
-        //        else {
-        //            throw new ArgumentException("Длительность кадра не может быть <= 0");
-        //        }
-        //    }
-        //}
+        private List<ILayer> layers = new List<ILayer>();
 
 
         /// <summary>
@@ -73,7 +53,7 @@ namespace DrawMoar.BaseElements
         /// Получить все слои кадра
         /// </summary>
         /// <returns>Список всех слоев кадра</returns>
-        public List<Tuple<ILayer, List<ITransformation>>> GetAllLayers() {
+        public List<ILayer> GetAllLayers() {
             return layers;
         }
 
@@ -82,7 +62,7 @@ namespace DrawMoar.BaseElements
         /// Добавление пустого РАСТРОВОГО слоя в конец списка.
         /// </summary>
         public void AddEmptyRasterLayer() {
-            layers.Add(new Tuple<ILayer, List<ITransformation>>(new RasterLayer(), new List<ITransformation>()));
+            layers.Add(new RasterLayer());
             CurrentLayer = layers.Last();
         }
 
@@ -91,133 +71,144 @@ namespace DrawMoar.BaseElements
         /// Добавление пустого ВЕКТОРНОГО слоя в конец списка.
         /// </summary>
         public void AddEmptyVectorLayer() {
-            layers.Add(new Tuple<ILayer, List<ITransformation>>(new VectorLayer(), new List<ITransformation>()));
+            layers.Add(new VectorLayer());
             CurrentLayer = layers.Last();
         }
 
 
         /// <summary>
-        /// Добавление существующего кадра в конец списка.
+        /// Добавление существующего слоя в конец списка.
         /// </summary>
-        /// <param name="frame">Кадр, который хотите добавить</param>
-        public void AddFrame(Frame frame) {
-            frames.Add(frame);
+        /// <param name="layer">Слой, который хотите добавить</param>
+        public void AddLayer(ILayer layer) {
+            layers.Add(layer);
         }
 
 
         /// <summary>
-        /// Вставка кадра в список на указанную позицию.
+        /// Вставка слоя в список на указанную позицию.
         /// </summary>
-        /// <param name="index">Куда втавить кадр</param>
-        /// <param name="frame">Сам кадр</param>
-        public void InsertFrame(int index, Frame frame) {
-            frames.Insert(index, frame);
+        /// <param name="index">Куда втавить слой</param>
+        /// <param name="layer">Сам слой, который вставить</param>
+        public void InsertLayer(int index, ILayer layer) {
+            layers.Insert(index, layer);
         }
 
 
         /// <summary>
-        /// Вставка на указанную позицию пустого кадра
+        /// Вставка на указанную позицию пустого растрового слоя
         /// </summary>
-        /// <param name="index">Куда вставить пустой кадр</param>
-        public void InsertEmptyFrame(int index) {
-            frames.Insert(index, new Frame());
+        /// <param name="index">Куда вставить пустой растровый слой</param>
+        public void InsertEmptyRasterLayer(int index) {
+            layers.Insert(index, new RasterLayer());
         }
 
 
         /// <summary>
-        /// Получение позиции (индекса) кадра в списке
+        /// Вставка на указанную позицию пустого векторного слоя
         /// </summary>
-        /// <param name="frame">Кадр, индекс которого вернуть</param>
-        /// <returns>Индекс этого кадра.</returns>
-        public int IndexOfFrame(Frame frame) {
-            return frames.IndexOf(frame);
+        /// <param name="index">Куда вставить пустой векторный слой</param>
+        public void InsertEmptyVectorLayer(int index) {
+            layers.Insert(index, new VectorLayer());
         }
 
 
         /// <summary>
-        /// Получение кадра по его индексу в списке
+        /// Получение позиции (индекса) слоя в списке, если он в нём есть
         /// </summary>
-        /// <param name="index">Индекс кадра</param>
-        /// <returns>Кадр с переданным индексом</returns>
-        public Frame GetFrame(int index) {
-            return frames[index];
+        /// <param name="layer">Слой, индекс которого вернуть</param>
+        /// <returns>Индекс этого слоя.</returns>
+        public int IndexOfLayer(ILayer layer) {
+            return layers.IndexOf(layer);
         }
 
 
         /// <summary>
-        /// Удаление кадра из списка, если из списка удалили последний кадр, то добавляем на его место новый пустой кадр
+        /// Получение слоя по его индексу в списке
         /// </summary>
-        /// <param name="frame">Удаляемый кадр</param>
-        public void RemoveFrame(Frame frame) {
-            var index = frames.IndexOf(frame);
-            if (frames.Remove(frame)) {
-                if (frames.Count == 0) {
-                    frames.Add(new Frame());
-                    CurrentFrame = frames.First();
+        /// <param name="index">Индекс слоя</param>
+        /// <returns>Слой с переданным индексом</returns>
+        public ILayer GetLayer(int index) {
+            return layers[index];
+        }
+
+
+        /// <summary>
+        /// Удаление слоя из списка, если из списка удалили последний слой, то добавляем на его место новый пустой растровый слой
+        /// CurrentLayer смещается на предыдущий(до удаляемого) слой, либо на 0-ой, если был удалён нулевой
+        /// </summary>
+        /// <param name="layer">Удаляемый слой</param>
+        public void RemoveLayer(ILayer layer) {
+            var index = layers.IndexOf(layer);
+            if (layers.Remove(layer)) {
+                if (layers.Count == 0) {
+                    layers.Add(new RasterLayer());
+                    CurrentLayer = layers.First();
                 }
                 else if (index == 0) {
-                    CurrentFrame = frames.First();
+                    CurrentLayer = layers.First();
                 }
                 else {
-                    CurrentFrame = frames[index - 1];
+                    CurrentLayer = layers[index - 1];
                 }
             }
         }
 
 
         /// <summary>
-        /// Удаление кадра по индексу
+        /// Удаление слоя по индексу, если удалён последний в списке, добавляем новый пустой растровый
+        /// CurrentLayer смещается на предыдущий(до удаляемого) слой, либо на 0-ой, если был удалён нулевой
         /// </summary>
-        /// <param name="index">Индекс удаляемого кадра.</param>
-        public void RemoveFrameAt(int index) {
-            frames.RemoveAt(index);
-            if (frames.Count == 0) {
-                frames.Add(new Frame());
-                CurrentFrame = frames.First();
+        /// <param name="index">Индекс удаляемого слоя.</param>
+        public void RemoveLayerAt(int index) {
+            layers.RemoveAt(index);
+            if (layers.Count == 0) {
+                layers.Add(new RasterLayer());
+                CurrentLayer = layers.First();
             }
             else if (index == 0) {
-                CurrentFrame = frames.First();
+                CurrentLayer = layers.First();
             }
             else {
-                CurrentFrame = frames[index - 1];
+                CurrentLayer = layers[index - 1];
             }
         }
 
 
         /// <summary>
-        /// Изменение порядка кадров
+        /// Изменение порядка слоёв
         /// </summary>
-        /// <param name="firstFrameIndex">Индекс первого кадра</param>
-        /// <param name="secondFrameIndex">Индекс второго кадра</param>
-        public void SwapFramesPositions(int firstFrameIndex, int secondFrameIndex) {
-            frames.Insert(secondFrameIndex + 1, frames[firstFrameIndex]);
-            var tmp = frames[secondFrameIndex];
-            frames.RemoveAt(secondFrameIndex);
-            frames.RemoveAt(firstFrameIndex);
-            frames.Insert(firstFrameIndex, tmp);
+        /// <param name="firstLayerIndex">Индекс первого слоя</param>
+        /// <param name="secondLayerIndex">Индекс второго слоя</param>
+        public void SwapLayersPositions(int firstLayerIndex, int secondLayerIndex) {
+            layers.Insert(secondLayerIndex + 1, layers[firstLayerIndex]);
+            var tmp = layers[secondLayerIndex];
+            layers.RemoveAt(secondLayerIndex);
+            layers.RemoveAt(firstLayerIndex);
+            layers.Insert(firstLayerIndex, tmp);
         }
 
 
         /// <summary>
-        /// Поднятие кадра вверх в списке на подну позицию
+        /// Поднятие слоя вверх в списке на подну позицию
         /// </summary>
-        /// <param name="index">Индекс кадра</param>
-        public void PutFrameUp(int index) {
-            if (index >= 0 && index < frames.Count - 1) {
-                frames.Insert(index + 2, frames[index]);
-                frames.RemoveAt(index);
+        /// <param name="index">Индекс слоя</param>
+        public void PutLayerUp(int index) {
+            if (index >= 0 && index < layers.Count - 1) { // Нужна ли проверка?
+                layers.Insert(index + 2, layers[index]);
+                layers.RemoveAt(index);
             }
         }
 
 
         /// <summary>
-        /// Опускание кадра вниз в списке на одну позицию
+        /// Опускание слоя вниз в списке на одну позицию
         /// </summary>
-        /// <param name="index">Индекс кадра</param>
+        /// <param name="index">Индекс слоя</param>
         public void PutFrameDown(int index) {
-            if (index > 0 && index < frames.Count) {
-                frames.Insert(index - 1, frames[index]);
-                frames.RemoveAt(index + 1);
+            if (index > 0 && index < layers.Count) {
+                layers.Insert(index - 1, layers[index]);
+                layers.RemoveAt(index + 1);
             }
         }
 
@@ -245,7 +236,7 @@ namespace DrawMoar.BaseElements
 
 
         /// <summary>
-        /// Создание bitmap из всех видимых слоёв кадра, типа склеивает все в один
+        /// TODO: Переписать нормально крч, создание bitmap из всех видимых слоёв кадра, типа склеивает все в один
         /// </summary>
         /// <returns>bitmap</returns>
         //public Bitmap GetBitmap() {

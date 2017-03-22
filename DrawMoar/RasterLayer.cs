@@ -13,6 +13,8 @@ namespace DrawMoar
     /// TODO: Реализовать растровый слой
     public class RasterLayer : ILayer
     {
+        //TODO: Конструктор
+
 
         /// <summary>
         /// Название (имя) слоя
@@ -46,26 +48,23 @@ namespace DrawMoar
 
 
         /// <summary>
-        /// Ну тут ничего в принципе
+        /// Тут пока только на самом Image рисует, надо ещё с canvas связать
         /// </summary>
         public void Draw(Graphics g) { 
             g.DrawImage(Image, Position.X, Position.Y);
         }
 
 
-        /// <summary>
-        /// TODO: запилить метод
-        /// WARNING: Потенциальная ошибка мб здесь (возможно слой не копируется, а туда пихается на него ссылка и крч
-        /// изменяется тот который типа мы хотели скопировать вместе с "копией")
-        /// Nk_dev: Возможно меняется ориинал
-        /// </summary>
-        /// <param name="transforations">трансформации над слоем</param>
-        /// <returns></returns>
-        public ILayer Transform(List<ITransformation> transforations) {
-            var layer = this.Clone();
-            // var maxSpeed = transforations.MaxBy(x => x.Speed);
+        //При переключении слоёв рисует содержимое Image на экране
+        public void Print() {
+            
         }
 
+
+        public void Transform(Transformation transformation) {
+            // TODO метод
+        }
+        
 
         public Image Image { get;  set; }
 
