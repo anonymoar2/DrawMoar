@@ -311,10 +311,13 @@ namespace DrawMoar
         {
             if (shape != null & e.LeftButton == MouseButtonState.Pressed)
             {
+                var shiftX = point.X - prevPoint.X;
+                var shiftY = point.Y - prevPoint.Y;
+                if ((shiftX <= 0) || (shiftY <= 0)) return;         //мб потом сделаю зеркалирование при пересечении координат начала отрисовки (как в пейнте)
                 canvas.Children.RemoveAt(canvas.Children.Count - 1);
                 if (shape is DrawMoar.Shapes.Line) shape = new DrawMoar.Shapes.Line(prevPoint, point);
-                else if (shape is DrawMoar.Shapes.Ellipse) shape = new DrawMoar.Shapes.Ellipse(prevPoint, new Size(30+point.X-prevPoint.X, 20+point.Y-prevPoint.Y));
-                else if (shape is DrawMoar.Shapes.Rectangle) shape = new DrawMoar.Shapes.Rectangle(prevPoint, new Size(30+ point.X - prevPoint.X, 20 + point.Y - prevPoint.Y));
+                else if (shape is DrawMoar.Shapes.Ellipse) shape = new DrawMoar.Shapes.Ellipse(prevPoint, new Size(30+shiftX, 20+shiftY));
+                else if (shape is DrawMoar.Shapes.Rectangle) shape = new DrawMoar.Shapes.Rectangle(prevPoint, new Size(30+ shiftX, 20 + shiftY));
                 shape.Draw(canvas);
             }
         }
