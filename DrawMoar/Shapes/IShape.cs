@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DrawMoar.BaseElements;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,10 @@ namespace DrawMoar.Shapes
     {
         string Alias { get; set; }
 
+        void Transform(Transformation trans);
+
         void Draw(Canvas canvas);
+
         void Print();
     }
 }

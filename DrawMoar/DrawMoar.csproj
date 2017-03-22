@@ -82,10 +82,14 @@
     </Compile>
     <Compile Include="BaseElements\Cartoon.cs" />
     <Compile Include="BaseElements\CompoundShape.cs" />
+    <Compile Include="BaseElements\Matrix.cs" />
+    <Compile Include="BaseElements\Transformation.cs" />
     <Compile Include="CreateCartoonDialog.xaml.cs">
       <DependentUpon>CreateCartoonDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="BaseElements\Frame.cs" />
+    <Compile Include="Extensions\Extremes.cs" />
+    <Compile Include="Extensions\ObjectCopier.cs" />
     <Compile Include="GlobalState.cs" />
     <Compile Include="ILayer.cs" />
     <Compile Include="Instrument.cs" />
@@ -107,7 +111,6 @@
     </Compile>
     <Compile Include="RasterLayer.cs" />
     <Compile Include="BaseElements\Scene.cs" />
-    <Compile Include="BaseElements\ITransformation.cs" />
     <Compile Include="Shapes\Ellipse.cs" />
     <Compile Include="Shapes\IShape.cs" />
     <Compile Include="Shapes\Line.cs" />
@@ -154,6 +157,7 @@
       <Name>Importer</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

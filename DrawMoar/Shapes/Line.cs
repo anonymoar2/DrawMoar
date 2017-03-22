@@ -47,7 +47,7 @@ namespace DrawMoar.Shapes
 
         }
 
-        public void Transform(ITransformation trans)
+        public void Transform(Transformation trans)
         {
 
         }
