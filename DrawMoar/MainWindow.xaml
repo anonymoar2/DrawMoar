@@ -45,9 +45,9 @@
         <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="5" Background="Snow"/>
         <Border Grid.Column="3" Grid.Row="1" Grid.RowSpan="5" Background="Snow"/>
         <WrapPanel Name="figurePanel" Grid.Column="0" Grid.Row="1"  MaxWidth="130" Grid.RowSpan="2">
-            <Button x:Name="button1" Height ="25" Width="37" Margin="5,5" Content="Lines" />
-            <Button x:Name="testButton" Height ="25" Width="37" Margin="5,5" Content="Brush"/>
-            <Button x:Name="testButton2" Height ="25" Width="37" Margin="5,5" Content="Arrow" />
+            <Button x:Name="Lines" Height ="25" Width="37" Margin="5,5" Content="Lines" Click="Lines_Click"/>
+            <Button x:Name="testButton" Height ="25" Width="37" Margin="5,5" Content="Brush" Click="testButton_Click"/>
+            <Button x:Name="testButton2" Height ="25" Width="37" Margin="5,5" Content="Arrow" Click="testButton2_Click"/>
 
         </WrapPanel>
         <WrapPanel Name="palette" Grid.Column="0" Grid.Row="3">

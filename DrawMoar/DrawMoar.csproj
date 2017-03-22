@@ -77,6 +77,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddAnimationDIalog.xaml.cs">
+      <DependentUpon>AddAnimationDIalog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -112,7 +115,6 @@
     </Compile>
     <Compile Include="RasterLayer.cs" />
     <Compile Include="BaseElements\Scene.cs" />
-    <Compile Include="BaseElements\Transformation.cs" />
     <Compile Include="VectorLayer.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -133,6 +135,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="AddAnimationDIalog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CreateCartoonDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
