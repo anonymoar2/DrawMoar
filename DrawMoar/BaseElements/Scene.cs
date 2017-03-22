@@ -9,6 +9,12 @@ namespace DrawMoar.BaseElements
     public class Scene
     {
         /// <summary>
+        /// Текущий кадр
+        /// </summary>
+        public Frame CurrentFrame { get; set; }
+
+
+        /// <summary>
         /// Название (имя) сцены
         /// </summary>
         private string name;
@@ -24,12 +30,6 @@ namespace DrawMoar.BaseElements
                 }
             }
         }
-
-
-        /// <summary>
-        /// Текущий кадр
-        /// </summary>
-        public Frame CurrentFrame { get; set; }
 
 
         public Scene() {
@@ -49,7 +49,7 @@ namespace DrawMoar.BaseElements
         /// <summary>
         /// Список кадров сцены
         /// </summary>
-        public List<Frame> frames = new List<Frame>();
+        private List<Frame> frames = new List<Frame>();
 
 
         #region Методы для работы с кадрами

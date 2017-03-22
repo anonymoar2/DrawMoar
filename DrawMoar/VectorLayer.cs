@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 
 using System.Text.RegularExpressions;
 using System.Drawing;
@@ -14,7 +10,20 @@ namespace DrawMoar
 {
     public class VectorLayer : ILayer
     {
-        // TODO: Конструктор
+        /// <summary>
+        /// true - видимый слой, false - невидимый
+        /// </summary>
+        public bool Visible { get; set; }
+
+
+        /// <summary>
+        /// Совокупность всех наших фигур и есть пикча - содержимое слоя в общем
+        /// </summary>
+        public CompoundShape Picture { get; set; }
+
+
+        public Point Position { get; set; }
+
 
         /// <summary>
         /// Название (имя) слоя
@@ -35,13 +44,7 @@ namespace DrawMoar
         }
 
 
-        /// <summary>
-        /// true - видимый слой, false - невидимый
-        /// </summary>
-        public bool Visible { get; set; }
-
-
-        public Point Position { get; set; }
+        // TODO: Конструктор
 
 
         /// <summary>
@@ -60,11 +63,9 @@ namespace DrawMoar
             // Проходим по фигурам, отрисовывая их на экране
         }
 
+
         public void Transform(Transformation transformation) {
             Picture.Transform(transformation);
         }
-
-
-        public CompoundShape Picture { get; set; }
     }
 }

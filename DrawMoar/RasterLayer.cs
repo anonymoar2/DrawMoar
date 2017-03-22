@@ -11,7 +11,22 @@ namespace DrawMoar
     /// TODO: Реализовать растровый слой
     public class RasterLayer : ILayer
     {
-        //TODO: Конструктор
+        /// <summary>
+        /// true - слой видимый, false - невидимый
+        /// </summary>
+        public bool Visible { get; set; }
+
+
+        /// <summary>
+        /// Содержимое слоя, TODO: Подумать, в чем хранить, потому что пока это очень плохо
+        /// </summary>
+        public Image Image { get; set; }
+
+
+        /// <summary>
+        /// Место на холсте куда будет накладываться левый верхний угол изображения
+        /// </summary>
+        public Point Position { get; set; }
 
 
         /// <summary>
@@ -33,16 +48,7 @@ namespace DrawMoar
         }
 
 
-        /// <summary>
-        /// true - слой видимый, false - невидимый
-        /// </summary>
-        public bool Visible { get; set; }
-
-
-        /// <summary>
-        /// Место на холсте куда будет накладываться левый верхний угол изображения
-        /// </summary>
-        public Point Position { get; set; }
+        //TODO: Конструктор
 
 
         /// <summary>
@@ -62,11 +68,5 @@ namespace DrawMoar
         public void Transform(Transformation transformation) {
             // TODO метод
         }
-        
-
-        public Image Image { get;  set; }
-
-
-        public int Speed { get; set; }
     }
 }

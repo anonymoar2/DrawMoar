@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-using System.Drawing;
 using System.Windows.Controls;
+
 using DrawMoar.Shapes;
+
 
 namespace DrawMoar.BaseElements
 {
@@ -28,6 +28,7 @@ namespace DrawMoar.BaseElements
         {
 
         }
+
 
         public void Transform(Transformation transformation) {
             foreach (var shape in shapes) {
