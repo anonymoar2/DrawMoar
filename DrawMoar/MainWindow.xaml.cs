@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-
+using DrawMoar.Shapes;
 using DrawMoar.BaseElements;
 
 
@@ -27,6 +27,10 @@ namespace DrawMoar
     public partial class MainWindow : Window
     {
         private Cartoon cartoon;
+
+        Point prevPoint;
+        DrawMoar.Shapes.Line newLine;
+        Point point;
 
         public MainWindow() {
             InitializeComponent();
@@ -41,12 +45,14 @@ namespace DrawMoar
 
             // для теста, потом всё это можно будет поменять без проблем
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            canvas.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(canvas_PreviewMouseLeftButtonDown);
-            canvas.PreviewMouseMove += new MouseEventHandler(canvas_PreviewMouseMove);
-            canvas.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(canvas_PreviewMouseLeftButtonUp);
-        //GlobalState.ChangeInstrument += SetCursorStyle;
-        //GlobalState.Color = System.Windows.Media.Brushes.Black;
-        //GlobalState.BrushSize = new System.Windows.Size(5, 5);
+            canvas.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(canvas_MouseLeftButtonDown);
+            canvas.PreviewMouseMove += new MouseEventHandler(canvas_MouseMove);
+            canvas.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(canvas_MouseLeftButtonUp);
+            canvas.MouseLeave += new MouseEventHandler(canvas_MouseLeave);
+            GlobalState.CurrentTool = Instrument.Arrow;
+            GlobalState.ChangeInstrument += SetCursorStyle;
+            GlobalState.Color = System.Windows.Media.Brushes.Black;
+            GlobalState.BrushSize = new System.Windows.Size(5, 5);
     }
 
         //тогда отрисовку придется выносить в отдельный класс и она будет сложнее - много работы в плане 
@@ -331,39 +337,72 @@ namespace DrawMoar
             lBox.SelectedIndex = lBox.Items.Count - 1;
         }
 
-        Line newLine;
-        Point clickPoint;
-        Point drawPoint;
 
-        void canvas_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            clickPoint = (Point)e.GetPosition(canvas);
-            newLine = new Line();
-            newLine.Stroke = Brushes.Black;
-            newLine.Fill = Brushes.Black;
-            newLine.StrokeLineJoin = PenLineJoin.Bevel;
-            newLine.X1 = clickPoint.X;
-            newLine.Y1 = clickPoint.Y;
-            newLine.X2 = clickPoint.X + 10;
-            newLine.Y2 = clickPoint.Y + 10;
-            newLine.StrokeThickness = 2;
-            canvas.Children.Add(newLine);
-            int zindex = canvas.Children.Count;
-            Canvas.SetZIndex(newLine, zindex);
+            GlobalState.PressLeftButton = true;
+            prevPoint = Mouse.GetPosition(canvas);
+            switch (GlobalState.CurrentTool) //все, что внутри перенести к Антону в примитивы как-то иначе
+            {
+                case Instrument.Brush:
+                    
+                    break;
+                case Instrument.Rectangle:
+
+                    break;
+                case Instrument.Line:
+                    //задерживание кнопки мыши, отпустили = конец линии    
+                    newLine = new DrawMoar.Shapes.Line(prevPoint, prevPoint,
+                              GlobalState.Color, GlobalState.BrushSize.Width);
+                    newLine.Draw(canvas);
+                    break;
+            }
+            canvas_MouseMove(sender, e);
         }
 
-        void canvas_PreviewMouseMove(object sender, MouseEventArgs e)
+        void canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            drawPoint = (Point)e.GetPosition(canvas);
-            if (newLine != null & e.LeftButton == MouseButtonState.Pressed)
+            point = (Point)e.GetPosition(canvas);
+            if (GlobalState.PressLeftButton)
             {
-                newLine.X2 = drawPoint.X;
-                newLine.Y2 = drawPoint.Y;
+                switch (GlobalState.CurrentTool)
+                {
+                    case Instrument.Brush:
+                        newLine = new DrawMoar.Shapes.Line(prevPoint, point,
+                                        GlobalState.Color, GlobalState.BrushSize.Width);
+                        newLine.Draw(canvas);
+                        prevPoint = point;
+                        break;
+                    case Instrument.Rectangle:
+
+                        break;
+                    case Instrument.Line:
+                        if (newLine != null & e.LeftButton == MouseButtonState.Pressed)
+                        {
+                            canvas.Children.RemoveAt(canvas.Children.Count - 1);
+                            newLine = new DrawMoar.Shapes.Line(prevPoint, point, 
+                                       GlobalState.Color, GlobalState.BrushSize.Width);
+                            newLine.Draw(canvas);
+                        }
+                        break;
+                }
             }
         }
-        void canvas_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+
+
+        void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            newLine = null;
+            GlobalState.PressLeftButton = false;
+        }
+
+        void canvas_MouseLeave(object sender, MouseEventArgs e)
+        {
+            GlobalState.PressLeftButton = false;
+        }
+
+        private void Lines_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalState.CurrentTool = Instrument.Line;
         }
 
         // Удалила эту строку из xaml
