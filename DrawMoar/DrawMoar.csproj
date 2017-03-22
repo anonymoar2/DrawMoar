@@ -88,6 +88,7 @@
     <Compile Include="BaseElements\IShape.cs" />
     <Compile Include="BaseElements\Matrix.cs" />
     <Compile Include="BaseElements\Shapes\Line.cs" />
+    <Compile Include="BaseElements\Transformation.cs" />
     <Compile Include="CreateCartoonDialog.xaml.cs">
       <DependentUpon>CreateCartoonDialog.xaml</DependentUpon>
     </Compile>

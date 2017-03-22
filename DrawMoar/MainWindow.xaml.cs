@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using DrawMoar.Shapes;
+using DrawMoar.BaseElements.Shapes;
 using DrawMoar.BaseElements;
 
 
@@ -29,7 +29,7 @@ namespace DrawMoar
         private Cartoon cartoon;
 
         Point prevPoint;
-        DrawMoar.Shapes.Line newLine;
+        DrawMoar.BaseElements.Shapes.Line newLine;
         Point point;
 
         public MainWindow() {
@@ -99,8 +99,8 @@ namespace DrawMoar
         private void ExportToMP4(object sender, RoutedEventArgs e)
         {
             SaveControlsToBitmap();
-            var exp = new Mp4Exporter();
-            exp.Save(cartoon, cartoon.WorkingDirectory);
+            //var exp = new Mp4Exporter();
+            //exp.Save(cartoon, cartoon.WorkingDirectory);
         }
 
         //private void SaveToPNG(object sender, RoutedEventArgs e) {
@@ -352,7 +352,7 @@ namespace DrawMoar
                     break;
                 case Instrument.Line:
                     //задерживание кнопки мыши, отпустили = конец линии    
-                    newLine = new DrawMoar.Shapes.Line(prevPoint, prevPoint,
+                    newLine = new DrawMoar.BaseElements.Shapes.Line(prevPoint, prevPoint,
                               GlobalState.Color, GlobalState.BrushSize.Width);
                     newLine.Draw(canvas);
                     break;
@@ -368,7 +368,7 @@ namespace DrawMoar
                 switch (GlobalState.CurrentTool)
                 {
                     case Instrument.Brush:
-                        newLine = new DrawMoar.Shapes.Line(prevPoint, point,
+                        newLine = new DrawMoar.BaseElements.Shapes.Line(prevPoint, point,
                                         GlobalState.Color, GlobalState.BrushSize.Width);
                         newLine.Draw(canvas);
                         prevPoint = point;
@@ -380,7 +380,7 @@ namespace DrawMoar
                         if (newLine != null & e.LeftButton == MouseButtonState.Pressed)
                         {
                             canvas.Children.RemoveAt(canvas.Children.Count - 1);
-                            newLine = new DrawMoar.Shapes.Line(prevPoint, point, 
+                            newLine = new DrawMoar.BaseElements.Shapes.Line(prevPoint, point, 
                                        GlobalState.Color, GlobalState.BrushSize.Width);
                             newLine.Draw(canvas);
                         }
