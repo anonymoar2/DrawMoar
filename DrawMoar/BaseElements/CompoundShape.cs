@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 
 using System.Drawing;
-using DrawMoar.Shapes;
 using System.Windows.Controls;
+
 
 namespace DrawMoar.BaseElements
 {
@@ -11,27 +11,25 @@ namespace DrawMoar.BaseElements
     {
         public string Alias { get; set; }
 
-        public void Transform(ITransformation trans) {
-            throw new NotImplementedException();
-        }
+        
         
         List<IShape> shapes = new List<IShape>();
 
 
         /// <summary>
-        /// Отрисовка на холсте, с параметрами ещё неизвестно
+        /// Отрисовка на холсте, и так же сразу на WPF, по сути передаем сюда и bitmap и canvas
         /// </summary>
-        public void Draw(Canvas canvas) {
-
+        public void Draw(Graphics g, Canvas canvas) {
+            //Проходим по фигурам, вызывая у них Draw
+            // Можно разбить на два метода, один на канвасе, другой на bitmap (один принимает Graphics, другой Canvas)
         }
 
-
-        /// <summary>
-        /// Отрисовка на bitmap-e
-        /// </summary>
-        public void Print() {
-
-        }
         
+
+        public void Transform(Transformation transformation) {
+            foreach (var shape in shapes) {
+                shape.Transform(transformation);
+            }
+        }
     }
 }

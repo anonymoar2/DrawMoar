@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using System.Drawing;
 using System.Text.RegularExpressions;
+
+using DrawMoar.BaseElements;
+using DrawMoar.Extensions;
 
 
 namespace DrawMoar
@@ -9,6 +13,8 @@ namespace DrawMoar
     /// TODO: Реализовать растровый слой
     public class RasterLayer : ILayer
     {
+        //TODO: Конструктор
+
 
         /// <summary>
         /// Название (имя) слоя
@@ -42,14 +48,27 @@ namespace DrawMoar
 
 
         /// <summary>
-        /// Ну тут ничего в принципе
+        /// Тут пока только на самом Image рисует, надо ещё с canvas связать
         /// </summary>
-        public void Draw(Graphics g) {
+        public void Draw(Graphics g) { 
             g.DrawImage(Image, Position.X, Position.Y);
         }
 
 
+        //При переключении слоёв рисует содержимое Image на экране
+        public void Print() {
+            
+        }
+
+
+        public void Transform(Transformation transformation) {
+            // TODO метод
+        }
+        
+
         public Image Image { get;  set; }
 
+
+        public int Speed { get; set; }
     }
 }

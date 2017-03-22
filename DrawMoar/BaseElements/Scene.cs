@@ -79,6 +79,7 @@ namespace DrawMoar.BaseElements
         /// <param name="frame">Кадр, который хотите добавить</param>
         public void AddFrame(Frame frame) {
             frames.Add(frame);
+            // TODO: curent
         }
 
 
@@ -89,6 +90,7 @@ namespace DrawMoar.BaseElements
         /// <param name="frame">Сам кадр</param>
         public void InsertFrame(int index, Frame frame) {
             frames.Insert(index, frame);
+            // TODO: curent
         }
 
 
@@ -98,6 +100,7 @@ namespace DrawMoar.BaseElements
         /// <param name="index">Куда вставить пустой кадр</param>
         public void InsertEmptyFrame(int index) {
             frames.Insert(index, new Frame());
+            // TODO: curent
         }
 
 
