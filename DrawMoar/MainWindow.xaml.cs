@@ -92,9 +92,9 @@ namespace DrawMoar
 
         private void ExportToMP4(object sender, RoutedEventArgs e)
         {
-            /*SaveControlsToBitmap();
+            SaveControlsToBitmap();
             var exp = new Mp4Exporter();
-            exp.Save(cartoon, cartoon.WorkingDirectory);*/
+            exp.Save(cartoon, cartoon.WorkingDirectory);
         }
 
         //private void SaveToPNG(object sender, RoutedEventArgs e) {

@@ -1,13 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exporter", "Exporter\Exporter.csproj", "{A3397F33-CB81-4387-B785-6E5AD4006339}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Importer", "Importer\Importer.csproj", "{3B3D6E6B-A04D-45F6-9D65-D66EBFFF0A7E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrawMoar", "DrawMoar\DrawMoar.csproj", "{0259AA9E-32DC-4A1C-B50A-2F35334C757B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A3397F33-CB81-4387-B785-6E5AD4006339} = {A3397F33-CB81-4387-B785-6E5AD4006339}
+		{3B3D6E6B-A04D-45F6-9D65-D66EBFFF0A7E} = {3B3D6E6B-A04D-45F6-9D65-D66EBFFF0A7E}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

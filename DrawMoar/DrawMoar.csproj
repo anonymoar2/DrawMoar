@@ -83,10 +83,14 @@
     <Compile Include="BaseElements\Cartoon.cs" />
     <Compile Include="BaseElements\CompoundShape.cs" />
     <Compile Include="BaseElements\IShape.cs" />
+    <Compile Include="BaseElements\Matrix.cs" />
+    <Compile Include="BaseElements\Shapes\Line.cs" />
     <Compile Include="CreateCartoonDialog.xaml.cs">
       <DependentUpon>CreateCartoonDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="BaseElements\Frame.cs" />
+    <Compile Include="Extensions\Extremes.cs" />
+    <Compile Include="Extensions\ObjectCopier.cs" />
     <Compile Include="GlobalState.cs" />
     <Compile Include="ILayer.cs" />
     <Compile Include="Instrument.cs" />
@@ -108,7 +112,7 @@
     </Compile>
     <Compile Include="RasterLayer.cs" />
     <Compile Include="BaseElements\Scene.cs" />
-    <Compile Include="BaseElements\ITransformation.cs" />
+    <Compile Include="BaseElements\Transformation.cs" />
     <Compile Include="VectorLayer.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

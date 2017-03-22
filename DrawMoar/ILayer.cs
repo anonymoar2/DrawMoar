@@ -1,5 +1,8 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
 
+using System.Drawing;
+
+using DrawMoar.BaseElements;
 
 namespace DrawMoar
 {
@@ -19,11 +22,13 @@ namespace DrawMoar
         string Name { get; set; }
 
 
-        /// <summary>
-        /// Отображает содержимое слоя в консоли/на канвасе
-        /// </summary>
         void Draw(Graphics g);
 
+
         Point Position { get; set; }
+
+
+        void Transform(Transformation transformation);
+        
     }
 }

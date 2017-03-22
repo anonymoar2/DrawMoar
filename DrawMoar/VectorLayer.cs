@@ -14,6 +14,8 @@ namespace DrawMoar
 {
     public class VectorLayer : ILayer
     {
+        // TODO: Конструктор
+
         /// <summary>
         /// Название (имя) слоя
         /// </summary>
@@ -50,6 +52,19 @@ namespace DrawMoar
         }
 
 
-        public Picture Picture { get; set; }
+        /// <summary>
+        /// Тупо вывод на экране при переключении между слоями, но его не будет, если канвасы накладываем друг на друга
+        /// </summary>
+        /// <param name="bitmap"></param>
+        public void Print() {
+            // Проходим по фигурам, отрисовывая их на экране
+        }
+
+        public void Transform(Transformation transformation) {
+            Picture.Transform(transformation);
+        }
+
+
+        public CompoundShape Picture { get; set; }
     }
 }
