@@ -14,9 +14,9 @@ namespace DrawMoar.Shapes
     {
         public Point Center { get; private set; }
         public Size Size { get; private set; }
-        public float StartAngle { get; private set; }
-        public float EndAngle { get; private set; }
-        public float Rotate { get; private set; }
+        public double StartAngle { get; private set; }
+        public double EndAngle { get; private set; }
+        public double Rotate { get; private set; }
 
         public string Alias { get; set; }
 
@@ -47,9 +47,16 @@ namespace DrawMoar.Shapes
 
         }
 
-        public void Transform(Transformation trans)
+        public void Transform(Transformation transformation)
         {
+            Point translation, scale;
+            double rotation;
 
+            transformation.Decompose(out translation, out scale, out rotation);
+
+            Center = transformation[Center];
+            Size = new Size(Size.Width * scale.X, Size.Height * scale.Y);
+            Rotate = (Rotate + rotation) % 360;
         }
     }
 }
