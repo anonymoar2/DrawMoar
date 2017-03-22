@@ -7,4 +7,4 @@ namespace DrawMoar.BaseElements
     {
         Point this[Point p] { get; }
     }
-}
+} 

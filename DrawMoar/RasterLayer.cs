@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using System.Drawing;
 using System.Text.RegularExpressions;
+
+using DrawMoar.BaseElements;
+using DrawMoar.Extensions;
 
 
 namespace DrawMoar
@@ -49,7 +53,23 @@ namespace DrawMoar
         }
 
 
+        /// <summary>
+        /// TODO: запилить метод
+        /// WARNING: Потенциальная ошибка мб здесь (возможно слой не копируется, а туда пихается на него ссылка и крч
+        /// изменяется тот который типа мы хотели скопировать вместе с "копией")
+        /// Nk_dev: Возможно меняется ориинал
+        /// </summary>
+        /// <param name="transforations">трансформации над слоем</param>
+        /// <returns></returns>
+        public ILayer Transform(List<ITransformation> transforations) {
+            var layer = this.Clone();
+            // var maxSpeed = transforations.MaxBy(x => x.Speed);
+        }
+
+
         public Image Image { get;  set; }
 
+
+        public int Speed { get; set; }
     }
 }

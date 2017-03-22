@@ -1,4 +1,8 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+
+using System.Drawing;
+
+using DrawMoar.BaseElements;
 
 
 namespace DrawMoar
@@ -26,6 +30,9 @@ namespace DrawMoar
 
 
         Point Position { get; set; }
+
+
+        ILayer Transform(List<ITransformation> transforations);
 
 
         /// <summary>

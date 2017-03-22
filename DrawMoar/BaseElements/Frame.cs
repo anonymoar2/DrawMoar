@@ -30,13 +30,13 @@ namespace DrawMoar.BaseElements
         /// <summary>
         /// Текущий слой.
         /// </summary>
-        public ILayer CurrentLayer { get; set; }
+        public Tuple<ILayer, List<ITransformation>> CurrentLayer { get; set; }
 
 
         /// <summary>
         /// Список слоёв кадра.
         /// </summary>
-        private List<ILayer> layers = new List<ILayer>();
+        private List<Tuple<ILayer, List<ITransformation>>> layers = new List<Tuple<ILayer, List<ITransformation>>>();
 
 
         ///Возможно её не будет
@@ -73,7 +73,7 @@ namespace DrawMoar.BaseElements
         /// Получить все слои кадра
         /// </summary>
         /// <returns>Список всех слоев кадра</returns>
-        public List<ILayer> GetAllLayers() {
+        public List<Tuple<ILayer, List<ITransformation>>> GetAllLayers() {
             return layers;
         }
 
@@ -82,7 +82,7 @@ namespace DrawMoar.BaseElements
         /// Добавление пустого РАСТРОВОГО слоя в конец списка.
         /// </summary>
         public void AddEmptyRasterLayer() {
-            layers.Add(new RasterLayer());
+            layers.Add(new Tuple<ILayer, List<ITransformation>>(new RasterLayer(), new List<ITransformation>()));
             CurrentLayer = layers.Last();
         }
 
@@ -91,7 +91,7 @@ namespace DrawMoar.BaseElements
         /// Добавление пустого ВЕКТОРНОГО слоя в конец списка.
         /// </summary>
         public void AddEmptyVectorLayer() {
-            layers.Add(new VectorLayer());
+            layers.Add(new Tuple<ILayer, List<ITransformation>>(new VectorLayer(), new List<ITransformation>()));
             CurrentLayer = layers.Last();
         }
 

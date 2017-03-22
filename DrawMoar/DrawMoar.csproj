@@ -80,6 +80,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BaseElements\Animation.cs" />
     <Compile Include="BaseElements\Cartoon.cs" />
     <Compile Include="BaseElements\CompoundShape.cs" />
     <Compile Include="BaseElements\IShape.cs" />
@@ -87,6 +88,8 @@
       <DependentUpon>CreateCartoonDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="BaseElements\Frame.cs" />
+    <Compile Include="Extensions\Extremes.cs" />
+    <Compile Include="Extensions\ObjectCopier.cs" />
     <Compile Include="GlobalState.cs" />
     <Compile Include="ILayer.cs" />
     <Compile Include="Instrument.cs" />
