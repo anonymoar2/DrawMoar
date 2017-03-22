@@ -1,12 +1,8 @@
-﻿using DrawMoar.BaseElements;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
+
+using DrawMoar.BaseElements;
+
 
 namespace DrawMoar.Shapes
 {
@@ -20,9 +16,9 @@ namespace DrawMoar.Shapes
 
         public string Alias { get; set; }
 
-        public Rectangle(Point center, Size size,
-            float startAngle = 0, float endAngle = 360, float rotate = 0)
-        {
+
+        public Rectangle(Point center, Size size, float startAngle = 0, 
+                                                  float endAngle = 360, float rotate = 0) {
             this.Center = center;
             this.Size = size;
             this.StartAngle = startAngle;
@@ -30,25 +26,25 @@ namespace DrawMoar.Shapes
             this.Rotate = rotate;
         }
 
-        public void Draw(Canvas canvas)
-        {
+
+        public void Draw(Canvas canvas) {
             var rect = new System.Windows.Shapes.Rectangle();
             rect.Width = Size.Width;
             rect.Height = Size.Height;
             rect.Stroke = GlobalState.Color;
             rect.StrokeThickness = GlobalState.BrushSize.Width;
             canvas.Children.Add(rect);
-            Canvas.SetLeft(rect, Center.X - Size.Width / 2);     
+            Canvas.SetLeft(rect, Center.X - Size.Width / 2);
             Canvas.SetTop(rect, Center.Y - Size.Height / 2);
         }
 
-        public void Print()
-        {
+
+        public void Print() {
 
         }
 
-        public void Transform(Transformation transformation)
-        {
+
+        public void Transform(Transformation transformation) {
             Point translation, scale;
             double rotation;
 
