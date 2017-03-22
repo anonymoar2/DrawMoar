@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 
 using System.Drawing;
-
+using DrawMoar.Shapes;
+using System.Windows.Controls;
 
 namespace DrawMoar.BaseElements
 {
@@ -20,7 +21,7 @@ namespace DrawMoar.BaseElements
         /// <summary>
         /// Отрисовка на холсте, с параметрами ещё неизвестно
         /// </summary>
-        public void Draw() {
+        public void Draw(Canvas canvas) {
 
         }
 
@@ -28,7 +29,7 @@ namespace DrawMoar.BaseElements
         /// <summary>
         /// Отрисовка на bitmap-e
         /// </summary>
-        public void Print(Bitmap bitmap) {
+        public void Print() {
 
         }
         

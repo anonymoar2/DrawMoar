@@ -22,16 +22,9 @@ namespace DrawMoar.Shapes
         {
             this.PointOne = pointOne;
             this.PointTwo = pointTwo;
+            Thickness = GlobalState.BrushSize.Width;
+            Stroke = GlobalState.Color;
         }
-
-        public Line(Point pointOne, Point pointTwo, System.Windows.Media.Brush stroke, double thickness)
-        {
-            this.PointOne = pointOne;
-            this.PointTwo = pointTwo;
-            this.Stroke = stroke;
-            this.Thickness = thickness;
-        }
-
 
         public void Draw(Canvas canvas)
         {

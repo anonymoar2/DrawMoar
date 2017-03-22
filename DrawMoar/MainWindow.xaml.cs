@@ -31,8 +31,11 @@ namespace DrawMoar
         Point prevPoint;
         DrawMoar.Shapes.Line newLine;
         Point point;
+        DrawMoar.Shapes.Ellipse newEllipse;
+        DrawMoar.Shapes.Rectangle newRect;
 
-        public MainWindow() {
+        public MainWindow()
+        {
             InitializeComponent();
             // при создании окна области рисования нет
 
@@ -53,7 +56,7 @@ namespace DrawMoar
             GlobalState.ChangeInstrument += SetCursorStyle;
             GlobalState.Color = System.Windows.Media.Brushes.Black;
             GlobalState.BrushSize = new System.Windows.Size(5, 5);
-    }
+        }
 
         //тогда отрисовку придется выносить в отдельный класс и она будет сложнее - много работы в плане 
 
@@ -67,82 +70,6 @@ namespace DrawMoar
             newCartoonDialog.Show();
 
         }
-
-
-
-        private void SaveControlsToBitmap()
-        {
-            /*foreach (var scene in cartoon.GetAllScenes())
-            {
-                foreach (var frame in scene.GetAllFrames())
-                {
-                    foreach (var layer in frame.GetAllLayers())
-                    {
-                        var renderBitmap = new RenderTargetBitmap(cartoon.Width, cartoon.Height, 96.0, 96.0, PixelFormats.Pbgra32);
-                        foreach (DrawingVisual item in ((LayerControl)layer.drawingControl).VisualHost.GetVisuals())
-                        {
-                            renderBitmap.Render(item);
-                            BitmapSource bmp = renderBitmap;
-                            using (MemoryStream outStream = new MemoryStream())
-                            {
-                                BitmapEncoder enc = new BmpBitmapEncoder();
-                                enc.Frames.Add(BitmapFrame.Create(bmp));
-                                enc.Save(outStream);
-                                layer.bitmap = new System.Drawing.Bitmap(outStream);
-                            }
-                        }
-                    }
-                }
-            }*/
-        }
-
-        private void ExportToMP4(object sender, RoutedEventArgs e)
-        {
-            /*SaveControlsToBitmap();
-            var exp = new Mp4Exporter();
-            exp.Save(cartoon, cartoon.WorkingDirectory);*/
-        }
-
-        //private void SaveToPNG(object sender, RoutedEventArgs e) {
-        //    var saveDlg = new SaveFileDialog {
-        //        FileName = "img",
-        //        DefaultExt = ".png",
-        //        Filter = "PNG (.png)|*.png"
-        //    };
-
-        //    if (saveDlg.ShowDialog() == true) {
-        //        //SaveCanvas(canvas, 96, saveDlg.FileName);
-        //    }
-        //}
-
-
-        //private void SaveCanvas(InkCanvas canvas, int dpi, string filename) {
-        //    var width = canvas.ActualWidth;
-        //    var height = canvas.ActualHeight;
-
-        //    var size = new System.Windows.Size(width, height);
-        //    canvas.Measure(size);
-
-        //    var rtb = new RenderTargetBitmap(
-        //        (int)width + 120,
-        //        (int)height,
-        //        dpi, //dpi x 
-        //        dpi, //dpi y 
-        //        PixelFormats.Pbgra32 // pixelformat 
-        //        );
-        //    rtb.Render(canvas);
-
-        //    SaveAsPng(rtb, filename);
-        //}
-
-        //private static void SaveAsPng(RenderTargetBitmap bmp, string filename) {
-        //    var enc = new PngBitmapEncoder();
-        //    enc.Frames.Add(BitmapFrame.Create(bmp));
-
-        //    using (FileStream stm = File.Create(filename)) {
-        //        enc.Save(stm);
-        //    }
-        //}
 
         /// <summary>
         /// "Успешное" закрытие окна создания мультфильма.
@@ -163,18 +90,12 @@ namespace DrawMoar
             AddLayer_Click(null, null);
         }
 
-
-        //public void CreateNewFrame(object sender, RoutedEventArgs e) {
-
-        //    //string frameName = $"img{i++}.png";
-        //    // SaveCanvas(canvas, 90, System.IO.Path.Combine(cartoon.WorkingDirectory, /*cartoon.Name*/frameName));
-        //    // canvas.Strokes.Clear();
-        //    //cartoon.frames.Add(new BaseElements.Frame(cartoon.WorkingDirectory));
-        //    //cartoon.currentFrame = cartoon.frames.Last();
-        //    // сделать миниатюру и отображение в списке кадров 
-
-
-        //}
+        private void ExportToMP4(object sender, RoutedEventArgs e)
+        {
+            //SaveControlsToBitmap();
+            //var exp = new Mp4Exporter(); 
+            //exp.Save(cartoon, cartoon.WorkingDirectory); 
+        }
 
 
         //// https://github.com/artesdi/Paint.WPF
@@ -342,18 +263,21 @@ namespace DrawMoar
         {
             GlobalState.PressLeftButton = true;
             prevPoint = Mouse.GetPosition(canvas);
-            switch (GlobalState.CurrentTool) //все, что внутри перенести к Антону в примитивы как-то иначе
+            switch (GlobalState.CurrentTool)
             {
                 case Instrument.Brush:
-                    
                     break;
                 case Instrument.Rectangle:
-
+                    newRect = new DrawMoar.Shapes.Rectangle(prevPoint, new Size(30, 20));
+                    newRect.Draw(canvas);
+                    break;
+                case Instrument.Ellipse:
+                    newEllipse = new DrawMoar.Shapes.Ellipse(prevPoint, new Size(30, 20));
+                    newEllipse.Draw(canvas);
                     break;
                 case Instrument.Line:
                     //задерживание кнопки мыши, отпустили = конец линии    
-                    newLine = new DrawMoar.Shapes.Line(prevPoint, prevPoint,
-                              GlobalState.Color, GlobalState.BrushSize.Width);
+                    newLine = new DrawMoar.Shapes.Line(prevPoint, prevPoint);
                     newLine.Draw(canvas);
                     break;
             }
@@ -363,36 +287,42 @@ namespace DrawMoar
         void canvas_MouseMove(object sender, MouseEventArgs e)
         {
             point = (Point)e.GetPosition(canvas);
-            if (GlobalState.PressLeftButton)
+            if (!GlobalState.PressLeftButton) return;
+            switch (GlobalState.CurrentTool)
             {
-                switch (GlobalState.CurrentTool)
-                {
-                    case Instrument.Brush:
-                        newLine = new DrawMoar.Shapes.Line(prevPoint, point,
-                                        GlobalState.Color, GlobalState.BrushSize.Width);
+                case Instrument.Brush:                                                                                                                   
+                        newLine = new DrawMoar.Shapes.Line(prevPoint, point);
                         newLine.Draw(canvas);
                         prevPoint = point;
-                        break;
-                    case Instrument.Rectangle:
+                    break;
+                case Instrument.Rectangle:                  
+                    ScalingRedrawing(canvas, newRect, e);
+                    break;
+                case Instrument.Ellipse:
+                    ScalingRedrawing(canvas, newEllipse, e);
+                    break;
+                case Instrument.Line:
+                    ScalingRedrawing(canvas, newLine, e);
+                    break;
+            }
+        }
 
-                        break;
-                    case Instrument.Line:
-                        if (newLine != null & e.LeftButton == MouseButtonState.Pressed)
-                        {
-                            canvas.Children.RemoveAt(canvas.Children.Count - 1);
-                            newLine = new DrawMoar.Shapes.Line(prevPoint, point, 
-                                       GlobalState.Color, GlobalState.BrushSize.Width);
-                            newLine.Draw(canvas);
-                        }
-                        break;
-                }
+        void ScalingRedrawing(Canvas canvas, IShape shape, MouseEventArgs e)
+        {
+            if (shape != null & e.LeftButton == MouseButtonState.Pressed)
+            {
+                canvas.Children.RemoveAt(canvas.Children.Count - 1);
+                if (shape is DrawMoar.Shapes.Line) shape = new DrawMoar.Shapes.Line(prevPoint, point);
+                else if (shape is DrawMoar.Shapes.Ellipse) shape = new DrawMoar.Shapes.Ellipse(prevPoint, new Size(30+point.X-prevPoint.X, 20+point.Y-prevPoint.Y));
+                else if (shape is DrawMoar.Shapes.Rectangle) shape = new DrawMoar.Shapes.Rectangle(prevPoint, new Size(30+ point.X - prevPoint.X, 20 + point.Y - prevPoint.Y));
+                shape.Draw(canvas);
             }
         }
 
 
         void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            GlobalState.PressLeftButton = false;
+           GlobalState.PressLeftButton = false;
         }
 
         void canvas_MouseLeave(object sender, MouseEventArgs e)
@@ -405,11 +335,16 @@ namespace DrawMoar
             GlobalState.CurrentTool = Instrument.Line;
         }
 
-        // Удалила эту строку из xaml
-        //  SelectedColorChanged="ClrPcker_Background_SelectedColorChanged"
-        //private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<T> e) {
+        private void AddEllipse_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalState.CurrentTool = Instrument.Ellipse;
+        }
 
-        //}
+        private void AddRectangle_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalState.CurrentTool = Instrument.Rectangle;
+        }
+
 
         //private void StartLightVector(object sender, RoutedEventArgs e) {
         //    if (cartoon != null) {

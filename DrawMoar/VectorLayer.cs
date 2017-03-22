@@ -50,6 +50,6 @@ namespace DrawMoar
         }
 
 
-        public Picture Picture { get; set; }
+        //public Picture Picture { get; set; }
     }
 }

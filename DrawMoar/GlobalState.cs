@@ -54,6 +54,7 @@ namespace DrawMoar
             }
         }
 
+
         private static Size _brushSize;
         public static Size BrushSize
         {
