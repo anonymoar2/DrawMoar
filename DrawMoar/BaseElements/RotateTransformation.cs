@@ -47,5 +47,11 @@ namespace DrawMoar.BaseElements
             gfx.Dispose();
             return picture;
         }
+
+
+        // for Scale
+        public Matrix<double> GetTransform() {
+            return Transform;
+        }
     }
 }
