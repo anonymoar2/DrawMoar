@@ -83,7 +83,12 @@
     <Compile Include="BaseElements\Cartoon.cs" />
     <Compile Include="BaseElements\CompoundShape.cs" />
     <Compile Include="BaseElements\Matrix.cs" />
+    <Compile Include="BaseElements\Picture.cs" />
+    <Compile Include="BaseElements\RotateTransformation.cs" />
+    <Compile Include="BaseElements\ScaleTransformation.cs" />
+    <Compile Include="BaseElements\SkewTransformation.cs" />
     <Compile Include="BaseElements\Transformation.cs" />
+    <Compile Include="BaseElements\TranslateTransformation.cs" />
     <Compile Include="CreateCartoonDialog.xaml.cs">
       <DependentUpon>CreateCartoonDialog.xaml</DependentUpon>
     </Compile>

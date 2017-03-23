@@ -25,9 +25,6 @@ namespace DrawMoar
         void Draw(Graphics g);
 
 
-        Point Position { get; set; }
-
-
         void Transform(Transformation transformation);
         
     }

@@ -22,9 +22,6 @@ namespace DrawMoar
         public CompoundShape Picture { get; set; }
 
 
-        public Point Position { get; set; }
-
-
         /// <summary>
         /// Название (имя) слоя
         /// </summary>

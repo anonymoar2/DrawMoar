@@ -20,13 +20,7 @@ namespace DrawMoar
         /// <summary>
         /// Содержимое слоя, TODO: Подумать, в чем хранить, потому что пока это очень плохо
         /// </summary>
-        public Image Image { get; set; }
-
-
-        /// <summary>
-        /// Место на холсте куда будет накладываться левый верхний угол изображения
-        /// </summary>
-        public Point Position { get; set; }
+        public Picture Picture { get; set; }
 
 
         /// <summary>
@@ -54,8 +48,8 @@ namespace DrawMoar
         /// <summary>
         /// Тут пока только на самом Image рисует, надо ещё с canvas связать
         /// </summary>
-        public void Draw(Graphics g) { 
-            g.DrawImage(Image, Position.X, Position.Y);
+        public void Draw(Graphics g) {
+            Picture.Draw(g);
         }
 
 
@@ -65,8 +59,13 @@ namespace DrawMoar
         }
 
 
+        /// <summary>
+        /// TODO: хранить в растрово слое какой-то свой класс Picture, который и будет 
+        /// трансформироваться и Image в себе содержать или ещё что-то такое
+        /// </summary>
+        /// <param name="transformation"></param>
         public void Transform(Transformation transformation) {
-            // TODO метод
+            Picture = transformation.Apply(Picture);
         }
     }
 }
