@@ -3,7 +3,7 @@
 using System.Windows.Controls;
 
 using DrawMoar.Shapes;
-
+using System.Drawing;
 
 namespace DrawMoar.BaseElements
 {
@@ -36,6 +36,13 @@ namespace DrawMoar.BaseElements
         public void Transform(Transformation transformation) {
             foreach (var shape in shapes) {
                 shape.Transform(transformation);
+            }
+        }
+
+        
+        public void Draw(Graphics g) {
+            foreach(var shape in shapes) {
+                shape.Draw(g);
             }
         }
     }
