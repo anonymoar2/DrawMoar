@@ -43,8 +43,17 @@ namespace DrawMoar.BaseElements
         /// TODO: запилить конструктор
         /// </summary>
         public Frame() {
+            layers.Add(new RasterLayer() { Name = $"RasterLayer_{layers.Count - 1}" });
+            CurrentLayer = layers.Last();
         }
-        
+
+        public Frame(string name)       //пока что так сделал, т.к снаружи  не поставить (взм переделать)
+        {
+            Name = name;
+            layers.Add(new RasterLayer() { Name = $"RasterLayer_{layers.Count - 1}" });
+            CurrentLayer = layers.Last();
+        }
+
 
         #region Методы для работы со слоями.
 

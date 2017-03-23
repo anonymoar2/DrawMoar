@@ -34,14 +34,14 @@ namespace DrawMoar.BaseElements
 
         public Scene() {
             name = "new_scene";
-            frames.Add(new Frame());
+            frames.Add(new Frame($"Frame_{frames.Count}"));
             CurrentFrame = frames.Last();
         }
 
 
         public Scene(string name) {
             this.name = name;
-            frames.Add(new Frame());
+            frames.Add(new Frame($"Frame_{frames.Count}"));
             CurrentFrame = frames.Last();
         }
 
@@ -68,7 +68,7 @@ namespace DrawMoar.BaseElements
         /// Добавление пустого кадра в конец списка.
         /// </summary>
         public void AddEmptyFrame() {
-            frames.Add(new Frame());
+            frames.Add(new Frame($"Frame_{frames.Count}"));
             CurrentFrame = frames.Last();
         }
 

@@ -42,7 +42,9 @@ namespace DrawMoar
 
 
         // TODO: Конструктор
-
+        public VectorLayer() {
+            Picture = new CompoundShape();
+        }
 
         /// <summary>
         /// Пока ничего
