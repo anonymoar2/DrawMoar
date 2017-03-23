@@ -50,7 +50,7 @@ namespace DrawMoar.Shapes
 
             transformation.Decompose(out translation, out scale, out rotation);
 
-            Center = transformation[Center];
+            Center = transformation.Apply(Center);
             Size = new Size(Size.Width * scale.X, Size.Height * scale.Y);
             Rotate = (Rotate + rotation) % 360;
         }
