@@ -133,7 +133,8 @@ namespace DrawMoar {
             if (cartoon == null) {
                 return;
             }
-            cartoon.CurrentScene.CurrentFrame.AddEmptyVectorLayer();
+            if (sender == null) layersList.Items.Clear();
+            else cartoon.CurrentScene.CurrentFrame.AddEmptyVectorLayer();
             var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
             AddListBoxElement(layersList, $"VectorLayer_{layers.Count - 1}");
             canvas.Children.Clear();
@@ -161,20 +162,22 @@ namespace DrawMoar {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            /*layersList.Items.Clear();
+            layersList.Items.Clear();
             canvas.Children.Clear();
             if (framesList.SelectedIndex != -1)
-            {
-                cartoon.CurrentScene.currentFrame = cartoon.CurrentScene.GetAllFrames()[framesList.SelectedIndex];
+                cartoon.CurrentScene.CurrentFrame = cartoon.CurrentScene.GetAllFrames()[framesList.SelectedIndex];
+            var lays = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
+            foreach (var item in lays) {
+                AddListBoxElement(layersList, item.Name);
             }
-            var lays = cartoon.CurrentScene.currentFrame.GetAllLayers();
-            int i = 0;      //пока не пофиксили имена слоев
-            foreach (var item in lays)
-            {
-                canvas.Children.Add((LayerControl)item.drawingControl);
-                AddListBoxElement(layersList, $"layer{i++}"); //вторым параметром должны быть Names
+            cartoon.CurrentScene.CurrentFrame = cartoon.CurrentScene.GetAllFrames()[framesList.SelectedIndex];
+            if (lays[0] is VectorLayer) {
+                for (int i = 0; i < ((VectorLayer)lays[0]).Picture.shapes.Count; i++) {
+                    ((VectorLayer)lays[0]).Picture.shapes[i].Draw(canvas);
+                }
             }
-            layersList.SelectedIndex = 0;*/
+
+            layersList.SelectedIndex = 0;
         }
 
 
@@ -188,7 +191,15 @@ namespace DrawMoar {
         }
 
         private void layersList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var layer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
+            if (layersList.SelectedIndex != -1) {
+                var layer = cartoon.CurrentScene.CurrentFrame.GetAllLayers()[layersList.SelectedIndex];
+                cartoon.CurrentScene.CurrentFrame.CurrentLayer = layer;
+                canvas.Children.Clear();
+                if (layer is VectorLayer)
+                    foreach (var item in ((VectorLayer)layer).Picture.shapes) {
+                        item.Draw(canvas);
+                    }
+            }
 
         }
 
@@ -204,10 +215,11 @@ namespace DrawMoar {
             if (cartoon == null) {
                 return;
             }
-            if (sender != null)
+            if (sender != null) {
                 cartoon.CurrentScene.AddEmptyFrame();
-            var frames = cartoon.CurrentScene.GetAllFrames();
-            AddListBoxElement(framesList, $"frame_{frames.Count - 1}");
+                var frames = cartoon.CurrentScene.GetAllFrames();
+                AddListBoxElement(framesList, $"Frame_{frames.Count - 1}");
+            }
         }
 
         private void AddScene_Click(object sender, RoutedEventArgs e) {
@@ -226,7 +238,7 @@ namespace DrawMoar {
             var lbl = new Label();          //здесь должен быть какой-то другой контрол (возможно, самописный)
             lbl.Content = content;
             lBox.Items.Add(lbl);
-            //lBox.SelectedIndex = lBox.Items.Count - 1;
+            lBox.SelectedIndex = lBox.Items.Count - 1;
         }
 
 
@@ -284,22 +296,22 @@ namespace DrawMoar {
                 var layer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
                 var shiftX = point.X - prevPoint.X;
                 var shiftY = point.Y - prevPoint.Y;
-                if (((shiftX <= 0) || (shiftY <= 0))&&(!(shape is DrawMoar.Shapes.Line))) return;   //пока из-за "плохих" шифтов так; уберу, когда сделаю зеркалирование
+                if (((shiftX <= 0) || (shiftY <= 0)) && (!(shape is DrawMoar.Shapes.Line))) return;   //пока из-за "плохих" шифтов так; уберу, когда сделаю зеркалирование
                 canvas.Children.RemoveAt(canvas.Children.Count - 1);
                 if (shape is DrawMoar.Shapes.Line) shape = new DrawMoar.Shapes.Line(prevPoint, point);
                 else if (shape is DrawMoar.Shapes.Ellipse) shape = new DrawMoar.Shapes.Ellipse(prevPoint, new Size(30 + shiftX, 20 + shiftY));
                 else if (shape is DrawMoar.Shapes.Rectangle) shape = new DrawMoar.Shapes.Rectangle(prevPoint, new Size(30 + shiftX, 20 + shiftY));
                 shape.Draw(canvas);
-                if(layer is VectorLayer) {
+                if (layer is VectorLayer) {
                     var shapes = ((VectorLayer)layer).Picture.shapes;
-                    shapes.RemoveAt(shapes.Count-1);
+                    shapes.RemoveAt(shapes.Count - 1);
                     SaveIntoLayer(layer, shape);
                 }
             }
         }
 
         void SaveIntoLayer(ILayer layer, IShape shape) {
-            if(layer is VectorLayer) {
+            if (layer is VectorLayer) {
                 ((VectorLayer)layer).Picture.shapes.Add(shape);
             }
             else {
