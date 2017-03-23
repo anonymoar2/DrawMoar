@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+
 
 namespace DrawMoar.BaseElements
 {
@@ -14,6 +11,7 @@ namespace DrawMoar.BaseElements
     class ScaleTransformation : Transformation
     {
         private Matrix<double> Transform;
+
 
         public ScaleTransformation(System.Windows.Point point, double scaleFactor) {
             
@@ -25,11 +23,12 @@ namespace DrawMoar.BaseElements
         }
 
 
-        public override System.Windows.Point Apply(System.Windows.Point point) {
+        public override Picture Apply(Picture picture) {
             throw new NotImplementedException();
         }
 
-        public override Image Apply(Image image) {
+
+        public override System.Windows.Point Apply(System.Windows.Point point) {
             throw new NotImplementedException();
         }
     }
