@@ -39,12 +39,19 @@ namespace DrawMoar.BaseElements
         private List<ILayer> layers = new List<ILayer>();
 
 
-        /// <summary>
-        /// TODO: запилить конструктор
-        /// </summary>
         public Frame() {
+            name = "newFrame";
+            layers.Add(new RasterLayer("Raster_Layer_0"));
+            CurrentLayer = layers.Last();
         }
-        
+
+
+        public Frame(string name) {
+            this.name = name;
+            layers.Add(new RasterLayer("Raster_Layer_0"));
+            CurrentLayer = layers.Last();
+        }
+
 
         #region Методы для работы со слоями.
 

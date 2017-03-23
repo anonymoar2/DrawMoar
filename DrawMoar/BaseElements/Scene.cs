@@ -34,8 +34,8 @@ namespace DrawMoar.BaseElements
 
 
         public Scene() {
-            name = "new_scene";
-            frames.Add(new Frame());
+            name = "newScene";
+            frames.Add(new Frame("Frame_0"));
             CurrentFrame = frames.Last();
         }
 

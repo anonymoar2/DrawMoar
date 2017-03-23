@@ -47,7 +47,18 @@ namespace DrawMoar
         }
 
 
-        //TODO: Конструктор
+        public RasterLayer() {
+            name = "newRasterLayer";
+            Visible = true;
+            Picture = new Picture();
+        }
+
+
+        public RasterLayer(string name) {
+            this.name = name;
+            Visible = true;
+            Picture = new Picture();
+        }
 
 
         /// <summary>
