@@ -1,4 +1,6 @@
-﻿namespace DrawMoar.BaseElements
+﻿using System;
+
+namespace DrawMoar.BaseElements
 {
     class TranslateTransformation : Transformation
     {
@@ -27,5 +29,15 @@
             picture.Position = Apply(picture.Position);
             return picture;
         }
+
+
+        public override void Decompose(out System.Windows.Point translation, out System.Windows.Point scale, out double rotation) {
+            translation = new System.Windows.Point(Transform[0, 2], Transform[1, 2]);
+            rotation = (Math.Atan2(Transform[1, 0], Transform[1, 1]) / (Math.PI / 180));
+            var xScale = Transform[0, 0] / Math.Cos(rotation * (Math.PI / 180));
+            var yScale = Transform[1, 1] / Math.Cos(rotation * (Math.PI / 180));
+            scale = new System.Windows.Point(xScale, yScale);
+        }
+
     }
 }

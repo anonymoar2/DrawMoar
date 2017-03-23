@@ -45,8 +45,8 @@ namespace DrawMoar.Shapes
 
 
         public void Transform(Transformation transformation) {
-            PointOne = transformation[PointOne];
-            PointTwo = transformation[PointTwo];
+            PointOne = transformation.Apply(PointOne);
+            PointTwo = transformation.Apply(PointTwo);
         }
     }
 }
