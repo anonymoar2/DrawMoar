@@ -1,10 +1,4 @@
-﻿using DrawMoar.Shapes;
-using System;
-using System.Drawing;
-using System.Windows;
-
-
-namespace DrawMoar.BaseElements
+﻿namespace DrawMoar.BaseElements
 {
     /// <summary>
     /// Перепишу нормально

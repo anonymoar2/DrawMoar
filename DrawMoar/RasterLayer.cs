@@ -2,13 +2,14 @@
 
 using System.Drawing;
 using System.Text.RegularExpressions;
-
-using DrawMoar.BaseElements;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows;
 using System.IO;
+
+using DrawMoar.BaseElements;
+
 
 namespace DrawMoar
 {

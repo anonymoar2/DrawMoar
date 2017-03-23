@@ -14,10 +14,12 @@ namespace DrawMoar.Extensions
                 throw new ArgumentException("Тип должен реализовывать интерфейс ISerializable.");
             }
 
+
             // Не сериализуйте null
             if (Object.ReferenceEquals(sourse, null)) {
                 return default(T);
             }
+
 
             IFormatter formatter = new BinaryFormatter();
             Stream stream = new MemoryStream();
