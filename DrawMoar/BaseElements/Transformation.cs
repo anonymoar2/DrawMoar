@@ -12,7 +12,7 @@ namespace DrawMoar.BaseElements
     public abstract class Transformation
     {
         /// <summary>
-        /// Думаю можно не возвращать тут ничего, менять содержимое, подумать над этим (!)
+        /// TODO: Думаю можно не возвращать тут ничего, менять содержимое, подумать над этим (!)
         /// </summary>
         /// <param name="picture"></param>
         /// <returns></returns>
