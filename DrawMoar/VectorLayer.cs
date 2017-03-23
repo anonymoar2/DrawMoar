@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Drawing;
 
 using DrawMoar.BaseElements;
-
+using DrawMoar.Shapes;
 
 namespace DrawMoar
 {
@@ -74,6 +74,12 @@ namespace DrawMoar
 
         public void Transform(Transformation transformation) {
             Picture.Transform(transformation);
+        }
+
+
+        public void AddShape(IShape shape) {
+            Picture.shapes.Add(shape);
+            // взм тут отрисовка на канвасе 
         }
     }
 }

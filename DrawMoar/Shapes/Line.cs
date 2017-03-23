@@ -1,23 +1,24 @@
 ﻿using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Media;
+using System.Drawing;
 
 using DrawMoar.BaseElements;
-
+using System;
 
 namespace DrawMoar.Shapes
 {
     public class Line : IShape
     {
-        public Point PointOne { get; private set; }
-        public Point PointTwo { get; private set; }
+        public System.Windows.Point PointOne { get; private set; }
+        public System.Windows.Point PointTwo { get; private set; }
         public System.Windows.Media.Brush Stroke { get; set; }
         public double Thickness { get; set; }
 
         public string Alias { get; set; }
 
 
-        public Line(Point pointOne, Point pointTwo) {
+        public Line(System.Windows.Point pointOne, System.Windows.Point pointTwo) {
             this.PointOne = pointOne;
             this.PointTwo = pointTwo;
             Thickness = GlobalState.BrushSize.Width;
@@ -47,6 +48,10 @@ namespace DrawMoar.Shapes
         public void Transform(Transformation transformation) {
             PointOne = transformation.Apply(PointOne);
             PointTwo = transformation.Apply(PointTwo);
+        }
+
+        public void Draw(Graphics g) {
+            g.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Red), Convert.ToSingle(PointOne.X), Convert.ToSingle(PointOne.Y), Convert.ToSingle(PointTwo.X), Convert.ToSingle(PointTwo.Y));
         }
     }
 }

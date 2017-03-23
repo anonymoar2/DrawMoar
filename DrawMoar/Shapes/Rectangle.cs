@@ -2,14 +2,15 @@
 using System.Windows.Controls;
 
 using DrawMoar.BaseElements;
-
+using System.Drawing;
+using System;
 
 namespace DrawMoar.Shapes
 {
     public class Rectangle : IShape
     {
-        public Point Center { get; private set; }
-        public Size Size { get; private set; }
+        public System.Windows.Point Center { get; private set; }
+        public System.Windows.Size Size { get; private set; }
         public double StartAngle { get; private set; }
         public double EndAngle { get; private set; }
         public double Rotate { get; private set; }
@@ -17,7 +18,7 @@ namespace DrawMoar.Shapes
         public string Alias { get; set; }
 
 
-        public Rectangle(Point center, Size size, float startAngle = 0, 
+        public Rectangle(System.Windows.Point center, System.Windows.Size size, float startAngle = 0, 
                                                   float endAngle = 360, float rotate = 0) {
             this.Center = center;
             this.Size = size;
@@ -45,14 +46,19 @@ namespace DrawMoar.Shapes
 
 
         public void Transform(Transformation transformation) {
-            Point translation, scale;
+            System.Windows.Point translation, scale;
             double rotation;
 
             transformation.Decompose(out translation, out scale, out rotation);
 
             Center = transformation.Apply(Center);
-            Size = new Size(Size.Width * scale.X, Size.Height * scale.Y);
+            Size = new System.Windows.Size(Size.Width * scale.X, Size.Height * scale.Y);
             Rotate = (Rotate + rotation) % 360;
+        }
+
+
+        public void Draw(Graphics g) {
+            g.DrawRectangle(new Pen(System.Drawing.Color.Red), new System.Drawing.Rectangle(new System.Drawing.Point(Convert.ToInt32(Center.X), Convert.ToInt32(Center.Y)), new System.Drawing.Size(Convert.ToInt32(Size.Width), Convert.ToInt32(Size.Height))));
         }
     }
 }

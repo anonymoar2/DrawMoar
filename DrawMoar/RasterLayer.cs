@@ -9,7 +9,7 @@ using System.Windows;
 using System.IO;
 
 using DrawMoar.BaseElements;
-
+using DrawMoar.Shapes;
 
 namespace DrawMoar
 {
@@ -104,6 +104,13 @@ namespace DrawMoar
             }
 
             Picture.Image = System.Drawing.Image.FromFile(/*your path + filename.png again*/"");
+        }
+
+        public void AddShape(IShape shape) {
+            var g = Graphics.FromImage(Picture.Image);
+            // как-то создаем графикс
+            //shape.метод кот приним гр и нарис нужн фиг с нужными параметрами
+            // а этот метод есть в любой IShape
         }
     }
 }

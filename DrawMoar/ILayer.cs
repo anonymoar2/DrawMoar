@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 
 using DrawMoar.BaseElements;
+using DrawMoar.Shapes;
 
 
 namespace DrawMoar
@@ -25,6 +26,8 @@ namespace DrawMoar
 
 
         void Transform(Transformation transformation);
-        
+
+
+        void AddShape(IShape shape);
     }
 }
