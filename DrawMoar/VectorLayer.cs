@@ -41,10 +41,19 @@ namespace DrawMoar
         }
 
 
-        // TODO: Конструктор
         public VectorLayer() {
+            name = "newVectorLayer";
+            Visible = true;
             Picture = new CompoundShape();
         }
+
+
+        public VectorLayer(string name) {
+            this.name = name;
+            Visible = true;
+            Picture = new CompoundShape();
+        }
+
 
         /// <summary>
         /// Пока ничего

@@ -39,18 +39,16 @@ namespace DrawMoar.BaseElements
         private List<ILayer> layers = new List<ILayer>();
 
 
-        /// <summary>
-        /// TODO: запилить конструктор
-        /// </summary>
         public Frame() {
-            layers.Add(new RasterLayer() { Name = $"RasterLayer_{layers.Count - 1}" });
+            name = "newFrame";
+            layers.Add(new RasterLayer("Raster_Layer_0"));
             CurrentLayer = layers.Last();
         }
 
-        public Frame(string name)       //пока что так сделал, т.к снаружи  не поставить (взм переделать)
-        {
-            Name = name;
-            layers.Add(new RasterLayer() { Name = $"RasterLayer_{layers.Count - 1}" });
+
+        public Frame(string name) {
+            this.name = name;
+            layers.Add(new RasterLayer("Raster_Layer_0"));
             CurrentLayer = layers.Last();
         }
 

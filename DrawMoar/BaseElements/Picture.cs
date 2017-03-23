@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DrawMoar.BaseElements
 {
@@ -11,11 +9,20 @@ namespace DrawMoar.BaseElements
     {
         public System.Windows.Point Position { get; set; }
 
+
         public Image Image { get; set; }
+
+
+        public Picture() {
+            Position = new System.Windows.Point(0, 0);
+            Image = null;
+        }
+
 
         public void Draw(Graphics g) {
             g.DrawImage(Image, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y));
         }
         
+
     }
 }

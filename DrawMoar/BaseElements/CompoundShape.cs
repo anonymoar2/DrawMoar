@@ -12,6 +12,9 @@ namespace DrawMoar.BaseElements
         public string Alias { get; set; }
 
         
+        /// <summary>
+        /// TODO: Сделать приватным крч
+        /// </summary>
         public List<IShape> shapes = new List<IShape>();
 
 

@@ -1,10 +1,4 @@
-﻿using DrawMoar.Shapes;
-using System;
-using System.Drawing;
-using System.Windows;
-
-
-namespace DrawMoar.BaseElements
+﻿namespace DrawMoar.BaseElements
 {
     /// <summary>
     /// Перепишу нормально
@@ -12,7 +6,7 @@ namespace DrawMoar.BaseElements
     public abstract class Transformation
     {
         /// <summary>
-        /// Думаю можно не возвращать тут ничего, менять содержимое, подумать над этим (!)
+        /// TODO: Думаю можно не возвращать тут ничего, менять содержимое, подумать над этим (!)
         /// </summary>
         /// <param name="picture"></param>
         /// <returns></returns>

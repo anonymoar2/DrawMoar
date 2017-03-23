@@ -1,5 +1,6 @@
 ﻿using System;
 
+
 namespace DrawMoar.BaseElements
 {
     class TranslateTransformation : Transformation
@@ -19,13 +20,11 @@ namespace DrawMoar.BaseElements
 
 
         /// <summary>
-        /// TODO: Доделать метод
         /// По сути просто позицию переносим куда надо у картинки
         /// </summary>
         /// <param name="picture">картинка с растрового слоя</param>
         /// <returns></returns>
         public override Picture Apply(Picture picture) {
-            // Вовращает копию трансформированной пикчи, ну или не совсем копию, пока вроде насрать
             picture.Position = Apply(picture.Position);
             return picture;
         }

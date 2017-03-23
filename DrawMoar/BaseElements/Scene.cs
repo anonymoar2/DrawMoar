@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using System.Text.RegularExpressions;
 
 
@@ -33,15 +34,15 @@ namespace DrawMoar.BaseElements
 
 
         public Scene() {
-            name = "new_scene";
-            frames.Add(new Frame($"Frame_{frames.Count}"));
+            name = "newScene";
+            frames.Add(new Frame("Frame_0"));
             CurrentFrame = frames.Last();
         }
 
 
         public Scene(string name) {
             this.name = name;
-            frames.Add(new Frame($"Frame_{frames.Count}"));
+            frames.Add(new Frame());
             CurrentFrame = frames.Last();
         }
 
@@ -68,7 +69,7 @@ namespace DrawMoar.BaseElements
         /// Добавление пустого кадра в конец списка.
         /// </summary>
         public void AddEmptyFrame() {
-            frames.Add(new Frame($"Frame_{frames.Count}"));
+            frames.Add(new Frame());
             CurrentFrame = frames.Last();
         }
 
