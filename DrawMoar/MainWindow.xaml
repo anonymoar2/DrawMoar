@@ -51,14 +51,15 @@
             <Button x:Name="AddRectangle" Height ="25" Width="60" Margin="5,5" Content="Rectangle" Click="AddRectangle_Click"/>
         </WrapPanel>
         <WrapPanel Name="palette" Grid.Column="0" Grid.Row="3">
-            <xctk:ColorPicker x:Name="ClrPcker_Background"  Margin="65,7,0,0" Height="25" Width="50"/>
+            <Button x:Name="AddRasterLayer" Content="RL" Width="30"  Height="20" Margin="3,10" Click="AddRasterLayer_Click"/>
+            <Button x:Name="AddVectorLayer" Content="VL" Width="30"  Height="20" Margin="3,10" Click="AddVectorLayer_Click"/>
+            <xctk:ColorPicker x:Name="ClrPcker_Background"  Margin="3,3,0,0" Height="25" Width="50"/>
         </WrapPanel>
         <ListBox Name="scenesList" Width="120" Grid.Column="2" Grid.Row="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  BorderBrush="LightGray" SelectionChanged="scenesList_SelectionChanged"></ListBox>
         <WrapPanel Name="buttons" Grid.Column="2" Grid.Row="1">
             <Button x:Name="AddFrame" Content="+F" Width="30"  Height="20" Margin="6,7" Click="AddFrame_Click"/>
             <Button x:Name="AddScene" Content="+S" Width="30"  Height="20" Margin="6,7" Click="AddScene_Click"/>
-            <Button x:Name="AddLayer" Content="+L" Width="30"  Height="20" Margin="6,7" Click="AddLayer_Click"/>
         </WrapPanel>
         <ListBox Name="layersList" Width="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                          BorderBrush="LightGray" SelectionChanged="layersList_SelectionChanged" Grid.Column="0" Grid.Row="4"/>

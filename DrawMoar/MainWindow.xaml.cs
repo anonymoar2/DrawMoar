@@ -19,13 +19,11 @@ using DrawMoar.Shapes;
 using DrawMoar.BaseElements;
 
 
-namespace DrawMoar
-{
+namespace DrawMoar {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
-    {
+    public partial class MainWindow : Window {
         private Cartoon cartoon;
 
         Point prevPoint;
@@ -33,9 +31,9 @@ namespace DrawMoar
         Point point;
         DrawMoar.Shapes.Ellipse newEllipse;
         DrawMoar.Shapes.Rectangle newRect;
+        ILayer currentLayer;
 
-        public MainWindow()
-        {
+        public MainWindow() {
             InitializeComponent();
             // при создании окна области рисования нет
 
@@ -60,8 +58,7 @@ namespace DrawMoar
 
         //тогда отрисовку придется выносить в отдельный класс и она будет сложнее - много работы в плане 
 
-        private void CreateCartoon(object sender, RoutedEventArgs e)
-        {
+        private void CreateCartoon(object sender, RoutedEventArgs e) {
             // создаём новый пустой кадр
             // на кадре новый пустой слой создаём
             var newCartoonDialog = new CreateCartoonDialog();
@@ -76,8 +73,7 @@ namespace DrawMoar
         /// Выполняется при нажатии кнопки Create (Создать)
         /// </summary>
         /// <param name="cartoon"></param>
-        public void Success(Cartoon cartoon)
-        {
+        public void Success(Cartoon cartoon) {
             canvas.Visibility = Visibility.Visible;
             canvas.Width = cartoon.Width;
             canvas.Height = cartoon.Height;
@@ -87,11 +83,10 @@ namespace DrawMoar
             Width = canvas.Width + 260;        //пока что так (ширина двух крайних колонок грида)
             AddScene_Click(null, null);
             AddFrame_Click(null, null);
-            AddLayer_Click(null, null);
+            AddVectorLayer_Click(null, null);
         }
 
-        private void ExportToMP4(object sender, RoutedEventArgs e)
-        {
+        private void ExportToMP4(object sender, RoutedEventArgs e) {
             //SaveControlsToBitmap();
             //var exp = new Mp4Exporter(); 
             //exp.Save(cartoon, cartoon.WorkingDirectory); 
@@ -123,27 +118,25 @@ namespace DrawMoar
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AddLayer_Click(object sender, RoutedEventArgs e)
-        {
-            /*if (cartoon == null)
-            {
+        private void AddRasterLayer_Click(object sender, RoutedEventArgs e) {
+            if (cartoon == null) {
                 return;
             }
             //проверка на то, выделен ли какой-либо кадр(когда реализуем удаление)
-            var drawingControl = new LayerControl();
-            drawingControl.Focus();
-            var layer = new RasterLayerView(new Bitmap(cartoon.CurrentScene.currentFrame.Width,
-                                                        cartoon.CurrentScene.currentFrame.Height));
-            layer.Name = $"layer_{layersList.Items.Count}";
-            layer.drawingControl = drawingControl;
+            if (sender != null) {
 
-            if (sender != null)
-            {
-                cartoon.CurrentScene.currentFrame.AddLayer(layer);
-                AddListBoxElement(layersList, layer.Name);
-                canvas.Children.Add((LayerControl)layer.drawingControl);
-            }*/
+            }
 
+        }
+
+        private void AddVectorLayer_Click(object sender, RoutedEventArgs e) {
+            if (cartoon == null) {
+                return;
+            }
+            cartoon.CurrentScene.CurrentFrame.AddEmptyVectorLayer();
+            var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
+            AddListBoxElement(layersList, $"VectorLayer_{layers.Count - 1}");
+            canvas.Children.Clear();
         }
 
         /// <summary>
@@ -151,10 +144,8 @@ namespace DrawMoar
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SetCursorStyle(Object sender, EventArgs e)
-        {
-            switch (GlobalState.CurrentTool)
-            {
+        private void SetCursorStyle(Object sender, EventArgs e) {
+            switch (GlobalState.CurrentTool) {
                 case Instrument.Brush:
                     canvas.Cursor = Cursors.Cross;
                     break;
@@ -169,8 +160,7 @@ namespace DrawMoar
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             /*layersList.Items.Clear();
             canvas.Children.Clear();
             if (framesList.SelectedIndex != -1)
@@ -188,114 +178,96 @@ namespace DrawMoar
         }
 
 
-        private void scenesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        private void scenesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             framesList.Items.Clear();
             cartoon.CurrentScene = cartoon.GetAllScenes()[scenesList.SelectedIndex];
-            var frames = cartoon.CurrentScene.GetAllFrames();
-            int i = 0;                                          //с именами большая беда. нужно будет в BaseElements разобраться
-            foreach (var item in frames)
-            {
-                AddListBoxElement(framesList, $"frame{i++}");
+            var frames = cartoon.CurrentScene.GetAllFrames();       //с именами большая беда. нужно будет в BaseElements разобраться
+            foreach (var item in frames) {
+                AddListBoxElement(framesList, item.Name);
             }
         }
 
-        private void layersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            /*foreach (LayerControl item in canvas.Children)
-            {
-                item.Visibility = Visibility.Hidden;
-            }
-            if ((layersList.SelectedIndex != -1) && (canvas.Children.Count > layersList.SelectedIndex))
-                canvas.Children[layersList.SelectedIndex].Visibility = Visibility.Visible;*/
+        private void layersList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            var layer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
 
         }
 
-        private void testButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void testButton_Click(object sender, RoutedEventArgs e) {
             GlobalState.CurrentTool = Instrument.Brush;
         }
 
-        private void testButton2_Click(object sender, RoutedEventArgs e)
-        {
+        private void testButton2_Click(object sender, RoutedEventArgs e) {
             GlobalState.CurrentTool = Instrument.Arrow;
         }
 
-        private void AddFrame_Click(object sender, RoutedEventArgs e)
-        {
-            /*if (cartoon == null)
-            {
-                return;
-            }
-            cartoon.CurrentScene.AddFrame();
-            cartoon.CurrentScene.currentFrame.CurrentLayer.drawingControl = new LayerControl();
-            //cartoon.CurrentScene.currentFrame.CurrentLayer.drawingControl = new LayerControl();
-            var frames = cartoon.CurrentScene.GetAllFrames();
-            AddListBoxElement(framesList, $"frame_{frames.Count - 1}");
-            //cartoon.CurrentScene.currentFrame = frames[framesList.SelectedIndex];*/
-        }
-
-        private void AddScene_Click(object sender, RoutedEventArgs e)
-        {
-            if (cartoon == null)
-            {
+        private void AddFrame_Click(object sender, RoutedEventArgs e) {
+            if (cartoon == null) {
                 return;
             }
             if (sender != null)
-            {
+                cartoon.CurrentScene.AddEmptyFrame();
+            var frames = cartoon.CurrentScene.GetAllFrames();
+            AddListBoxElement(framesList, $"frame_{frames.Count - 1}");
+        }
+
+        private void AddScene_Click(object sender, RoutedEventArgs e) {
+            if (cartoon == null) {
+                return;
+            }
+            if (sender != null) {
                 cartoon.AddEmptyScene();
                 cartoon.CurrentScene.AddEmptyFrame();
-                cartoon.CurrentScene.CurrentFrame = cartoon.CurrentScene.GetAllFrames()[0];
+                //cartoon.CurrentScene.CurrentFrame = cartoon.CurrentScene.GetAllFrames()[0];
             }
             AddListBoxElement(scenesList, cartoon.CurrentScene.Name);
         }
 
-        private void AddListBoxElement(ListBox lBox, string content)
-        {
+        private void AddListBoxElement(ListBox lBox, string content) {
             var lbl = new Label();          //здесь должен быть какой-то другой контрол (возможно, самописный)
             lbl.Content = content;
             lBox.Items.Add(lbl);
-            lBox.SelectedIndex = lBox.Items.Count - 1;
+            //lBox.SelectedIndex = lBox.Items.Count - 1;
         }
 
 
-        void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
+        void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             GlobalState.PressLeftButton = true;
+            currentLayer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
             prevPoint = Mouse.GetPosition(canvas);
-            switch (GlobalState.CurrentTool)
-            {
+            switch (GlobalState.CurrentTool) {
                 case Instrument.Brush:
                     break;
                 case Instrument.Rectangle:
                     newRect = new DrawMoar.Shapes.Rectangle(prevPoint, new Size(30, 20));
                     newRect.Draw(canvas);
+                    SaveIntoLayer(currentLayer, newRect);
                     break;
                 case Instrument.Ellipse:
                     newEllipse = new DrawMoar.Shapes.Ellipse(prevPoint, new Size(30, 20));
                     newEllipse.Draw(canvas);
+                    SaveIntoLayer(currentLayer, newEllipse);
                     break;
                 case Instrument.Line:
                     //задерживание кнопки мыши, отпустили = конец линии    
                     newLine = new DrawMoar.Shapes.Line(prevPoint, prevPoint);
                     newLine.Draw(canvas);
+                    SaveIntoLayer(currentLayer, newLine);
                     break;
             }
             canvas_MouseMove(sender, e);
         }
 
-        void canvas_MouseMove(object sender, MouseEventArgs e)
-        {
+        void canvas_MouseMove(object sender, MouseEventArgs e) {
             point = (Point)e.GetPosition(canvas);
+            currentLayer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
             if (!GlobalState.PressLeftButton) return;
-            switch (GlobalState.CurrentTool)
-            {
-                case Instrument.Brush:                                                                                                                   
-                        newLine = new DrawMoar.Shapes.Line(prevPoint, point);
-                        newLine.Draw(canvas);
-                        prevPoint = point;
+            switch (GlobalState.CurrentTool) {
+                case Instrument.Brush:
+                    newLine = new DrawMoar.Shapes.Line(prevPoint, point);
+                    newLine.Draw(canvas);
+                    prevPoint = point;
                     break;
-                case Instrument.Rectangle:                  
+                case Instrument.Rectangle:
                     ScalingRedrawing(canvas, newRect, e);
                     break;
                 case Instrument.Ellipse:
@@ -307,44 +279,51 @@ namespace DrawMoar
             }
         }
 
-        void ScalingRedrawing(Canvas canvas, IShape shape, MouseEventArgs e)
-        {
-            if (shape != null & e.LeftButton == MouseButtonState.Pressed)
-            {
+        void ScalingRedrawing(Canvas canvas, IShape shape, MouseEventArgs e) {
+            if (shape != null & e.LeftButton == MouseButtonState.Pressed) {
+                var layer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
                 var shiftX = point.X - prevPoint.X;
                 var shiftY = point.Y - prevPoint.Y;
-                if ((shiftX <= 0) || (shiftY <= 0)) return;         //мб потом сделаю зеркалирование при пересечении координат начала отрисовки (как в пейнте)
+                if (((shiftX <= 0) || (shiftY <= 0))&&(!(shape is DrawMoar.Shapes.Line))) return;   //пока из-за "плохих" шифтов так; уберу, когда сделаю зеркалирование
                 canvas.Children.RemoveAt(canvas.Children.Count - 1);
                 if (shape is DrawMoar.Shapes.Line) shape = new DrawMoar.Shapes.Line(prevPoint, point);
-                else if (shape is DrawMoar.Shapes.Ellipse) shape = new DrawMoar.Shapes.Ellipse(prevPoint, new Size(30+shiftX, 20+shiftY));
-                else if (shape is DrawMoar.Shapes.Rectangle) shape = new DrawMoar.Shapes.Rectangle(prevPoint, new Size(30+ shiftX, 20 + shiftY));
+                else if (shape is DrawMoar.Shapes.Ellipse) shape = new DrawMoar.Shapes.Ellipse(prevPoint, new Size(30 + shiftX, 20 + shiftY));
+                else if (shape is DrawMoar.Shapes.Rectangle) shape = new DrawMoar.Shapes.Rectangle(prevPoint, new Size(30 + shiftX, 20 + shiftY));
                 shape.Draw(canvas);
+                if(layer is VectorLayer) {
+                    var shapes = ((VectorLayer)layer).Picture.shapes;
+                    shapes.RemoveAt(shapes.Count-1);
+                    SaveIntoLayer(layer, shape);
+                }
             }
         }
 
-
-        void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-           GlobalState.PressLeftButton = false;
+        void SaveIntoLayer(ILayer layer, IShape shape) {
+            if(layer is VectorLayer) {
+                ((VectorLayer)layer).Picture.shapes.Add(shape);
+            }
+            else {
+                //...
+            }
         }
 
-        void canvas_MouseLeave(object sender, MouseEventArgs e)
-        {
+        void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
             GlobalState.PressLeftButton = false;
         }
 
-        private void Lines_Click(object sender, RoutedEventArgs e)
-        {
+        void canvas_MouseLeave(object sender, MouseEventArgs e) {
+            GlobalState.PressLeftButton = false;
+        }
+
+        private void Lines_Click(object sender, RoutedEventArgs e) {
             GlobalState.CurrentTool = Instrument.Line;
         }
 
-        private void AddEllipse_Click(object sender, RoutedEventArgs e)
-        {
+        private void AddEllipse_Click(object sender, RoutedEventArgs e) {
             GlobalState.CurrentTool = Instrument.Ellipse;
         }
 
-        private void AddRectangle_Click(object sender, RoutedEventArgs e)
-        {
+        private void AddRectangle_Click(object sender, RoutedEventArgs e) {
             GlobalState.CurrentTool = Instrument.Rectangle;
         }
 
