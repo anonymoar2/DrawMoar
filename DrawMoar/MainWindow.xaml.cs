@@ -13,7 +13,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 using DrawMoar.Shapes;
 using DrawMoar.BaseElements;
@@ -53,8 +52,8 @@ namespace DrawMoar {
             canvas.MouseLeave += new MouseEventHandler(canvas_MouseLeave);
             GlobalState.CurrentTool = Instrument.Arrow;
             GlobalState.ChangeInstrument += SetCursorStyle;
-            GlobalState.Color = System.Windows.Media.Brushes.Black;
-            GlobalState.BrushSize = new System.Windows.Size(5, 5);
+            GlobalState.Color = Brushes.Black;
+            GlobalState.BrushSize = new Size(5, 5);
         }
 
         //тогда отрисовку придется выносить в отдельный класс и она будет сложнее - много работы в плане 
@@ -79,12 +78,11 @@ namespace DrawMoar {
             canvas.Width = cartoon.Width;
             canvas.Height = cartoon.Height;
             this.cartoon = cartoon;
-            GlobalState.canvSize = new System.Windows.Size(canvas.Width, canvas.Height);
+            GlobalState.canvSize = new Size(canvas.Width, canvas.Height);
             Height = canvas.Height;
             Width = canvas.Width + 260;        //пока что так (ширина двух крайних колонок грида)
             AddScene_Click(null, null);
             AddFrame_Click(null, null);
-            //AddVectorLayer_Click(null, null);
             AddRasterLayer_Click(null, null);
         }
 
@@ -256,18 +254,18 @@ namespace DrawMoar {
                 case Instrument.Brush:
                     break;
                 case Instrument.Rectangle:
-                    newRect = new DrawMoar.Shapes.Rectangle(prevPoint, new Size(30, 20));
+                    newRect = new Rectangle(prevPoint, new Size(15, 10));
                     newRect.Draw(canvas);
                     SaveIntoLayer(currentLayer, newRect);
                     break;
                 case Instrument.Ellipse:
-                    newEllipse = new DrawMoar.Shapes.Ellipse(prevPoint, new Size(30, 20));
+                    newEllipse = new Ellipse(prevPoint, new Size(15, 10));
                     newEllipse.Draw(canvas);
                     SaveIntoLayer(currentLayer, newEllipse);
                     break;
                 case Instrument.Line:
                     //задерживание кнопки мыши, отпустили = конец линии    
-                    newLine = new DrawMoar.Shapes.Line(prevPoint, prevPoint);
+                    newLine = new Line(prevPoint, prevPoint);
                     newLine.Draw(canvas);
                     SaveIntoLayer(currentLayer, newLine);
                     break;
@@ -282,9 +280,10 @@ namespace DrawMoar {
             switch (GlobalState.CurrentTool) {
                 case Instrument.Arrow:
                     TranslatingRedrawing(clickedShape, e);
+                    prevPoint = point;
                     break;
                 case Instrument.Brush:
-                    newLine = new DrawMoar.Shapes.Line(prevPoint, point);
+                    newLine = new Line(prevPoint, point);
                     newLine.Draw(canvas);
                     prevPoint = point;
                     break;
@@ -305,12 +304,14 @@ namespace DrawMoar {
                 var layer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
                 var shiftX = point.X - prevPoint.X;
                 var shiftY = point.Y - prevPoint.Y;
-                if (((shiftX <= 0) || (shiftY <= 0)) && (!(shape is DrawMoar.Shapes.Line))) return;   //пока из-за "плохих" шифтов так; уберу, когда сделаю зеркалирование
+                if (((shiftX <= 0) || (shiftY <= 0)) && (!(shape is Line))) return;   //пока из-за "плохих" шифтов так; уберу, когда сделаю зеркалирование
                 canvas.Children.RemoveAt(canvas.Children.Count - 1);
-                if (shape is DrawMoar.Shapes.Line) shape = new DrawMoar.Shapes.Line(prevPoint, point);
-                else if (shape is DrawMoar.Shapes.Ellipse) shape = new DrawMoar.Shapes.Ellipse(prevPoint, new Size(30 + shiftX, 20 + shiftY));
-                else if (shape is DrawMoar.Shapes.Rectangle) shape = new DrawMoar.Shapes.Rectangle(prevPoint, new Size(30 + shiftX, 20 + shiftY));
+
+                if (shape is Line) shape = new Line(prevPoint, point);
+                else if (shape is Ellipse) shape = new Ellipse(prevPoint, new Size(15 + shiftX, 10 + shiftY));
+                else if (shape is Rectangle) shape = new Rectangle(prevPoint, new Size(15 + shiftX, 10 + shiftY));
                 shape.Draw(canvas);
+
                 if (layer is VectorLayer) {
                     var shapes = ((VectorLayer)layer).Picture.shapes;
                     shapes.RemoveAt(shapes.Count - 1);
@@ -321,15 +322,15 @@ namespace DrawMoar {
 
         IShape GetClickedShape(Point clickPoint) {
             var layer = (VectorLayer)cartoon.CurrentScene.CurrentFrame.CurrentLayer;
-            foreach (var item in ((VectorLayer)layer).Picture.shapes) {
-                if (item is DrawMoar.Shapes.Rectangle) {
-                    if (((Math.Abs(clickPoint.X - ((DrawMoar.Shapes.Rectangle)item).Center.X) < 20) &&    //вместо 20 потом придется скалировать пропорционально размерам фигуры
-                        (Math.Abs(clickPoint.Y - ((DrawMoar.Shapes.Rectangle)item).Center.Y) < 20)))
+            foreach (var item in layer.Picture.shapes) {
+                if (item is Rectangle) {
+                    if (((Math.Abs(clickPoint.X - ((Rectangle)item).Center.X) < ((Rectangle)item).Size.Width / 4) &&    //вместо 20 потом придется скалировать пропорционально размерам фигуры
+                        (Math.Abs(clickPoint.Y - ((Rectangle)item).Center.Y) < ((Rectangle)item).Size.Height / 4)))
                         return item;
                 }
-                else if (item is DrawMoar.Shapes.Ellipse) {
-                    if (((Math.Abs(clickPoint.X - ((DrawMoar.Shapes.Ellipse)item).Center.X) < 20) &&
-                        (Math.Abs(clickPoint.Y - ((DrawMoar.Shapes.Ellipse)item).Center.Y) < 20)))
+                else if (item is Ellipse) {
+                    if (((Math.Abs(clickPoint.X - ((Ellipse)item).Center.X) < ((Ellipse)item).Size.Width / 4) &&
+                        (Math.Abs(clickPoint.Y - ((Ellipse)item).Center.Y) < ((Ellipse)item).Size.Width / 4)))
                         return item;
                 }
             }
@@ -338,23 +339,14 @@ namespace DrawMoar {
 
 
         void TranslatingRedrawing(IShape shape, MouseEventArgs e) {
-            IShape tempShape;
+            point = e.GetPosition(canvas);
             if (clickedShape != null) {
                 var shapes = ((VectorLayer)currentLayer).Picture.shapes;
-                shapes.RemoveAt(shapes.Count - 1);
-                canvas.Children.RemoveAt(canvas.Children.Count - 1);
-                if (shape is DrawMoar.Shapes.Rectangle) {
-                    tempShape = new DrawMoar.Shapes.Rectangle(point, ((DrawMoar.Shapes.Rectangle)shape).Size,
-                                rotate: ((DrawMoar.Shapes.Rectangle)shape).Rotate);
-                    tempShape.Draw(canvas);
-                    SaveIntoLayer(currentLayer, tempShape);
-                }
-                else if (shape is DrawMoar.Shapes.Ellipse) {
-                    tempShape = new DrawMoar.Shapes.Ellipse(point, ((DrawMoar.Shapes.Ellipse)shape).Size,
-                                rotate: ((DrawMoar.Shapes.Ellipse)shape).Rotate);
-                    tempShape.Draw(canvas);
-                    SaveIntoLayer(currentLayer, tempShape);
-                }
+                canvas.Children.RemoveAt(shapes.IndexOf(shape));
+                shapes.RemoveAt(shapes.IndexOf(shape));              
+                shape.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
+                shape.Draw(canvas);
+                SaveIntoLayer(currentLayer, shape);
             }
         }
 

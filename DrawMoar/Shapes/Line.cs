@@ -12,6 +12,7 @@ namespace DrawMoar.Shapes
     {
         public System.Windows.Point PointOne { get; private set; }
         public System.Windows.Point PointTwo { get; private set; }
+        public System.Windows.Point Center { get; private set; }
         public System.Windows.Media.Brush Stroke { get; set; }
         public double Thickness { get; set; }
 
@@ -21,6 +22,7 @@ namespace DrawMoar.Shapes
         public Line(System.Windows.Point pointOne, System.Windows.Point pointTwo) {
             this.PointOne = pointOne;
             this.PointTwo = pointTwo;
+            this.Center = new System.Windows.Point(Math.Abs(PointOne.X - PointTwo.X) / 2, Math.Abs(PointOne.Y - PointTwo.Y) / 2);
             Thickness = GlobalState.BrushSize.Width;
             Stroke = GlobalState.Color;
         }
