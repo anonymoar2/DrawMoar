@@ -11,6 +11,7 @@ using System.IO;
 using DrawMoar.BaseElements;
 using DrawMoar.Shapes;
 
+
 namespace DrawMoar
 {
     public class RasterLayer : ILayer
@@ -104,11 +105,24 @@ namespace DrawMoar
             Picture.Image = System.Drawing.Image.FromFile(/*your path + filename.png again*/"");
         }
 
+
         public void AddShape(IShape shape) {
             var g = Graphics.FromImage(Picture.Image);
             // как-то создаем графикс
             //shape.метод кот приним гр и нарис нужн фиг с нужными параметрами
             // а этот метод есть в любой IShape
+        }
+
+
+        public bool ThumbnailCallback() {
+            return false;
+        }
+
+
+        public System.Drawing.Image Miniature(int width, int height) {
+            System.Drawing.Image.GetThumbnailImageAbort myCallback = new System.Drawing.Image.GetThumbnailImageAbort(ThumbnailCallback);
+            var newImage = Picture.Image.GetThumbnailImage(width, height, myCallback, IntPtr.Zero);
+            return newImage;
         }
     }
 }
