@@ -12,6 +12,7 @@ using DrawMoar.BaseElements;
 using DrawMoar.Shapes;
 using DrawMoar.Extensions;
 
+
 namespace DrawMoar
 {
     public class RasterLayer : ILayer
@@ -46,6 +47,15 @@ namespace DrawMoar
             }
         }
 
+        public System.Windows.Point Position {
+            get {
+                return Picture.Position;
+            }
+
+            set {
+                Picture.Position = value;
+            }
+        }
 
         public RasterLayer() {
             name = "newRasterLayer";
@@ -126,11 +136,24 @@ namespace DrawMoar
             return img;
         }
 
+
         public void AddShape(IShape shape) {
             var g = Graphics.FromImage(Picture.Image);
             // как-то создаем графикс
             //shape.метод кот приним гр и нарис нужн фиг с нужными параметрами
             // а этот метод есть в любой IShape
+        }
+
+
+        public bool ThumbnailCallback() {
+            return false;
+        }
+
+
+        public System.Drawing.Image Miniature(int width, int height) {
+            System.Drawing.Image.GetThumbnailImageAbort myCallback = new System.Drawing.Image.GetThumbnailImageAbort(ThumbnailCallback);
+            var newImage = Picture.Image.GetThumbnailImage(width, height, myCallback, IntPtr.Zero);
+            return newImage;
         }
     }
 }

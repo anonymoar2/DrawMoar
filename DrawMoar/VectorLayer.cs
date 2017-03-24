@@ -5,6 +5,7 @@ using System.Drawing;
 
 using DrawMoar.BaseElements;
 using DrawMoar.Shapes;
+using System.Windows;
 
 namespace DrawMoar
 {
@@ -41,6 +42,17 @@ namespace DrawMoar
         }
 
 
+        private System.Windows.Point position = new System.Windows.Point(0, 0);
+        public System.Windows.Point Position {
+            get {
+                return position;
+            }
+            set {
+                position = value;
+            }
+        }
+
+
         public VectorLayer() {
             name = "newVectorLayer";
             Visible = true;
@@ -54,12 +66,9 @@ namespace DrawMoar
             Picture = new CompoundShape();
         }
 
-
-        /// <summary>
-        /// Пока ничего
-        /// </summary>
+        
         public void Draw(Graphics g) {
-            //Picture.Draw(g);
+            Picture.Draw(g);
         }
 
 
@@ -80,6 +89,27 @@ namespace DrawMoar
         public void AddShape(IShape shape) {
             Picture.shapes.Add(shape);
             // взм тут отрисовка на канвасе 
+        }
+
+
+        public RasterLayer ToRasterLayer() {
+            var newLayer = new RasterLayer();
+            var g = Graphics.FromImage(newLayer.Picture.Image);
+            Picture.Draw(g);
+            return newLayer;
+        }
+
+
+        public bool ThumbnailCallback() {
+            return false;
+        }
+
+
+        public System.Drawing.Image Miniature(int width, int height) {
+            var rasterLayer = ToRasterLayer();
+            System.Drawing.Image.GetThumbnailImageAbort myCallback = new System.Drawing.Image.GetThumbnailImageAbort(ThumbnailCallback);
+            var newImage = rasterLayer.Picture.Image.GetThumbnailImage(width, height, myCallback, IntPtr.Zero);
+            return newImage;
         }
     }
 }

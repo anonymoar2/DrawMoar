@@ -55,6 +55,9 @@ namespace DrawMoar.BaseElements
         private List<Frame> frames = new List<Frame>();
 
 
+        /// <summary>
+        /// Список сохраненных слоёв
+        /// </summary>
         private List<ILayer> savedLayers = new List<ILayer>();
 
 
@@ -355,5 +358,26 @@ namespace DrawMoar.BaseElements
         //}
 
         #endregion
+
+        
+        public void SaveToVideo() {
+            // TODO: СРОЧНО ЭКСПОРТ
+        }
+
+
+        /// <summary>
+        /// Вызови метод, передавая туда CurrentFrame и просто обнови список слоёв и их отображения
+        /// Генерация кадров, по сути останется только "обновить всё"
+        /// Допустим что у кадра, от которого генерируем, есть два слоя, один будет двигаться в одну сторону, другой вращаться
+        /// </summary>
+        public void GenerateFrames(Frame frame) {
+            var indexOfFrame = frames.IndexOf(frame);
+            //Можно передавать количество желаемых кадров и потом ещё дальше упарываться
+            for(int i = 1; i <= 10; i++) {
+                InsertCopyOfFrame(indexOfFrame + i, frame);
+                frames[indexOfFrame + i].GetLayer(0).Transform(new TranslateTransformation(new System.Windows.Point(/*frames[indexOfFrame + i].GetLayer(0).Position.X +*/ i * 10, /*frames[indexOfFrame + i].GetLayer(0).Position.Y +*/ 0)));
+                frames[indexOfFrame + i].GetLayer(1).Transform(new RotateTransformation(frames[indexOfFrame + i].GetLayer(1).Position, i * 20));
+            }
+        }
     }
 }

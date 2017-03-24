@@ -29,5 +29,11 @@ namespace DrawMoar
 
 
         void AddShape(IShape shape);
+
+        
+        System.Drawing.Image Miniature(int width, int height);
+
+
+        System.Windows.Point Position { get; set; }
     }
 }
