@@ -1,5 +1,7 @@
 ﻿using System;
+
 using System.Drawing;
+
 
 namespace DrawMoar.BaseElements
 {
