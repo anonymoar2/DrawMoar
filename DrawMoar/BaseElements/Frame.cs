@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 using System.Text.RegularExpressions;
 
+using DrawMoar.Extensions;
+
 
 namespace DrawMoar.BaseElements
 {
@@ -89,6 +91,17 @@ namespace DrawMoar.BaseElements
         /// <param name="layer">Слой, который хотите добавить</param>
         public void AddLayer(ILayer layer) {
             layers.Add(layer);
+            CurrentLayer = layers.Last();
+        }
+
+
+        /// <summary>
+        /// Добавление КОПИИ существующего слоя в конец списка.
+        /// </summary>
+        /// <param name="layer">Слой, который хотите добавить</param>
+        public void AddCopyOfLayer(ILayer layer) {
+            layers.Add(ObjectCopier.Clone(layer));
+            CurrentLayer = layers.Last();
         }
 
 
@@ -98,7 +111,19 @@ namespace DrawMoar.BaseElements
         /// <param name="index">Куда втавить слой</param>
         /// <param name="layer">Сам слой, который вставить</param>
         public void InsertLayer(int index, ILayer layer) {
-            layers.Insert(index, layer);
+            layers.Insert(index,layer);
+            CurrentLayer = layers[index];
+        }
+
+
+        /// <summary>
+        /// Вставка КОПИИ слоя в список на указанную позицию.
+        /// </summary>
+        /// <param name="index">Куда втавить слой</param>
+        /// <param name="layer">Сам слой, который вставить</param>
+        public void InsertCopyOfLayer(int index, ILayer layer) {
+            layers.Insert(index, ObjectCopier.Clone(layer));
+            CurrentLayer = layers[index];
         }
 
 
@@ -108,6 +133,7 @@ namespace DrawMoar.BaseElements
         /// <param name="index">Куда вставить пустой растровый слой</param>
         public void InsertEmptyRasterLayer(int index) {
             layers.Insert(index, new RasterLayer());
+            CurrentLayer = layers[index];
         }
 
 
@@ -117,6 +143,7 @@ namespace DrawMoar.BaseElements
         /// <param name="index">Куда вставить пустой векторный слой</param>
         public void InsertEmptyVectorLayer(int index) {
             layers.Insert(index, new VectorLayer());
+            CurrentLayer = layers[index];
         }
 
 
@@ -137,6 +164,16 @@ namespace DrawMoar.BaseElements
         /// <returns>Слой с переданным индексом</returns>
         public ILayer GetLayer(int index) {
             return layers[index];
+        }
+
+
+        /// <summary>
+        /// Получение КОПИИ слоя по его индексу в списке
+        /// </summary>
+        /// <param name="index">Индекс слоя</param>
+        /// <returns>Слой с переданным индексом</returns>
+        public ILayer GetCopyOfLayer(int index) {
+            return ObjectCopier.Clone(layers[index]);
         }
 
 

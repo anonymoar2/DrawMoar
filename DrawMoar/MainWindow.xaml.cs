@@ -68,6 +68,7 @@ namespace DrawMoar {
 
         }
 
+
         /// <summary>
         /// "Успешное" закрытие окна создания мультфильма.
         /// Выполняется при нажатии кнопки Create (Создать)
@@ -85,6 +86,7 @@ namespace DrawMoar {
             AddFrame_Click(null, null);
             AddRasterLayer_Click(null, null);
         }
+
 
         private void ExportToMP4(object sender, RoutedEventArgs e) {
             //SaveControlsToBitmap();
@@ -130,6 +132,7 @@ namespace DrawMoar {
             canvas.Children.Clear();
         }
 
+
         private void AddVectorLayer_Click(object sender, RoutedEventArgs e) {
             if (cartoon == null) {
                 return;
@@ -140,6 +143,7 @@ namespace DrawMoar {
             AddListBoxElement(layersList, $"VectorLayer_{layers.Count - 1}");
             canvas.Children.Clear();
         }
+
 
         /// <summary>
         ///     Изменение курсора мыши в зависимости от выбранного инструмента
@@ -156,6 +160,7 @@ namespace DrawMoar {
                     break;
             }
         }
+
 
         /// <summary>
         /// Обработка выбора элемента из элемента, отображающего кадры
@@ -190,6 +195,7 @@ namespace DrawMoar {
             }
         }
 
+
         private void layersList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (layersList.SelectedIndex != -1) {
                 var layer = cartoon.CurrentScene.CurrentFrame.GetAllLayers()[layersList.SelectedIndex];
@@ -203,13 +209,16 @@ namespace DrawMoar {
 
         }
 
+
         private void testButton_Click(object sender, RoutedEventArgs e) {
             GlobalState.CurrentTool = Instrument.Brush;
         }
 
+
         private void testButton2_Click(object sender, RoutedEventArgs e) {
             GlobalState.CurrentTool = Instrument.Arrow;
         }
+
 
         private void AddFrame_Click(object sender, RoutedEventArgs e) {
             if (cartoon == null) {
@@ -222,6 +231,7 @@ namespace DrawMoar {
             }
         }
 
+
         private void AddScene_Click(object sender, RoutedEventArgs e) {
             if (cartoon == null) {
                 return;
@@ -233,6 +243,7 @@ namespace DrawMoar {
             }
             AddListBoxElement(scenesList, cartoon.CurrentScene.Name);
         }
+
 
         private void AddListBoxElement(ListBox lBox, string content) {
             var lbl = new Label();          //здесь должен быть какой-то другой контрол (возможно, самописный)
@@ -273,6 +284,7 @@ namespace DrawMoar {
             canvas_MouseMove(sender, e);
         }
 
+
         void canvas_MouseMove(object sender, MouseEventArgs e) {
             point = (Point)e.GetPosition(canvas);
             currentLayer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
@@ -299,6 +311,7 @@ namespace DrawMoar {
             }
         }
 
+
         void ScaleRedrawing(IShape shape, MouseEventArgs e) {
             if (shape != null & e.LeftButton == MouseButtonState.Pressed) {
                 var layer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
@@ -319,6 +332,7 @@ namespace DrawMoar {
                 }
             }
         }
+
 
         IShape GetClickedShape(Point clickPoint) {
             var layer = (VectorLayer)cartoon.CurrentScene.CurrentFrame.CurrentLayer;
@@ -360,21 +374,26 @@ namespace DrawMoar {
             }
         }
 
+
         void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
             GlobalState.PressLeftButton = false;
         }
+
 
         void canvas_MouseLeave(object sender, MouseEventArgs e) {
             GlobalState.PressLeftButton = false;
         }
 
+
         private void Lines_Click(object sender, RoutedEventArgs e) {
             GlobalState.CurrentTool = Instrument.Line;
         }
 
+
         private void AddEllipse_Click(object sender, RoutedEventArgs e) {
             GlobalState.CurrentTool = Instrument.Ellipse;
         }
+
 
         private void AddRectangle_Click(object sender, RoutedEventArgs e) {
             GlobalState.CurrentTool = Instrument.Rectangle;

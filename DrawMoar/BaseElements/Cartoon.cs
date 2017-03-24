@@ -1,7 +1,10 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+
+using System.IO;
+
+using DrawMoar.Extensions;
 
 
 namespace DrawMoar.BaseElements
@@ -147,6 +150,17 @@ namespace DrawMoar.BaseElements
         /// <param name="scene"></param>
         public void AddScene(Scene scene) {
             scenes.Add(scene);
+            CurrentScene = scenes.Last();
+        }
+
+
+        /// <summary>
+        /// Добавление КОПИИ существующей сцены в конец списка.
+        /// </summary>
+        /// <param name="scene"></param>
+        public void AddCopyOfScene(Scene scene) {
+            scenes.Add(ObjectCopier.Clone(scene));
+            CurrentScene = scenes.Last();
         }
 
 
@@ -157,6 +171,18 @@ namespace DrawMoar.BaseElements
         /// <param name="scene">Добавляемая к мультфильму сцена.</param>
         public void InsertScene(int index, Scene scene) {
             scenes.Insert(index, scene);
+            CurrentScene = scenes[index];
+        }
+
+
+        /// <summary>
+        /// Вставка копии на указанную позицию.
+        /// </summary>
+        /// <param name="index">Позиция вставки сцены.</param>
+        /// <param name="scene">Добавляемая к мультфильму сцена.</param>
+        public void InsertCopyOfScene(int index, Scene scene) {
+            scenes.Insert(index, ObjectCopier.Clone(scene));
+            CurrentScene = scenes[index];
         }
 
 
@@ -166,6 +192,7 @@ namespace DrawMoar.BaseElements
         /// <param name="index"></param>
         public void InsertEmptyScene(int index) {
             scenes.Insert(index, new Scene());
+            CurrentScene = scenes[index];
         }
 
 
@@ -186,6 +213,16 @@ namespace DrawMoar.BaseElements
         /// <returns>Сцена находящаяся по указанной позиции.</returns>
         public Scene GetScene(int index) {
             return scenes[index];
+        }
+
+
+        /// <summary>
+        /// Получение КОПИИ сцены по её позиции.
+        /// </summary>
+        /// <param name="index">Позиция сцены в мультфильме.</param>
+        /// <returns>Сцена находящаяся по указанной позиции.</returns>
+        public Scene GetCopuOfScene(int index) {
+            return ObjectCopier.Clone(scenes[index]);
         }
 
 
