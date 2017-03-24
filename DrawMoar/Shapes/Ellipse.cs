@@ -18,8 +18,8 @@ namespace DrawMoar.Shapes
         public string Alias { get; set; }
 
 
-        public Ellipse(System.Windows.Point center, System.Windows.Size size, float startAngle = 0,
-                                                float endAngle = 360, float rotate = 0) {
+        public Ellipse(System.Windows.Point center, System.Windows.Size size, double startAngle = 0,
+                                                double endAngle = 360, double rotate = 0) {
             this.Center = center;
             this.Size = size;
             this.StartAngle = startAngle;

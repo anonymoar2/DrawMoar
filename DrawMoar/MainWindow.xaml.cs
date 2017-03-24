@@ -32,6 +32,7 @@ namespace DrawMoar {
         DrawMoar.Shapes.Ellipse newEllipse;
         DrawMoar.Shapes.Rectangle newRect;
         ILayer currentLayer;
+        IShape clickedShape;
 
         public MainWindow() {
             InitializeComponent();
@@ -83,7 +84,8 @@ namespace DrawMoar {
             Width = canvas.Width + 260;        //пока что так (ширина двух крайних колонок грида)
             AddScene_Click(null, null);
             AddFrame_Click(null, null);
-            AddVectorLayer_Click(null, null);
+            //AddVectorLayer_Click(null, null);
+            AddRasterLayer_Click(null, null);
         }
 
         private void ExportToMP4(object sender, RoutedEventArgs e) {
@@ -123,10 +125,11 @@ namespace DrawMoar {
                 return;
             }
             //проверка на то, выделен ли какой-либо кадр(когда реализуем удаление)
-            if (sender != null) {
-
-            }
-
+            if (sender == null) layersList.Items.Clear();
+            else cartoon.CurrentScene.CurrentFrame.AddEmptyRasterLayer();
+            var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
+            AddListBoxElement(layersList, $"RasterLayer_{layers.Count - 1}");
+            canvas.Children.Clear();
         }
 
         private void AddVectorLayer_Click(object sender, RoutedEventArgs e) {
@@ -176,7 +179,6 @@ namespace DrawMoar {
                     ((VectorLayer)lays[0]).Picture.shapes[i].Draw(canvas);
                 }
             }
-
             layersList.SelectedIndex = 0;
         }
 
@@ -184,7 +186,7 @@ namespace DrawMoar {
         private void scenesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             framesList.Items.Clear();
             cartoon.CurrentScene = cartoon.GetAllScenes()[scenesList.SelectedIndex];
-            var frames = cartoon.CurrentScene.GetAllFrames();       //с именами большая беда. нужно будет в BaseElements разобраться
+            var frames = cartoon.CurrentScene.GetAllFrames();
             foreach (var item in frames) {
                 AddListBoxElement(framesList, item.Name);
             }
@@ -247,6 +249,10 @@ namespace DrawMoar {
             currentLayer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
             prevPoint = Mouse.GetPosition(canvas);
             switch (GlobalState.CurrentTool) {
+                case Instrument.Arrow:
+                    if (currentLayer is VectorLayer)
+                        clickedShape = GetClickedShape(prevPoint);
+                    break;
                 case Instrument.Brush:
                     break;
                 case Instrument.Rectangle:
@@ -274,24 +280,27 @@ namespace DrawMoar {
             currentLayer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
             if (!GlobalState.PressLeftButton) return;
             switch (GlobalState.CurrentTool) {
+                case Instrument.Arrow:
+                    TranslatingRedrawing(clickedShape, e);
+                    break;
                 case Instrument.Brush:
                     newLine = new DrawMoar.Shapes.Line(prevPoint, point);
                     newLine.Draw(canvas);
                     prevPoint = point;
                     break;
                 case Instrument.Rectangle:
-                    ScalingRedrawing(canvas, newRect, e);
+                    ScaleRedrawing(newRect, e);
                     break;
                 case Instrument.Ellipse:
-                    ScalingRedrawing(canvas, newEllipse, e);
+                    ScaleRedrawing(newEllipse, e);
                     break;
                 case Instrument.Line:
-                    ScalingRedrawing(canvas, newLine, e);
+                    ScaleRedrawing(newLine, e);
                     break;
             }
         }
 
-        void ScalingRedrawing(Canvas canvas, IShape shape, MouseEventArgs e) {
+        void ScaleRedrawing(IShape shape, MouseEventArgs e) {
             if (shape != null & e.LeftButton == MouseButtonState.Pressed) {
                 var layer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
                 var shiftX = point.X - prevPoint.X;
@@ -309,6 +318,46 @@ namespace DrawMoar {
                 }
             }
         }
+
+        IShape GetClickedShape(Point clickPoint) {
+            var layer = (VectorLayer)cartoon.CurrentScene.CurrentFrame.CurrentLayer;
+            foreach (var item in ((VectorLayer)layer).Picture.shapes) {
+                if (item is DrawMoar.Shapes.Rectangle) {
+                    if (((Math.Abs(clickPoint.X - ((DrawMoar.Shapes.Rectangle)item).Center.X) < 20) &&    //вместо 20 потом придется скалировать пропорционально размерам фигуры
+                        (Math.Abs(clickPoint.Y - ((DrawMoar.Shapes.Rectangle)item).Center.Y) < 20)))
+                        return item;
+                }
+                else if (item is DrawMoar.Shapes.Ellipse) {
+                    if (((Math.Abs(clickPoint.X - ((DrawMoar.Shapes.Ellipse)item).Center.X) < 20) &&
+                        (Math.Abs(clickPoint.Y - ((DrawMoar.Shapes.Ellipse)item).Center.Y) < 20)))
+                        return item;
+                }
+            }
+            return null;
+        }
+
+
+        void TranslatingRedrawing(IShape shape, MouseEventArgs e) {
+            IShape tempShape;
+            if (clickedShape != null) {
+                var shapes = ((VectorLayer)currentLayer).Picture.shapes;
+                shapes.RemoveAt(shapes.Count - 1);
+                canvas.Children.RemoveAt(canvas.Children.Count - 1);
+                if (shape is DrawMoar.Shapes.Rectangle) {
+                    tempShape = new DrawMoar.Shapes.Rectangle(point, ((DrawMoar.Shapes.Rectangle)shape).Size,
+                                rotate: ((DrawMoar.Shapes.Rectangle)shape).Rotate);
+                    tempShape.Draw(canvas);
+                    SaveIntoLayer(currentLayer, tempShape);
+                }
+                else if (shape is DrawMoar.Shapes.Ellipse) {
+                    tempShape = new DrawMoar.Shapes.Ellipse(point, ((DrawMoar.Shapes.Ellipse)shape).Size,
+                                rotate: ((DrawMoar.Shapes.Ellipse)shape).Rotate);
+                    tempShape.Draw(canvas);
+                    SaveIntoLayer(currentLayer, tempShape);
+                }
+            }
+        }
+
 
         void SaveIntoLayer(ILayer layer, IShape shape) {
             if (layer is VectorLayer) {

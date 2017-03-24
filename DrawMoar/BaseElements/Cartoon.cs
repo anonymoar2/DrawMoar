@@ -115,7 +115,6 @@ namespace DrawMoar.BaseElements
             Width = width;
             Height = height;
             WorkingDirectory = workingDirectory;
-            //scenes.Add(new Scene($"scene{scenes.Count}")); гениальная строка крч
             scenes.Add(new Scene("Scene_0"));
             CurrentScene = scenes.Last();
         }
