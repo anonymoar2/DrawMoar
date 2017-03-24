@@ -17,6 +17,8 @@ namespace DrawMoar
 
         public static event EventHandler ChangeInstrument;
 
+        public static string WorkingDirectory { get; set; }
+
         //public static Instruments.LightVector lightVector { get; set; }
 
 

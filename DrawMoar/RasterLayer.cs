@@ -10,6 +10,7 @@ using System.IO;
 
 using DrawMoar.BaseElements;
 using DrawMoar.Shapes;
+using DrawMoar.Extensions;
 
 namespace DrawMoar
 {
@@ -97,11 +98,32 @@ namespace DrawMoar
             PngBitmapEncoder encoder = new PngBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
 
-            using (FileStream file = File.Create(/*your path + filename.png*/"")) {
+            using (FileStream file = File.Create(GlobalState.WorkingDirectory + $"\\{Name}.png")) {
                 encoder.Save(file);
             }
 
-            Picture.Image = System.Drawing.Image.FromFile(/*your path + filename.png again*/"");
+            var img = System.Drawing.Image.FromFile(GlobalState.WorkingDirectory+ $"\\{Name}.png");
+            Picture.Image=ObjectCopier.Clone(img);
+            img = null;
+        }
+
+
+        public System.Windows.Controls.Image ConvertDrawingImageToWPFImage(System.Drawing.Image gdiImg) {
+
+            if (gdiImg == null) return null;
+            System.Windows.Controls.Image img = new System.Windows.Controls.Image();
+
+            //convert System.Drawing.Image to WPF image
+            Bitmap bmp = new Bitmap(gdiImg);
+            IntPtr hBitmap = bmp.GetHbitmap();
+            ImageSource WpfBitmap = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, 
+                                    Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+
+            img.Source = WpfBitmap;
+            img.Width = gdiImg.Width;
+            img.Height = gdiImg.Height;
+            img.Stretch = Stretch.Fill;
+            return img;
         }
 
         public void AddShape(IShape shape) {

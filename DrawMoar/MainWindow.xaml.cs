@@ -199,12 +199,19 @@ namespace DrawMoar {
         private void layersList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (layersList.SelectedIndex != -1) {
                 var layer = cartoon.CurrentScene.CurrentFrame.GetAllLayers()[layersList.SelectedIndex];
+                if (currentLayer is RasterLayer)
+                    ((RasterLayer)currentLayer).Save(canvas);
                 cartoon.CurrentScene.CurrentFrame.CurrentLayer = layer;
                 canvas.Children.Clear();
                 if (layer is VectorLayer)
                     foreach (var item in ((VectorLayer)layer).Picture.shapes) {
                         item.Draw(canvas);
                     }
+                else {
+                    var img = ((RasterLayer)layer).Picture.Image;
+                    if (img!=null)
+                        canvas.Children.Add(((RasterLayer)layer).ConvertDrawingImageToWPFImage(img));
+                }
             }
 
         }
@@ -330,6 +337,7 @@ namespace DrawMoar {
                     shapes.RemoveAt(shapes.Count - 1);
                     SaveIntoLayer(layer, shape);
                 }
+               // else ((RasterLayer)currentLayer).Save(canvas);
             }
         }
 
@@ -360,7 +368,7 @@ namespace DrawMoar {
                 shapes.RemoveAt(shapes.IndexOf(shape));              
                 shape.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
                 shape.Draw(canvas);
-                SaveIntoLayer(currentLayer, shape);
+                SaveIntoLayer(currentLayer, shape);             
             }
         }
 
@@ -368,9 +376,6 @@ namespace DrawMoar {
         void SaveIntoLayer(ILayer layer, IShape shape) {
             if (layer is VectorLayer) {
                 ((VectorLayer)layer).Picture.shapes.Add(shape);
-            }
-            else {
-                //...
             }
         }
 

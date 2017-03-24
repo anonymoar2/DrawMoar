@@ -52,6 +52,7 @@ namespace DrawMoar
                         try
                         {
                             var cartoon = new Cartoon(cartoonName, cartoonWidth, cartoonHeight, workingDirectory);
+                            GlobalState.WorkingDirectory = workingDirectory;
                             MainWindow mw = (MainWindow)Owner;
                             mw.Success(cartoon);
                             Hide();
