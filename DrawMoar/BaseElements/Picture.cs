@@ -16,6 +16,7 @@ namespace DrawMoar.BaseElements
         public Picture() {
             Position = new System.Windows.Point(0, 0);
             Image = null;
+            // may be Image = Image.GetThumbnailImage()
         }
 
 
