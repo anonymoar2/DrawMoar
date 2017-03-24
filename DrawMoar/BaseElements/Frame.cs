@@ -71,7 +71,7 @@ namespace DrawMoar.BaseElements
         /// Добавление пустого РАСТРОВОГО слоя в конец списка.
         /// </summary>
         public void AddEmptyRasterLayer() {
-            layers.Add(new RasterLayer());
+            layers.Add(new RasterLayer($"layer_{layers.Count}"));
             CurrentLayer = layers.Last();
         }
 
@@ -80,7 +80,7 @@ namespace DrawMoar.BaseElements
         /// Добавление пустого ВЕКТОРНОГО слоя в конец списка.
         /// </summary>
         public void AddEmptyVectorLayer() {
-            layers.Add(new VectorLayer());
+            layers.Add(new VectorLayer($"layer_{layers.Count}"));
             CurrentLayer = layers.Last();
         }
 
@@ -101,6 +101,7 @@ namespace DrawMoar.BaseElements
         /// <param name="layer">Слой, который хотите добавить</param>
         public void AddCopyOfLayer(ILayer layer) {
             layers.Add(ObjectCopier.Clone(layer));
+            layers.Last().Name += "_Copy";
             CurrentLayer = layers.Last();
         }
 
@@ -123,6 +124,7 @@ namespace DrawMoar.BaseElements
         /// <param name="layer">Сам слой, который вставить</param>
         public void InsertCopyOfLayer(int index, ILayer layer) {
             layers.Insert(index, ObjectCopier.Clone(layer));
+            layers[index].Name += "_Copy";
             CurrentLayer = layers[index];
         }
 
@@ -132,7 +134,7 @@ namespace DrawMoar.BaseElements
         /// </summary>
         /// <param name="index">Куда вставить пустой растровый слой</param>
         public void InsertEmptyRasterLayer(int index) {
-            layers.Insert(index, new RasterLayer());
+            layers.Insert(index, new RasterLayer($"layer_{layers.Count}"));
             CurrentLayer = layers[index];
         }
 
@@ -142,7 +144,7 @@ namespace DrawMoar.BaseElements
         /// </summary>
         /// <param name="index">Куда вставить пустой векторный слой</param>
         public void InsertEmptyVectorLayer(int index) {
-            layers.Insert(index, new VectorLayer());
+            layers.Insert(index, new VectorLayer($"layer_{layers.Count}"));
             CurrentLayer = layers[index];
         }
 
@@ -186,7 +188,7 @@ namespace DrawMoar.BaseElements
             var index = layers.IndexOf(layer);
             if (layers.Remove(layer)) {
                 if (layers.Count == 0) {
-                    layers.Add(new RasterLayer());
+                    layers.Add(new RasterLayer("Layer_0"));
                     CurrentLayer = layers.First();
                 }
                 else if (index == 0) {
@@ -207,7 +209,7 @@ namespace DrawMoar.BaseElements
         public void RemoveLayerAt(int index) {
             layers.RemoveAt(index);
             if (layers.Count == 0) {
-                layers.Add(new RasterLayer());
+                layers.Add(new RasterLayer("Layer_0"));
                 CurrentLayer = layers.First();
             }
             else if (index == 0) {
