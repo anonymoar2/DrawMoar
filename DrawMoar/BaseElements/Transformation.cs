@@ -1,8 +1,5 @@
 ﻿namespace DrawMoar.BaseElements
 {
-    /// <summary>
-    /// Перепишу нормально
-    /// </summary>
     public abstract class Transformation
     {
         /// <summary>

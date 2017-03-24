@@ -13,7 +13,6 @@ using DrawMoar.Shapes;
 
 namespace DrawMoar
 {
-    /// TODO: Реализовать растровый слой
     public class RasterLayer : ILayer
     {
         /// <summary>
@@ -76,8 +75,7 @@ namespace DrawMoar
 
 
         /// <summary>
-        /// TODO: хранить в растрово слое какой-то свой класс Picture, который и будет 
-        /// трансформироваться и Image в себе содержать или ещё что-то такое
+        /// Трансформация содержимого растрового слоя
         /// </summary>
         /// <param name="transformation"></param>
         public void Transform(Transformation transformation) {

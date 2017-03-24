@@ -5,9 +5,6 @@ using System.Drawing;
 
 namespace DrawMoar.BaseElements
 {
-    /// <summary>
-    /// TODO класс
-    /// </summary>
     class ScaleTransformation : Transformation
     {
         private Matrix<double> Transform;
@@ -37,7 +34,8 @@ namespace DrawMoar.BaseElements
 
 
         /// <summary>
-        /// TODO: Scale картинки
+        /// Трансформация (скейл) картинки
+        /// TODO: Сделать как в вк написал Никита, и по тому  по другому взм, подумать
         /// </summary>
         /// <param name="picture"></param>
         /// <returns></returns>

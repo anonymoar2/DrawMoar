@@ -6,9 +6,6 @@ using System.Drawing.Drawing2D;
 
 namespace DrawMoar.BaseElements
 {
-    /// <summary>
-    /// TODO класс
-    /// </summary>
     class RotateTransformation : Transformation
     {
         private Matrix<double> Transform;
