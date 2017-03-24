@@ -5,6 +5,7 @@ using System.Drawing;
 
 using DrawMoar.BaseElements;
 using DrawMoar.Shapes;
+using System.Windows;
 
 namespace DrawMoar
 {
@@ -37,6 +38,17 @@ namespace DrawMoar
                     throw new ArgumentException("Название слоя должно состоять только " +
                                                 "из латинских букв и цифр.");
                 }
+            }
+        }
+
+
+        private System.Windows.Point position = new System.Windows.Point(0, 0);
+        public System.Windows.Point Position {
+            get {
+                return position;
+            }
+            set {
+                position = value;
             }
         }
 

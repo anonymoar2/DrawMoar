@@ -46,6 +46,15 @@ namespace DrawMoar
             }
         }
 
+        public System.Windows.Point Position {
+            get {
+                return Picture.Position;
+            }
+
+            set {
+                Picture.Position = value;
+            }
+        }
 
         public RasterLayer() {
             name = "newRasterLayer";

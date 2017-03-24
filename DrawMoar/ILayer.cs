@@ -32,5 +32,8 @@ namespace DrawMoar
 
         
         System.Drawing.Image Miniature(int width, int height);
+
+
+        System.Windows.Point Position { get; set; }
     }
 }
