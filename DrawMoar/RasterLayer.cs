@@ -112,9 +112,10 @@ namespace DrawMoar
             //    encoder.Save(file);
             //}
             //Picture.Image = System.Drawing.Image.FromFile(GlobalState.WorkingDirectory + $"\\{Name}.png");
-            var wb = SaveAsWriteableBitmap(canvas);
-            Picture.Image=BitmapFromWriteableBitmap(wb);
-            Picture.Image.Save(GlobalState.WorkingDirectory + $"savingTest.png");
+
+            //var wb = SaveAsWriteableBitmap(canvas);
+            //Picture.Image=BitmapFromWriteableBitmap(wb);
+            //Picture.Image.Save(GlobalState.WorkingDirectory + $"savingTest.png");
         }
 
         private System.Drawing.Bitmap BitmapFromWriteableBitmap(WriteableBitmap writeBmp) {

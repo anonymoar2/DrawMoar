@@ -84,7 +84,8 @@ namespace DrawMoar {
             Width = canvas.Width + 260;        //пока что так (ширина двух крайних колонок грида)
             AddScene_Click(null, null);
             AddFrame_Click(null, null);
-            AddRasterLayer_Click(null, null);
+            //AddRasterLayer_Click(null, null);
+            AddVectorLayer_Click(null, null);
         }
 
 
@@ -104,15 +105,14 @@ namespace DrawMoar {
         //    // переключение и отображение предыдущего/следующего кадра
         //}
 
-        ///// <summary>
-        ///// Смена рабочего цвета на выбранный в основной палитре
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e)
-        //{
-        //    GlobalState.Color = new SolidColorBrush(ClrPcker_Background.SelectedColor.Value);
-        //}
+        /// <summary>
+        /// Смена рабочего цвета на выбранный в основной палитре
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e) {
+            GlobalState.Color = new SolidColorBrush(ClrPcker_Background.SelectedColor.Value);
+        }
 
         /// <summary>
         /// Добавление нового кадра в мультфильм.
@@ -413,6 +413,10 @@ namespace DrawMoar {
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e) {
             menu.Width = Width;
+        }
+
+        private void GenerateFrame_Click(object sender, RoutedEventArgs e) {
+            cartoon.CurrentScene.GenerateFrames(cartoon.CurrentScene.CurrentFrame);
         }
 
 

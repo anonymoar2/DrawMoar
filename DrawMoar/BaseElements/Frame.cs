@@ -43,14 +43,14 @@ namespace DrawMoar.BaseElements
 
         public Frame() {
             name = "newFrame";
-            layers.Add(new RasterLayer("Raster_Layer_0"));
+            layers.Add(new VectorLayer("Vector_Layer_0"));
             CurrentLayer = layers.Last();
         }
 
 
         public Frame(string name) {
             this.name = name;
-            layers.Add(new RasterLayer("Raster_Layer_0"));
+            layers.Add(new VectorLayer("Vector_Layer_0"));
             CurrentLayer = layers.Last();
         }
 
