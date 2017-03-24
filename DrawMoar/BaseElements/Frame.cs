@@ -279,6 +279,11 @@ namespace DrawMoar.BaseElements
         #endregion
 
 
+        public void SaveToPicture() {
+            //TODO: СРОЧНО ЭКСПОРТ
+        }
+
+
         /// <summary>
         /// TODO: Переписать нормально крч, создание bitmap из всех видимых слоёв кадра, типа склеивает все в один
         /// </summary>

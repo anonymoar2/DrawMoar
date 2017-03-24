@@ -400,6 +400,13 @@ namespace DrawMoar {
         }
 
 
+        private void AddPicture(object sender, RoutedEventArgs e) {
+            // TODO: ТУТ ИМПОРТ, который вернул нам Image и мы делаем:
+            // Cartoon.CurrentScene.CurrentFrame.AddNewRasterLayer(возвращенная Image из импорта)
+            // Ну и это как-то отображается наверное, что-то меняется в общем.
+        }
+
+
         //private void StartLightVector(object sender, RoutedEventArgs e) {
         //    if (cartoon != null) {
         //        GlobalState.lightVector = new Instruments.LightVector(cartoon);

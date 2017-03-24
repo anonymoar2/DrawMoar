@@ -33,7 +33,7 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Frame">
-                <MenuItem Header="Add picture"/>
+                <MenuItem Header="Add picture" Click="AddPicture"/>
                 <MenuItem Header="Save as...">
                     <MenuItem Header="PNG"
                               />

@@ -359,6 +359,11 @@ namespace DrawMoar.BaseElements
 
         #endregion
 
+        
+        public void SaveToVideo() {
+            // TODO: СРОЧНО ЭКСПОРТ
+        }
+
 
         /// <summary>
         /// Вызови метод, передавая туда CurrentFrame и просто обнови список слоёв и их отображения
