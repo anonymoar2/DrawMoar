@@ -411,6 +411,10 @@ namespace DrawMoar {
             // Ну и это как-то отображается наверное, что-то меняется в общем.
         }
 
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e) {
+            menu.Width = Width;
+        }
+
 
         //private void StartLightVector(object sender, RoutedEventArgs e) {
         //    if (cartoon != null) {

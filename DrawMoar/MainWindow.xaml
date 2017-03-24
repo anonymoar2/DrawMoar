@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DrawMoar"
         mc:Ignorable="d"
-        Title="Draw_Moar" Height="350" Width="530">
+        Title="Draw_Moar" Height="350" Width="530" WindowState="Maximized" SizeChanged="Window_SizeChanged">
     <Grid Name="rootGrid" Background="LightGray">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
@@ -21,7 +21,8 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition MinWidth="130" MaxWidth="130"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Menu x:Name="menu" Background="Snow" HorizontalAlignment="Left" Grid.ColumnSpan="3" Height="20" VerticalAlignment="Top" MinWidth="520">
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="Snow"/>
+        <Menu x:Name="menu" HorizontalAlignment="Left" Background="Snow" Grid.ColumnSpan="3" Height="20" VerticalAlignment="Top">
             <MenuItem Header="File">
                 <MenuItem Header="New"
                           Click="CreateCartoon"/>
