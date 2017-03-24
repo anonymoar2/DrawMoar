@@ -95,28 +95,71 @@ namespace DrawMoar
 
 
         public void Save(Canvas canvas) {
-            RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
-            (int)canvas.Width, (int)canvas.Height,
-            96d, 96d, PixelFormats.Pbgra32);
-            // needed otherwise the image output is black
-            canvas.Measure(new System.Windows.Size((int)canvas.Width, (int)canvas.Height));
-            canvas.Arrange(new Rect(new System.Windows.Size((int)canvas.Width, (int)canvas.Height)));
+            //RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
+            //(int)canvas.Width, (int)canvas.Height,
+            //96d, 96d, PixelFormats.Pbgra32);
+            //// needed otherwise the image output is black
+            //canvas.Measure(new System.Windows.Size((int)canvas.Width, (int)canvas.Height));
+            //canvas.Arrange(new Rect(new System.Windows.Size((int)canvas.Width, (int)canvas.Height)));
 
-            renderBitmap.Render(canvas);
+            //renderBitmap.Render(canvas);
 
-            //JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-            PngBitmapEncoder encoder = new PngBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+            ////JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+            //PngBitmapEncoder encoder = new PngBitmapEncoder();
+            //encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
 
-            using (FileStream file = File.Create(GlobalState.WorkingDirectory + $"\\{Name}.png")) {
-                encoder.Save(file);
-            }
-
-            var img = System.Drawing.Image.FromFile(GlobalState.WorkingDirectory+ $"\\{Name}.png");
-            Picture.Image=ObjectCopier.Clone(img);
-            img = null;
+            //using (FileStream file = File.Create(GlobalState.WorkingDirectory + $"\\{Name}.png")) {
+            //    encoder.Save(file);
+            //}
+            //Picture.Image = System.Drawing.Image.FromFile(GlobalState.WorkingDirectory + $"\\{Name}.png");
+            var wb = SaveAsWriteableBitmap(canvas);
+            Picture.Image=BitmapFromWriteableBitmap(wb);
+            Picture.Image.Save(GlobalState.WorkingDirectory + $"savingTest.png");
         }
 
+        private System.Drawing.Bitmap BitmapFromWriteableBitmap(WriteableBitmap writeBmp) {
+            System.Drawing.Bitmap bmp;
+            using (MemoryStream outStream = new MemoryStream()) {
+                BitmapEncoder enc = new BmpBitmapEncoder();
+                enc.Frames.Add(BitmapFrame.Create((BitmapSource)writeBmp));
+                enc.Save(outStream);
+                bmp = new System.Drawing.Bitmap(outStream);
+            }
+            return bmp;
+        }
+
+        public WriteableBitmap SaveAsWriteableBitmap(Canvas surface) {
+            if (surface == null) return null;
+
+            // Save current canvas transform
+            Transform transform = surface.LayoutTransform;
+            // reset current transform (in case it is scaled or rotated)
+            surface.LayoutTransform = null;
+
+            // Get the size of canvas
+            System.Windows.Size size = new System.Windows.Size(surface.ActualWidth, surface.ActualHeight);
+            // Measure and arrange the surface
+            // VERY IMPORTANT
+            surface.Measure(size);
+            surface.Arrange(new Rect(size));
+
+            // Create a render bitmap and push the surface to it
+            RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
+              (int)size.Width,
+              (int)size.Height,
+              96d,
+              96d,
+              PixelFormats.Pbgra32);
+            renderBitmap.Render(surface);
+
+
+            //Restore previously saved layout
+            surface.LayoutTransform = transform;
+
+            //create and return a new WriteableBitmap using the RenderTargetBitmap
+            return new WriteableBitmap(renderBitmap);
+
+        }
 
         public System.Windows.Controls.Image ConvertDrawingImageToWPFImage(System.Drawing.Image gdiImg) {
 
