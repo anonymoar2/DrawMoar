@@ -11,6 +11,6 @@ namespace Exporter.Video
 {
     public interface IVideoExporter
     {
-        void Save(List<Image> images, string path);
+        void Save(List<Bitmap> images, string path);
     }
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 using DrawMoar.Extensions;
-
+using System.Drawing;
 
 namespace DrawMoar.BaseElements
 {
@@ -279,6 +279,11 @@ namespace DrawMoar.BaseElements
         //    }
         //}
         #endregion
+
+        
+        public Bitmap Join() {
+
+        }
 
 
         public void SaveToPicture() {

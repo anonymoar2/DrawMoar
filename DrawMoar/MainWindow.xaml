@@ -29,7 +29,7 @@
                 <MenuItem Header="Open"/>
                 <MenuItem Name="menuSave" Header="Save" Command="Save" InputGestureText="Ctrl+S"/>
                 <MenuItem Header="Save as...">
-                    <MenuItem Header="MP4"/>
+                    <MenuItem Header="MP4" Click="SaveToV"/>
                     <MenuItem Header="AVI"/>
                 </MenuItem>
             </MenuItem>
