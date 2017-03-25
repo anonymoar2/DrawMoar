@@ -75,7 +75,6 @@ namespace DrawMoar {
         /// </summary>
         /// <param name="cartoon"></param>
         public void Success(Cartoon cartoon) {
-            this.Show();
             canvas.Visibility = Visibility.Visible;
             canvas.Width = cartoon.Width;
             canvas.Height = cartoon.Height;
