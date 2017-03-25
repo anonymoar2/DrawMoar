@@ -281,7 +281,7 @@ namespace DrawMoar.BaseElements
         #endregion
 
         
-        public Bitmap Join() {
+        public System.Drawing.Bitmap Join() {
             var bm = new Bitmap(450, 450);
             Graphics g = Graphics.FromImage(bm);
             foreach (var l in layers) {
