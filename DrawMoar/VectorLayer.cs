@@ -111,5 +111,14 @@ namespace DrawMoar
             var newImage = rasterLayer.Picture.Image.GetThumbnailImage(width, height, myCallback, IntPtr.Zero);
             return newImage;
         }
+
+        public System.Drawing.Bitmap GetImage() {
+            Bitmap b = new Bitmap(450, 450);
+            var g = Graphics.FromImage(b);
+            foreach(var sh in Picture.shapes) {
+                sh.Draw(g);
+            }
+            return b;
+        }
     }
 }

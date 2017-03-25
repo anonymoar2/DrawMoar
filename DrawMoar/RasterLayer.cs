@@ -199,6 +199,14 @@ namespace DrawMoar
             var newImage = Picture.Image.GetThumbnailImage(width, height, myCallback, IntPtr.Zero);
             return newImage;
         }
+
+        public System.Drawing.Image GetImage() {
+            throw new NotImplementedException();
+        }
+
+        Bitmap ILayer.GetImage() {
+            throw new NotImplementedException();
+        }
     }
 }
 
