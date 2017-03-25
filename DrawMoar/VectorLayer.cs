@@ -114,7 +114,6 @@ namespace DrawMoar
 
         public Bitmap GetImage() {
             Bitmap b = new Bitmap(450, 450);
-            b.
             var g = Graphics.FromImage(b);
             foreach(var sh in Picture.shapes) {
                 sh.Draw(g);

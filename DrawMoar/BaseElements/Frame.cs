@@ -282,7 +282,13 @@ namespace DrawMoar.BaseElements
 
         
         public Bitmap Join() {
-
+            var bm = new Bitmap(450, 450);
+            Graphics g = Graphics.FromImage(bm);
+            foreach (var l in layers) {
+                g.DrawImage(l.GetImage(), 0, 0);
+                g.Dispose();
+            }
+            return bm;
         }
 
 
