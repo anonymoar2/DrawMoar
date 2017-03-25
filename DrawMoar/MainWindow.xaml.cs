@@ -433,6 +433,19 @@ namespace DrawMoar {
         }
 
 
+        private void SaveAvi(object sender, RoutedEventArgs e) {
+            List<System.Drawing.Bitmap> images = new List<System.Drawing.Bitmap>();
+            foreach (var frame in cartoon.CurrentScene.GetAllFrames()) {
+                images.Add(frame.GetLayer(0).GetImage());
+            }
+            //foreach (var frame in cartoon.CurrentScene.GetAllFrames()) {
+            //    images.Add(frame.Join());
+            //}
+            Exporter.Video.AviExporter ex = new Exporter.Video.AviExporter();
+            ex.Save(images, cartoon.WorkingDirectory);
+        }
+
+
         //private void StartLightVector(object sender, RoutedEventArgs e) {
         //    if (cartoon != null) {
         //        GlobalState.lightVector = new Instruments.LightVector(cartoon);
