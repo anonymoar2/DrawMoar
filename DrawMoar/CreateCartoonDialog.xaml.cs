@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Forms;
+using System.IO;
 
-using BaseElements;
+using DrawMoar.BaseElements;
+
 
 namespace DrawMoar
 {
@@ -15,32 +18,54 @@ namespace DrawMoar
             InitializeComponent();
         }
 
-        //!!!ОЧЕНЬ КРИВО!!!
-        //часть проверок есть в Cartoon
         private void creating_Click(object sender, RoutedEventArgs e)
         {
-            //после презентации, когда будет время сделаю нормально
-            if (getName.Text == "") MessageBox.Show("You haven't entered the name");
-            else if (getHeight.Text == "") MessageBox.Show("You haven't entered the height");
-            else if (getWidth.Text == "") MessageBox.Show("You haven't entered the width");
+
+            if (getName.Text == "")
+            {
+                System.Windows.MessageBox.Show("You haven't entered the name");
+            }
+            else if (getHeight.Text == "")
+            {
+                System.Windows.MessageBox.Show("You haven't entered the height");
+            }
+            else if (getWidth.Text == "")
+            {
+                System.Windows.MessageBox.Show("You haven't entered the width");
+            }
             else
             {
                 try
                 {
-                    var CartoonName = getName.Text;
-                    var CartoonHeight = Int32.Parse(getHeight.Text);
-                    var CartoonWidth = Int32.Parse(getWidth.Text);
-                    if (CartoonHeight <= 0 || CartoonWidth <= 0) throw new FormatException();
-                    Hide();
-                    MainWindow mw = (MainWindow)Owner;
-
-                    var cartoon = new Cartoon(CartoonName, CartoonWidth, CartoonHeight, /*System.IO.Path.GetTempPath()*/@"C:\Users\Home\Desktop\test");
-                    mw.Success(cartoon);
-
+                    var cartoonName = getName.Text;
+                    var cartoonHeight = Int32.Parse(getHeight.Text);
+                    var cartoonWidth = Int32.Parse(getWidth.Text);
+                    if (cartoonHeight <= 0 || cartoonWidth <= 0) throw new FormatException();
+                    var folderDDialog = new FolderBrowserDialog();
+                    folderDDialog.ShowDialog();
+                    string selectedDirectory = folderDDialog.SelectedPath;
+                    if (selectedDirectory == "") System.Windows.MessageBox.Show("You haven't chosen the folder");
+                    else
+                    {
+                        string workingDirectory = Path.Combine(selectedDirectory, cartoonName);
+                        Directory.CreateDirectory(workingDirectory);
+                        try
+                        {
+                            var cartoon = new Cartoon(cartoonName, cartoonWidth, cartoonHeight, workingDirectory);
+                            GlobalState.WorkingDirectory = workingDirectory;
+                            MainWindow mw = (MainWindow)Owner;
+                            mw.Success(cartoon);
+                            Hide();
+                        }
+                        catch (ArgumentException exeption)
+                        {
+                            System.Windows.MessageBox.Show(exeption.Message);
+                        }
+                    }
                 }
                 catch (FormatException)
                 {
-                    MessageBox.Show("Enter integer height and width bigger than zero");
+                    System.Windows.MessageBox.Show("Ширина и высота холста должны быть больше 0.");
                 }
             }
         }
@@ -53,5 +78,18 @@ namespace DrawMoar
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
         }
+
+        // PreviewTextInput="PreviewTextInput"
+
+        //private void getHeight_PreviewTextInput(object sender, TextCompositionEventArgs e) {
+        //    if (!char.IsDigit(e.Text, e.Text.Length - 1))
+        //        e.Handled = true;
+        //}
+
+        //private void getWidth_PreviewTextInput(object sender, TextCompositionEventArgs e) {
+        //    if (!char.IsDigit(e.Text, e.Text.Length - 1))
+        //        e.Handled = true;
+        //}
+
     }
 }

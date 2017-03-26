@@ -1,13 +1,13 @@
-﻿using System;
+﻿//using System;
 
-using BaseElements;
+//using BaseElements;
 
-namespace Exporter.Photo
-{
-    public class JpgExporter : IPhotoExporter
-    {
-        public void Save(Frame frame, string filename) {
-            throw new NotImplementedException();
-        }
-    }
-}
+//namespace Exporter.Photo
+//{
+//    public class JpgExporter : IPhotoExporter
+//    {
+//        public void Save(Frame frame, string filename) {
+//            throw new NotImplementedException();
+//        }
+//    }
+//}
