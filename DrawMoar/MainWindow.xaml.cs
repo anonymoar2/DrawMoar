@@ -304,6 +304,7 @@ namespace DrawMoar {
                 case Instrument.Brush:
                     newLine = new Line(prevPoint, point);
                     newLine.Draw(canvas);
+                    SaveIntoLayer(currentLayer, newLine);
                     prevPoint = point;
                     break;
                 case Instrument.Rectangle:
