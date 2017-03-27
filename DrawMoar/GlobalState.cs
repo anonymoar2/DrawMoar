@@ -52,7 +52,7 @@ namespace DrawMoar
             set
             {
                 _currentTool = value;
-                //ChangeInstrument(value, null);
+                ChangeInstrument(value, null);
             }
         }
 

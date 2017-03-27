@@ -50,8 +50,8 @@ namespace DrawMoar {
             canvas.PreviewMouseMove += new MouseEventHandler(canvas_MouseMove);
             canvas.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(canvas_MouseLeftButtonUp);
             canvas.MouseLeave += new MouseEventHandler(canvas_MouseLeave);
-            GlobalState.CurrentTool = Instrument.Arrow;
             GlobalState.ChangeInstrument += SetCursorStyle;
+            GlobalState.CurrentTool = Instrument.Arrow;
             GlobalState.Color = Brushes.Black;
             GlobalState.BrushSize = new Size(5, 5);
         }
@@ -79,6 +79,7 @@ namespace DrawMoar {
             canvas.Width = cartoon.Width;
             canvas.Height = cartoon.Height;
             this.cartoon = cartoon;
+            this.Activate();
             GlobalState.canvSize = new Size(canvas.Width, canvas.Height);
             Height = canvas.Height;
             Width = canvas.Width + 260;        //пока что так (ширина двух крайних колонок грида)
