@@ -16,7 +16,7 @@ namespace DrawMoar.Shapes
         public double Rotate { get; private set; }
 
         public string Alias { get; set; }
-
+        public double Thickness { get; set; }
 
         public Ellipse(System.Windows.Point center, System.Windows.Size size, double startAngle = 0,
                                                 double endAngle = 360, double rotate = 0) {
@@ -25,6 +25,7 @@ namespace DrawMoar.Shapes
             this.StartAngle = startAngle;
             this.EndAngle = endAngle;
             this.Rotate = rotate;
+            this.Thickness = GlobalState.BrushSize.Width;
         }
 
 

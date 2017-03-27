@@ -12,6 +12,8 @@ namespace DrawMoar.Shapes
 
         void Transform(Transformation trans);
 
+        double Thickness { get; set; }
+
         void Draw(Canvas canvas);
 
         void Print();
