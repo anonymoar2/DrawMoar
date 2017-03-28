@@ -200,11 +200,11 @@ namespace DrawMoar
             return newImage;
         }
 
-        public System.Drawing.Image GetImage() {
+        public System.Drawing.Image GetImage(double height, double width) {
             throw new NotImplementedException();
         }
 
-        Bitmap ILayer.GetImage() {
+        Bitmap ILayer.GetImage(double height, double width) {
             throw new NotImplementedException();
         }
     }
