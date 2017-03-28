@@ -89,6 +89,7 @@
     <Compile Include="BaseElements\SkewTransformation.cs" />
     <Compile Include="BaseElements\Transformation.cs" />
     <Compile Include="BaseElements\TranslateTransformation.cs" />
+    <Compile Include="BaseElements\Color.cs" />
     <Compile Include="CreateCartoonDialog.xaml.cs">
       <DependentUpon>CreateCartoonDialog.xaml</DependentUpon>
     </Compile>
