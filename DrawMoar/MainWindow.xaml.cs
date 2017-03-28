@@ -192,15 +192,15 @@ namespace DrawMoar {
                 if (currentLayer is RasterLayer)
                     ((RasterLayer)currentLayer).Save(canvas);
                 cartoon.CurrentScene.CurrentFrame.CurrentLayer = layer;
-                if (layer is VectorLayer)
-                    foreach (var item in ((VectorLayer)layer).Picture.shapes) {
-                        item.Draw(canvas);
-                    }
-                else {
-                    var img = ((RasterLayer)layer).Picture.Image;
-                    if (img!=null)
-                        canvas.Children.Add(((RasterLayer)layer).ConvertDrawingImageToWPFImage(img));
-                }
+                //if (layer is VectorLayer)
+                //    foreach (var item in ((VectorLayer)layer).Picture.shapes) {
+                //        item.Draw(canvas);
+                //    }
+                //else {
+                //    var img = ((RasterLayer)layer).Picture.Image;
+                //    if (img!=null)
+                //        canvas.Children.Add(((RasterLayer)layer).ConvertDrawingImageToWPFImage(img));
+                //}
             }
 
         }
@@ -443,7 +443,8 @@ namespace DrawMoar {
         /// <param name="e"></param>
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
         {
-            Color color = new Color(ClrPcker_Background.SelectedColor.Value);
+            var color =  new DrawMoar.BaseElements.Color(ClrPcker_Background.SelectedColor.Value);
+            GlobalState.Color = color.ToBrush();
         }
 
 
