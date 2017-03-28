@@ -107,15 +107,6 @@ namespace DrawMoar {
         //}
 
         /// <summary>
-        /// Смена рабочего цвета на выбранный в основной палитре
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e) {
-            GlobalState.Color = new SolidColorBrush(ClrPcker_Background.SelectedColor.Value);
-        }
-
-        /// <summary>
         /// Добавление нового кадра в мультфильм.
         /// Подразумевает добавление одного слоя на новый кадр.
         /// </summary>
@@ -441,6 +432,16 @@ namespace DrawMoar {
             //}
             Exporter.Video.AviExporter ex = new Exporter.Video.AviExporter();
             ex.Save(images, cartoon.WorkingDirectory);
+        }
+
+        /// <summary>
+        /// Смена рабочего цвета на выбранный в основной палитре
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
+        {
+            Color color = new Color(ClrPcker_Background.SelectedColor.Value);
         }
 
 
