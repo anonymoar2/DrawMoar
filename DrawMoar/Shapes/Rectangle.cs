@@ -60,7 +60,7 @@ namespace DrawMoar.Shapes
 
 
         public void Draw(Graphics g) {
-            g.DrawRectangle(new Pen(System.Drawing.Color.Red), new System.Drawing.Rectangle(new System.Drawing.Point(Convert.ToInt32(Center.X), Convert.ToInt32(Center.Y)), new System.Drawing.Size(Convert.ToInt32(Size.Width), Convert.ToInt32(Size.Height))));
+            g.DrawRectangle(new Pen(System.Drawing.Color.Black, (float)this.Thickness), new System.Drawing.Rectangle(new System.Drawing.Point(Convert.ToInt32(Center.X), Convert.ToInt32(Center.Y)), new System.Drawing.Size(Convert.ToInt32(Size.Width), Convert.ToInt32(Size.Height))));
         }
     }
 }
