@@ -16,6 +16,7 @@ namespace DrawMoar.Shapes
         public double Rotate { get; private set; }
 
         public string Alias { get; set; }
+        public double Thickness { get; set; }
 
 
         public Rectangle(System.Windows.Point center, System.Windows.Size size, double startAngle = 0, 
@@ -25,6 +26,7 @@ namespace DrawMoar.Shapes
             this.StartAngle = startAngle;
             this.EndAngle = endAngle;
             this.Rotate = rotate;
+            this.Thickness = GlobalState.BrushSize.Width;
         }
 
 
@@ -33,7 +35,7 @@ namespace DrawMoar.Shapes
             rect.Width = Size.Width;
             rect.Height = Size.Height;
             rect.Stroke = GlobalState.Color;
-            rect.StrokeThickness = GlobalState.BrushSize.Width;
+            rect.StrokeThickness = Thickness;
             canvas.Children.Add(rect);
             Canvas.SetLeft(rect, Center.X - Size.Width / 2);
             Canvas.SetTop(rect, Center.Y - Size.Height / 2);

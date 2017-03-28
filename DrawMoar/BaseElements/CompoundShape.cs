@@ -11,7 +11,8 @@ namespace DrawMoar.BaseElements
     {
         public string Alias { get; set; }
 
-        
+        public double Thickness { get; set; }
+
         /// <summary>
         /// TODO: Сделать приватным крч
         /// </summary>
