@@ -53,7 +53,7 @@ namespace DrawMoar.Shapes
         }
 
         public void Draw(Graphics g) {
-            g.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Red), Convert.ToSingle(PointOne.X), Convert.ToSingle(PointOne.Y), Convert.ToSingle(PointTwo.X), Convert.ToSingle(PointTwo.Y));
+            g.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Black, (float)this.Thickness), Convert.ToSingle(PointOne.X), Convert.ToSingle(PointOne.Y), Convert.ToSingle(PointTwo.X), Convert.ToSingle(PointTwo.Y));
         }
     }
 }

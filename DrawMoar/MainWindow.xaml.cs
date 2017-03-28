@@ -130,7 +130,6 @@ namespace DrawMoar {
             else cartoon.CurrentScene.CurrentFrame.AddEmptyRasterLayer();
             var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
             AddListBoxElement(layersList, $"RasterLayer_{layers.Count - 1}");
-            canvas.Children.Clear();
         }
 
 
@@ -142,7 +141,6 @@ namespace DrawMoar {
             else cartoon.CurrentScene.CurrentFrame.AddEmptyVectorLayer();
             var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
             AddListBoxElement(layersList, $"VectorLayer_{layers.Count - 1}");
-            canvas.Children.Clear();
         }
 
 
@@ -203,7 +201,6 @@ namespace DrawMoar {
                 if (currentLayer is RasterLayer)
                     ((RasterLayer)currentLayer).Save(canvas);
                 cartoon.CurrentScene.CurrentFrame.CurrentLayer = layer;
-                canvas.Children.Clear();
                 if (layer is VectorLayer)
                     foreach (var item in ((VectorLayer)layer).Picture.shapes) {
                         item.Draw(canvas);

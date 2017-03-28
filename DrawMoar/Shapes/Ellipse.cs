@@ -59,7 +59,7 @@ namespace DrawMoar.Shapes
 
 
         public void Draw(Graphics g) {
-            g.DrawEllipse(new Pen(System.Drawing.Color.Red), new RectangleF(new PointF(Convert.ToSingle(Center.X + Size.Width / 2), Convert.ToSingle(Center.Y + Size.Height / 2)), new SizeF(Convert.ToSingle(Size.Width), Convert.ToSingle(Size.Height))));
+            g.DrawEllipse(new Pen(System.Drawing.Color.Black, (float)this.Thickness), new RectangleF(new PointF(Convert.ToSingle(Center.X + Size.Width / 2), Convert.ToSingle(Center.Y + Size.Height / 2)), new SizeF(Convert.ToSingle(Size.Width), Convert.ToSingle(Size.Height))));
         }
     }
 }
