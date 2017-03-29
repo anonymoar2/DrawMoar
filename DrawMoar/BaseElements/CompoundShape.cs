@@ -12,12 +12,12 @@ namespace DrawMoar.BaseElements
         public string Alias { get; set; }
 
         public double Thickness { get; set; }
+        public Color Color { get; set; }
 
         /// <summary>
         /// TODO: Сделать приватным крч
         /// </summary>
         public List<IShape> shapes = new List<IShape>();
-
 
         /// <summary>
         /// Отрисовка на холсте, и так же сразу на WPF, по сути передаем сюда и bitmap и canvas

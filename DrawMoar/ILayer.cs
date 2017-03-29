@@ -36,6 +36,6 @@ namespace DrawMoar
 
         System.Windows.Point Position { get; set; }
 
-        Bitmap GetImage();
+        Bitmap GetImage(double height, double width);
     }
 }

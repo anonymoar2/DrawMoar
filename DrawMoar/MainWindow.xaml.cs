@@ -107,15 +107,6 @@ namespace DrawMoar {
         //}
 
         /// <summary>
-        /// Смена рабочего цвета на выбранный в основной палитре
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e) {
-            GlobalState.Color = new SolidColorBrush(ClrPcker_Background.SelectedColor.Value);
-        }
-
-        /// <summary>
         /// Добавление нового кадра в мультфильм.
         /// Подразумевает добавление одного слоя на новый кадр.
         /// </summary>
@@ -130,7 +121,6 @@ namespace DrawMoar {
             else cartoon.CurrentScene.CurrentFrame.AddEmptyRasterLayer();
             var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
             AddListBoxElement(layersList, $"RasterLayer_{layers.Count - 1}");
-            canvas.Children.Clear();
         }
 
 
@@ -142,7 +132,6 @@ namespace DrawMoar {
             else cartoon.CurrentScene.CurrentFrame.AddEmptyVectorLayer();
             var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
             AddListBoxElement(layersList, $"VectorLayer_{layers.Count - 1}");
-            canvas.Children.Clear();
         }
 
 
@@ -203,16 +192,15 @@ namespace DrawMoar {
                 if (currentLayer is RasterLayer)
                     ((RasterLayer)currentLayer).Save(canvas);
                 cartoon.CurrentScene.CurrentFrame.CurrentLayer = layer;
-                canvas.Children.Clear();
-                if (layer is VectorLayer)
-                    foreach (var item in ((VectorLayer)layer).Picture.shapes) {
-                        item.Draw(canvas);
-                    }
-                else {
-                    var img = ((RasterLayer)layer).Picture.Image;
-                    if (img!=null)
-                        canvas.Children.Add(((RasterLayer)layer).ConvertDrawingImageToWPFImage(img));
-                }
+                //if (layer is VectorLayer)
+                //    foreach (var item in ((VectorLayer)layer).Picture.shapes) {
+                //        item.Draw(canvas);
+                //    }
+                //else {
+                //    var img = ((RasterLayer)layer).Picture.Image;
+                //    if (img!=null)
+                //        canvas.Children.Add(((RasterLayer)layer).ConvertDrawingImageToWPFImage(img));
+                //}
             }
 
         }
@@ -423,8 +411,10 @@ namespace DrawMoar {
 
         private void SaveToV(object sender, RoutedEventArgs e) {
             List<System.Drawing.Bitmap> images = new List<System.Drawing.Bitmap>();
+            
             foreach (var frame in cartoon.CurrentScene.GetAllFrames()) {
-                images.Add(frame.GetLayer(0).GetImage());
+                
+                images.Add(frame.GetLayer(0).GetImage(canvas.Height,canvas.Width));
             }
             //foreach (var frame in cartoon.CurrentScene.GetAllFrames()) {
             //    images.Add(frame.Join());
@@ -437,13 +427,24 @@ namespace DrawMoar {
         private void SaveAvi(object sender, RoutedEventArgs e) {
             List<System.Drawing.Bitmap> images = new List<System.Drawing.Bitmap>();
             foreach (var frame in cartoon.CurrentScene.GetAllFrames()) {
-                images.Add(frame.GetLayer(0).GetImage());
+                images.Add(frame.GetLayer(0).GetImage(canvas.Height, canvas.Width));
             }
             //foreach (var frame in cartoon.CurrentScene.GetAllFrames()) {
             //    images.Add(frame.Join());
             //}
             Exporter.Video.AviExporter ex = new Exporter.Video.AviExporter();
             ex.Save(images, cartoon.WorkingDirectory);
+        }
+
+        /// <summary>
+        /// Смена рабочего цвета на выбранный в основной палитре
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
+        {
+            var color =  new DrawMoar.BaseElements.Color(ClrPcker_Background.SelectedColor.Value);
+            GlobalState.Color = color.ToBrush();
         }
 
 

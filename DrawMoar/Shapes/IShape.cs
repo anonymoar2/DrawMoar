@@ -10,6 +10,8 @@ namespace DrawMoar.Shapes
     {
         string Alias { get; set; }
 
+        DrawMoar.BaseElements.Color Color { get; set; }
+
         void Transform(Transformation trans);
 
         double Thickness { get; set; }
