@@ -10,7 +10,6 @@ using System.IO;
 
 using DrawMoar.BaseElements;
 using DrawMoar.Shapes;
-using DrawMoar.Extensions;
 
 
 namespace DrawMoar
@@ -47,6 +46,7 @@ namespace DrawMoar
             }
         }
 
+
         public System.Windows.Point Position {
             get {
                 return Picture.Position;
@@ -56,6 +56,7 @@ namespace DrawMoar
                 Picture.Position = value;
             }
         }
+
 
         public RasterLayer() {
             name = "newRasterLayer";
@@ -118,6 +119,7 @@ namespace DrawMoar
             //Picture.Image.Save(GlobalState.WorkingDirectory + $"savingTest.png");
         }
 
+
         private System.Drawing.Bitmap BitmapFromWriteableBitmap(WriteableBitmap writeBmp) {
             System.Drawing.Bitmap bmp;
             using (MemoryStream outStream = new MemoryStream()) {
@@ -128,6 +130,7 @@ namespace DrawMoar
             }
             return bmp;
         }
+
 
         public WriteableBitmap SaveAsWriteableBitmap(Canvas surface) {
             if (surface == null) return null;
@@ -161,6 +164,7 @@ namespace DrawMoar
             return new WriteableBitmap(renderBitmap);
 
         }
+
 
         public System.Windows.Controls.Image ConvertDrawingImageToWPFImage(System.Drawing.Image gdiImg) {
 
@@ -200,9 +204,11 @@ namespace DrawMoar
             return newImage;
         }
 
+
         public System.Drawing.Image GetImage() {
             throw new NotImplementedException();
         }
+
 
         Bitmap ILayer.GetImage() {
             throw new NotImplementedException();
