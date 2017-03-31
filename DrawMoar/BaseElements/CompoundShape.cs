@@ -25,6 +25,9 @@ namespace DrawMoar.BaseElements
         public void Draw(Canvas canvas) {
             //Проходим по фигурам, вызывая у них Draw
             // Можно разбить на два метода, один на канвасе, другой на bitmap (один принимает Graphics, другой Canvas)
+            foreach (var item in shapes) {
+                item.Draw(canvas);
+            }
         }
 
         

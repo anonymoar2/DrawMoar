@@ -165,13 +165,10 @@ namespace DrawMoar {
             var lays = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
             foreach (var item in lays) {
                 AddListBoxElement(layersList, item.Name);
+                if (item is VectorLayer)
+                    ((VectorLayer)item).Picture.Draw(canvas);
             }
-            cartoon.CurrentScene.CurrentFrame = cartoon.CurrentScene.GetAllFrames()[framesList.SelectedIndex];
-            if (lays[0] is VectorLayer) {
-                for (int i = 0; i < ((VectorLayer)lays[0]).Picture.shapes.Count; i++) {
-                    ((VectorLayer)lays[0]).Picture.shapes[i].Draw(canvas);
-                }
-            }
+            //cartoon.CurrentScene.CurrentFrame = cartoon.CurrentScene.GetAllFrames()[framesList.SelectedIndex];
             layersList.SelectedIndex = 0;
         }
 
@@ -192,15 +189,6 @@ namespace DrawMoar {
                 if (currentLayer is RasterLayer)
                     ((RasterLayer)currentLayer).Save(canvas);
                 cartoon.CurrentScene.CurrentFrame.CurrentLayer = layer;
-                //if (layer is VectorLayer)
-                //    foreach (var item in ((VectorLayer)layer).Picture.shapes) {
-                //        item.Draw(canvas);
-                //    }
-                //else {
-                //    var img = ((RasterLayer)layer).Picture.Image;
-                //    if (img!=null)
-                //        canvas.Children.Add(((RasterLayer)layer).ConvertDrawingImageToWPFImage(img));
-                //}
             }
 
         }
@@ -327,7 +315,7 @@ namespace DrawMoar {
                     shapes.RemoveAt(shapes.Count - 1);
                     SaveIntoLayer(layer, shape);
                 }
-               // else ((RasterLayer)currentLayer).Save(canvas);
+                // else ((RasterLayer)currentLayer).Save(canvas);
             }
         }
 
@@ -355,10 +343,10 @@ namespace DrawMoar {
             if (clickedShape != null) {
                 var shapes = ((VectorLayer)currentLayer).Picture.shapes;
                 canvas.Children.RemoveAt(shapes.IndexOf(shape));
-                shapes.RemoveAt(shapes.IndexOf(shape));              
+                shapes.RemoveAt(shapes.IndexOf(shape));
                 shape.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
                 shape.Draw(canvas);
-                SaveIntoLayer(currentLayer, shape);             
+                SaveIntoLayer(currentLayer, shape);
             }
         }
 
@@ -411,10 +399,10 @@ namespace DrawMoar {
 
         private void SaveToV(object sender, RoutedEventArgs e) {
             List<System.Drawing.Bitmap> images = new List<System.Drawing.Bitmap>();
-            
+
             foreach (var frame in cartoon.CurrentScene.GetAllFrames()) {
-                
-                images.Add(frame.GetLayer(0).GetImage(canvas.Height,canvas.Width));
+
+                images.Add(frame.GetLayer(0).GetImage(canvas.Height, canvas.Width));
             }
             //foreach (var frame in cartoon.CurrentScene.GetAllFrames()) {
             //    images.Add(frame.Join());
@@ -441,32 +429,46 @@ namespace DrawMoar {
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
-        {
-            var color =  new DrawMoar.BaseElements.Color(ClrPcker_Background.SelectedColor.Value);
+        private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e) {
+            var color = new DrawMoar.BaseElements.Color(ClrPcker_Background.SelectedColor.Value);
             GlobalState.Color = color.ToBrush();
         }
 
+        private void DeleteFrame_Click(object sender, RoutedEventArgs e) {
+            int index = framesList.SelectedIndex;
+            framesList.Items.RemoveAt(index);
+            if(cartoon.CurrentScene.GetAllFrames().Count ==1) {
+                AddListBoxElement(framesList, cartoon.CurrentScene.CurrentFrame.Name);
+            }
+            cartoon.CurrentScene.RemoveFrameAt(index);
+            framesList.SelectedIndex = framesList.Items.Count > 1 ? index - 1 : 0;
+            Refresh();
+        }
 
-        //private void StartLightVector(object sender, RoutedEventArgs e) {
-        //    if (cartoon != null) {
-        //        GlobalState.lightVector = new Instruments.LightVector(cartoon);
-        //        GlobalState.lightVector.active = true;
-        //        var drawingControl = new LayerControl();
-        //        drawingControl.Focus();
-        //        GlobalState.CurrentTool = Instrument.Light;
+        private void DeleteLayer_Click(object sender, RoutedEventArgs e) {
+            int index = layersList.SelectedIndex;
+            var layerToDelete = cartoon.CurrentScene.CurrentFrame.GetAllLayers()[index];
+            layersList.Items.RemoveAt(index);
+            if(cartoon.CurrentScene.CurrentFrame.GetAllLayers().Count ==1)
+                if(layerToDelete is VectorLayer) {
+                    AddListBoxElement(layersList, cartoon.CurrentScene.CurrentFrame.CurrentLayer.Name);               
+                }
+            cartoon.CurrentScene.CurrentFrame.RemoveLayerAt(index);
+            //РАСТР...
+            layersList.SelectedIndex = layersList.Items.Count > 1 ? index - 1 : 0;
+            Refresh();
+        }
 
-        //        if (cartoon.CurrentScene.currentFrame.CurrentLayer.GetType().Name != "LightVectorLayer") {
-        //            var layer = new LightVectorLayer();
-        //            layer.Name = $"LIGHTlayer_{layersList.Items.Count}";
-        //            layer.drawingControl = drawingControl;
-        //            cartoon.CurrentScene.currentFrame.AddLayer(layer);
-        //            string text = $"LIGHTlayer_{layersList.Items.Count}";
-        //            AddListBoxElement(layersList, text);
-        //        }
-        //        canvas.Children.Add(drawingControl);
+        private void Refresh() {
+            canvas.Children.Clear();
+            var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
+            foreach (var item in layers) {
+                if (item is VectorLayer) {
+                    ((VectorLayer)item).Picture.Draw(canvas);
+                }
+                //РАСТР...
+            }
+        }
 
-        //    }
-        //}
     }
 }

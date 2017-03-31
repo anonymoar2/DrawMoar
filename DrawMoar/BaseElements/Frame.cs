@@ -209,7 +209,8 @@ namespace DrawMoar.BaseElements
         public void RemoveLayerAt(int index) {
             layers.RemoveAt(index);
             if (layers.Count == 0) {
-                layers.Add(new RasterLayer("Layer_0"));
+                //layers.Add(new RasterLayer("RasterLayer_0"));
+                layers.Add(new VectorLayer("VectorLayer_0"));   //пока не научились работать нормально с растром
                 CurrentLayer = layers.First();
             }
             else if (index == 0) {
