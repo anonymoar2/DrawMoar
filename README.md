@@ -5,6 +5,7 @@ Raster and vector graphics editor for creating cartoons
 
 
 
+
 Сейчас работает:
 
 	Создание нового мультика (File->New) при размерах холста в пределах 256х144 - 3840х2160 
