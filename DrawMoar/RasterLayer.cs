@@ -10,6 +10,7 @@ using System.IO;
 
 using DrawMoar.BaseElements;
 using DrawMoar.Shapes;
+using System.Collections.Generic;
 
 
 namespace DrawMoar
@@ -57,11 +58,14 @@ namespace DrawMoar
             }
         }
 
+        public List<Text> Text { get; set; }
+
 
         public RasterLayer() {
             name = "newRasterLayer";
             Visible = true;
             Picture = new Picture();
+            Text = new List<Text>();
         }
 
 
@@ -69,6 +73,7 @@ namespace DrawMoar
             this.name = name;
             Visible = true;
             Picture = new Picture();
+            Text = new List<Text>();
         }
 
 
@@ -77,6 +82,10 @@ namespace DrawMoar
         /// </summary>
         public void Draw(Graphics g) {
             Picture.Draw(g);
+            foreach(var element in Text)
+            {
+                element.Draw(g);
+            }
         }
 
 
