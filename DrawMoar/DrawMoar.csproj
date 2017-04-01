@@ -117,6 +117,9 @@
     </Compile>
     <Compile Include="RasterLayer.cs" />
     <Compile Include="BaseElements\Scene.cs" />
+    <Compile Include="RasterLayerControl.xaml.cs">
+      <DependentUpon>RasterLayerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Shapes\Ellipse.cs" />
     <Compile Include="Shapes\IShape.cs" />
     <Compile Include="Shapes\Line.cs" />
@@ -148,6 +151,10 @@
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RasterLayerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

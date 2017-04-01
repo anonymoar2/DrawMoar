@@ -151,6 +151,20 @@ namespace DrawMoar {
             }
         }
 
+        private void DrawRasterLayerImage(RasterLayerControl rlc) {       //из-за некоторых вещей нет возможности потестить, работает ли это
+            var bmp = ((RasterLayer)cartoon.CurrentScene.CurrentFrame.CurrentLayer).Picture.Image;  //если работает, положим в RasterLayer
+            using (var ms = new MemoryStream()) {
+                bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                ms.Position = 0;
+
+                var bi = new BitmapImage();
+                bi.BeginInit();
+                bi.CacheOption = BitmapCacheOption.OnLoad;
+                bi.StreamSource = ms;
+                bi.EndInit();
+                rlc.Image.Source = bi;
+            }        
+        }
 
         /// <summary>
         /// Обработка выбора элемента из элемента, отображающего кадры
@@ -167,6 +181,11 @@ namespace DrawMoar {
                 AddListBoxElement(layersList, item.Name);
                 if (item is VectorLayer)
                     ((VectorLayer)item).Picture.Draw(canvas);
+                else {
+                    var rlc = new RasterLayerControl();
+                    DrawRasterLayerImage(rlc);
+                    canvas.Children.Add(rlc);
+                }
             }
             //cartoon.CurrentScene.CurrentFrame = cartoon.CurrentScene.GetAllFrames()[framesList.SelectedIndex];
             layersList.SelectedIndex = 0;
@@ -180,6 +199,7 @@ namespace DrawMoar {
             foreach (var item in frames) {
                 AddListBoxElement(framesList, item.Name);
             }
+            framesList.SelectedIndex = 0;
         }
 
 
@@ -211,7 +231,7 @@ namespace DrawMoar {
             if (sender != null) {
                 cartoon.CurrentScene.AddEmptyFrame();
                 var frames = cartoon.CurrentScene.GetAllFrames();
-                AddListBoxElement(framesList, $"Frame_{frames.Count - 1}");
+                AddListBoxElement(framesList, cartoon.CurrentScene.CurrentFrame.Name);
             }
         }
 
@@ -222,8 +242,6 @@ namespace DrawMoar {
             }
             if (sender != null) {
                 cartoon.AddEmptyScene();
-                cartoon.CurrentScene.AddEmptyFrame();
-                //cartoon.CurrentScene.CurrentFrame = cartoon.CurrentScene.GetAllFrames()[0];
             }
             AddListBoxElement(scenesList, cartoon.CurrentScene.Name);
         }
@@ -435,6 +453,7 @@ namespace DrawMoar {
         }
 
         private void DeleteFrame_Click(object sender, RoutedEventArgs e) {
+            if (cartoon == null) return;
             int index = framesList.SelectedIndex;
             framesList.Items.RemoveAt(index);
             if(cartoon.CurrentScene.GetAllFrames().Count ==1) {
@@ -446,6 +465,7 @@ namespace DrawMoar {
         }
 
         private void DeleteLayer_Click(object sender, RoutedEventArgs e) {
+            if (cartoon == null) return;
             int index = layersList.SelectedIndex;
             var layerToDelete = cartoon.CurrentScene.CurrentFrame.GetAllLayers()[index];
             layersList.Items.RemoveAt(index);
