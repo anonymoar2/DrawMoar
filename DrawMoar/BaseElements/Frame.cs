@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 
+
 namespace DrawMoar.BaseElements
 {
     public class Frame
@@ -295,12 +296,7 @@ namespace DrawMoar.BaseElements
             return bm;
         }
 
-
-        public void SaveToPicture() {
-            //TODO: СРОЧНО ЭКСПОРТ
-        }
-
-
+        
         /// <summary>
         /// TODO: Переписать нормально крч, создание bitmap из всех видимых слоёв кадра, типа склеивает все в один
         /// </summary>

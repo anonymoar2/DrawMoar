@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 
+
 namespace DrawMoar.BaseElements
 {
     public class Text
@@ -10,6 +11,7 @@ namespace DrawMoar.BaseElements
         public PointF Position { get; set; }
         public StringFormat Format { get; set; }
         
+
         public Text(string txt, Font font, Brush brush, PointF position, StringFormat format)
         {
             Txt = txt;
@@ -18,6 +20,7 @@ namespace DrawMoar.BaseElements
             Position = position;
             Format = format;
         }
+
 
         public void Draw(Graphics g)
         {
