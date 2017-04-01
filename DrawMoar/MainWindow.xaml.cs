@@ -151,7 +151,6 @@ namespace DrawMoar {
             }
         }
 
-
         private void DrawRasterLayerImage(RasterLayerControl rlc) {       //из-за некоторых вещей нет возможности потестить, работает ли это
             var bmp = ((RasterLayer)cartoon.CurrentScene.CurrentFrame.CurrentLayer).Picture.Image;  //если работает, положим в RasterLayer
             using (var ms = new MemoryStream()) {
@@ -166,7 +165,6 @@ namespace DrawMoar {
                 rlc.Image.Source = bi;
             }        
         }
-
 
         /// <summary>
         /// Обработка выбора элемента из элемента, отображающего кадры
@@ -414,11 +412,9 @@ namespace DrawMoar {
             menu.Width = Width;
         }
 
-
         private void GenerateFrame_Click(object sender, RoutedEventArgs e) {
             cartoon.CurrentScene.GenerateFrames(cartoon.CurrentScene.CurrentFrame);
         }
-
 
         private void SaveToV(object sender, RoutedEventArgs e) {
             List<System.Drawing.Bitmap> images = new List<System.Drawing.Bitmap>();
@@ -447,7 +443,6 @@ namespace DrawMoar {
             ex.Save(images, cartoon.WorkingDirectory);
         }
 
-
         /// <summary>
         /// Смена рабочего цвета на выбранный в основной палитре
         /// </summary>
@@ -457,7 +452,6 @@ namespace DrawMoar {
             var color = new DrawMoar.BaseElements.Color(ClrPcker_Background.SelectedColor.Value);
             GlobalState.Color = color.ToBrush();
         }
-
 
         private void DeleteFrame_Click(object sender, RoutedEventArgs e) {
             if (cartoon == null) return;
@@ -470,7 +464,6 @@ namespace DrawMoar {
             framesList.SelectedIndex = framesList.Items.Count > 1 ? index - 1 : 0;
             Refresh();
         }
-
 
         private void DeleteLayer_Click(object sender, RoutedEventArgs e) {
             if (cartoon == null) return;
@@ -486,7 +479,6 @@ namespace DrawMoar {
             layersList.SelectedIndex = layersList.Items.Count > 1 ? index - 1 : 0;
             Refresh();
         }
-
 
         private void Refresh() {
             canvas.Children.Clear();
