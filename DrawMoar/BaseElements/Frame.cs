@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 
 using DrawMoar.Extensions;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
 
 namespace DrawMoar.BaseElements
 {
@@ -283,8 +285,9 @@ namespace DrawMoar.BaseElements
 
         
         public System.Drawing.Bitmap Join() {
-            var bm = new Bitmap(450, 450);
+            var bm = new Bitmap(450, 450, PixelFormat.Format32bppArgb);
             Graphics g = Graphics.FromImage(bm);
+            g.CompositingMode = CompositingMode.SourceOver;
             foreach (var l in layers) {
                 g.DrawImage(l.GetImage(450,450), 0, 0);
                 g.Dispose();

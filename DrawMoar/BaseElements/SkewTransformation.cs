@@ -3,7 +3,7 @@
     /// <summary>
     /// TODO класс
     /// </summary>
-    class SkewTransformation
+    internal class SkewTransformation
     {
     }
 }
