@@ -1,18 +1,11 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 
 using DrawMoar.Shapes;
 using DrawMoar.BaseElements;
@@ -151,6 +144,7 @@ namespace DrawMoar {
             }
         }
 
+
         private void DrawRasterLayerImage(RasterLayerControl rlc) {       //из-за некоторых вещей нет возможности потестить, работает ли это
             var bmp = ((RasterLayer)cartoon.CurrentScene.CurrentFrame.CurrentLayer).Picture.Image;  //если работает, положим в RasterLayer
             using (var ms = new MemoryStream()) {
@@ -165,6 +159,7 @@ namespace DrawMoar {
                 rlc.Image.Source = bi;
             }        
         }
+
 
         /// <summary>
         /// Обработка выбора элемента из элемента, отображающего кадры
@@ -408,13 +403,16 @@ namespace DrawMoar {
             // Ну и это как-то отображается наверное, что-то меняется в общем.
         }
 
+
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e) {
             menu.Width = Width;
         }
 
+
         private void GenerateFrame_Click(object sender, RoutedEventArgs e) {
             cartoon.CurrentScene.GenerateFrames(cartoon.CurrentScene.CurrentFrame);
         }
+
 
         private void SaveToV(object sender, RoutedEventArgs e) {
             List<System.Drawing.Bitmap> images = new List<System.Drawing.Bitmap>();
@@ -443,6 +441,7 @@ namespace DrawMoar {
             ex.Save(images, cartoon.WorkingDirectory);
         }
 
+
         /// <summary>
         /// Смена рабочего цвета на выбранный в основной палитре
         /// </summary>
@@ -452,6 +451,7 @@ namespace DrawMoar {
             var color = new DrawMoar.BaseElements.Color(ClrPcker_Background.SelectedColor.Value);
             GlobalState.Color = color.ToBrush();
         }
+
 
         private void DeleteFrame_Click(object sender, RoutedEventArgs e) {
             if (cartoon == null) return;
@@ -465,6 +465,7 @@ namespace DrawMoar {
             Refresh();
         }
 
+
         private void DeleteLayer_Click(object sender, RoutedEventArgs e) {
             if (cartoon == null) return;
             int index = layersList.SelectedIndex;
@@ -475,10 +476,11 @@ namespace DrawMoar {
                     AddListBoxElement(layersList, cartoon.CurrentScene.CurrentFrame.CurrentLayer.Name);               
                 }
             cartoon.CurrentScene.CurrentFrame.RemoveLayerAt(index);
-            //РАСТР...
+            // TODO: РАСТР...
             layersList.SelectedIndex = layersList.Items.Count > 1 ? index - 1 : 0;
             Refresh();
         }
+
 
         private void Refresh() {
             canvas.Children.Clear();
@@ -487,7 +489,7 @@ namespace DrawMoar {
                 if (item is VectorLayer) {
                     ((VectorLayer)item).Picture.Draw(canvas);
                 }
-                //РАСТР...
+                //TODO: РАСТР...
             }
         }
 
