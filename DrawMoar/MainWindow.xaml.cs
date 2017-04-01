@@ -365,6 +365,7 @@ namespace DrawMoar {
                 shape.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
                 shape.Draw(canvas);
                 SaveIntoLayer(currentLayer, shape);
+                Refresh();
             }
         }
 
