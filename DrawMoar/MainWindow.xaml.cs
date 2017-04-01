@@ -434,7 +434,7 @@ namespace DrawMoar {
         private void SaveAvi(object sender, RoutedEventArgs e) {
             List<System.Drawing.Bitmap> images = new List<System.Drawing.Bitmap>();
             foreach (var frame in cartoon.CurrentScene.GetAllFrames()) {
-                images.Add(frame.GetLayer(0).GetImage(canvas.Height, canvas.Width));
+                images.Add(frame.Join());
             }
             //foreach (var frame in cartoon.CurrentScene.GetAllFrames()) {
             //    images.Add(frame.Join());
