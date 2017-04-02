@@ -395,6 +395,7 @@ namespace DrawMoar {
 
         private void GenerateFrame_Click(object sender, RoutedEventArgs e) {
             cartoon.CurrentScene.GenerateFrames(cartoon.CurrentScene.CurrentFrame);
+
         }
 
         private void SaveToV(object sender, RoutedEventArgs e) {
