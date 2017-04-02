@@ -1,18 +1,11 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 
 using DrawMoar.Shapes;
 using DrawMoar.BaseElements;
@@ -152,6 +145,22 @@ namespace DrawMoar {
         }
 
 
+        private void DrawRasterLayerImage(RasterLayerControl rlc) {       //из-за некоторых вещей нет возможности потестить, работает ли это
+            var bmp = ((RasterLayer)cartoon.CurrentScene.CurrentFrame.CurrentLayer).Picture.Image;  //если работает, положим в RasterLayer
+            using (var ms = new MemoryStream()) {
+                bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                ms.Position = 0;
+
+                var bi = new BitmapImage();
+                bi.BeginInit();
+                bi.CacheOption = BitmapCacheOption.OnLoad;
+                bi.StreamSource = ms;
+                bi.EndInit();
+                rlc.Image.Source = bi;
+            }        
+        }
+
+
         /// <summary>
         /// Обработка выбора элемента из элемента, отображающего кадры
         /// </summary>
@@ -167,6 +176,11 @@ namespace DrawMoar {
                 AddListBoxElement(layersList, item.Name);
                 if (item is VectorLayer)
                     ((VectorLayer)item).Picture.Draw(canvas);
+                else {
+                    var rlc = new RasterLayerControl();
+                    DrawRasterLayerImage(rlc);
+                    canvas.Children.Add(rlc);
+                }
             }
             //cartoon.CurrentScene.CurrentFrame = cartoon.CurrentScene.GetAllFrames()[framesList.SelectedIndex];
             layersList.SelectedIndex = 0;
@@ -180,6 +194,7 @@ namespace DrawMoar {
             foreach (var item in frames) {
                 AddListBoxElement(framesList, item.Name);
             }
+            framesList.SelectedIndex = 0;
         }
 
 
@@ -211,7 +226,7 @@ namespace DrawMoar {
             if (sender != null) {
                 cartoon.CurrentScene.AddEmptyFrame();
                 var frames = cartoon.CurrentScene.GetAllFrames();
-                AddListBoxElement(framesList, $"Frame_{frames.Count - 1}");
+                AddListBoxElement(framesList, cartoon.CurrentScene.CurrentFrame.Name);
             }
         }
 
@@ -222,8 +237,6 @@ namespace DrawMoar {
             }
             if (sender != null) {
                 cartoon.AddEmptyScene();
-                cartoon.CurrentScene.AddEmptyFrame();
-                //cartoon.CurrentScene.CurrentFrame = cartoon.CurrentScene.GetAllFrames()[0];
             }
             AddListBoxElement(scenesList, cartoon.CurrentScene.Name);
         }
@@ -347,6 +360,7 @@ namespace DrawMoar {
                 shape.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
                 shape.Draw(canvas);
                 SaveIntoLayer(currentLayer, shape);
+                Refresh();
             }
         }
 
@@ -389,14 +403,17 @@ namespace DrawMoar {
             // Ну и это как-то отображается наверное, что-то меняется в общем.
         }
 
+
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e) {
             menu.Width = Width;
         }
+
 
         private void GenerateFrame_Click(object sender, RoutedEventArgs e) {
             cartoon.CurrentScene.GenerateFrames(cartoon.CurrentScene.CurrentFrame);
 
         }
+
 
         private void SaveToV(object sender, RoutedEventArgs e) {
             List<System.Drawing.Bitmap> images = new List<System.Drawing.Bitmap>();
@@ -416,7 +433,7 @@ namespace DrawMoar {
         private void SaveAvi(object sender, RoutedEventArgs e) {
             List<System.Drawing.Bitmap> images = new List<System.Drawing.Bitmap>();
             foreach (var frame in cartoon.CurrentScene.GetAllFrames()) {
-                images.Add(frame.GetLayer(0).GetImage(canvas.Height, canvas.Width));
+                images.Add(frame.Join());
             }
             //foreach (var frame in cartoon.CurrentScene.GetAllFrames()) {
             //    images.Add(frame.Join());
@@ -424,6 +441,7 @@ namespace DrawMoar {
             Exporter.Video.AviExporter ex = new Exporter.Video.AviExporter();
             ex.Save(images, cartoon.WorkingDirectory);
         }
+
 
         /// <summary>
         /// Смена рабочего цвета на выбранный в основной палитре
@@ -435,7 +453,9 @@ namespace DrawMoar {
             GlobalState.Color = color.ToBrush();
         }
 
+
         private void DeleteFrame_Click(object sender, RoutedEventArgs e) {
+            if (cartoon == null) return;
             int index = framesList.SelectedIndex;
             framesList.Items.RemoveAt(index);
             if(cartoon.CurrentScene.GetAllFrames().Count ==1) {
@@ -446,7 +466,9 @@ namespace DrawMoar {
             Refresh();
         }
 
+
         private void DeleteLayer_Click(object sender, RoutedEventArgs e) {
+            if (cartoon == null) return;
             int index = layersList.SelectedIndex;
             var layerToDelete = cartoon.CurrentScene.CurrentFrame.GetAllLayers()[index];
             layersList.Items.RemoveAt(index);
@@ -455,10 +477,11 @@ namespace DrawMoar {
                     AddListBoxElement(layersList, cartoon.CurrentScene.CurrentFrame.CurrentLayer.Name);               
                 }
             cartoon.CurrentScene.CurrentFrame.RemoveLayerAt(index);
-            //РАСТР...
+            // TODO: РАСТР...
             layersList.SelectedIndex = layersList.Items.Count > 1 ? index - 1 : 0;
             Refresh();
         }
+
 
         private void Refresh() {
             canvas.Children.Clear();
@@ -467,7 +490,7 @@ namespace DrawMoar {
                 if (item is VectorLayer) {
                     ((VectorLayer)item).Picture.Draw(canvas);
                 }
-                //РАСТР...
+                //TODO: РАСТР...
             }
         }
 

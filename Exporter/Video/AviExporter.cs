@@ -65,7 +65,7 @@ namespace Exporter.Video
                 foreach (var image in images) {
                     //pngExporter.Save(frame, Path.Combine(cartoon.WorkingDirectory, $"img{frames.IndexOf(frame)}.png"));
                     writer.WriteLine("file " + $"img{images.IndexOf(image)}.png");
-                    writer.WriteLine($"duration 1");
+                    writer.WriteLine($"duration 0.1");
                 }
             }
             return imagesListFilename;

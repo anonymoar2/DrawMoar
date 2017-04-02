@@ -6,6 +6,7 @@ using System.Drawing;
 using DrawMoar.BaseElements;
 using DrawMoar.Shapes;
 using System.Windows;
+using System.Collections.Generic;
 
 namespace DrawMoar
 {
@@ -52,11 +53,14 @@ namespace DrawMoar
             }
         }
 
+        public List<Text> Text { get; set; }
+
 
         public VectorLayer() {
             name = "newVectorLayer";
             Visible = true;
             Picture = new CompoundShape();
+            Text = new List<Text>();
         }
 
 
@@ -64,11 +68,16 @@ namespace DrawMoar
             this.name = name;
             Visible = true;
             Picture = new CompoundShape();
+            Text = new List<Text>();
         }
 
         
         public void Draw(Graphics g) {
             Picture.Draw(g);
+            foreach (var element in Text)
+            {
+                element.Draw(g);
+            }
         }
 
 

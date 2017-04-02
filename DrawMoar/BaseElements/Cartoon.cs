@@ -16,6 +16,7 @@ namespace DrawMoar.BaseElements
         /// </summary>
         public Scene CurrentScene { get; set; }
 
+
         /// <summary>
         /// Список сцен мультфильма.
         /// </summary>

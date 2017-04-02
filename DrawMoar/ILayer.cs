@@ -2,6 +2,7 @@
 
 using DrawMoar.BaseElements;
 using DrawMoar.Shapes;
+using System.Collections.Generic;
 
 
 namespace DrawMoar
@@ -35,6 +36,7 @@ namespace DrawMoar
 
 
         System.Windows.Point Position { get; set; }
+        List<Text> Text { get; set; }
 
         Bitmap GetImage(double height, double width);
     }
