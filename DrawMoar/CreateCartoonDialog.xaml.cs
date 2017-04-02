@@ -52,6 +52,8 @@ namespace DrawMoar
                         try
                         {
                             var cartoon = new Cartoon(cartoonName, cartoonWidth, cartoonHeight, workingDirectory);
+                            cartoon.scenes.Add(new Scene());
+                            GlobalState.CurrentScene = cartoon.scenes[0];
                             GlobalState.WorkingDirectory = workingDirectory;
                             MainWindow mw = (MainWindow)Owner;
                             mw.Success(cartoon);
