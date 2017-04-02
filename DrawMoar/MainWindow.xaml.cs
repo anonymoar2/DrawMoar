@@ -23,7 +23,7 @@ namespace DrawMoar {
         Point point;
         DrawMoar.Shapes.Ellipse newEllipse;
         DrawMoar.Shapes.Rectangle newRect;
-        ILayer currentLayer;
+        ILayer currentLayer; /// Нужно ли это?
         IShape clickedShape;
 
         public MainWindow() {
@@ -110,9 +110,15 @@ namespace DrawMoar {
                 return;
             }
             //проверка на то, выделен ли какой-либо кадр(когда реализуем удаление)
-            if (sender == null) layersList.Items.Clear();
-            else cartoon.CurrentScene.CurrentFrame.AddEmptyRasterLayer();
-            var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
+            if (sender == null) {
+                layersList.Items.Clear();
+            }
+            else {
+                //cartoon.CurrentScene.CurrentFrame.AddEmptyRasterLayer();
+                GlobalState.CurrentFrame.layers.Add(new RasterLayer());
+            }
+            //var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
+            var layers = GlobalState.CurrentFrame.layers;
             AddListBoxElement(layersList, $"RasterLayer_{layers.Count - 1}");
         }
 
@@ -121,9 +127,15 @@ namespace DrawMoar {
             if (cartoon == null) {
                 return;
             }
-            if (sender == null) layersList.Items.Clear();
-            else cartoon.CurrentScene.CurrentFrame.AddEmptyVectorLayer();
-            var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
+            if (sender == null) {
+                layersList.Items.Clear();
+            }
+            else {
+                //cartoon.CurrentScene.CurrentFrame.AddEmptyVectorLayer();
+                GlobalState.CurrentFrame.layers.Add(new VectorLayer());
+            }
+            //var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
+            var layers = GlobalState.CurrentFrame.layers;
             AddListBoxElement(layersList, $"VectorLayer_{layers.Count - 1}");
         }
 
@@ -146,7 +158,7 @@ namespace DrawMoar {
 
 
         private void DrawRasterLayerImage(RasterLayerControl rlc) {       //из-за некоторых вещей нет возможности потестить, работает ли это
-            var bmp = ((RasterLayer)cartoon.CurrentScene.CurrentFrame.CurrentLayer).Picture.Image;  //если работает, положим в RasterLayer
+            var bmp = ((RasterLayer)GlobalState.CurrentLayer).Picture.Image;  //если работает, положим в RasterLayer
             using (var ms = new MemoryStream()) {
                 bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
                 ms.Position = 0;
@@ -170,8 +182,9 @@ namespace DrawMoar {
             layersList.Items.Clear();
             canvas.Children.Clear();
             if (framesList.SelectedIndex != -1)
-                cartoon.CurrentScene.CurrentFrame = cartoon.CurrentScene.GetAllFrames()[framesList.SelectedIndex];
-            var lays = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
+                GlobalState.CurrentFrame = GlobalState.CurrentScene.frames[framesList.SelectedIndex];
+            //var lays = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
+            var lays = GlobalState.CurrentFrame.layers;
             foreach (var item in lays) {
                 AddListBoxElement(layersList, item.Name);
                 if (item is VectorLayer)
@@ -189,8 +202,10 @@ namespace DrawMoar {
 
         private void scenesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             framesList.Items.Clear();
-            cartoon.CurrentScene = cartoon.GetAllScenes()[scenesList.SelectedIndex];
-            var frames = cartoon.CurrentScene.GetAllFrames();
+            //cartoon.CurrentScene = cartoon.GetAllScenes()[scenesList.SelectedIndex];
+            GlobalState.CurrentScene = cartoon.scenes[scenesList.SelectedIndex];
+            //var frames = cartoon.CurrentScene.GetAllFrames();
+            var frames = GlobalState.CurrentScene.frames;
             foreach (var item in frames) {
                 AddListBoxElement(framesList, item.Name);
             }
@@ -200,10 +215,12 @@ namespace DrawMoar {
 
         private void layersList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (layersList.SelectedIndex != -1) {
-                var layer = cartoon.CurrentScene.CurrentFrame.GetAllLayers()[layersList.SelectedIndex];
+                //var layer = cartoon.CurrentScene.CurrentFrame.GetAllLayers()[layersList.SelectedIndex];
+                var layer = GlobalState.CurrentFrame.layers[layersList.SelectedIndex];
                 if (currentLayer is RasterLayer)
                     ((RasterLayer)currentLayer).Save(canvas);
-                cartoon.CurrentScene.CurrentFrame.CurrentLayer = layer;
+                //cartoon.CurrentScene.CurrentFrame.CurrentLayer = layer;
+                GlobalState.CurrentLayer = layer;
             }
 
         }
@@ -224,9 +241,11 @@ namespace DrawMoar {
                 return;
             }
             if (sender != null) {
-                cartoon.CurrentScene.AddEmptyFrame();
-                var frames = cartoon.CurrentScene.GetAllFrames();
-                AddListBoxElement(framesList, cartoon.CurrentScene.CurrentFrame.Name);
+                //cartoon.CurrentScene.AddEmptyFrame();
+                GlobalState.CurrentScene.frames.Add(new BaseElements.Frame());
+                //var frames = cartoon.CurrentScene.GetAllFrames();
+                var frames = GlobalState.CurrentScene.frames;
+                AddListBoxElement(framesList, GlobalState.CurrentFrame.Name);
             }
         }
 
@@ -236,9 +255,10 @@ namespace DrawMoar {
                 return;
             }
             if (sender != null) {
-                cartoon.AddEmptyScene();
+                //cartoon.AddEmptyScene();
+                cartoon.scenes.Add(new Scene());
             }
-            AddListBoxElement(scenesList, cartoon.CurrentScene.Name);
+            AddListBoxElement(scenesList, GlobalState.CurrentScene.Name);
         }
 
 
@@ -252,7 +272,8 @@ namespace DrawMoar {
 
         void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             GlobalState.PressLeftButton = true;
-            currentLayer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
+            //currentLayer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
+            currentLayer = GlobalState.CurrentLayer;
             prevPoint = Mouse.GetPosition(canvas);
             switch (GlobalState.CurrentTool) {
                 case Instrument.Arrow:
@@ -284,7 +305,8 @@ namespace DrawMoar {
 
         void canvas_MouseMove(object sender, MouseEventArgs e) {
             point = (Point)e.GetPosition(canvas);
-            currentLayer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
+            //currentLayer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
+            currentLayer = GlobalState.CurrentLayer;
             if (!GlobalState.PressLeftButton) return;
             switch (GlobalState.CurrentTool) {
                 case Instrument.Arrow:
@@ -312,7 +334,8 @@ namespace DrawMoar {
 
         void ScaleRedrawing(IShape shape, MouseEventArgs e) {
             if (shape != null & e.LeftButton == MouseButtonState.Pressed) {
-                var layer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
+                //var layer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
+                var layer = GlobalState.CurrentLayer;
                 var shiftX = point.X - prevPoint.X;
                 var shiftY = point.Y - prevPoint.Y;
                 if (((shiftX <= 0) || (shiftY <= 0)) && (!(shape is Line))) return;   //пока из-за "плохих" шифтов так; уберу, когда сделаю зеркалирование
@@ -334,7 +357,8 @@ namespace DrawMoar {
 
 
         IShape GetClickedShape(Point clickPoint) {
-            var layer = (VectorLayer)cartoon.CurrentScene.CurrentFrame.CurrentLayer;
+            //var layer = (VectorLayer)cartoon.CurrentScene.CurrentFrame.CurrentLayer;
+            var layer = (VectorLayer)GlobalState.CurrentLayer;
             foreach (var item in layer.Picture.shapes) {
                 if (item is Rectangle) {
                     if (((Math.Abs(clickPoint.X - ((Rectangle)item).Center.X) < ((Rectangle)item).Size.Width / 4) &&    //вместо 20 потом придется скалировать пропорционально размерам фигуры
@@ -410,17 +434,17 @@ namespace DrawMoar {
 
 
         private void GenerateFrame_Click(object sender, RoutedEventArgs e) {
-            cartoon.CurrentScene.GenerateFrames(cartoon.CurrentScene.CurrentFrame);
-
+            //cartoon.CurrentScene.GenerateFrames(cartoon.CurrentScene.CurrentFrame);
+            ///TODO
         }
 
 
         private void SaveToV(object sender, RoutedEventArgs e) {
             List<System.Drawing.Bitmap> images = new List<System.Drawing.Bitmap>();
 
-            foreach (var frame in cartoon.CurrentScene.GetAllFrames()) {
-
-                images.Add(frame.GetLayer(0).GetImage(canvas.Height, canvas.Width));
+            foreach (var frame in GlobalState.CurrentScene.frames) {
+                images.Add(frame.Join());
+                //images.Add(frame.GetLayer(0).GetImage(canvas.Height, canvas.Width));
             }
             //foreach (var frame in cartoon.CurrentScene.GetAllFrames()) {
             //    images.Add(frame.Join());
@@ -432,7 +456,7 @@ namespace DrawMoar {
 
         private void SaveAvi(object sender, RoutedEventArgs e) {
             List<System.Drawing.Bitmap> images = new List<System.Drawing.Bitmap>();
-            foreach (var frame in cartoon.CurrentScene.GetAllFrames()) {
+            foreach (var frame in GlobalState.CurrentScene.frames) {
                 images.Add(frame.Join());
             }
             //foreach (var frame in cartoon.CurrentScene.GetAllFrames()) {
@@ -458,10 +482,10 @@ namespace DrawMoar {
             if (cartoon == null) return;
             int index = framesList.SelectedIndex;
             framesList.Items.RemoveAt(index);
-            if(cartoon.CurrentScene.GetAllFrames().Count ==1) {
-                AddListBoxElement(framesList, cartoon.CurrentScene.CurrentFrame.Name);
+            if(GlobalState.CurrentScene.frames.Count ==1) {
+                AddListBoxElement(framesList, GlobalState.CurrentFrame.Name);
             }
-            cartoon.CurrentScene.RemoveFrameAt(index);
+            GlobalState.CurrentScene.frames.RemoveAt(index);
             framesList.SelectedIndex = framesList.Items.Count > 1 ? index - 1 : 0;
             Refresh();
         }
@@ -470,13 +494,15 @@ namespace DrawMoar {
         private void DeleteLayer_Click(object sender, RoutedEventArgs e) {
             if (cartoon == null) return;
             int index = layersList.SelectedIndex;
-            var layerToDelete = cartoon.CurrentScene.CurrentFrame.GetAllLayers()[index];
+            //var layerToDelete = cartoon.CurrentScene.CurrentFrame.GetAllLayers()[index];
+            var layerToDelete = GlobalState.CurrentFrame.layers[index];
             layersList.Items.RemoveAt(index);
-            if(cartoon.CurrentScene.CurrentFrame.GetAllLayers().Count ==1)
+            if(GlobalState.CurrentFrame.layers.Count ==1)
                 if(layerToDelete is VectorLayer) {
-                    AddListBoxElement(layersList, cartoon.CurrentScene.CurrentFrame.CurrentLayer.Name);               
+                    AddListBoxElement(layersList,GlobalState.CurrentLayer.Name);               
                 }
-            cartoon.CurrentScene.CurrentFrame.RemoveLayerAt(index);
+            //cartoon.CurrentScene.CurrentFrame.RemoveLayerAt(index);
+            GlobalState.CurrentFrame.layers.RemoveAt(index);
             // TODO: РАСТР...
             layersList.SelectedIndex = layersList.Items.Count > 1 ? index - 1 : 0;
             Refresh();
@@ -485,7 +511,8 @@ namespace DrawMoar {
 
         private void Refresh() {
             canvas.Children.Clear();
-            var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
+            //var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
+            var layers = GlobalState.CurrentFrame.layers;
             foreach (var item in layers) {
                 if (item is VectorLayer) {
                     ((VectorLayer)item).Picture.Draw(canvas);
