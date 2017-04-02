@@ -3,6 +3,8 @@
 using System.Windows;
 using System.Windows.Media;
 
+using DrawMoar.BaseElements;
+
 
 namespace DrawMoar
 {
@@ -21,6 +23,11 @@ namespace DrawMoar
 
         //public static Instruments.LightVector lightVector { get; set; }
 
+
+        public static ILayer CurrentLayer { get; set; }
+        public static Frame CurrentFrame { get; set; }
+        public static Scene CurrentScene { get; set; }
+        
 
         // Используется для изменения порядка слоев 
         public static int FramesCount { get; set; }

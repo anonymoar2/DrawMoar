@@ -4,7 +4,7 @@
 namespace DrawMoar.BaseElements
 {
     /// <summary>
-    /// Временно, потом перепишу
+    /// Писал Антон к 4-ой лабе
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class Matrix<T>
