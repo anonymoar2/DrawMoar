@@ -63,5 +63,14 @@ namespace DrawMoar.Shapes
         public void Draw(Graphics g) {
             g.DrawRectangle(new Pen(Color.ToDrawingColor(), (float)this.Thickness), new System.Drawing.Rectangle(new System.Drawing.Point(Convert.ToInt32(Center.X-Size.Width/2), Convert.ToInt32(Center.Y-Size.Height/2)), new System.Drawing.Size(Convert.ToInt32(Size.Width), Convert.ToInt32(Size.Height))));
         }
+
+        public object Clone()
+        {
+            var buf = new Rectangle(Center, Size, StartAngle, EndAngle, Rotate);
+            buf.Alias = Alias;
+            buf.Thickness = Thickness;
+            buf.Color = Color;
+            return buf;
+        }
     }
 }

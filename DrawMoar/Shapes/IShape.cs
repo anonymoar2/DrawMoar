@@ -1,12 +1,12 @@
 ﻿using System.Windows.Controls;
 using System.Drawing;
-
+using System;
 using DrawMoar.BaseElements;
 
 
 namespace DrawMoar.Shapes
 {
-    public interface IShape
+    public interface IShape : ICloneable
     {
         string Alias { get; set; }
 

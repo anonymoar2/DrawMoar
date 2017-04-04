@@ -3,11 +3,12 @@
 using DrawMoar.BaseElements;
 using DrawMoar.Shapes;
 using System.Collections.Generic;
+using System;
 
 
 namespace DrawMoar
 {
-    public interface ILayer
+    public interface ILayer : ICloneable
     {
         /// <summary>
         /// Состояние видимости слоя. 
@@ -36,7 +37,7 @@ namespace DrawMoar
 
 
         System.Windows.Point Position { get; set; }
-        List<Text> Text { get; set; }
+        List<Text> Text { get; }
 
         Bitmap GetImage(double height, double width);
     }

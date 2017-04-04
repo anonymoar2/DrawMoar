@@ -3,7 +3,7 @@
 
 namespace DrawMoar.BaseElements
 {
-    public class Text
+    public struct Text
     {
         public string Txt { get; set; }
         public Font Font { get; set; }

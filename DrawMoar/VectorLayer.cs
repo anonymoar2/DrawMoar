@@ -53,7 +53,7 @@ namespace DrawMoar
             }
         }
 
-        public List<Text> Text { get; set; }
+        public List<Text> Text { get; private set; }
 
 
         public VectorLayer() {
@@ -129,6 +129,22 @@ namespace DrawMoar
                 sh.Draw(g);
             }           
             return b;
+        }
+
+        public object Clone()
+        {
+            var buf = new VectorLayer();
+            buf.Visible = Visible;
+            buf.Picture = (CompoundShape)Picture.Clone();
+            buf.Name = Name;
+            buf.Position = Position;
+
+            foreach (var element in Text)
+            {
+                buf.Text.Add(element);
+            }
+
+            return buf;
         }
     }
 }

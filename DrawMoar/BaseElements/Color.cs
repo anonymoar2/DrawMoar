@@ -2,19 +2,19 @@
 
 
 namespace DrawMoar.BaseElements {
-    public class Color {
+    public struct Color {
         byte A;
         byte R;
         byte G;
         byte B;
 
 
-        public Color() {
+        /*public Color() {
             A = 0;
             R = 0;
             G = 0;
             B = 0;
-        }
+        }*/
 
 
         public Color(System.Windows.Media.Color color) {

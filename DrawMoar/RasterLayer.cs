@@ -58,7 +58,7 @@ namespace DrawMoar
             }
         }
 
-        public List<Text> Text { get; set; }
+        public List<Text> Text { get; private set; }
 
 
         public RasterLayer() {
@@ -219,6 +219,22 @@ namespace DrawMoar
 
         Bitmap ILayer.GetImage(double height, double width) {
             throw new NotImplementedException();
+        }
+
+        public object Clone()
+        {
+            var buf = new RasterLayer();
+            buf.Visible = Visible;
+            buf.Picture = (Picture)Picture.Clone();
+            buf.Name = Name;
+            buf.Position = Position;
+
+            foreach(var element in Text)
+            {
+                buf.Text.Add(element);
+            }
+
+            return buf;
         }
     }
 }

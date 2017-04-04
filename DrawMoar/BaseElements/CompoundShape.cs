@@ -53,5 +53,20 @@ namespace DrawMoar.BaseElements
                 shape.Draw(g);
             }
         }
+
+        public object Clone()
+        {
+            var buf = new CompoundShape();
+            buf.Alias = Alias;
+            buf.Thickness = Thickness;
+            buf.Color = Color;
+            
+            foreach(var shape in shapes)
+            {
+                buf.shapes.Add((IShape)shape.Clone());
+            }
+
+            return buf;
+        }
     }
 }

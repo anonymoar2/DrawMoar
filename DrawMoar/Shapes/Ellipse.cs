@@ -63,5 +63,14 @@ namespace DrawMoar.Shapes
         public void Draw(Graphics g) {
             g.DrawEllipse(new Pen(Color.ToDrawingColor(), (float)this.Thickness), new RectangleF(new PointF(Convert.ToSingle(Center.X - Size.Width / 2), Convert.ToSingle(Center.Y - Size.Height / 2)), new SizeF(Convert.ToSingle(Size.Width), Convert.ToSingle(Size.Height))));
         }
+
+        public object Clone()
+        {
+            var buf = new Ellipse(Center, Size, StartAngle, EndAngle, Rotate);
+            buf.Alias = Alias;
+            buf.Thickness = Thickness;
+            buf.Color = Color;
+            return buf;
+        }
     }
 }

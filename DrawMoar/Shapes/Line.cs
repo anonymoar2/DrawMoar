@@ -54,5 +54,14 @@ namespace DrawMoar.Shapes
         public void Draw(Graphics g) {
             g.DrawLine(new System.Drawing.Pen(Color.ToDrawingColor(), (float)this.Thickness), Convert.ToSingle(PointOne.X), Convert.ToSingle(PointOne.Y), Convert.ToSingle(PointTwo.X), Convert.ToSingle(PointTwo.Y));
         }
+
+        public object Clone()
+        {
+            var buf = new Line(PointOne, PointTwo);
+            buf.Thickness = Thickness;
+            buf.Alias = Alias;
+            buf.Color = Color;
+            return buf;
+        }
     }
 }
