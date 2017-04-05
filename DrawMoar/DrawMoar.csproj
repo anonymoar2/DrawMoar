@@ -97,6 +97,9 @@
     <Compile Include="BaseElements\Frame.cs" />
     <Compile Include="Extensions\Extremes.cs" />
     <Compile Include="Extensions\ObjectCopier.cs" />
+    <Compile Include="GenerationDialog.xaml.cs">
+      <DependentUpon>GenerationDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GlobalState.cs" />
     <Compile Include="ILayer.cs" />
     <Compile Include="Instrument.cs" />
@@ -146,6 +149,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="CreateCartoonDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GenerationDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
