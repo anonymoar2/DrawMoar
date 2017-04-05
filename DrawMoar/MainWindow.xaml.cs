@@ -435,7 +435,7 @@ namespace DrawMoar {
 
         private void GenerateFrame_Click(object sender, RoutedEventArgs e) {
             ILayer cloneOfCurrent = (ILayer)currentLayer.Clone();
-            var generationWin = new GenerationDialog(cloneOfCurrent,new Size(canvas.Width,canvas.Height)); //пока что для теста так (пришлось передать размеры для канваса в новом окне)
+            var generationWin = new GenerationDialog(cloneOfCurrent);
             generationWin.Show();
         }
 
