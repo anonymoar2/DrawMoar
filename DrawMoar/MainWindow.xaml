@@ -61,7 +61,7 @@
         <WrapPanel Name="buttons" Grid.Column="2" Grid.Row="1">
             <Button x:Name="AddFrame" Content="+F" Width="30"  Height="20" Margin="5,5" Click="AddFrame_Click"/>
             <Button x:Name="AddScene" Content="+S" Width="30"  Height="20" Margin="5,5" Click="AddScene_Click"/>
-            <Button x:Name="GenerateFrame" Content="Gen" Width="30"  Height="20" Margin="5,5"/>
+            <Button x:Name="GenerateFrame" Content="Gen" Width="30"  Height="20" Margin="5,5" Click="GenerateFrame_Click"/>
             <Button x:Name="DeleteFrame" Content="Del F" Width="30" Height="20" Margin="5,5" Click="DeleteFrame_Click"/>
             <Button x:Name="DeleteLayer" Content="Del L" Width="30" Height="20" Margin="5,5" Click="DeleteLayer_Click"/>
         </WrapPanel>
