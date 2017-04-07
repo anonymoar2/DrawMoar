@@ -28,7 +28,7 @@ namespace DrawMoar {
         Line newLine;
 
 
-        public GenerationDialog(ILayer layer, Size size) {
+        public GenerationDialog(ILayer layer) {
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             this.Activate();
@@ -37,12 +37,11 @@ namespace DrawMoar {
             previewCanvas.MouseLeftButtonUp += new MouseButtonEventHandler(previewCanvas_MouseLeftButtonUp);
             previewCanvas.MouseLeave += new MouseEventHandler(previewCanvas_MouseLeave);
             this.layer = layer;
-            this.Width = size.Width + 250;
-            this.Height = size.Height + 50;
-            previewCanvas.Width = size.Width;
-            previewCanvas.Height = size.Height;
-            previewCanvas.VerticalAlignment = VerticalAlignment.Center;
-            this.Background = Brushes.LightGray;
+            previewCanvas.Width = GlobalState.canvSize.Width;
+            previewCanvas.Height = GlobalState.canvSize.Height;
+            this.Width = GlobalState.canvSize.Width + 250;
+            this.Height = GlobalState.canvSize.Height + 50;
+
             if (layer is VectorLayer) {
                 ((VectorLayer)layer).Picture.Draw(previewCanvas);
             }
@@ -93,14 +92,16 @@ namespace DrawMoar {
         void TranslatingRedrawing(IShape shape, MouseEventArgs e) {           
             point = e.GetPosition(previewCanvas);
             if (clickedShape != null) {
-                var shapes = ((VectorLayer)layer).Picture.shapes;
-                var index = shapes.IndexOf(shape);
-                previewCanvas.Children.RemoveAt(index);
-                shapes.RemoveAt(shapes.IndexOf(shape));
-                shape.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
-                shape.Draw(previewCanvas);
-                SaveIntoLayer(layer, shape);
-                TranslateStart.Text = start.ToString();
+                var shapes = ((VectorLayer)layer).Picture.shapes;              
+                for(int i = 0; i < shapes.Count; i++) {
+                    var item = shapes[i];
+                    previewCanvas.Children.RemoveAt(shapes.IndexOf(item));
+                    shapes.RemoveAt(shapes.IndexOf(item));
+                    item.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
+                    item.Draw(previewCanvas);
+                    SaveIntoLayer(layer, item);
+                }
+                TranslateVector.Text = $"( {(int)(point.X-start.X)} ; {(int)(point.Y-start.Y)} )";
                 Refresh();
             }
         }

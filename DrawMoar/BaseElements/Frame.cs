@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using System.Text.RegularExpressions;
-
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
@@ -10,7 +8,7 @@ using System.Drawing.Drawing2D;
 
 namespace DrawMoar.BaseElements
 {
-    public class Frame
+    public class Frame : ICloneable
     {
         private string name;
         public string Name {
@@ -51,6 +49,18 @@ namespace DrawMoar.BaseElements
                 g.Dispose();
             }
             return bm;
+        }
+
+        public object Clone()
+        {
+            var buf = new Frame(Name);
+
+            foreach(var layer in layers)
+            {
+                buf.layers.Add((ILayer)layer.Clone());
+            }
+
+            return buf;
         }
 
 

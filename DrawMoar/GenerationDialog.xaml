@@ -6,22 +6,22 @@
         xmlns:local="clr-namespace:DrawMoar"
         mc:Ignorable="d"
         Title="GenerationDialog" Height="700" Width="900">
-    <Grid>
+    <Grid Background="LightGray">
         <Grid.RowDefinitions>
-            <RowDefinition Height="120"></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="120" MinHeight="120"></RowDefinition>
+            <RowDefinition Height="1*" MinHeight="150"></RowDefinition>
+            <RowDefinition Height="1*" MinHeight="150"></RowDefinition>
+            <RowDefinition Height="1*" MinHeight="150"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition MinWidth="200" Width="200"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Canvas Name= "previewCanvas" Background="White" Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" ClipToBounds="True" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Border Grid.Column="0" Grid.RowSpan="4" Background="White"/>
+        <Canvas Name= "previewCanvas" Background="White" Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" ClipToBounds="True" HorizontalAlignment="Center" VerticalAlignment="Center" />
         <WrapPanel Name="TranslatePanel">
             <Label Grid.Row="0" Grid.Column="0" Width="200" Height="Auto" Margin="0,5" Content="Translate" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Background="AliceBlue"/>
-            <TextBox Name="TranslateStart" Grid.Column="0" Grid.Row="0" Width="70" Height="35" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,10"/>
-            <TextBox Name="TranslateFinish" Grid.Column="0" Grid.Row="0" Width="70" Height="35" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,10"/>
+            <TextBox Name="TranslateVector" Grid.Column="0" Grid.Row="0" Width="70" Height="35" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="65,10"/>
         </WrapPanel>
         <WrapPanel Name="RotatePanel" Grid.Column="0" Grid.Row="1">
             <Label Grid.Row="1" Grid.Column="0" Width="200" Height="Auto" Margin="0,5" Content="Rotate" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Background="AliceBlue"/>
