@@ -121,7 +121,7 @@ namespace DrawMoar
             return newImage;
         }
 
-        public System.Drawing.Bitmap GetImage(double height,double width) {
+        public System.Drawing.Bitmap GetImage(double width, double height) {
             Bitmap b = new Bitmap((int)width, (int)height);
             var g = Graphics.FromImage(b);
             g.Clear(System.Drawing.Color.White);
