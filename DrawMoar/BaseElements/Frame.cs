@@ -45,7 +45,7 @@ namespace DrawMoar.BaseElements
             Graphics g = Graphics.FromImage(bm);
             g.CompositingMode = CompositingMode.SourceOver;
             foreach (var l in layers) {
-                g.DrawImage(l.Item1.GetImage(GlobalState.Width,GlobalState.Height), 0, 0);
+                g.DrawImage(l.Item1.GetImage(GlobalState.Width, GlobalState.Height), 0, 0);
                 g.Dispose();
             }
             return bm;
