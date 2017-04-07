@@ -529,7 +529,7 @@ namespace DrawMoar {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void AT_Click(object sender, RoutedEventArgs e) {
-            GlobalState.CurrentScene.Generate(GlobalState.CurrentFrame, 50);
+            GlobalState.CurrentScene.Generate(GlobalState.CurrentFrame, 3);
         }
     }
 }
