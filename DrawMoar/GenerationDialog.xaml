@@ -17,7 +17,7 @@
             <ColumnDefinition Width="200"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Canvas Name= "previewCanvas" Background="White" Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" ClipToBounds="True" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Canvas Name= "previewCanvas" Background="White" Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" ClipToBounds="True" HorizontalAlignment="Center" VerticalAlignment="Center" />
         <WrapPanel Name="TranslatePanel">
             <Label Grid.Row="0" Grid.Column="0" Width="200" Height="Auto" Margin="0,5" Content="Translate" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Background="AliceBlue"/>
             <TextBox Name="TranslateStart" Grid.Column="0" Grid.Row="0" Width="70" Height="35" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,10"/>
@@ -34,6 +34,8 @@
         <WrapPanel Name="SemyonTestPanel" Grid.Column="0" Grid.Row="3">
             <Label Grid.Row="1" Grid.Column="0" Width="200" Height="Auto" Margin="0,5" Content="Семен привет" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Background="AliceBlue"/>
             <TextBox Name="Function" Grid.Column="0" Grid.Row="1" Width="165" Height="35" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,10"/>
+            <TextBox Name="DurationBox" Width="50" Height="25" Margin="15,10"/>
+            <Button Name="ApplyTransform" Width="50" Height="30" Content="Apply" Margin="35,5" Click="ApplyTransform_Click"/>
         </WrapPanel>
     </Grid>
 </Window>

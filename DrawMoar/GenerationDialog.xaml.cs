@@ -118,5 +118,9 @@ namespace DrawMoar {
                 ((VectorLayer)layer).Picture.shapes.Add(shape);
             }
         }
+
+        private void ApplyTransform_Click(object sender, RoutedEventArgs e) {
+
+        }
     }
 }
