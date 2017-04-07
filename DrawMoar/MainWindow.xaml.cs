@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 
 using DrawMoar.Shapes;
 using DrawMoar.BaseElements;
-
+using System.Linq;
 
 namespace DrawMoar {
     /// <summary>

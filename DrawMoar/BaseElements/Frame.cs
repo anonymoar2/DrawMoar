@@ -44,10 +44,11 @@ namespace DrawMoar.BaseElements
             var bm = new Bitmap(GlobalState.Width, GlobalState.Height, PixelFormat.Format32bppArgb);
             Graphics g = Graphics.FromImage(bm);
             g.CompositingMode = CompositingMode.SourceOver;
+            g.Clear(System.Drawing.Color.White);
             foreach (var l in layers) {
                 g.DrawImage(l.Item1.GetImage(GlobalState.Width, GlobalState.Height), 0, 0);
-                g.Dispose();
             }
+            g.Dispose();
             return bm;
         }
 
