@@ -25,18 +25,18 @@ namespace DrawMoar.BaseElements
         }
 
 
-        public List<Tuple<ILayer, List<Transformation>>> layers = new List<Tuple<ILayer, List<Transformation>>>();
+        public List<Tuple<ILayer, List<Transformation>, int>> layers = new List<Tuple<ILayer, List<Transformation>, int>>();
 
 
         public Frame() {
             name = "newFrame";
-            layers.Add(new Tuple<ILayer, List<Transformation>>(new VectorLayer("Vector_Layer_0"), new List<Transformation>()));
+            layers.Add(new Tuple<ILayer, List<Transformation>, int>(new VectorLayer("Vector_Layer_0"), new List<Transformation>(), 0));
         }
 
 
         public Frame(string name) {
             this.name = name;
-            layers.Add(new Tuple<ILayer, List<Transformation>>(new VectorLayer("Vector_Layer_0"), new List<Transformation>()));
+            layers.Add(new Tuple<ILayer, List<Transformation>, int>(new VectorLayer("Vector_Layer_0"), new List<Transformation>(), 0));
         }
         
         
@@ -57,7 +57,7 @@ namespace DrawMoar.BaseElements
 
             foreach(var layer in layers)
             {
-                buf.layers.Add(new Tuple<ILayer, List<Transformation>>((ILayer)(layer.Item1).Clone(), new List<Transformation>()));
+                buf.layers.Add(new Tuple<ILayer, List<Transformation>, int>((ILayer)(layer.Item1).Clone(), new List<Transformation>(), 0));
             }
 
             return buf;
