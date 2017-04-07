@@ -47,7 +47,8 @@
         <WrapPanel Name="SemyonTestPanel" Grid.Column="0" Grid.Row="3">
             <Label Grid.Row="1" Grid.Column="0" Width="200" Height="Auto"  Content="Семен привет" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Background="AliceBlue"/>
             <TextBox Name="Function" Grid.Column="0" Grid.Row="1" Width="165" Height="35" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,10"/>
-            <TextBox Name="TotalTestDuration" Grid.Column="0" Grid.Row="1" Width="65" Height="Auto" Margin="20,5" FontSize="15" TextChanged="TotalTestDuration_TextChanged"/>
+            <Label Content="Total Duration" Width="Auto" Grid.Column="0" Grid.Row="1" Height="Auto" FontSize="15" Margin="7,5"/>
+            <TextBox Name="TotalTestDuration" Grid.Column="0" Grid.Row="1" Width="65" Height="Auto" Margin="7,5" FontSize="15" TextChanged="TotalTestDuration_TextChanged"/>
             <Button Name="ApplyTransform" MinWidth="60" Width="Auto" Height="Auto" Content="Apply"  FontSize="18" Margin="10,5" Click="ApplyTransform_Click"/>
         </WrapPanel>
     </Grid>

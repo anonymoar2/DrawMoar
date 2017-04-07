@@ -45,7 +45,7 @@ namespace DrawMoar.BaseElements
         /// <param name="seconds">Количество секунд которые необходимо сгенерировать</param>
         public void Generate(Frame currentFrame, int seconds) {
             /// На каждую секунду генерируем по 25 кадров, чтобы ровненько было. Каждый кадр будет по длительности 0.04 секунды.
-            for (int i = 0; i < seconds * 24; i++) {
+            for (int i = 0; i < seconds * 25; i++) {
                 frames.Add(new Frame($"generated_frame_{i}"));
                 foreach(var layer in currentFrame.layers) {
                     ILayer tmpLayer = (ILayer)layer.Item1.Clone();
