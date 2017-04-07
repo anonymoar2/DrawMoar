@@ -150,6 +150,7 @@ namespace DrawMoar {
                     transList.Add(new ScaleTransformation(new Point(0, 0), scaleFactor));    //аналогично
                 }
                 GlobalState.CurrentLayer = new Tuple<ILayer,List<Transformation>,int>(GlobalState.CurrentLayer.Item1,transList,totalTime);
+                GlobalState.CurrentTrans = transList;
                 this.Hide();       
             }
             catch(IOException ioEx) {

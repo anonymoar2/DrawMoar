@@ -27,6 +27,7 @@ namespace DrawMoar
 
         //public static Instruments.LightVector lightVector { get; set; }
 
+        public static List<Transformation> CurrentTrans { get; set; }
 
         public static Tuple<ILayer, List<Transformation>, int> CurrentLayer { get; set; }
         public static Frame CurrentFrame { get; set; }

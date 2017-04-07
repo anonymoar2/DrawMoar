@@ -46,13 +46,17 @@ namespace DrawMoar.BaseElements
         public void Generate(Frame currentFrame, int seconds) {
             /// На каждую секунду генерируем по 25 кадров, чтобы ровненько было. Каждый кадр будет по длительности 0.04 секунды.
             for (int i = 0; i < seconds * 25; i++) {
-                frames.Add(new Frame($"generated_frame_{i}"));
+                frames.Add(new Frame($"generated_frame_{i}"));          
                 foreach(var layer in currentFrame.layers) {
                     ILayer tmpLayer = (ILayer)layer.Item1.Clone();
-                    foreach (var trans in layer.Item2) {
-                        tmpLayer.Transform(trans);
+                    foreach (var trans in GlobalState.CurrentTrans) {
+                        for (int j = 0; j <= i; j++) {
+                            tmpLayer.Transform(trans);
+                        }
+                        
                     }
                     frames.Last().layers.Add(new Tuple<ILayer, List<Transformation>, int>((ILayer)tmpLayer.Clone(), new List<Transformation>(), 0));
+                    frames.Last().layers.RemoveAt(0);
                 }
             }
         }

@@ -434,7 +434,7 @@ namespace DrawMoar {
 
 
         private void GenerateFrame_Click(object sender, RoutedEventArgs e) {
-            GlobalState.CurrentScene.Generate(GlobalState.CurrentFrame, 50);
+            GlobalState.CurrentScene.Generate(GlobalState.CurrentFrame, 3);
             scenesList_SelectionChanged(null, null);
             Refresh();
         }
