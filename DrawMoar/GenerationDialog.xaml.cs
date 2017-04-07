@@ -27,7 +27,7 @@ namespace DrawMoar {
         Rectangle newRect;
         Ellipse newEllipse;
         Line newLine;
-        List<Tuple<Transformation,int>> transList = new List<Tuple<Transformation,int>>();
+        List<Transformation> transList = new List<Transformation>();
 
 
         public GenerationDialog(ILayer layer) {
@@ -120,32 +120,37 @@ namespace DrawMoar {
             Point translateVector = new Point();
             double scaleFactor;
             double angle;
-            int time;   
+            int time;
+            int totalTime=0;  //временно
             try {
                 if (TranslateVector.Text == "" && ScaleFactor.Text == "" && Angle.Text == "") throw new IOException("You haven't created any transformation");
+                if (TotalTestDuration.Text != "") {
+                    totalTime = Int32.Parse(TotalTestDuration.Text);
+                }
+                else throw new IOException("Enter the Total Duration field");
                 if (TranslateVector.Text != "") {
-                    if (TranslateTime.Text == "") throw new IOException("Enter all fields in the Translate section");
+                    //if (TranslateTime.Text == "") throw new IOException("Enter all fields in the Translate section");
                     string [] coords =TranslateVector.Text.Split(new char[] { ';','(',')' }, StringSplitOptions.RemoveEmptyEntries);
-                    translateVector.X=Int32.Parse(coords[0]);
-                    translateVector.Y = Int32.Parse(coords[1]);
-                    time = Int32.Parse(TranslateTime.Text);
-                    transList.Add(new Tuple<Transformation, int>(new TranslateTransformation(translateVector), time));
+                    translateVector.X=Int32.Parse(coords[0])/(totalTime*25);
+                    translateVector.Y = Int32.Parse(coords[1])/(totalTime*25);
+                    //time = Int32.Parse(TranslateTime.Text);
+                    transList.Add(new TranslateTransformation(translateVector));
                 }
                 if(Angle.Text!="") {
-                    if (RotateTime.Text == "" || RotatePoint.Text == "") throw new IOException("Enter all fields in the Rotate section");
-                    angle = double.Parse(Angle.Text);
-                    time = Int32.Parse(RotateTime.Text);
+                    //if (RotateTime.Text == "" || RotatePoint.Text == "") throw new IOException("Enter all fields in the Rotate section");
+                    angle = double.Parse(Angle.Text)/(totalTime*25);
+                    //time = Int32.Parse(RotateTime.Text);
                         //первым параметром передавать что-то (хз что, т.к центров много: все будет двигаться при скейле)
-                    transList.Add(new Tuple<Transformation, int>(new RotateTransformation(new Point(0, 0), angle), time));  
+                    transList.Add(new RotateTransformation(new Point(0, 0), angle));  
                 }
                 if(ScaleFactor.Text!="") {
-                    if (ScaleTime.Text == "" || ScalePoint.Text == "") throw new IOException("Enter all fields in the Scale section");
-                    scaleFactor = double.Parse(ScaleFactor.Text);
-                    time = Int32.Parse(ScaleTime.Text);
-                    transList.Add(new Tuple<Transformation, int>(new ScaleTransformation(new Point(0, 0), scaleFactor), time));    //аналогично
+                    //if (ScaleTime.Text == "" || ScalePoint.Text == "") throw new IOException("Enter all fields in the Scale section");
+                    scaleFactor = double.Parse(ScaleFactor.Text)/(totalTime*25);
+                    //time = Int32.Parse(ScaleTime.Text);
+                    transList.Add(new ScaleTransformation(new Point(0, 0), scaleFactor));    //аналогично
                 }
-                this.Hide();
-                
+                GlobalState.CurrentLayer = new Tuple<ILayer,List<Transformation>,int>(GlobalState.CurrentLayer.Item1,transList,totalTime);
+                this.Hide();       
             }
             catch(IOException ioEx) {
                 MessageBox.Show(ioEx.Message);
@@ -188,6 +193,13 @@ namespace DrawMoar {
             int symb;
             if (!Int32.TryParse(ScaleTime.Text, out symb)) {
                 ScaleTime.Clear();
+            }
+        }
+
+        private void TotalTestDuration_TextChanged(object sender, TextChangedEventArgs e) {
+            int symb;
+            if (!Int32.TryParse(TotalTestDuration.Text, out symb)) {
+                TotalTestDuration.Clear();
             }
         }
     }
