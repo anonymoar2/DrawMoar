@@ -2,6 +2,7 @@
 using DrawMoar.Shapes;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,7 @@ namespace DrawMoar {
         Rectangle newRect;
         Ellipse newEllipse;
         Line newLine;
+        List<Tuple<Transformation,int>> transList = new List<Tuple<Transformation,int>>();
 
 
         public GenerationDialog(ILayer layer) {
@@ -50,10 +52,11 @@ namespace DrawMoar {
 
         private void previewCanvas_MouseLeftButtonDown(object sender, MouseEventArgs e) {
             GlobalState.PressLeftButton = true;
-            prevPoint = Mouse.GetPosition(previewCanvas);
-            start = prevPoint;
+            prevPoint = Mouse.GetPosition(previewCanvas);          
             if (layer is VectorLayer)
                 clickedShape = GetClickedShape(prevPoint);
+            if(clickedShape!=null)
+                if (start.X == 0 && start.Y == 0) start = prevPoint;      //нужна какая-то другая проверка, чтобы старт ставился только в начале (счетчик count-?)
             previewCanvas_MouseMove(sender, e);
         }
 
@@ -121,7 +124,79 @@ namespace DrawMoar {
         }
 
         private void ApplyTransform_Click(object sender, RoutedEventArgs e) {
+            transList.Clear();
+            Point translateVector = new Point();
+            double scaleFactor;
+            double angle;
+            int time;   
+            try {
+                if (TranslateVector.Text == "" && ScaleFactor.Text == "" && Angle.Text == "") throw new IOException("You haven't created any transformation");
+                if (TranslateVector.Text != "") {
+                    if (TranslateTime.Text == "") throw new IOException("Enter all fields in the Translate section");
+                    string [] coords =TranslateVector.Text.Split(new char[] { ';','(',')' }, StringSplitOptions.RemoveEmptyEntries);
+                    translateVector.X=Int32.Parse(coords[0]);
+                    translateVector.Y = Int32.Parse(coords[1]);
+                    time = Int32.Parse(TranslateTime.Text);
+                    transList.Add(new Tuple<Transformation, int>(new TranslateTransformation(translateVector), time));
+                }
+                if(Angle.Text!="") {
+                    if (RotateTime.Text == "" || RotatePoint.Text == "") throw new IOException("Enter all fields in the Rotate section");
+                    angle = double.Parse(Angle.Text);
+                    time = Int32.Parse(RotateTime.Text);
+                        //первым параметром передавать что-то (хз что, т.к центров много: все будет двигаться при скейле)
+                    transList.Add(new Tuple<Transformation, int>(new RotateTransformation(new Point(0, 0), angle), time));  
+                }
+                if(ScaleFactor.Text!="") {
+                    if (ScaleTime.Text == "" || ScalePoint.Text == "") throw new IOException("Enter all fields in the Scale section");
+                    scaleFactor = double.Parse(ScaleFactor.Text);
+                    time = Int32.Parse(ScaleTime.Text);
+                    transList.Add(new Tuple<Transformation, int>(new ScaleTransformation(new Point(0, 0), scaleFactor), time));    //аналогично
+                }
+                this.Hide();
+                
+            }
+            catch(IOException ioEx) {
+                MessageBox.Show(ioEx.Message);
+            }
+            //убрал отлов всех исключений для тестирования
+            //catch(Exception ex) {                       
+            //    MessageBox.Show("Непредвиденная ошибка.");
+            //}
+        }
 
+        private void TranslateTime_TextChanged(object sender, TextChangedEventArgs e) {
+            int symb;
+            if(!Int32.TryParse(TranslateTime.Text,out symb)) {
+                TranslateTime.Clear();
+            }
+        }
+
+        private void Angle_TextChanged(object sender, TextChangedEventArgs e) {
+            double symb;
+            if (!double.TryParse(Angle.Text, out symb)) {
+                Angle.Clear();
+            }
+        }
+
+        private void RotateTime_TextChanged(object sender, TextChangedEventArgs e) {
+            int symb;
+            if (!Int32.TryParse(RotateTime.Text, out symb)) {
+                RotateTime.Clear();
+            }
+        }
+
+        private void ScaleFactor_TextChanged(object sender, TextChangedEventArgs e) {
+            double symb;
+            if (!double.TryParse(ScaleFactor.Text, out symb)) {
+                ScaleFactor.Clear();
+            }
+        }
+
+        private void ScaleTime_TextChanged(object sender, TextChangedEventArgs e) {
+            int symb;
+            if (!Int32.TryParse(ScaleTime.Text, out symb)) {
+                ScaleTime.Clear();
+            }
         }
     }
 }
