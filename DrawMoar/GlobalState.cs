@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Media;
 
 using DrawMoar.BaseElements;
-
+using System.Collections.Generic;
 
 namespace DrawMoar
 {
@@ -24,7 +24,7 @@ namespace DrawMoar
         //public static Instruments.LightVector lightVector { get; set; }
 
 
-        public static ILayer CurrentLayer { get; set; }
+        public static Tuple<ILayer, List<Transformation>, int> CurrentLayer { get; set; }
         public static Frame CurrentFrame { get; set; }
         public static Scene CurrentScene { get; set; }
         

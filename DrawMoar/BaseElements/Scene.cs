@@ -44,18 +44,18 @@ namespace DrawMoar.BaseElements
         /// <param name="currentFrame">Кадр, из которого будут генерироваться остальные</param>
         /// <param name="seconds">Количество секунд которые необходимо сгенерировать</param>
         /// <param name="smallTransformation">Список из кадров и маленьких трансформаций</param>
-        public void Generate(Frame currentFrame, int seconds, List<Tuple<ILayer, List<Transformation>>> smallTransformation) {
-            /// На каждую секунду генерируем по 25 кадров, чтобы ровненько было. Каждый кадр будет по длительности 0.04 секунды.
-            for (int i = 0; i < seconds * 24; i++) {
-                frames.Add(new Frame($"generated_frame_{i}"));
-                foreach (var layer in currentFrame.layers) {
-                    foreach (var transformedLayer in smallTransformation) {
-                        if (layer.Item1.Equals(transformedLayer.Item1)) { /// (!!)
-                            frames.Last().layers.Add(new Tuple<ILayer, List<Transformation>>(layer.Item1, transformedLayer.Item2));
-                        }
-                    }
-                }
-            }
-        }
+        //public void Generate(Frame currentFrame, int seconds, List<Tuple<ILayer, List<Transformation>>> smallTransformation) {
+        //    /// На каждую секунду генерируем по 25 кадров, чтобы ровненько было. Каждый кадр будет по длительности 0.04 секунды.
+        //    for (int i = 0; i < seconds * 24; i++) {
+        //        frames.Add(new Frame($"generated_frame_{i}"));
+        //        foreach (var layer in currentFrame.layers) {
+        //            foreach (var transformedLayer in smallTransformation) {
+        //                if (layer.Item1.Equals(transformedLayer.Item1)) { /// (!!)
+        //                    frames.Last().layers.Add(new Tuple<ILayer, List<Transformation>>(layer.Item1, transformedLayer.Item2));
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
     }
 }

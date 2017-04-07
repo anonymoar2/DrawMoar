@@ -115,7 +115,7 @@ namespace DrawMoar {
             }
             else {
                 //cartoon.CurrentScene.CurrentFrame.AddEmptyRasterLayer();
-                GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>>(new RasterLayer(),new List<Transformation>()));
+                GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new RasterLayer(),new List<Transformation>(), 0));
             }
             //var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
             var layers = GlobalState.CurrentFrame.layers;
@@ -132,7 +132,7 @@ namespace DrawMoar {
             }
             else {
                 //cartoon.CurrentScene.CurrentFrame.AddEmptyVectorLayer();
-                GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>>(new VectorLayer(), new List<Transformation>()));
+                GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new VectorLayer(), new List<Transformation>(), 0));
             }
             //var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
             var layers = GlobalState.CurrentFrame.layers;
@@ -158,7 +158,7 @@ namespace DrawMoar {
 
 
         private void DrawRasterLayerImage(RasterLayerControl rlc) {       //из-за некоторых вещей нет возможности потестить, работает ли это
-            var bmp = ((RasterLayer)GlobalState.CurrentLayer).Picture.Image;  //если работает, положим в RasterLayer
+            var bmp = ((RasterLayer)GlobalState.CurrentLayer.Item1).Picture.Image;  //если работает, положим в RasterLayer
             using (var ms = new MemoryStream()) {
                 bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
                 ms.Position = 0;
@@ -220,7 +220,7 @@ namespace DrawMoar {
                 if (currentLayer is RasterLayer)
                     ((RasterLayer)currentLayer).Save(canvas);
                 //cartoon.CurrentScene.CurrentFrame.CurrentLayer = layer;
-                GlobalState.CurrentLayer = layer.Item1;
+                GlobalState.CurrentLayer = layer;
             }
 
         }
@@ -273,7 +273,7 @@ namespace DrawMoar {
         void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             GlobalState.PressLeftButton = true;
             //currentLayer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
-            currentLayer = GlobalState.CurrentLayer;
+            currentLayer = GlobalState.CurrentLayer.Item1;
             prevPoint = Mouse.GetPosition(canvas);
             switch (GlobalState.CurrentTool) {
                 case Instrument.Arrow:
@@ -306,7 +306,7 @@ namespace DrawMoar {
         void canvas_MouseMove(object sender, MouseEventArgs e) {
             point = (Point)e.GetPosition(canvas);
             //currentLayer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
-            currentLayer = GlobalState.CurrentLayer;
+            currentLayer = GlobalState.CurrentLayer.Item1;
             if (!GlobalState.PressLeftButton) return;
             switch (GlobalState.CurrentTool) {
                 case Instrument.Arrow:
@@ -346,10 +346,10 @@ namespace DrawMoar {
                 else if (shape is Rectangle) shape = new Rectangle(prevPoint, new Size(15 + shiftX, 10 + shiftY));
                 shape.Draw(canvas);
 
-                if (layer is VectorLayer) {
-                    var shapes = ((VectorLayer)layer).Picture.shapes;
+                if (layer.Item1 is VectorLayer) {
+                    var shapes = ((VectorLayer)layer.Item1).Picture.shapes;
                     shapes.RemoveAt(shapes.Count - 1);
-                    SaveIntoLayer(layer, shape);
+                    SaveIntoLayer(layer.Item1, shape);
                 }
                 // else ((RasterLayer)currentLayer).Save(canvas);
             }
@@ -358,7 +358,7 @@ namespace DrawMoar {
 
         IShape GetClickedShape(Point clickPoint) {
             //var layer = (VectorLayer)cartoon.CurrentScene.CurrentFrame.CurrentLayer;
-            var layer = (VectorLayer)GlobalState.CurrentLayer;
+            var layer = (VectorLayer)GlobalState.CurrentLayer.Item1;
             foreach (var item in layer.Picture.shapes) {
                 if (item is Rectangle) {
                     if (((Math.Abs(clickPoint.X - ((Rectangle)item).Center.X) < ((Rectangle)item).Size.Width / 4) &&    //вместо 20 потом придется скалировать пропорционально размерам фигуры
@@ -434,7 +434,6 @@ namespace DrawMoar {
 
 
         private void GenerateFrame_Click(object sender, RoutedEventArgs e) {
-            if (cartoon == null) return;
             ILayer cloneOfCurrent = (ILayer)currentLayer.Clone();
             var generationWin = new GenerationDialog(cloneOfCurrent);
             generationWin.Show();
@@ -497,11 +496,11 @@ namespace DrawMoar {
             if (cartoon == null) return;
             int index = layersList.SelectedIndex;
             //var layerToDelete = cartoon.CurrentScene.CurrentFrame.GetAllLayers()[index];
-            var layerToDelete = GlobalState.CurrentFrame.layers[index];
+            var layerToDelete = GlobalState.CurrentFrame.layers[index].Item1;
             layersList.Items.RemoveAt(index);
             if(GlobalState.CurrentFrame.layers.Count ==1)
                 if(layerToDelete is VectorLayer) {
-                    AddListBoxElement(layersList,GlobalState.CurrentLayer.Name);               
+                    AddListBoxElement(layersList,GlobalState.CurrentLayer.Item1.Name);               
                 }
             //cartoon.CurrentScene.CurrentFrame.RemoveLayerAt(index);
             GlobalState.CurrentFrame.layers.RemoveAt(index);
