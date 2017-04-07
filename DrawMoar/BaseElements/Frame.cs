@@ -41,11 +41,11 @@ namespace DrawMoar.BaseElements
         
         
         public System.Drawing.Bitmap Join() {
-            var bm = new Bitmap(450, 450, PixelFormat.Format32bppArgb);
+            var bm = new Bitmap(GlobalState.Width, GlobalState.Height, PixelFormat.Format32bppArgb);
             Graphics g = Graphics.FromImage(bm);
             g.CompositingMode = CompositingMode.SourceOver;
             foreach (var l in layers) {
-                g.DrawImage(l.Item1.GetImage(450,450), 0, 0);
+                g.DrawImage(l.Item1.GetImage(GlobalState.Width,GlobalState.Height), 0, 0);
                 g.Dispose();
             }
             return bm;

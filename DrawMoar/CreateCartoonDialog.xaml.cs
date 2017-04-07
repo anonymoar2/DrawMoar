@@ -55,6 +55,8 @@ namespace DrawMoar
                             cartoon.scenes.Add(new Scene());
                             GlobalState.CurrentScene = cartoon.scenes[0];
                             GlobalState.WorkingDirectory = workingDirectory;
+                            GlobalState.Width = cartoonWidth;
+                            GlobalState.Height = cartoonHeight;
                             MainWindow mw = (MainWindow)Owner;
                             mw.Success(cartoon);
                             Hide();
