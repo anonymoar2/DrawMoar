@@ -115,7 +115,7 @@ namespace DrawMoar {
             }
             else {
                 //cartoon.CurrentScene.CurrentFrame.AddEmptyRasterLayer();
-                GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new RasterLayer(),new List<Transformation>(), 0));
+                GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new RasterLayer(), new List<Transformation>(), 0));
             }
             //var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
             var layers = GlobalState.CurrentFrame.layers;
@@ -169,7 +169,7 @@ namespace DrawMoar {
                 bi.StreamSource = ms;
                 bi.EndInit();
                 rlc.Image.Source = bi;
-            }        
+            }
         }
 
 
@@ -434,9 +434,9 @@ namespace DrawMoar {
 
 
         private void GenerateFrame_Click(object sender, RoutedEventArgs e) {
-            ILayer cloneOfCurrent = (ILayer)currentLayer.Clone();
-            var generationWin = new GenerationDialog(cloneOfCurrent);
-            generationWin.Show();
+            GlobalState.CurrentScene.Generate(GlobalState.CurrentFrame, 50);
+            scenesList_SelectionChanged(null, null);
+            Refresh();
         }
 
 
@@ -483,7 +483,7 @@ namespace DrawMoar {
             if (cartoon == null) return;
             int index = framesList.SelectedIndex;
             framesList.Items.RemoveAt(index);
-            if(GlobalState.CurrentScene.frames.Count ==1) {
+            if (GlobalState.CurrentScene.frames.Count == 1) {
                 AddListBoxElement(framesList, GlobalState.CurrentFrame.Name);
             }
             GlobalState.CurrentScene.frames.RemoveAt(index);
@@ -498,9 +498,9 @@ namespace DrawMoar {
             //var layerToDelete = cartoon.CurrentScene.CurrentFrame.GetAllLayers()[index];
             var layerToDelete = GlobalState.CurrentFrame.layers[index].Item1;
             layersList.Items.RemoveAt(index);
-            if(GlobalState.CurrentFrame.layers.Count ==1)
-                if(layerToDelete is VectorLayer) {
-                    AddListBoxElement(layersList,GlobalState.CurrentLayer.Item1.Name);               
+            if (GlobalState.CurrentFrame.layers.Count == 1)
+                if (layerToDelete is VectorLayer) {
+                    AddListBoxElement(layersList, GlobalState.CurrentLayer.Item1.Name);
                 }
             //cartoon.CurrentScene.CurrentFrame.RemoveLayerAt(index);
             GlobalState.CurrentFrame.layers.RemoveAt(index);
@@ -529,7 +529,9 @@ namespace DrawMoar {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void AT_Click(object sender, RoutedEventArgs e) {
-            GlobalState.CurrentScene.Generate(GlobalState.CurrentFrame, 3);
+            ILayer cloneOfCurrent = (ILayer)currentLayer.Clone();
+            var generationWin = new GenerationDialog(cloneOfCurrent);
+            generationWin.Show();
         }
     }
 }
