@@ -115,7 +115,7 @@ namespace DrawMoar {
             }
             else {
                 //cartoon.CurrentScene.CurrentFrame.AddEmptyRasterLayer();
-                GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>>(new RasterLayer(),new List<Transformation>()));
+                GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new RasterLayer(),new List<Transformation>(),0));
             }
             //var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
             var layers = GlobalState.CurrentFrame.layers;
@@ -132,7 +132,7 @@ namespace DrawMoar {
             }
             else {
                 //cartoon.CurrentScene.CurrentFrame.AddEmptyVectorLayer();
-                GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>>(new VectorLayer(), new List<Transformation>()));
+                GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>,int>(new VectorLayer(), new List<Transformation>(),0));
             }
             //var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
             var layers = GlobalState.CurrentFrame.layers;

@@ -94,16 +94,8 @@ namespace DrawMoar {
 
         void TranslatingRedrawing(IShape shape, MouseEventArgs e) {           
             point = e.GetPosition(previewCanvas);
-            if (clickedShape != null) {
-                var shapes = ((VectorLayer)layer).Picture.shapes;              
-                for(int i = 0; i < shapes.Count; i++) {
-                    var item = shapes[i];
-                    previewCanvas.Children.RemoveAt(shapes.IndexOf(item));
-                    shapes.RemoveAt(shapes.IndexOf(item));
-                    item.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
-                    item.Draw(previewCanvas);
-                    SaveIntoLayer(layer, item);
-                }
+            if (clickedShape != null) {             
+                ((VectorLayer)layer).Picture.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
                 TranslateVector.Text = $"( {(int)(point.X-start.X)} ; {(int)(point.Y-start.Y)} )";
                 Refresh();
             }

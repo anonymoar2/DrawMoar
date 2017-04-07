@@ -51,7 +51,7 @@ namespace DrawMoar.BaseElements
                 foreach (var layer in currentFrame.layers) {
                     foreach (var transformedLayer in smallTransformation) {
                         if (layer.Item1.Equals(transformedLayer.Item1)) { /// (!!)
-                            frames.Last().layers.Add(new Tuple<ILayer, List<Transformation>>(layer.Item1, transformedLayer.Item2));
+                            frames.Last().layers.Add(new Tuple<ILayer, List<Transformation>,int>(layer.Item1, transformedLayer.Item2,0));
                         }
                     }
                 }
