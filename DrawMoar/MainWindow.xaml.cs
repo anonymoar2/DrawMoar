@@ -522,5 +522,15 @@ namespace DrawMoar {
             }
         }
 
+
+        /// <summary>
+        /// TODO: Поменять местами генерацию и создание трансформаций
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AT_Click(object sender, RoutedEventArgs e) {
+            GlobalState.CurrentScene.Generate(GlobalState.CurrentFrame, 50);
+            Refresh();
+        }
     }
 }

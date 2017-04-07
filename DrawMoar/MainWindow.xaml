@@ -64,6 +64,7 @@
             <Button x:Name="GenerateFrame" Content="Gen" Width="30"  Height="20" Margin="5,5" Click="GenerateFrame_Click"/>
             <Button x:Name="DeleteFrame" Content="Del F" Width="30" Height="20" Margin="5,5" Click="DeleteFrame_Click"/>
             <Button x:Name="DeleteLayer" Content="Del L" Width="30" Height="20" Margin="5,5" Click="DeleteLayer_Click"/>
+            <Button x:Name="AddTransformation" Content="AT" Width="30"  Height="20" Margin="5,5" Click="AT_Click"/>
         </WrapPanel>
         <ListBox Name="layersList" Width="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                          BorderBrush="LightGray" SelectionChanged="layersList_SelectionChanged" Grid.Column="0" Grid.Row="4"/>
