@@ -120,7 +120,7 @@ namespace DrawMoar {
             Point translateVector = new Point();
             double scaleFactor;
             double angle;
-            int time;
+            int []time = new int[3];
             int totalTime=0;  //временно
             try {
                 if (TranslateVector.Text == "" && ScaleFactor.Text == "" && Angle.Text == "") throw new IOException("You haven't created any transformation");
@@ -133,24 +133,35 @@ namespace DrawMoar {
                     string [] coords =TranslateVector.Text.Split(new char[] { ';','(',')' }, StringSplitOptions.RemoveEmptyEntries);
                     translateVector.X=Int32.Parse(coords[0])/(totalTime*25);
                     translateVector.Y = Int32.Parse(coords[1])/(totalTime*25);
-                    //time = Int32.Parse(TranslateTime.Text);
+                    //time[0] = Int32.Parse(TranslateTime.Text);
                     transList.Add(new TranslateTransformation(translateVector));
                 }
                 if(Angle.Text!="") {
                     //if (RotateTime.Text == "" || RotatePoint.Text == "") throw new IOException("Enter all fields in the Rotate section");
                     angle = double.Parse(Angle.Text)/(totalTime*25);
-                    //time = Int32.Parse(RotateTime.Text);
+                    //time[1] = Int32.Parse(RotateTime.Text);
+                    string[] coords = RotatePoint.Text.Split(new char[] { ';', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
+                    Point center = new Point();
+                    center.X = Int32.Parse(coords[0]);
+                    center.Y = Int32.Parse(coords[1]);
                         //первым параметром передавать что-то (хз что, т.к центров много: все будет двигаться при скейле)
-                    transList.Add(new RotateTransformation(new Point(0, 0), angle));  
+                    transList.Add(new RotateTransformation(center, angle));  
                 }
                 if(ScaleFactor.Text!="") {
                     //if (ScaleTime.Text == "" || ScalePoint.Text == "") throw new IOException("Enter all fields in the Scale section");
-                    scaleFactor = double.Parse(ScaleFactor.Text)/(totalTime*25);
-                    //time = Int32.Parse(ScaleTime.Text);
-                    transList.Add(new ScaleTransformation(new Point(0, 0), scaleFactor));    //аналогично
+                    scaleFactor =1+ double.Parse(ScaleFactor.Text)/(totalTime*25);
+                    //time[2] = Int32.Parse(ScaleTime.Text);
+                    string[] coords = ScalePoint.Text.Split(new char[] { ';', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
+                    Point center = new Point();
+                    center.X = Int32.Parse(coords[0]);
+                    center.Y = Int32.Parse(coords[1]);
+
+                    transList.Add(new ScaleTransformation(center, scaleFactor));    //аналогично
                 }
                 GlobalState.CurrentLayer = new Tuple<ILayer,List<Transformation>,int>(GlobalState.CurrentLayer.Item1,transList,totalTime);
                 GlobalState.CurrentTrans = transList;
+                //GlobalState.TotalTime = Math.Max(Math.Max(time[0],time[1]),time[2]);
+                GlobalState.TotalTime = totalTime;
                 this.Hide();       
             }
             catch(IOException ioEx) {

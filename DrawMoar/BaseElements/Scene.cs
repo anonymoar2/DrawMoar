@@ -52,8 +52,7 @@ namespace DrawMoar.BaseElements
                     foreach (var trans in GlobalState.CurrentTrans) {
                         for (int j = 0; j <= i; j++) {
                             tmpLayer.Transform(trans);
-                        }
-                        
+                        }                   
                     }
                     frames.Last().layers.Add(new Tuple<ILayer, List<Transformation>, int>((ILayer)tmpLayer.Clone(), new List<Transformation>(), 0));
                     frames.Last().layers.RemoveAt(0);
