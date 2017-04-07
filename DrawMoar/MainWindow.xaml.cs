@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 
 using DrawMoar.Shapes;
 using DrawMoar.BaseElements;
-
+using System.Linq;
 
 namespace DrawMoar {
     /// <summary>
@@ -530,7 +530,6 @@ namespace DrawMoar {
         /// <param name="e"></param>
         private void AT_Click(object sender, RoutedEventArgs e) {
             GlobalState.CurrentScene.Generate(GlobalState.CurrentFrame, 50);
-            Refresh();
         }
     }
 }
