@@ -25,18 +25,18 @@ namespace DrawMoar.BaseElements
         }
 
 
-        public List<ILayer> layers = new List<ILayer>();
+        public List<Tuple<ILayer, List<Transformation>>> layers = new List<Tuple<ILayer, List<Transformation>>>();
 
 
         public Frame() {
             name = "newFrame";
-            layers.Add(new VectorLayer("Vector_Layer_0"));
+            layers.Add(new Tuple<ILayer, List<Transformation>>(new VectorLayer("Vector_Layer_0"), new List<Transformation>()));
         }
 
 
         public Frame(string name) {
             this.name = name;
-            layers.Add(new VectorLayer("Vector_Layer_0"));
+            layers.Add(new Tuple<ILayer, List<Transformation>>(new VectorLayer("Vector_Layer_0"), new List<Transformation>()));
         }
         
         
@@ -45,7 +45,7 @@ namespace DrawMoar.BaseElements
             Graphics g = Graphics.FromImage(bm);
             g.CompositingMode = CompositingMode.SourceOver;
             foreach (var l in layers) {
-                g.DrawImage(l.GetImage(450,450), 0, 0);
+                g.DrawImage(l.Item1.GetImage(450,450), 0, 0);
                 g.Dispose();
             }
             return bm;
@@ -57,7 +57,7 @@ namespace DrawMoar.BaseElements
 
             foreach(var layer in layers)
             {
-                buf.layers.Add((ILayer)layer.Clone());
+                buf.layers.Add(new Tuple<ILayer, List<Transformation>>((ILayer)(layer.Item1).Clone(), new List<Transformation>()));
             }
 
             return buf;

@@ -115,7 +115,7 @@ namespace DrawMoar {
             }
             else {
                 //cartoon.CurrentScene.CurrentFrame.AddEmptyRasterLayer();
-                GlobalState.CurrentFrame.layers.Add(new RasterLayer());
+                GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>>(new RasterLayer(),new List<Transformation>()));
             }
             //var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
             var layers = GlobalState.CurrentFrame.layers;
@@ -132,7 +132,7 @@ namespace DrawMoar {
             }
             else {
                 //cartoon.CurrentScene.CurrentFrame.AddEmptyVectorLayer();
-                GlobalState.CurrentFrame.layers.Add(new VectorLayer());
+                GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>>(new VectorLayer(), new List<Transformation>()));
             }
             //var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
             var layers = GlobalState.CurrentFrame.layers;
@@ -186,9 +186,9 @@ namespace DrawMoar {
             //var lays = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
             var lays = GlobalState.CurrentFrame.layers;
             foreach (var item in lays) {
-                AddListBoxElement(layersList, item.Name);
-                if (item is VectorLayer)
-                    ((VectorLayer)item).Picture.Draw(canvas);
+                AddListBoxElement(layersList, item.Item1.Name);
+                if (item.Item1 is VectorLayer)
+                    ((VectorLayer)item.Item1).Picture.Draw(canvas);
                 else {
                     var rlc = new RasterLayerControl();
                     DrawRasterLayerImage(rlc);
@@ -220,7 +220,7 @@ namespace DrawMoar {
                 if (currentLayer is RasterLayer)
                     ((RasterLayer)currentLayer).Save(canvas);
                 //cartoon.CurrentScene.CurrentFrame.CurrentLayer = layer;
-                GlobalState.CurrentLayer = layer;
+                GlobalState.CurrentLayer = layer.Item1;
             }
 
         }
@@ -515,8 +515,8 @@ namespace DrawMoar {
             //var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
             var layers = GlobalState.CurrentFrame.layers;
             foreach (var item in layers) {
-                if (item is VectorLayer) {
-                    ((VectorLayer)item).Picture.Draw(canvas);
+                if (item.Item1 is VectorLayer) {
+                    ((VectorLayer)item.Item1).Picture.Draw(canvas);
                 }
                 //TODO: РАСТР...
             }
