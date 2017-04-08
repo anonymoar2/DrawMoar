@@ -24,9 +24,6 @@ namespace DrawMoar {
         Point start;
         ILayer layer;
         IShape clickedShape;
-        Rectangle newRect;
-        Ellipse newEllipse;
-        Line newLine;
         List<Transformation> transList = new List<Transformation>();
 
 
@@ -158,8 +155,10 @@ namespace DrawMoar {
 
                     transList.Add(new ScaleTransformation(center, scaleFactor));    //аналогично
                 }
-                GlobalState.CurrentLayer = new Tuple<ILayer,List<Transformation>,int>(GlobalState.CurrentLayer.Item1,transList,totalTime);
-                GlobalState.CurrentTrans = transList;
+                ///TODO: Поместить трансформации в слой            
+                var index = GlobalState.CurrentFrame.layers.IndexOf(GlobalState.CurrentLayer);
+                GlobalState.CurrentFrame.layers[index] = new Tuple<ILayer, List<Transformation>, int>(GlobalState.CurrentLayer.Item1, transList, totalTime);
+                GlobalState.CurrentLayer = new Tuple<ILayer, List<Transformation>, int>(GlobalState.CurrentLayer.Item1, transList, totalTime);
                 //GlobalState.TotalTime = Math.Max(Math.Max(time[0],time[1]),time[2]);
                 GlobalState.TotalTime = totalTime;
                 this.Hide();       

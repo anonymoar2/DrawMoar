@@ -49,14 +49,14 @@ namespace DrawMoar.BaseElements
                 frames.Add(new Frame($"generated_frame_{i}"));          
                 foreach(var layer in currentFrame.layers) {
                     ILayer tmpLayer = (ILayer)layer.Item1.Clone();
-                    foreach (var trans in GlobalState.CurrentTrans) {
+                    foreach (var trans in layer.Item2) {
                         for (int j = 0; j <= i; j++) {
                             tmpLayer.Transform(trans);
                         }                   
                     }
-                    frames.Last().layers.Add(new Tuple<ILayer, List<Transformation>, int>((ILayer)tmpLayer.Clone(), new List<Transformation>(), 0));
-                    frames.Last().layers.RemoveAt(0);
+                    frames.Last().layers.Add(new Tuple<ILayer, List<Transformation>, int>((ILayer)tmpLayer.Clone(), new List<Transformation>(), 0));              
                 }
+                frames.Last().layers.RemoveAt(0);
             }
         }
     }
