@@ -125,6 +125,7 @@ namespace DrawMoar {
                     totalTime = Int32.Parse(TotalTestDuration.Text);
                 }
                 else throw new IOException("Enter the Total Duration field");
+
                 if (TranslateVector.Text != "") {
                     //if (TranslateTime.Text == "") throw new IOException("Enter all fields in the Translate section");
                     string [] coords =TranslateVector.Text.Split(new char[] { ';','(',')' }, StringSplitOptions.RemoveEmptyEntries);
@@ -133,6 +134,7 @@ namespace DrawMoar {
                     //time[0] = Int32.Parse(TranslateTime.Text);
                     transList.Add(new TranslateTransformation(translateVector));
                 }
+
                 if(Angle.Text!="") {
                     //if (RotateTime.Text == "" || RotatePoint.Text == "") throw new IOException("Enter all fields in the Rotate section");
                     angle = double.Parse(Angle.Text)/(totalTime*25);
@@ -144,6 +146,7 @@ namespace DrawMoar {
                         //первым параметром передавать что-то (хз что, т.к центров много: все будет двигаться при скейле)
                     transList.Add(new RotateTransformation(center, angle));  
                 }
+
                 if(ScaleFactor.Text!="") {
                     //if (ScaleTime.Text == "" || ScalePoint.Text == "") throw new IOException("Enter all fields in the Scale section");
                     scaleFactor =1+ double.Parse(ScaleFactor.Text)/(totalTime*25);
@@ -152,7 +155,6 @@ namespace DrawMoar {
                     Point center = new Point();
                     center.X = Int32.Parse(coords[0]);
                     center.Y = Int32.Parse(coords[1]);
-
                     transList.Add(new ScaleTransformation(center, scaleFactor));    //аналогично
                 }
                 ///TODO: Поместить трансформации в слой            

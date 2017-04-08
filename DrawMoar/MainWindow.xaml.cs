@@ -25,6 +25,7 @@ namespace DrawMoar {
         DrawMoar.Shapes.Rectangle newRect;
         ILayer currentLayer; /// Нужно ли это?
         IShape clickedShape;
+        GenerationDialog generationWin;
 
         public MainWindow() {
             InitializeComponent();
@@ -434,6 +435,7 @@ namespace DrawMoar {
 
 
         private void GenerateFrame_Click(object sender, RoutedEventArgs e) {
+            if (cartoon == null) return;
             GlobalState.CurrentScene.Generate(GlobalState.CurrentFrame, GlobalState.TotalTime);
             scenesList_SelectionChanged(null, null);
             Refresh();
@@ -486,8 +488,12 @@ namespace DrawMoar {
             if (GlobalState.CurrentScene.frames.Count == 1) {
                 AddListBoxElement(framesList, GlobalState.CurrentFrame.Name);
             }
-            GlobalState.CurrentScene.frames.RemoveAt(index);
+            var frames = GlobalState.CurrentScene.frames;
+            frames.RemoveAt(index);
             framesList.SelectedIndex = framesList.Items.Count > 1 ? index - 1 : 0;
+            GlobalState.CurrentFrame = framesList.Items.Count > 1 ? frames[index-1] : frames[0];
+            //GlobalState.CurrentLayer =GlobalState.CurrentFrame.layers[0];
+            currentLayer = GlobalState.CurrentFrame.layers[0].Item1;
             Refresh();
         }
 
@@ -530,8 +536,12 @@ namespace DrawMoar {
         /// <param name="e"></param>
         private void AT_Click(object sender, RoutedEventArgs e) {
             ILayer cloneOfCurrent = (ILayer)currentLayer.Clone();
-            var generationWin = new GenerationDialog(cloneOfCurrent);
+            generationWin = new GenerationDialog(cloneOfCurrent);
             generationWin.Show();
+        }
+
+        private void Window_Closed(object sender, EventArgs e) {
+            if (generationWin != null) generationWin.Close();
         }
     }
 }
