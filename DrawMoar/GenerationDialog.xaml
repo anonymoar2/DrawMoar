@@ -21,7 +21,7 @@
         <Canvas Name= "previewCanvas" Background="White" Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" ClipToBounds="True" HorizontalAlignment="Center" VerticalAlignment="Center" />
         <WrapPanel Name="TranslatePanel">
             <Label Grid.Row="0" Grid.Column="0" Width="200" Height="Auto"  Content="Translate" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Background="AliceBlue"/>
-            <Label Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10" Content="Vector" FontSize="15" HorizontalContentAlignment="Center"/>
+            <Button Name="Translate" Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10" Content="Vector" FontSize="15" HorizontalContentAlignment="Center" Click="Translate_Click"/>
             <TextBox Name="TranslateVector" Grid.Column="0" Grid.Row="0" MinWidth="85" Width="Auto" Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="15" Margin="0,13" IsEnabled="False"/>
             <Label Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10,5" Content="Time" FontSize="15" HorizontalContentAlignment="Center"/>
             <TextBox Name="TranslateTime" Grid.Column="0" Grid.Row="1" Width="70" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,7" FontSize="15" TextChanged="TranslateTime_TextChanged"/>
@@ -32,8 +32,8 @@
             <TextBox Name="Angle" Grid.Column="0" Grid.Row="1" Width="70" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,13" FontSize="15" TextChanged="Angle_TextChanged"/>
             <Label Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10,5" Content="Time" FontSize="15" HorizontalContentAlignment="Center"/>
             <TextBox Name="RotateTime" Grid.Column="0" Grid.Row="1" Width="70" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,8" FontSize="15" TextChanged="RotateTime_TextChanged"/>
-            <Label Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10,5" Content="Center" FontSize="15" HorizontalContentAlignment="Center"/>
-            <TextBox Name="RotatePoint" Grid.Column="0" Grid.Row="1" Width="70" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="15" Margin="15,8"/>
+            <Button Name="RotateCenter" Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10,5" Content="Center" FontSize="15" HorizontalContentAlignment="Center" Click="RotateCenter_Click"/>
+            <TextBox Name="RotatePoint" Grid.Column="0" Grid.Row="1" Width="85" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="15" Margin="0,8" IsEnabled="False"/>
         </WrapPanel>
         <WrapPanel Name="ScalePanel" Grid.Column="0" Grid.Row="2">
             <Label Grid.Row="1" Grid.Column="0" Width="200" Height="Auto" Content="Scale" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Background="AliceBlue"/>
@@ -41,8 +41,8 @@
             <TextBox Name="ScaleFactor" Grid.Column="0" Grid.Row="1" Width="70" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,13" FontSize="15" TextChanged="ScaleFactor_TextChanged"/>
             <Label Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10,5" Content="Time" FontSize="15" HorizontalContentAlignment="Center"/>
             <TextBox Name="ScaleTime" Grid.Column="0" Grid.Row="1" Width="70" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,8"  FontSize="15" TextChanged="ScaleTime_TextChanged"/>
-            <Label Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10,5" Content="Center" FontSize="15" HorizontalContentAlignment="Center"/>
-            <TextBox Name="ScalePoint" Grid.Column="0" Grid.Row="1" Width="70" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,8" FontSize="15"/>
+            <Button Name="ScaleCenter" Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10,5" Content="Center" FontSize="15" HorizontalContentAlignment="Center" Click="ScaleCenter_Click"/>
+            <TextBox Name="ScalePoint" Grid.Column="0" Grid.Row="1" Width="85" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,8" FontSize="15" IsEnabled="False"/>
         </WrapPanel>
         <WrapPanel Name="SemyonTestPanel" Grid.Column="0" Grid.Row="3">
             <Label Grid.Row="1" Grid.Column="0" Width="200" Height="Auto"  Content="Семен привет" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Background="AliceBlue"/>
