@@ -97,6 +97,9 @@ namespace DrawMoar {
                         (Math.Abs(clickPoint.Y - ((Ellipse)item).Center.Y) < ((Ellipse)item).Size.Width / 4)))
                         return item;
                 }
+                else if (item is Line) {
+                    
+                }
             }
             return null;
         }
@@ -178,7 +181,8 @@ namespace DrawMoar {
         private void ApplyScaling(int totalTime) {
             double scaleFactor;
             //if (ScaleTime.Text == "" || ScalePoint.Text == "") throw new IOException("Enter all fields in the Scale section");
-            scaleFactor = 1 + double.Parse(ScaleFactor.Text) / (totalTime * 25);
+            if (ScalePoint.Text == "") throw new IOException("Enter all fields in the Scale section");
+            scaleFactor =  1+(double.Parse(ScaleFactor.Text)-1) / (totalTime * 25);
             //time[2] = Int32.Parse(ScaleTime.Text);
             string[] coords = ScalePoint.Text.Split(new char[] { ';', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             Point center = new Point();
@@ -190,6 +194,7 @@ namespace DrawMoar {
         private void ApplyRotation(int totalTime) {
             double angle;
             //if (RotateTime.Text == "" || RotatePoint.Text == "") throw new IOException("Enter all fields in the Rotate section");
+            if (RotatePoint.Text == "") throw new IOException("Enter all fields in the Rotate section");
             angle = double.Parse(Angle.Text) / (totalTime * 25);
             //time[1] = Int32.Parse(RotateTime.Text);
             string[] coords = RotatePoint.Text.Split(new char[] { ';', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
@@ -255,7 +260,7 @@ namespace DrawMoar {
         }
     }
 
-    enum State {
+    enum State {            //набор возможных состояний для интерпретации клика по канвасу
         Translation,
         ScaleCenter,
         RotateCenter

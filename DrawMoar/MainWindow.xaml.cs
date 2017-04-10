@@ -218,8 +218,8 @@ namespace DrawMoar {
             if (layersList.SelectedIndex != -1) {
                 //var layer = cartoon.CurrentScene.CurrentFrame.GetAllLayers()[layersList.SelectedIndex];
                 var layer = GlobalState.CurrentFrame.layers[layersList.SelectedIndex];
-                if (currentLayer is RasterLayer)
-                    ((RasterLayer)currentLayer).Save(canvas);
+                if (GlobalState.CurrentLayer.Item1 is RasterLayer)
+                    ((RasterLayer)GlobalState.CurrentLayer.Item1).Save(canvas);
                 //cartoon.CurrentScene.CurrentFrame.CurrentLayer = layer;
                 GlobalState.CurrentLayer = layer;
             }
@@ -358,11 +358,10 @@ namespace DrawMoar {
 
 
         IShape GetClickedShape(Point clickPoint) {
-            //var layer = (VectorLayer)cartoon.CurrentScene.CurrentFrame.CurrentLayer;
             var layer = (VectorLayer)GlobalState.CurrentLayer.Item1;
             foreach (var item in layer.Picture.shapes) {
                 if (item is Rectangle) {
-                    if (((Math.Abs(clickPoint.X - ((Rectangle)item).Center.X) < ((Rectangle)item).Size.Width / 4) &&    //вместо 20 потом придется скалировать пропорционально размерам фигуры
+                    if (((Math.Abs(clickPoint.X - ((Rectangle)item).Center.X) < ((Rectangle)item).Size.Width / 4) &&
                         (Math.Abs(clickPoint.Y - ((Rectangle)item).Center.Y) < ((Rectangle)item).Size.Height / 4)))
                         return item;
                 }
@@ -370,6 +369,13 @@ namespace DrawMoar {
                     if (((Math.Abs(clickPoint.X - ((Ellipse)item).Center.X) < ((Ellipse)item).Size.Width / 4) &&
                         (Math.Abs(clickPoint.Y - ((Ellipse)item).Center.Y) < ((Ellipse)item).Size.Width / 4)))
                         return item;
+                }
+                else if (item is Line) {
+                    if (Math.Abs((clickPoint.Y - ((Line)item).PointOne.Y) / ((((Line)item).PointTwo.Y) - (((Line)item).PointOne.Y))
+                        -
+                        (clickPoint.X - (((Line)item).PointOne.X)) / ((((Line)item).PointTwo.X) - (((Line)item).PointOne.X))) < 5) {
+                        return item;
+                    }
                 }
             }
             return null;
@@ -491,7 +497,7 @@ namespace DrawMoar {
             var frames = GlobalState.CurrentScene.frames;
             frames.RemoveAt(index);
             framesList.SelectedIndex = framesList.Items.Count > 1 ? index - 1 : 0;
-            GlobalState.CurrentFrame = framesList.Items.Count > 1 ? frames[index-1] : frames[0];
+            GlobalState.CurrentFrame = framesList.Items.Count > 1 ? frames[index - 1] : frames[0];
             //GlobalState.CurrentLayer =GlobalState.CurrentFrame.layers[0];
             currentLayer = GlobalState.CurrentFrame.layers[0].Item1;
             Refresh();
@@ -535,7 +541,7 @@ namespace DrawMoar {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void AT_Click(object sender, RoutedEventArgs e) {
-            ILayer cloneOfCurrent = (ILayer)currentLayer.Clone();
+            ILayer cloneOfCurrent = (ILayer)GlobalState.CurrentLayer.Item1.Clone();
             generationWin = new GenerationDialog(cloneOfCurrent);
             generationWin.Show();
         }
