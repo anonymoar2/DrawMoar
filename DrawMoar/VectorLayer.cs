@@ -7,6 +7,7 @@ using DrawMoar.BaseElements;
 using DrawMoar.Shapes;
 using System.Windows;
 using System.Collections.Generic;
+using System.Windows.Controls;
 
 namespace DrawMoar
 {
@@ -71,7 +72,7 @@ namespace DrawMoar
             Text = new List<Text>();
         }
 
-        
+
         public void Draw(Graphics g) {
             Picture.Draw(g);
             foreach (var element in Text)
@@ -85,8 +86,10 @@ namespace DrawMoar
         /// Тупо вывод на экране при переключении между слоями, но его не будет, если канвасы накладываем друг на друга
         /// </summary>
         /// <param name="bitmap"></param>
-        public void Print() {
-            // Проходим по фигурам, отрисовывая их на экране
+        public void Print(Canvas canvas) {
+            foreach (var item in Picture.shapes) {
+                item.Draw(canvas);
+            }
         }
 
 

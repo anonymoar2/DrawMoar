@@ -4,7 +4,7 @@ using DrawMoar.BaseElements;
 using DrawMoar.Shapes;
 using System.Collections.Generic;
 using System;
-
+using System.Windows.Controls;
 
 namespace DrawMoar
 {
@@ -22,6 +22,8 @@ namespace DrawMoar
         /// Название слоя.
         /// </summary>
         string Name { get; set; }
+
+        void Print(Canvas canvas);
 
 
         void Draw(Graphics g);

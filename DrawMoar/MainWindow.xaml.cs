@@ -23,7 +23,6 @@ namespace DrawMoar {
         Point point;
         DrawMoar.Shapes.Ellipse newEllipse;
         DrawMoar.Shapes.Rectangle newRect;
-        ILayer currentLayer; /// Нужно ли это?
         IShape clickedShape;
         GenerationDialog generationWin;
 
@@ -115,10 +114,9 @@ namespace DrawMoar {
                 layersList.Items.Clear();
             }
             else {
-                //cartoon.CurrentScene.CurrentFrame.AddEmptyRasterLayer();
                 GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new RasterLayer(), new List<Transformation>(), 0));
-            }
-            //var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();          
+            }  
+            GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
             var layers = GlobalState.CurrentFrame.layers;
             AddListBoxElement(layersList, $"RasterLayer_{layers.Count - 1}");
         }
@@ -132,7 +130,6 @@ namespace DrawMoar {
                 layersList.Items.Clear();
             }
             else {
-                //cartoon.CurrentScene.CurrentFrame.AddEmptyVectorLayer();
                 GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new VectorLayer(), new List<Transformation>(), 0));
             }
             GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
@@ -158,21 +155,6 @@ namespace DrawMoar {
         }
 
 
-        private void DrawRasterLayerImage(RasterLayerControl rlc) {       //из-за некоторых вещей нет возможности потестить, работает ли это
-            var bmp = ((RasterLayer)GlobalState.CurrentLayer.Item1).Picture.Image;  //если работает, положим в RasterLayer
-            using (var ms = new MemoryStream()) {
-                bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                ms.Position = 0;
-
-                var bi = new BitmapImage();
-                bi.BeginInit();
-                bi.CacheOption = BitmapCacheOption.OnLoad;
-                bi.StreamSource = ms;
-                bi.EndInit();
-                rlc.Image.Source = bi;
-            }
-        }
-
 
         /// <summary>
         /// Обработка выбора элемента из элемента, отображающего кадры
@@ -180,34 +162,26 @@ namespace DrawMoar {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            layersList.Items.Clear();
-            canvas.Children.Clear();
             if (framesList.SelectedIndex != -1) {
+                if (GlobalState.CurrentFrame.layers.Count > 0)
+                    if (GlobalState.CurrentLayer.Item1 is RasterLayer) ((RasterLayer)GlobalState.CurrentLayer.Item1).Save(canvas);
                 GlobalState.CurrentFrame = GlobalState.CurrentScene.frames[framesList.SelectedIndex];
                 GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
             }
-            //var lays = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
+            layersList.Items.Clear();
+            canvas.Children.Clear();
             var lays = GlobalState.CurrentFrame.layers;
             foreach (var item in lays) {
                 AddListBoxElement(layersList, item.Item1.Name);
-                if (item.Item1 is VectorLayer)
-                    ((VectorLayer)item.Item1).Picture.Draw(canvas);
-                else {
-                    //var rlc = new RasterLayerControl();
-                    //DrawRasterLayerImage(rlc);
-                    //canvas.Children.Add(rlc);
-                }
+                item.Item1.Print(canvas);
+                layersList.SelectedIndex = 0;
             }
-            //cartoon.CurrentScene.CurrentFrame = cartoon.CurrentScene.GetAllFrames()[framesList.SelectedIndex];
-            layersList.SelectedIndex = 0;
         }
 
 
         private void scenesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             framesList.Items.Clear();
-            //cartoon.CurrentScene = cartoon.GetAllScenes()[scenesList.SelectedIndex];
             GlobalState.CurrentScene = cartoon.scenes[scenesList.SelectedIndex];
-            //var frames = cartoon.CurrentScene.GetAllFrames();
             var frames = GlobalState.CurrentScene.frames;
             foreach (var item in frames) {
                 AddListBoxElement(framesList, item.Name);
@@ -218,12 +192,7 @@ namespace DrawMoar {
 
         private void layersList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (layersList.SelectedIndex != -1) {
-                //var layer = cartoon.CurrentScene.CurrentFrame.GetAllLayers()[layersList.SelectedIndex];
-                var layer = GlobalState.CurrentFrame.layers[layersList.SelectedIndex];
-                if (GlobalState.CurrentLayer.Item1 is RasterLayer)
-                    ((RasterLayer)GlobalState.CurrentLayer.Item1).Save(canvas);
-                //cartoon.CurrentScene.CurrentFrame.CurrentLayer = layer;
-                GlobalState.CurrentLayer = layer;
+                GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers[layersList.SelectedIndex];
             }
 
         }
@@ -244,9 +213,9 @@ namespace DrawMoar {
                 return;
             }
             if (sender != null) {
-                //cartoon.CurrentScene.AddEmptyFrame();
                 GlobalState.CurrentScene.frames.Add(new BaseElements.Frame());
-                //var frames = cartoon.CurrentScene.GetAllFrames();
+                GlobalState.CurrentFrame = GlobalState.CurrentScene.frames.Last();
+                GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
                 var frames = GlobalState.CurrentScene.frames;
                 AddListBoxElement(framesList, GlobalState.CurrentFrame.Name);
             }
@@ -258,9 +227,10 @@ namespace DrawMoar {
                 return;
             }
             if (sender != null) {
-                //cartoon.AddEmptyScene();
                 cartoon.scenes.Add(new Scene());
             }
+            GlobalState.CurrentFrame = GlobalState.CurrentScene.frames.Last();
+            GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
             AddListBoxElement(scenesList, GlobalState.CurrentScene.Name);
         }
 
@@ -275,8 +245,7 @@ namespace DrawMoar {
 
         void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             GlobalState.PressLeftButton = true;
-            //currentLayer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
-            currentLayer = GlobalState.CurrentLayer.Item1;
+            var currentLayer = GlobalState.CurrentLayer.Item1;
             prevPoint = Mouse.GetPosition(canvas);
             switch (GlobalState.CurrentTool) {
                 case Instrument.Arrow:
@@ -308,8 +277,7 @@ namespace DrawMoar {
 
         void canvas_MouseMove(object sender, MouseEventArgs e) {
             point = (Point)e.GetPosition(canvas);
-            //currentLayer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
-            currentLayer = GlobalState.CurrentLayer.Item1;
+            var currentLayer = GlobalState.CurrentLayer.Item1;
             if (!GlobalState.PressLeftButton) return;
             switch (GlobalState.CurrentTool) {
                 case Instrument.Arrow:
@@ -337,7 +305,6 @@ namespace DrawMoar {
 
         void ScaleRedrawing(IShape shape, MouseEventArgs e) {
             if (shape != null & e.LeftButton == MouseButtonState.Pressed) {
-                //var layer = cartoon.CurrentScene.CurrentFrame.CurrentLayer;
                 var layer = GlobalState.CurrentLayer;
                 var shiftX = point.X - prevPoint.X;
                 var shiftY = point.Y - prevPoint.Y;
@@ -354,7 +321,7 @@ namespace DrawMoar {
                     shapes.RemoveAt(shapes.Count - 1);
                     SaveIntoLayer(layer.Item1, shape);
                 }
-                 else ((RasterLayer)layer.Item1).Save(canvas);
+                else ((RasterLayer)layer.Item1).Save(canvas);
             }
         }
 
@@ -373,11 +340,6 @@ namespace DrawMoar {
                         return item;
                 }
                 else if (item is Line) {
-                    if (Math.Abs((clickPoint.Y - ((Line)item).PointOne.Y) / ((((Line)item).PointTwo.Y) - (((Line)item).PointOne.Y))
-                        -
-                        (clickPoint.X - (((Line)item).PointOne.X)) / ((((Line)item).PointTwo.X) - (((Line)item).PointOne.X))) < 5) {
-                        return item;
-                    }
                 }
             }
             return null;
@@ -387,12 +349,12 @@ namespace DrawMoar {
         void TranslatingRedrawing(IShape shape, MouseEventArgs e) {
             point = e.GetPosition(canvas);
             if (clickedShape != null) {
-                var shapes = ((VectorLayer)currentLayer).Picture.shapes;
+                var shapes = ((VectorLayer)GlobalState.CurrentLayer.Item1).Picture.shapes;
                 canvas.Children.RemoveAt(shapes.IndexOf(shape));
                 shapes.RemoveAt(shapes.IndexOf(shape));
                 shape.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
                 shape.Draw(canvas);
-                SaveIntoLayer(currentLayer, shape);
+                SaveIntoLayer(GlobalState.CurrentLayer.Item1, shape);
                 Refresh();
             }
         }
@@ -494,13 +456,13 @@ namespace DrawMoar {
             int index = framesList.SelectedIndex;
             framesList.Items.RemoveAt(index);
             var frames = GlobalState.CurrentScene.frames;
-            frames.RemoveAt(index);           
+            frames.RemoveAt(index);
             if (frames.Count == 0) {
                 frames.Add(new BaseElements.Frame());
                 AddListBoxElement(framesList, GlobalState.CurrentFrame.Name);
-            }     
+            }
             framesList.SelectedIndex = framesList.Items.Count > 1 ? index - 1 : 0;
-            GlobalState.CurrentFrame = framesList.Items.Count > 1 && index>0 ? frames[index - 1] : frames[0];
+            GlobalState.CurrentFrame = framesList.Items.Count > 1 && index > 0 ? frames[index - 1] : frames[0];
             GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers[0];
             Refresh();
         }
@@ -509,16 +471,14 @@ namespace DrawMoar {
         private void DeleteLayer_Click(object sender, RoutedEventArgs e) {
             if (cartoon == null) return;
             int index = layersList.SelectedIndex;
-            //var layerToDelete = cartoon.CurrentScene.CurrentFrame.GetAllLayers()[index];
             var layerToDelete = GlobalState.CurrentFrame.layers[index].Item1;
             layersList.Items.RemoveAt(index);
-            if (GlobalState.CurrentFrame.layers.Count == 1)
-                if (layerToDelete is VectorLayer) {
-                    AddListBoxElement(layersList, GlobalState.CurrentLayer.Item1.Name);
-                }
-            //cartoon.CurrentScene.CurrentFrame.RemoveLayerAt(index);
-            GlobalState.CurrentFrame.layers.RemoveAt(index);
-            GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new VectorLayer(), new List<Transformation>(), 0));
+            var layers = GlobalState.CurrentFrame.layers;
+            layers.RemoveAt(index);
+            if (layers.Count == 0) {
+                layers.Add(new Tuple<ILayer, List<Transformation>, int>(new VectorLayer(), new List<Transformation>(), 0));
+                AddListBoxElement(layersList, GlobalState.CurrentLayer.Item1.Name);
+            }
             // TODO: РАСТР...
             layersList.SelectedIndex = layersList.Items.Count > 1 ? index - 1 : 0;
             Refresh();
@@ -527,7 +487,6 @@ namespace DrawMoar {
 
         private void Refresh() {
             canvas.Children.Clear();
-            //var layers = cartoon.CurrentScene.CurrentFrame.GetAllLayers();
             var layers = GlobalState.CurrentFrame.layers;
             foreach (var item in layers) {
                 if (item.Item1 is VectorLayer) {
