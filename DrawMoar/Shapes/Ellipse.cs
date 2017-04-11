@@ -38,8 +38,8 @@ namespace DrawMoar.Shapes
             ellipse.Stroke = Color.ToBrush();
             ellipse.StrokeThickness = GlobalState.BrushSize.Width;
             canvas.Children.Add(ellipse);
-            Canvas.SetLeft(ellipse, Center.X - Size.Width / 2);     //для добавления центра в место клика вместо верхнего левого угла
-            Canvas.SetTop(ellipse, Center.Y - Size.Height / 2);     //СКОРЕЕ ВСЕГО ПРИДЕТСЯ ПЕРЕДЕЛЫВАТЬ ПОД ДРУГОЙ ЭЛЛИПС 
+            Canvas.SetLeft(ellipse, Center.X - Size.Width / 2); 
+            Canvas.SetTop(ellipse, Center.Y - Size.Height / 2);  
         }
 
 

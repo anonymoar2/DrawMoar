@@ -172,8 +172,8 @@ namespace DrawMoar {
             Point translateVector = new Point();
             //if (TranslateTime.Text == "") throw new IOException("Enter all fields in the Translate section");
             string[] coords = TranslateVector.Text.Split(new char[] { ';', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
-            translateVector.X = Int32.Parse(coords[0]) / (totalTime * 25);
-            translateVector.Y = Int32.Parse(coords[1]) / (totalTime * 25);
+            translateVector.X = double.Parse(coords[0]) / (totalTime * 25);
+            translateVector.Y = double.Parse(coords[1]) / (totalTime * 25);
             //time[0] = Int32.Parse(TranslateTime.Text);
             transList.Add(new TranslateTransformation(translateVector));
         }
@@ -186,8 +186,8 @@ namespace DrawMoar {
             //time[2] = Int32.Parse(ScaleTime.Text);
             string[] coords = ScalePoint.Text.Split(new char[] { ';', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             Point center = new Point();
-            center.X = Int32.Parse(coords[0]);
-            center.Y = Int32.Parse(coords[1]);
+            center.X = double.Parse(coords[0]);
+            center.Y = double.Parse(coords[1]);
             transList.Add(new ScaleTransformation(center, scaleFactor));    //аналогично
         }
 
@@ -199,8 +199,8 @@ namespace DrawMoar {
             //time[1] = Int32.Parse(RotateTime.Text);
             string[] coords = RotatePoint.Text.Split(new char[] { ';', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             Point center = new Point();
-            center.X = Int32.Parse(coords[0]);
-            center.Y = Int32.Parse(coords[1]);
+            center.X = double.Parse(coords[0]);
+            center.Y = double.Parse(coords[1]);
             //первым параметром передавать что-то (хз что, т.к центров много: все будет двигаться при скейле)
             transList.Add(new RotateTransformation(center, angle));
         }
