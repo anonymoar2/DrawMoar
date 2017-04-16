@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using DrawMoar.BaseElements;
 using System.Drawing;
 using System;
+using System.Windows.Media;
 
 namespace DrawMoar.Shapes
 {
@@ -37,9 +38,14 @@ namespace DrawMoar.Shapes
             ellipse.Height = Size.Height;
             ellipse.Stroke = Color.ToBrush();
             ellipse.StrokeThickness = GlobalState.BrushSize.Width;
-            canvas.Children.Add(ellipse);
-            Canvas.SetLeft(ellipse, Center.X - Size.Width / 2); 
-            Canvas.SetTop(ellipse, Center.Y - Size.Height / 2);  
+            Canvas.SetLeft(ellipse, Center.X - Size.Width / 2);
+            Canvas.SetTop(ellipse, Center.Y - Size.Height / 2);
+            RotateTransform rotateTransform1 =
+                new RotateTransform(Rotate);
+            rotateTransform1.CenterX = Size.Width/2;
+            rotateTransform1.CenterY = Size.Height/2;
+            ellipse.RenderTransform = rotateTransform1;        
+            canvas.Children.Add(ellipse); 
         }
 
 
@@ -61,7 +67,7 @@ namespace DrawMoar.Shapes
 
 
         public void Draw(Graphics g) {
-            g.DrawEllipse(new Pen(Color.ToDrawingColor(), (float)this.Thickness), new RectangleF(new PointF(Convert.ToSingle(Center.X - Size.Width / 2), Convert.ToSingle(Center.Y - Size.Height / 2)), new SizeF(Convert.ToSingle(Size.Width), Convert.ToSingle(Size.Height))));
+            g.DrawEllipse(new System.Drawing.Pen(Color.ToDrawingColor(), (float)this.Thickness), new RectangleF(new PointF(Convert.ToSingle(Center.X - Size.Width / 2), Convert.ToSingle(Center.Y - Size.Height / 2)), new SizeF(Convert.ToSingle(Size.Width), Convert.ToSingle(Size.Height))));
         }
 
         public object Clone()
