@@ -3,6 +3,8 @@
 using System.Windows;
 using System.Windows.Media;
 
+using DrawMoar.BaseElements;
+using System.Collections.Generic;
 
 namespace DrawMoar
 {
@@ -13,6 +15,10 @@ namespace DrawMoar
     {
         public static bool PressLeftButton { get; set; }
 
+        public static int Height { get; set; }
+        public static int Width { get; set; }
+
+
         public static bool PressRightButton { get; set; }
 
         public static event EventHandler ChangeInstrument;
@@ -20,6 +26,13 @@ namespace DrawMoar
         public static string WorkingDirectory { get; set; }
 
         //public static Instruments.LightVector lightVector { get; set; }
+
+        public static List<Transformation> CurrentTrans { get; set; }
+        public static int TotalTime { get; set; }
+
+        public static Tuple<ILayer, List<Transformation>, int> CurrentLayer { get; set; }
+        public static Frame CurrentFrame { get; set; }
+        public static Scene CurrentScene { get; set; }
 
 
         // Используется для изменения порядка слоев 
@@ -30,36 +43,29 @@ namespace DrawMoar
         public static Size canvSize { get; set; }
 
         private static Brush _color = Brushes.Red;
-        public static Brush Color
-        {
-            get
-            {
+        public static Brush Color {
+            get {
                 return _color;
             }
-            set
-            {
+            set {
                 _color = value;
             }
         }
 
         private static Instrument _currentTool = Instrument.Arrow;
-        public static Instrument CurrentTool
-        {
-            get
-            {
+        public static Instrument CurrentTool {
+            get {
                 return _currentTool;
             }
-            set
-            {
+            set {
                 _currentTool = value;
-                //ChangeInstrument(value, null);
+                ChangeInstrument(value, null);
             }
         }
 
 
         private static Size _brushSize;
-        public static Size BrushSize
-        {
+        public static Size BrushSize {
             get { return _brushSize; }
             set { _brushSize = value; }
         }

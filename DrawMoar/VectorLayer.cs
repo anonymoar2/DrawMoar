@@ -6,6 +6,8 @@ using System.Drawing;
 using DrawMoar.BaseElements;
 using DrawMoar.Shapes;
 using System.Windows;
+using System.Collections.Generic;
+using System.Windows.Controls;
 
 namespace DrawMoar
 {
@@ -52,11 +54,14 @@ namespace DrawMoar
             }
         }
 
+        public List<Text> Text { get; private set; }
+
 
         public VectorLayer() {
             name = "newVectorLayer";
             Visible = true;
             Picture = new CompoundShape();
+            Text = new List<Text>();
         }
 
 
@@ -64,11 +69,16 @@ namespace DrawMoar
             this.name = name;
             Visible = true;
             Picture = new CompoundShape();
+            Text = new List<Text>();
         }
 
-        
+
         public void Draw(Graphics g) {
             Picture.Draw(g);
+            foreach (var element in Text)
+            {
+                element.Draw(g);
+            }
         }
 
 
@@ -76,8 +86,10 @@ namespace DrawMoar
         /// Тупо вывод на экране при переключении между слоями, но его не будет, если канвасы накладываем друг на друга
         /// </summary>
         /// <param name="bitmap"></param>
-        public void Print() {
-            // Проходим по фигурам, отрисовывая их на экране
+        public void Print(Canvas canvas) {
+            foreach (var item in Picture.shapes) {
+                item.Draw(canvas);
+            }
         }
 
 
@@ -112,13 +124,30 @@ namespace DrawMoar
             return newImage;
         }
 
-        public System.Drawing.Bitmap GetImage() {
-            Bitmap b = new Bitmap(450, 450);
+        public System.Drawing.Bitmap GetImage(double width, double height) {
+            Bitmap b = new Bitmap((int)width, (int)height);
             var g = Graphics.FromImage(b);
-            foreach(var sh in Picture.shapes) {
+            
+            foreach (var sh in Picture.shapes) {
                 sh.Draw(g);
-            }
+            }           
             return b;
+        }
+
+        public object Clone()
+        {
+            var buf = new VectorLayer();
+            buf.Visible = Visible;
+            buf.Picture = (CompoundShape)Picture.Clone();
+            buf.Name = Name;
+            buf.Position = Position;
+
+            foreach (var element in Text)
+            {
+                buf.Text.Add(element);
+            }
+
+            return buf;
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using DrawMoar.BaseElements;
 using System.Drawing;
 using System;
+using System.Windows.Media;
 
 namespace DrawMoar.Shapes
 {
@@ -16,7 +17,8 @@ namespace DrawMoar.Shapes
         public double Rotate { get; private set; }
 
         public string Alias { get; set; }
-
+        public double Thickness { get; set; }
+        public DrawMoar.BaseElements.Color Color { get; set; }
 
         public Rectangle(System.Windows.Point center, System.Windows.Size size, double startAngle = 0, 
                                                   double endAngle = 360, double rotate = 0) {
@@ -25,6 +27,8 @@ namespace DrawMoar.Shapes
             this.StartAngle = startAngle;
             this.EndAngle = endAngle;
             this.Rotate = rotate;
+            this.Thickness = GlobalState.BrushSize.Width;
+            this.Color = new BaseElements.Color(GlobalState.Color);
         }
 
 
@@ -32,11 +36,17 @@ namespace DrawMoar.Shapes
             var rect = new System.Windows.Shapes.Rectangle();
             rect.Width = Size.Width;
             rect.Height = Size.Height;
-            rect.Stroke = GlobalState.Color;
-            rect.StrokeThickness = GlobalState.BrushSize.Width;
-            canvas.Children.Add(rect);
+            rect.Stroke = Color.ToBrush();
+            rect.StrokeThickness = Thickness;
+            rect.IsEnabled = false;   
             Canvas.SetLeft(rect, Center.X - Size.Width / 2);
             Canvas.SetTop(rect, Center.Y - Size.Height / 2);
+            RotateTransform rotateTransform1 =
+                new RotateTransform(Rotate);
+            rotateTransform1.CenterX = Size.Width / 2;
+            rotateTransform1.CenterY = Size.Height / 2;
+            rect.RenderTransform = rotateTransform1;
+            canvas.Children.Add(rect);
         }
 
 
@@ -58,7 +68,19 @@ namespace DrawMoar.Shapes
 
 
         public void Draw(Graphics g) {
-            g.DrawRectangle(new Pen(System.Drawing.Color.Red), new System.Drawing.Rectangle(new System.Drawing.Point(Convert.ToInt32(Center.X), Convert.ToInt32(Center.Y)), new System.Drawing.Size(Convert.ToInt32(Size.Width), Convert.ToInt32(Size.Height))));
+            g.TranslateTransform((float)(Center.X), (float)(Center.Y));
+            g.RotateTransform((float)Rotate);
+            g.TranslateTransform((float)(-Center.X), (float)(-Center.Y));
+            g.DrawRectangle(new System.Drawing.Pen(Color.ToDrawingColor(), (float)this.Thickness), new System.Drawing.Rectangle(new System.Drawing.Point(Convert.ToInt32(Center.X-Size.Width/2), Convert.ToInt32(Center.Y-Size.Height/2)), new System.Drawing.Size(Convert.ToInt32(Size.Width), Convert.ToInt32(Size.Height))));
+        }
+
+        public object Clone()
+        {
+            var buf = new Rectangle(Center, Size, StartAngle, EndAngle, Rotate);
+            buf.Alias = Alias;
+            buf.Thickness = Thickness;
+            buf.Color = Color;
+            return buf;
         }
     }
 }

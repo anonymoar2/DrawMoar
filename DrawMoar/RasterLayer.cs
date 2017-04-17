@@ -10,13 +10,11 @@ using System.IO;
 
 using DrawMoar.BaseElements;
 using DrawMoar.Shapes;
-using DrawMoar.Extensions;
+using System.Collections.Generic;
 
 
-namespace DrawMoar
-{
-    public class RasterLayer : ILayer
-    {
+namespace DrawMoar {
+    public class RasterLayer : ILayer {
         /// <summary>
         /// true - слой видимый, false - невидимый
         /// </summary>
@@ -47,6 +45,7 @@ namespace DrawMoar
             }
         }
 
+
         public System.Windows.Point Position {
             get {
                 return Picture.Position;
@@ -57,10 +56,14 @@ namespace DrawMoar
             }
         }
 
+        public List<Text> Text { get; private set; }
+
+
         public RasterLayer() {
             name = "newRasterLayer";
             Visible = true;
             Picture = new Picture();
+            Text = new List<Text>();
         }
 
 
@@ -68,6 +71,7 @@ namespace DrawMoar
             this.name = name;
             Visible = true;
             Picture = new Picture();
+            Text = new List<Text>();
         }
 
 
@@ -76,14 +80,34 @@ namespace DrawMoar
         /// </summary>
         public void Draw(Graphics g) {
             Picture.Draw(g);
+            foreach (var element in Text) {
+                element.Draw(g);
+            }
         }
 
 
         //При переключении слоёв рисует содержимое Image на экране
-        public void Print() {
-
+        public void Print(Canvas canvas) {
+            var rlc = new RasterLayerControl();
+            DrawRasterLayerImage(rlc);
+            canvas.Children.Add(rlc);
         }
 
+
+        private void DrawRasterLayerImage(RasterLayerControl rlc) {       //из-за некоторых вещей нет возможности потестить, работает ли это
+            var bmp = ((RasterLayer)GlobalState.CurrentLayer.Item1).Picture.Image;  //если работает, положим в RasterLayer
+            using (var ms = new MemoryStream()) {
+                bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                ms.Position = 0;
+
+                var bi = new BitmapImage();
+                bi.BeginInit();
+                bi.CacheOption = BitmapCacheOption.OnLoad;
+                bi.StreamSource = ms;
+                bi.EndInit();
+                rlc.Image.Source = bi;
+            }
+        }
 
         /// <summary>
         /// Трансформация содержимого растрового слоя
@@ -95,28 +119,29 @@ namespace DrawMoar
 
 
         public void Save(Canvas canvas) {
-            //RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
-            //(int)canvas.Width, (int)canvas.Height,
-            //96d, 96d, PixelFormats.Pbgra32);
-            //// needed otherwise the image output is black
-            //canvas.Measure(new System.Windows.Size((int)canvas.Width, (int)canvas.Height));
-            //canvas.Arrange(new Rect(new System.Windows.Size((int)canvas.Width, (int)canvas.Height)));
+            RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
+            (int)canvas.Width, (int)canvas.Height,
+            96d, 96d, PixelFormats.Pbgra32);
+            // needed otherwise the image output is black
+            canvas.Measure(new System.Windows.Size((int)canvas.Width, (int)canvas.Height));
+            canvas.Arrange(new Rect(new System.Windows.Size((int)canvas.Width, (int)canvas.Height)));
 
-            //renderBitmap.Render(canvas);
+            renderBitmap.Render(canvas);
 
-            ////JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-            //PngBitmapEncoder encoder = new PngBitmapEncoder();
-            //encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+            //JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
 
-            //using (FileStream file = File.Create(GlobalState.WorkingDirectory + $"\\{Name}.png")) {
-            //    encoder.Save(file);
-            //}
-            //Picture.Image = System.Drawing.Image.FromFile(GlobalState.WorkingDirectory + $"\\{Name}.png");
+            using (FileStream file = File.Create(GlobalState.WorkingDirectory + $"\\{Name}.png")) {
+                encoder.Save(file);
+            }
+            Picture.Image = System.Drawing.Image.FromFile(GlobalState.WorkingDirectory + $"\\{Name}.png");
 
-            //var wb = SaveAsWriteableBitmap(canvas);
-            //Picture.Image=BitmapFromWriteableBitmap(wb);
-            //Picture.Image.Save(GlobalState.WorkingDirectory + $"savingTest.png");
+            var wb = SaveAsWriteableBitmap(canvas);
+            Picture.Image = BitmapFromWriteableBitmap(wb);
+            Picture.Image.Save(GlobalState.WorkingDirectory + $"savingTest.png");
         }
+
 
         private System.Drawing.Bitmap BitmapFromWriteableBitmap(WriteableBitmap writeBmp) {
             System.Drawing.Bitmap bmp;
@@ -128,6 +153,7 @@ namespace DrawMoar
             }
             return bmp;
         }
+
 
         public WriteableBitmap SaveAsWriteableBitmap(Canvas surface) {
             if (surface == null) return null;
@@ -162,6 +188,7 @@ namespace DrawMoar
 
         }
 
+
         public System.Windows.Controls.Image ConvertDrawingImageToWPFImage(System.Drawing.Image gdiImg) {
 
             if (gdiImg == null) return null;
@@ -170,7 +197,7 @@ namespace DrawMoar
             //convert System.Drawing.Image to WPF image
             Bitmap bmp = new Bitmap(gdiImg);
             IntPtr hBitmap = bmp.GetHbitmap();
-            ImageSource WpfBitmap = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, 
+            ImageSource WpfBitmap = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero,
                                     Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
 
             img.Source = WpfBitmap;
@@ -200,12 +227,26 @@ namespace DrawMoar
             return newImage;
         }
 
-        public System.Drawing.Image GetImage() {
+        public System.Drawing.Image GetImage(double height, double width) {
             throw new NotImplementedException();
         }
 
-        Bitmap ILayer.GetImage() {
+        Bitmap ILayer.GetImage(double height, double width) {
             throw new NotImplementedException();
+        }
+
+        public object Clone() {
+            var buf = new RasterLayer();
+            buf.Visible = Visible;
+            buf.Picture = (Picture)Picture.Clone();
+            buf.Name = Name;
+            buf.Position = Position;
+
+            foreach (var element in Text) {
+                buf.Text.Add(element);
+            }
+
+            return buf;
         }
     }
 }

@@ -2,11 +2,13 @@
 
 using DrawMoar.BaseElements;
 using DrawMoar.Shapes;
-
+using System.Collections.Generic;
+using System;
+using System.Windows.Controls;
 
 namespace DrawMoar
 {
-    public interface ILayer
+    public interface ILayer : ICloneable
     {
         /// <summary>
         /// Состояние видимости слоя. 
@@ -20,6 +22,8 @@ namespace DrawMoar
         /// Название слоя.
         /// </summary>
         string Name { get; set; }
+
+        void Print(Canvas canvas);
 
 
         void Draw(Graphics g);
@@ -35,7 +39,8 @@ namespace DrawMoar
 
 
         System.Windows.Point Position { get; set; }
+        List<Text> Text { get; }
 
-        Bitmap GetImage();
+        Bitmap GetImage(double width, double height);
     }
 }

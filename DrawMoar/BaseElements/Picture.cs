@@ -5,7 +5,7 @@ using System.Drawing;
 
 namespace DrawMoar.BaseElements
 {
-    public class Picture
+    public class Picture : ICloneable
     {
         public System.Windows.Point Position { get; set; }
 
@@ -23,6 +23,12 @@ namespace DrawMoar.BaseElements
             g.DrawImage(Image, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y));
         }
         
-
+        public object Clone()
+        {
+            var buf = new Picture();
+            buf.Position = Position;
+            buf.Image = (Image)Image.Clone();
+            return buf;
+        }
     }
 }

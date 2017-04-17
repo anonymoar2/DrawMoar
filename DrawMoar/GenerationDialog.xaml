@@ -1,0 +1,55 @@
+﻿<Window x:Class="DrawMoar.GenerationDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DrawMoar"
+        mc:Ignorable="d"
+        Title="GenerationDialog" Height="700" Width="900">
+    <Grid Background="LightGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.75*" MinHeight="120"></RowDefinition>
+            <RowDefinition Height="1*" MinHeight="150"></RowDefinition>
+            <RowDefinition Height="1*" MinHeight="150"></RowDefinition>
+            <RowDefinition Height="1*" MinHeight="150"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="200" Width="200"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0" Grid.RowSpan="4" Background="White"/>
+        <Canvas Name= "previewCanvas" Background="White" Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" ClipToBounds="True" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <WrapPanel Name="TranslatePanel">
+            <Label Grid.Row="0" Grid.Column="0" Width="200" Height="Auto"  Content="Translate" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Background="AliceBlue"/>
+            <Button Name="Translate" Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10" Content="Vector" FontSize="15" HorizontalContentAlignment="Center" Click="Translate_Click"/>
+            <TextBox Name="TranslateVector" Grid.Column="0" Grid.Row="0" MinWidth="85" Width="Auto" Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="15" Margin="0,13" IsEnabled="False"/>
+            <Label Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10,5" Content="Time" FontSize="15" HorizontalContentAlignment="Center"/>
+            <TextBox Name="TranslateTime" Grid.Column="0" Grid.Row="1" Width="70" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,7" FontSize="15" TextChanged="TranslateTime_TextChanged"/>
+        </WrapPanel>
+        <WrapPanel Name="RotatePanel" Grid.Column="0" Grid.Row="1">
+            <Label Grid.Row="1" Grid.Column="0" Width="200" Height="Auto" Content="Rotate" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Background="AliceBlue"/>
+            <Label Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10" Content="Angle" FontSize="15" HorizontalContentAlignment="Center"/>
+            <TextBox Name="Angle" Grid.Column="0" Grid.Row="1" Width="70" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,13" FontSize="15" TextChanged="Angle_TextChanged"/>
+            <Label Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10,5" Content="Time" FontSize="15" HorizontalContentAlignment="Center"/>
+            <TextBox Name="RotateTime" Grid.Column="0" Grid.Row="1" Width="70" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,8" FontSize="15" TextChanged="RotateTime_TextChanged"/>
+            <Button Name="RotateCenter" Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10,5" Content="Center" FontSize="15" HorizontalContentAlignment="Center" Click="RotateCenter_Click"/>
+            <TextBox Name="RotatePoint" Grid.Column="0" Grid.Row="1" Width="85" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="15" Margin="0,8" IsEnabled="False"/>
+        </WrapPanel>
+        <WrapPanel Name="ScalePanel" Grid.Column="0" Grid.Row="2">
+            <Label Grid.Row="1" Grid.Column="0" Width="200" Height="Auto" Content="Scale" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Background="AliceBlue"/>
+            <Label Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10" Content="Factor" FontSize="15" HorizontalContentAlignment="Center"/>
+            <TextBox Name="ScaleFactor" Grid.Column="0" Grid.Row="1" Width="70" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,13" FontSize="15" TextChanged="ScaleFactor_TextChanged"/>
+            <Label Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10,5" Content="Time" FontSize="15" HorizontalContentAlignment="Center"/>
+            <TextBox Name="ScaleTime" Grid.Column="0" Grid.Row="1" Width="70" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,8"  FontSize="15" TextChanged="ScaleTime_TextChanged"/>
+            <Button Name="ScaleCenter" Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10,5" Content="Center" FontSize="15" HorizontalContentAlignment="Center" Click="ScaleCenter_Click"/>
+            <TextBox Name="ScalePoint" Grid.Column="0" Grid.Row="1" Width="85" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,8" FontSize="15" IsEnabled="False"/>
+        </WrapPanel>
+        <WrapPanel Name="SemyonTestPanel" Grid.Column="0" Grid.Row="3">
+            <Label Grid.Row="1" Grid.Column="0" Width="200" Height="Auto"  Content="Семен привет" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Background="AliceBlue"/>
+            <TextBox Name="Function" Grid.Column="0" Grid.Row="1" Width="165" Height="35" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,10"/>
+            <Label Content="Total Duration" Width="Auto" Grid.Column="0" Grid.Row="1" Height="Auto" FontSize="15" Margin="7,5"/>
+            <TextBox Name="TotalTestDuration" Grid.Column="0" Grid.Row="1" Width="65" Height="Auto" Margin="7,5" FontSize="15" TextChanged="TotalTestDuration_TextChanged"/>
+            <Button Name="ApplyTransform" MinWidth="60" Width="Auto" Height="Auto" Content="Apply"  FontSize="18" Margin="10,5" Click="ApplyTransform_Click"/>
+        </WrapPanel>
+    </Grid>
+</Window>
