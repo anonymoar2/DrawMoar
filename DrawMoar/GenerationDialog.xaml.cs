@@ -88,7 +88,7 @@ namespace DrawMoar {
         IShape GetClickedShape(Point clickPoint) {
             foreach (var item in ((VectorLayer)layer).Picture.shapes) {
                 if (item is Rectangle) {
-                    if (((Math.Abs(clickPoint.X - ((Rectangle)item).Center.X) < ((Rectangle)item).Size.Width / 4) &&    //вместо 20 потом придется скалировать пропорционально размерам фигуры
+                    if (((Math.Abs(clickPoint.X - ((Rectangle)item).Center.X) < ((Rectangle)item).Size.Width / 4) &&
                         (Math.Abs(clickPoint.Y - ((Rectangle)item).Center.Y) < ((Rectangle)item).Size.Height / 4)))
                         return item;
                 }
@@ -98,7 +98,13 @@ namespace DrawMoar {
                         return item;
                 }
                 else if (item is Line) {
-                    
+                    var line = (Line)item;
+                    var diff = 0.1;
+                    if (Math.Abs((((clickPoint.X - line.PointOne.X) / (line.PointTwo.X - line.PointOne.X)) - ((clickPoint.Y - line.PointOne.Y) / (line.PointTwo.Y - line.PointOne.Y)))) < diff)
+                        if (clickPoint.X < Math.Max(line.PointOne.X, line.PointTwo.X) &&
+                            (clickPoint.X > Math.Min(line.PointOne.X, line.PointTwo.X) &&
+                            clickPoint.Y < Math.Max(line.PointOne.Y, line.PointTwo.Y)) &&
+                            clickPoint.Y > Math.Min(line.PointOne.Y, line.PointTwo.Y)) return item;
                 }
             }
             return null;
@@ -130,8 +136,8 @@ namespace DrawMoar {
 
         private void ApplyTransform_Click(object sender, RoutedEventArgs e) {
             transList.Clear();
-            
-            
+
+
             int[] time = new int[3];
             int totalTime = 0;  //временно
             try {
@@ -162,10 +168,9 @@ namespace DrawMoar {
             catch (IOException ioEx) {
                 MessageBox.Show(ioEx.Message);
             }
-            //убрал отлов всех исключений для тестирования
-            //catch(Exception ex) {                       
-            //    MessageBox.Show("Непредвиденная ошибка.");
-            //}
+            catch (Exception ex) {
+                MessageBox.Show("Непредвиденная ошибка.");
+            }
         }
 
         private void ApplyTranslation(int totalTime) {
@@ -182,7 +187,7 @@ namespace DrawMoar {
             double scaleFactor;
             //if (ScaleTime.Text == "" || ScalePoint.Text == "") throw new IOException("Enter all fields in the Scale section");
             if (ScalePoint.Text == "") throw new IOException("Enter all fields in the Scale section");
-            scaleFactor =  1+(double.Parse(ScaleFactor.Text)-1) / (totalTime * 25);
+            scaleFactor = 1 + (double.Parse(ScaleFactor.Text) - 1) / (totalTime * 25);
             //time[2] = Int32.Parse(ScaleTime.Text);
             string[] coords = ScalePoint.Text.Split(new char[] { ';', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             Point center = new Point();
@@ -201,7 +206,6 @@ namespace DrawMoar {
             Point center = new Point();
             center.X = double.Parse(coords[0]);
             center.Y = double.Parse(coords[1]);
-            //первым параметром передавать что-то (хз что, т.к центров много: все будет двигаться при скейле)
             transList.Add(new RotateTransformation(center, angle));
         }
 
