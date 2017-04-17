@@ -37,7 +37,8 @@ namespace DrawMoar.Shapes
             rect.Width = Size.Width;
             rect.Height = Size.Height;
             rect.Stroke = Color.ToBrush();
-            rect.StrokeThickness = Thickness;           
+            rect.StrokeThickness = Thickness;
+            rect.IsEnabled = false;   
             Canvas.SetLeft(rect, Center.X - Size.Width / 2);
             Canvas.SetTop(rect, Center.Y - Size.Height / 2);
             RotateTransform rotateTransform1 =

@@ -36,7 +36,8 @@ namespace DrawMoar.Shapes
                 X2 = PointTwo.X,
                 Y2 = PointTwo.Y,
                 StrokeStartLineCap = PenLineCap.Round,
-                StrokeEndLineCap = PenLineCap.Round
+                StrokeEndLineCap = PenLineCap.Round,
+                IsEnabled = false
             });
         }
 

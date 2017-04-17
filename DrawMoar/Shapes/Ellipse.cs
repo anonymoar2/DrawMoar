@@ -37,6 +37,7 @@ namespace DrawMoar.Shapes
             ellipse.Width = Size.Width;
             ellipse.Height = Size.Height;
             ellipse.Stroke = Color.ToBrush();
+            ellipse.IsEnabled = false;
             ellipse.StrokeThickness = GlobalState.BrushSize.Width;
             Canvas.SetLeft(ellipse, Center.X - Size.Width / 2);
             Canvas.SetTop(ellipse, Center.Y - Size.Height / 2);
