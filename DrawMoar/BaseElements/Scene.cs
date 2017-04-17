@@ -1,25 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using System.Text.RegularExpressions;
-
-using DrawMoar.Extensions;
 
 
 namespace DrawMoar.BaseElements
 {
     public class Scene
     {
-        /// <summary>
-        /// Текущий кадр
-        /// </summary>
-        public Frame CurrentFrame { get; set; }
-
-
-        /// <summary>
-        /// Название (имя) сцены
-        /// </summary>
         private string name;
         public string Name {
             get { return name; }
@@ -38,345 +26,37 @@ namespace DrawMoar.BaseElements
         public Scene() {
             name = "newScene";
             frames.Add(new Frame("Frame_0"));
-            CurrentFrame = frames.Last();
         }
 
 
         public Scene(string name) {
             this.name = name;
             frames.Add(new Frame());
-            CurrentFrame = frames.Last();
         }
-
-
-        /// <summary>
-        /// Список кадров сцены
-        /// </summary>
-        private List<Frame> frames = new List<Frame>();
-
-
-        /// <summary>
-        /// Список сохраненных слоёв
-        /// </summary>
-        private List<ILayer> savedLayers = new List<ILayer>();
-
-
-        #region Методы для работы с кадрами
-
-
-        /// <summary>
-        /// Получение списка всех кадров сцены.
-        /// </summary>
-        /// <returns>Список кадров.</returns>
-        public List<Frame> GetAllFrames() {
-            return frames;
-        }
-
-
-        /// <summary>
-        /// Добавление пустого кадра в конец списка.
-        /// </summary>
-        public void AddEmptyFrame() {
-            frames.Add(new Frame());
-            CurrentFrame = frames.Last();
-        }
-
-
-        /// <summary>
-        /// Добавление существующего кадра в конец списка.
-        /// </summary>
-        /// <param name="frame">Кадр, который хотите добавить</param>
-        public void AddFrame(Frame frame) {
-            frames.Add(frame);
-            CurrentFrame = frames.Last();
-        }
-
-
-        /// <summary>
-        /// Добавление КОПИИ существующего кадра в конец списка.
-        /// </summary>
-        /// <param name="frame">Кадр, который хотите добавить</param>
-        public void AddCopyOfFrame(Frame frame) {
-            frames.Add(ObjectCopier.Clone(frame));
-            CurrentFrame = frames.Last();
-        }
-
-
-        /// <summary>
-        /// Вставка  кадра в список на указанную позицию.
-        /// </summary>
-        /// <param name="index">Куда втавить кадр</param>
-        /// <param name="frame">Сам кадр</param>
-        public void InsertFrame(int index, Frame frame) {
-            frames.Insert(index, frame);
-            CurrentFrame = frames[index];
-        }
-
-
-        /// <summary>
-        /// Вставка КОПИИ кадра в список на указанную позицию.
-        /// </summary>
-        /// <param name="index">Куда втавить кадр</param>
-        /// <param name="frame">Сам кадр</param>
-        public void InsertCopyOfFrame(int index, Frame frame) {
-            frames.Insert(index, ObjectCopier.Clone(frame));
-            CurrentFrame = frames[index];
-        }
-
-
-        /// <summary>
-        /// Вставка на указанную позицию пустого кадра
-        /// </summary>
-        /// <param name="index">Куда вставить пустой кадр</param>
-        public void InsertEmptyFrame(int index) {
-            frames.Insert(index, new Frame());
-            CurrentFrame = frames[index];
-        }
-
-
-        /// <summary>
-        /// Получение позиции (индекса) кадра в списке
-        /// </summary>
-        /// <param name="frame">Кадр, индекс которого вернуть</param>
-        /// <returns>Индекс этого кадра.</returns>
-        public int IndexOfFrame(Frame frame) {
-            return frames.IndexOf(frame);
-        }
-
-
-        /// <summary>
-        /// Получение кадра по его индексу в списке
-        /// </summary>
-        /// <param name="index">Индекс кадра</param>
-        /// <returns>Кадр с переданным индексом</returns>
-        public Frame GetFrame(int index) {
-            return frames[index];
-        }
-
-
-        /// <summary>
-        /// Получение КОПИИ кадра по его индексу в списке
-        /// </summary>
-        /// <param name="index">Индекс кадра</param>
-        /// <returns>Кадр с переданным индексом</returns>
-        public Frame GetCopyOfFrame(int index) {
-            return ObjectCopier.Clone(frames[index]);
-        }
-
-
-        /// <summary>
-        /// Удаление кадра из списка, если из списка удалили последний кадр, то добавляем на его место новый пустой кадр
-        /// </summary>
-        /// <param name="frame">Удаляемый кадр</param>
-        public void RemoveFrame(Frame frame) {
-            var index = frames.IndexOf(frame);
-            if (frames.Remove(frame)) {
-                if (frames.Count == 0) {
-                    frames.Add(new Frame());
-                    CurrentFrame = frames.First();
-                }
-                else if (index == 0) {
-                    CurrentFrame = frames.First();
-                }
-                else {
-                    CurrentFrame = frames[index - 1];
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// Удаление кадра по индексу
-        /// </summary>
-        /// <param name="index">Индекс удаляемого кадра.</param>
-        public void RemoveFrameAt(int index) {
-            frames.RemoveAt(index);
-            if (frames.Count == 0) {
-                frames.Add(new Frame());
-                CurrentFrame = frames.First();
-            }
-            else if (index == 0) {
-                CurrentFrame = frames.First();
-            }
-            else {
-                CurrentFrame = frames[index - 1];
-            }
-        }
-
-
-        /// <summary>
-        /// Изменение порядка кадров
-        /// </summary>
-        /// <param name="firstFrameIndex">Индекс первого кадра</param>
-        /// <param name="secondFrameIndex">Индекс второго кадра</param>
-        public void SwapFramesPositions(int firstFrameIndex, int secondFrameIndex) {
-            frames.Insert(secondFrameIndex + 1, frames[firstFrameIndex]);
-            var tmp = frames[secondFrameIndex];
-            frames.RemoveAt(secondFrameIndex);
-            frames.RemoveAt(firstFrameIndex);
-            frames.Insert(firstFrameIndex, tmp);
-        }
-
-
-        /// <summary>
-        /// Поднятие кадра вверх в списке на подну позицию
-        /// </summary>
-        /// <param name="index">Индекс кадра</param>
-        public void PutFrameUp(int index) {
-            if (index >= 0 && index < frames.Count - 1) {
-                frames.Insert(index + 2, frames[index]);
-                frames.RemoveAt(index);
-            }
-        }
-
-
-        /// <summary>
-        /// Опускание кадра вниз в списке на одну позицию
-        /// </summary>
-        /// <param name="index">Индекс кадра</param>
-        public void PutFrameDown(int index) {
-            if (index > 0 && index < frames.Count) {
-                frames.Insert(index - 1, frames[index]);
-                frames.RemoveAt(index + 1);
-            }
-        }
-
-
-        #endregion
-
-
-        #region Методы для работы с сохраненными слоями
-
-
-        /// <summary>
-        /// Получение списка всех сохранённых слоёв сцены.
-        /// </summary>
-        /// <returns>Список сохраненных слоёв.</returns>
-        public List<ILayer> GetAllSavedLayers() {
-            return savedLayers;
-        }
-
-
-        /// <summary>
-        /// Добавление слоя в конец списка. 
-        /// (Добавляется КОПИЯ этого слоя:  при изменении слоя извне, в сохраненных его копия не поменяется)
-        /// </summary>
-        /// <param name="layer">Слой, который хотите добавить</param>
-        public void AddSavedLayer(ILayer layer) {
-            savedLayers.Add(ObjectCopier.Clone(layer));
-        }
-
-
-        /// <summary>
-        /// Вставка  слоя в список на указанную позицию.
-        /// (Добавляется КОПИЯ этого слоя:  при изменении слоя извне, в сохраненных его копия не поменяется)
-        /// </summary>
-        /// <param name="index">Куда втавить слой</param>
-        /// <param name="layer">Сам слой</param>
-        public void InsertSavedLayer(int index, ILayer layer) {
-            savedLayers.Insert(index, ObjectCopier.Clone(layer));
-        }
-
-
-        /// <summary>
-        /// Получение позиции (индекса) слоя в списке
-        /// </summary>
-        /// <param name="layer">Слой, индекс которого вернуть</param>
-        /// <returns>Индекс этого слоя.</returns>
-        public int IndexOfFrame(ILayer layer) {
-            return savedLayers.IndexOf(layer);
-        }
-
-
-        /// <summary>
-        /// Получение КОПИИ по его индексу в списке
-        /// (Возращается КОПИЯ этого слоя:  при изменении вернувшегося слоя извне, в сохраненных он не поменяется)
-        /// </summary>
-        /// <param name="index">Индекс слоя</param>
-        /// <returns>Слой с переданным индексом</returns>
-        public ILayer GetSavedLayers(int index) {
-            return ObjectCopier.Clone(savedLayers[index]);
-        }
-
-
-        /// <summary>
-        /// Удаление слоя из списка, если из списка удалили последний слой, то список пустой остаётся
-        /// </summary>
-        /// <param name="layer">Удаляемый слой</param>
-        public void RemoveSavedLayer(ILayer savedLayer) {
-            var index = savedLayers.IndexOf(savedLayer);
-            savedLayers.Remove(savedLayer);
-        }
-
-
-        /// <summary>
-        /// Удаление слоя по индексу
-        /// </summary>
-        /// <param name="index">Индекс удаляемого слоя.</param>
-        public void RemoveSavedLayerAt(int index) {
-            savedLayers.RemoveAt(index);
-        }
-
-
-        /// Пока не вижу смысла в изменении порядка сохраненных слоёв
-        /// Но потом если надо будет сделаю
-        ///// <summary>
-        ///// Изменение порядка кадров
-        ///// </summary>
-        ///// <param name="firstFrameIndex">Индекс первого кадра</param>
-        ///// <param name="secondFrameIndex">Индекс второго кадра</param>
-        //public void SwapFramesPositions(int firstFrameIndex, int secondFrameIndex) {
-        //    frames.Insert(secondFrameIndex + 1, frames[firstFrameIndex]);
-        //    var tmp = frames[secondFrameIndex];
-        //    frames.RemoveAt(secondFrameIndex);
-        //    frames.RemoveAt(firstFrameIndex);
-        //    frames.Insert(firstFrameIndex, tmp);
-        //}
-
-
-        ///// <summary>
-        ///// Поднятие кадра вверх в списке на подну позицию
-        ///// </summary>
-        ///// <param name="index">Индекс кадра</param>
-        //public void PutFrameUp(int index) {
-        //    if (index >= 0 && index < frames.Count - 1) {
-        //        frames.Insert(index + 2, frames[index]);
-        //        frames.RemoveAt(index);
-        //    }
-        //}
-
-
-        ///// <summary>
-        ///// Опускание кадра вниз в списке на одну позицию
-        ///// </summary>
-        ///// <param name="index">Индекс кадра</param>
-        //public void PutFrameDown(int index) {
-        //    if (index > 0 && index < frames.Count) {
-        //        frames.Insert(index - 1, frames[index]);
-        //        frames.RemoveAt(index + 1);
-        //    }
-        //}
-
-        #endregion
-
         
-        public void SaveToVideo() {
-            // TODO: СРОЧНО ЭКСПОРТ
-        }
+
+        public List<Frame> frames = new List<Frame>();
 
 
         /// <summary>
-        /// Вызови метод, передавая туда CurrentFrame и просто обнови список слоёв и их отображения
-        /// Генерация кадров, по сути останется только "обновить всё"
-        /// Допустим что у кадра, от которого генерируем, есть два слоя, один будет двигаться в одну сторону, другой вращаться
+        /// 
         /// </summary>
-        public void GenerateFrames(Frame frame) {
-            var indexOfFrame = frames.IndexOf(frame);
-            //Можно передавать количество желаемых кадров и потом ещё дальше упарываться
-            for(int i = 1; i <= 10; i++) {
-                InsertCopyOfFrame(indexOfFrame + i, frame);
-                frames[indexOfFrame + i].GetLayer(0).Transform(new TranslateTransformation(new System.Windows.Point(/*frames[indexOfFrame + i].GetLayer(0).Position.X +*/ i * 10, /*frames[indexOfFrame + i].GetLayer(0).Position.Y +*/ 0)));
-                frames[indexOfFrame + i].GetLayer(1).Transform(new RotateTransformation(frames[indexOfFrame + i].GetLayer(1).Position, i * 20));
+        /// <param name="currentFrame">Кадр, из которого будут генерироваться остальные</param>
+        /// <param name="seconds">Количество секунд которые необходимо сгенерировать</param>
+        public void Generate(Frame currentFrame, int seconds) {
+            /// На каждую секунду генерируем по 25 кадров, чтобы ровненько было. Каждый кадр будет по длительности 0.04 секунды.
+            for (int i = 0; i < seconds * 25; i++) {
+                frames.Add(new Frame($"generated_frame_{i}"));          
+                foreach(var layer in currentFrame.layers) {
+                    ILayer tmpLayer = (ILayer)layer.Item1.Clone();
+                    foreach (var trans in layer.Item2) {
+                        for (int j = 0; j <= i; j++) {
+                            tmpLayer.Transform(trans);
+                        }                   
+                    }
+                    frames.Last().layers.Add(new Tuple<ILayer, List<Transformation>, int>((ILayer)tmpLayer.Clone(), new List<Transformation>(), 0));              
+                }
+                frames.Last().layers.RemoveAt(0);
             }
         }
     }
