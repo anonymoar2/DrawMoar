@@ -21,9 +21,8 @@ namespace DrawMoar {
     public partial class GenerationDialog : Window {
         Point prevPoint;
         Point point;
-        Point start;
+        Point translation;
         ILayer layer;
-        IShape clickedShape;
         List<Transformation> transList = new List<Transformation>();
         State clickState = State.Translation;
 
@@ -52,11 +51,7 @@ namespace DrawMoar {
             prevPoint = Mouse.GetPosition(previewCanvas);
             switch (clickState) {
                 case State.Translation:
-                    GlobalState.PressLeftButton = true;
-                    if (layer is VectorLayer)
-                        clickedShape = GetClickedShape(prevPoint);
-                    if (clickedShape != null)
-                        if (start.X == 0 && start.Y == 0) start = prevPoint;      //нужна какая-то другая проверка, чтобы старт ставился только в начале (счетчик count-?)
+                    GlobalState.PressLeftButton = true;                   
                     previewCanvas_MouseMove(sender, e);
                     break;
                 case State.RotateCenter:
@@ -72,7 +67,7 @@ namespace DrawMoar {
             if (clickState == State.Translation) {
                 point = (Point)e.GetPosition(previewCanvas);
                 if (!GlobalState.PressLeftButton) return;
-                TranslatingRedrawing(clickedShape, e);
+                TranslatingRedrawing(e);
                 prevPoint = point;
             }
         }
@@ -85,39 +80,16 @@ namespace DrawMoar {
             GlobalState.PressLeftButton = false;
         }
 
-        IShape GetClickedShape(Point clickPoint) {
-            foreach (var item in ((VectorLayer)layer).Picture.shapes) {
-                if (item is Rectangle) {
-                    if (((Math.Abs(clickPoint.X - ((Rectangle)item).Center.X) < ((Rectangle)item).Size.Width / 4) &&
-                        (Math.Abs(clickPoint.Y - ((Rectangle)item).Center.Y) < ((Rectangle)item).Size.Height / 4)))
-                        return item;
-                }
-                else if (item is Ellipse) {
-                    if (((Math.Abs(clickPoint.X - ((Ellipse)item).Center.X) < ((Ellipse)item).Size.Width / 4) &&
-                        (Math.Abs(clickPoint.Y - ((Ellipse)item).Center.Y) < ((Ellipse)item).Size.Width / 4)))
-                        return item;
-                }
-                else if (item is Line) {
-                    var line = (Line)item;
-                    var diff = 0.1;
-                    if (Math.Abs((((clickPoint.X - line.PointOne.X) / (line.PointTwo.X - line.PointOne.X)) - ((clickPoint.Y - line.PointOne.Y) / (line.PointTwo.Y - line.PointOne.Y)))) < diff)
-                        if (clickPoint.X < Math.Max(line.PointOne.X, line.PointTwo.X) &&
-                            (clickPoint.X > Math.Min(line.PointOne.X, line.PointTwo.X) &&
-                            clickPoint.Y < Math.Max(line.PointOne.Y, line.PointTwo.Y)) &&
-                            clickPoint.Y > Math.Min(line.PointOne.Y, line.PointTwo.Y)) return item;
-                }
-            }
-            return null;
-        }
 
 
-        void TranslatingRedrawing(IShape shape, MouseEventArgs e) {
+
+        void TranslatingRedrawing(MouseEventArgs e) {
             point = e.GetPosition(previewCanvas);
-            if (clickedShape != null) {
-                ((VectorLayer)layer).Picture.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
-                TranslateVector.Text = $"( {(int)(point.X - start.X)} ; {(int)(point.Y - start.Y)} )";
-                Refresh();
-            }
+            translation.X += point.X - prevPoint.X;
+            translation.Y += point.Y - prevPoint.Y;
+            ((VectorLayer)layer).Picture.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
+            TranslateVector.Text = $"( {(int)(translation.X)} ; {(int)(translation.Y)} )";
+            Refresh();
         }
 
         private void Refresh() {
@@ -169,7 +141,8 @@ namespace DrawMoar {
                 MessageBox.Show(ioEx.Message);
             }
             catch (Exception ex) {
-                MessageBox.Show("Непредвиденная ошибка.");
+               // MessageBox.Show("Непредвиденная ошибка.");
+                MessageBox.Show(ex.Message);
             }
         }
 
