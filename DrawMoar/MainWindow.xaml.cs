@@ -23,7 +23,7 @@ namespace DrawMoar {
         Point point;
         DrawMoar.Shapes.Ellipse newEllipse;
         DrawMoar.Shapes.Rectangle newRect;
-        IShape clickedShape;
+        Point translation;
         GenerationDialog generationWin;
 
         public MainWindow() {
@@ -115,7 +115,7 @@ namespace DrawMoar {
             }
             else {
                 GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new RasterLayer(), new List<Transformation>(), 0));
-            }  
+            }
             GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
             var layers = GlobalState.CurrentFrame.layers;
             AddListBoxElement(layersList, $"RasterLayer_{layers.Count - 1}");
@@ -249,8 +249,6 @@ namespace DrawMoar {
             prevPoint = Mouse.GetPosition(canvas);
             switch (GlobalState.CurrentTool) {
                 case Instrument.Arrow:
-                    if (currentLayer is VectorLayer)
-                        clickedShape = GetClickedShape(prevPoint);
                     break;
                 case Instrument.Brush:
                     break;
@@ -281,7 +279,7 @@ namespace DrawMoar {
             if (!GlobalState.PressLeftButton) return;
             switch (GlobalState.CurrentTool) {
                 case Instrument.Arrow:
-                    TranslatingRedrawing(clickedShape, e);
+                    TranslatingRedrawing(e);
                     prevPoint = point;
                     break;
                 case Instrument.Brush:
@@ -326,37 +324,14 @@ namespace DrawMoar {
         }
 
 
-        IShape GetClickedShape(Point clickPoint) {
-            var layer = (VectorLayer)GlobalState.CurrentLayer.Item1;
-            foreach (var item in layer.Picture.shapes) {
-                if (item is Rectangle) {
-                    if (((Math.Abs(clickPoint.X - ((Rectangle)item).Center.X) < ((Rectangle)item).Size.Width / 4) &&
-                        (Math.Abs(clickPoint.Y - ((Rectangle)item).Center.Y) < ((Rectangle)item).Size.Height / 4)))
-                        return item;
-                }
-                else if (item is Ellipse) {
-                    if (((Math.Abs(clickPoint.X - ((Ellipse)item).Center.X) < ((Ellipse)item).Size.Width / 4) &&
-                        (Math.Abs(clickPoint.Y - ((Ellipse)item).Center.Y) < ((Ellipse)item).Size.Width / 4)))
-                        return item;
-                }
-                else if (item is Line) {
-                }
-            }
-            return null;
-        }
 
 
-        void TranslatingRedrawing(IShape shape, MouseEventArgs e) {
+        void TranslatingRedrawing(MouseEventArgs e) {
             point = e.GetPosition(canvas);
-            if (clickedShape != null) {
-                var shapes = ((VectorLayer)GlobalState.CurrentLayer.Item1).Picture.shapes;
-                canvas.Children.RemoveAt(shapes.IndexOf(shape));
-                shapes.RemoveAt(shapes.IndexOf(shape));
-                shape.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
-                shape.Draw(canvas);
-                SaveIntoLayer(GlobalState.CurrentLayer.Item1, shape);
-                Refresh();
-            }
+            translation.X += point.X - prevPoint.X;
+            translation.Y += point.Y - prevPoint.Y;
+            ((VectorLayer)GlobalState.CurrentLayer.Item1).Picture.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
+            Refresh();
         }
 
 
@@ -414,13 +389,11 @@ namespace DrawMoar {
 
         private void SaveToV(object sender, RoutedEventArgs e) {
             List<System.Drawing.Bitmap> images = new List<System.Drawing.Bitmap>();
-            foreach (var scenes in cartoon.scenes)
-            {
-                foreach (var frame in scenes.frames)
-                {
+            foreach (var scenes in cartoon.scenes) {
+                foreach (var frame in scenes.frames) {
                     images.Add(frame.Join());
                 }
-            }                       
+            }
             Exporter.Video.Mp4Exporter ex = new Exporter.Video.Mp4Exporter();
             ex.Save(images, cartoon.WorkingDirectory);
         }
