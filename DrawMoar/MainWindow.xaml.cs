@@ -414,14 +414,13 @@ namespace DrawMoar {
 
         private void SaveToV(object sender, RoutedEventArgs e) {
             List<System.Drawing.Bitmap> images = new List<System.Drawing.Bitmap>();
-
-            foreach (var frame in GlobalState.CurrentScene.frames) {
-                images.Add(frame.Join());
-                //images.Add(frame.GetLayer(0).GetImage(canvas.Height, canvas.Width));
-            }
-            //foreach (var frame in cartoon.CurrentScene.GetAllFrames()) {
-            //    images.Add(frame.Join());
-            //}
+            foreach (var scenes in cartoon.scenes)
+            {
+                foreach (var frame in scenes.frames)
+                {
+                    images.Add(frame.Join());
+                }
+            }                       
             Exporter.Video.Mp4Exporter ex = new Exporter.Video.Mp4Exporter();
             ex.Save(images, cartoon.WorkingDirectory);
         }
