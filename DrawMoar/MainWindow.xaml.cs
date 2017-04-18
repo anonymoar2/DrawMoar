@@ -389,8 +389,8 @@ namespace DrawMoar {
 
         private void SaveToV(object sender, RoutedEventArgs e) {
             List<System.Drawing.Bitmap> images = new List<System.Drawing.Bitmap>();
-            foreach (var scenes in cartoon.scenes) {
-                foreach (var frame in scenes.frames) {
+            foreach (var scene in cartoon.scenes) {
+                foreach (var frame in scene.frames) {
                     images.Add(frame.Join());
                 }
             }
@@ -401,8 +401,10 @@ namespace DrawMoar {
 
         private void SaveAvi(object sender, RoutedEventArgs e) {
             List<System.Drawing.Bitmap> images = new List<System.Drawing.Bitmap>();
-            foreach (var frame in GlobalState.CurrentScene.frames) {
-                images.Add(frame.Join());
+            foreach (var scene in cartoon.scenes) {
+                foreach (var frame in scene.frames) {
+                    images.Add(frame.Join());
+                }
             }
             //foreach (var frame in cartoon.CurrentScene.GetAllFrames()) {
             //    images.Add(frame.Join());
