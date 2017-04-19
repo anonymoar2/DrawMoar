@@ -28,8 +28,11 @@ namespace Exporter.Video
         /// -f concat - activates concat protocol.
         /// </summary>
         public void Save(List<Bitmap> images, string path) {
+            string pathVideo = path;
+            path = Path.Combine(path, "Image");
+            Directory.CreateDirectory(path);
             var concatFilename = CreateConcatFile(images, path);
-
+            
             Process process = new Process();
             process.StartInfo.FileName = "ffmpeg";
             process.StartInfo.WorkingDirectory = path;
@@ -46,6 +49,7 @@ namespace Exporter.Video
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
+            File.Move(Path.Combine(path, "out.avi"), Path.Combine(pathVideo, "out.avi")); //images.txt находится в одной папке с картинками, а видео отдельно
         }
 
         /// <summary>
