@@ -187,7 +187,7 @@ namespace DrawMoar {
         }
 
         Bitmap ILayer.GetImage(double height, double width) {
-            throw new NotImplementedException();
+            return (Bitmap)Picture.Image;
         }
 
         public object Clone() {
