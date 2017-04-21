@@ -374,6 +374,14 @@ namespace DrawMoar {
             // TODO: ТУТ ИМПОРТ, который вернул нам Image и мы делаем:
             // Cartoon.CurrentScene.CurrentFrame.AddNewRasterLayer(возвращенная Image из импорта)
             // Ну и это как-то отображается наверное, что-то меняется в общем.
+            var fileDialog = new System.Windows.Forms.OpenFileDialog();
+            fileDialog.ShowDialog();
+            string fileName = fileDialog.FileName;
+            if (fileName == "") System.Windows.MessageBox.Show("You haven't chosen the file");
+            GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer,List<Transformation>,int>(new RasterLayer(),new List<Transformation>(),0));
+            GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
+            ((RasterLayer)GlobalState.CurrentFrame.layers.Last().Item1).Picture.Image = System.Drawing.Image.FromFile(fileName);
+            ((RasterLayer)GlobalState.CurrentFrame.layers.Last().Item1).Print(canvas);
         }
 
 
