@@ -91,6 +91,8 @@ namespace DrawMoar {
             var rlc = new RasterLayerControl();
             DrawRasterLayerImage(rlc);
             canvas.Children.Add(rlc);
+            Canvas.SetLeft(rlc, Position.X);
+            Canvas.SetTop(rlc, Position.Y);
         }
 
 

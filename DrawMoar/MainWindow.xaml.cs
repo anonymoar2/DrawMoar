@@ -111,7 +111,7 @@ namespace DrawMoar {
             }
             //проверка на то, выделен ли какой-либо кадр(когда реализуем удаление)
             if (sender == null) {
-                layersList.Items.Clear();
+                //layersList.Items.Clear();
             }
             else {
                 GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new RasterLayer(), new List<Transformation>(), 0));
@@ -332,7 +332,9 @@ namespace DrawMoar {
             translation.Y += point.Y - prevPoint.Y;
             if (GlobalState.CurrentLayer.Item1 is VectorLayer)
                 ((VectorLayer)GlobalState.CurrentLayer.Item1).Picture.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
-            ((RasterLayer)GlobalState.CurrentLayer.Item1).Save(canvas);
+            else {
+                ((RasterLayer)GlobalState.CurrentLayer.Item1).Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
+            }
             Refresh();
         }
 
@@ -382,6 +384,7 @@ namespace DrawMoar {
             GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
             ((RasterLayer)GlobalState.CurrentFrame.layers.Last().Item1).Picture.Image = System.Drawing.Image.FromFile(fileName);
             ((RasterLayer)GlobalState.CurrentFrame.layers.Last().Item1).Print(canvas);
+            AddRasterLayer_Click(null, null);
         }
 
 
@@ -478,7 +481,6 @@ namespace DrawMoar {
                     ((VectorLayer)item.Item1).Picture.Draw(canvas);
                 }
                 else ((RasterLayer)item.Item1).Print(canvas);
-                //TODO: РАСТР...
             }
         }
 
