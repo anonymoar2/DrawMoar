@@ -380,12 +380,8 @@ namespace DrawMoar {
             if (fileName == "") System.Windows.MessageBox.Show("You haven't chosen the file");
             GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer,List<Transformation>,int>(new RasterLayer(),new List<Transformation>(),0));
             GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
-            //((RasterLayer)GlobalState.CurrentFrame.layers.Last().Item1).Picture.Image = System.Drawing.Image.FromFile(fileName);
-            //((RasterLayer)GlobalState.CurrentFrame.layers.Last().Item1).Picture.Image = System.Drawing.Bitmap();
-            //((RasterLayer)GlobalState.CurrentFrame.layers.Last().Item1).Print(canvas);
-            layersList_SelectionChanged(null, null);
-            //framesList_SelectionChanged(null, null);
-            Refresh();
+            ((RasterLayer)GlobalState.CurrentFrame.layers.Last().Item1).Picture.Image = System.Drawing.Image.FromFile(fileName);
+            ((RasterLayer)GlobalState.CurrentFrame.layers.Last().Item1).Print(canvas);
         }
 
 
