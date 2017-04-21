@@ -384,6 +384,7 @@ namespace DrawMoar {
 
         private void GenerateFrame_Click(object sender, RoutedEventArgs e) {
             if (cartoon == null) return;
+            if (GlobalState.TotalTime == 0) return;
             GlobalState.CurrentScene.Generate(GlobalState.CurrentFrame, GlobalState.TotalTime);
             scenesList_SelectionChanged(null, null);
             Refresh();
