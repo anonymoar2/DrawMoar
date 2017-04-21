@@ -50,6 +50,7 @@
             <Button x:Name="testButton2" Height ="25" Width="40" Margin="5,5" Content="Arrow" Click="testButton2_Click"/>
             <Button x:Name="AddEllipse" Height ="25" Width="40" Margin="5,5" Content="Ellipse" Click="AddEllipse_Click"/>
             <Button x:Name="AddRectangle" Height ="25" Width="60" Margin="5,5" Content="Rectangle" Click="AddRectangle_Click"/>
+            <Button x:Name="CycleFrame" Content="Cycle" Width="30"  Height="20" Margin="5,5" Click="CycleFrame_Click"/>
         </WrapPanel>
         <WrapPanel Name="palette" Grid.Column="0" Grid.Row="3">
             <Button x:Name="AddRasterLayer" Content="RL" Width="30"  Height="20" Margin="3,10" Click="AddRasterLayer_Click"/>

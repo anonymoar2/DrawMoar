@@ -490,5 +490,9 @@ namespace DrawMoar {
         private void Window_Closed(object sender, EventArgs e) {
             if (generationWin != null) generationWin.Close();
         }
+
+        private void CycleFrame_Click(object sender, RoutedEventArgs e) {
+            GlobalState.CurrentScene.Cycle(25);
+        }
     }
 }
