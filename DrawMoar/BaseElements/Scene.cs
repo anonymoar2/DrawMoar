@@ -31,7 +31,7 @@ namespace DrawMoar.BaseElements
 
         public Scene(string name) {
             this.name = name;
-            frames.Add(new Frame());
+            frames.Add(new Frame("Frame_0"));
         }
         
 

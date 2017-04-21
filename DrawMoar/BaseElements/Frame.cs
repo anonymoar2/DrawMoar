@@ -29,7 +29,7 @@ namespace DrawMoar.BaseElements
 
 
         public Frame() {
-            name = "newFrame";
+            name = $"Frame_{GlobalState.CurrentScene.frames.Count}";
             layers.Add(new Tuple<ILayer, List<Transformation>, int>(new VectorLayer("Vector_Layer_0"), new List<Transformation>(), 0));
         }
 

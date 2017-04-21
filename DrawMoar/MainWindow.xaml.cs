@@ -164,7 +164,6 @@ namespace DrawMoar {
         private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (framesList.SelectedIndex != -1) {
                 if (GlobalState.CurrentFrame.layers.Count > 0)
-                    if (GlobalState.CurrentLayer.Item1 is RasterLayer) ((RasterLayer)GlobalState.CurrentLayer.Item1).Save(canvas);
                 GlobalState.CurrentFrame = GlobalState.CurrentScene.frames[framesList.SelectedIndex];
                 GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
             }
@@ -229,6 +228,7 @@ namespace DrawMoar {
             if (sender != null) {
                 cartoon.scenes.Add(new Scene());
             }
+            GlobalState.CurrentScene = cartoon.scenes.Last();
             GlobalState.CurrentFrame = GlobalState.CurrentScene.frames.Last();
             GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
             AddListBoxElement(scenesList, GlobalState.CurrentScene.Name);
@@ -285,7 +285,7 @@ namespace DrawMoar {
                 case Instrument.Brush:
                     newLine = new Line(prevPoint, point);
                     newLine.Draw(canvas);
-                    SaveIntoLayer(currentLayer, newLine);
+                    SaveIntoLayer(currentLayer, newLine);                   
                     prevPoint = point;
                     break;
                 case Instrument.Rectangle:
@@ -330,7 +330,9 @@ namespace DrawMoar {
             point = e.GetPosition(canvas);
             translation.X += point.X - prevPoint.X;
             translation.Y += point.Y - prevPoint.Y;
-            ((VectorLayer)GlobalState.CurrentLayer.Item1).Picture.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
+            if (GlobalState.CurrentLayer.Item1 is VectorLayer)
+                ((VectorLayer)GlobalState.CurrentLayer.Item1).Picture.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
+            ((RasterLayer)GlobalState.CurrentLayer.Item1).Save(canvas);
             Refresh();
         }
 
@@ -344,6 +346,7 @@ namespace DrawMoar {
 
         void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
             GlobalState.PressLeftButton = false;
+            if (GlobalState.CurrentLayer.Item1 is RasterLayer) ((RasterLayer)GlobalState.CurrentLayer.Item1).Save(canvas);
         }
 
 
@@ -466,6 +469,7 @@ namespace DrawMoar {
                 if (item.Item1 is VectorLayer) {
                     ((VectorLayer)item.Item1).Picture.Draw(canvas);
                 }
+                else ((RasterLayer)item.Item1).Print(canvas);
                 //TODO: РАСТР...
             }
         }
