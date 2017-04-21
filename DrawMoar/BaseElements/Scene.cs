@@ -62,10 +62,13 @@ namespace DrawMoar.BaseElements
 
 
         public void Cycle(int count) {
-            var newFrames = frames;
+            var newFrames = new List<Frame>();
+            foreach(var frame in frames) {
+                newFrames.Add((Frame)frame.Clone());
+            }
             for (int i = 0; i < count; i++) {
                 foreach (var frame in newFrames) {
-                    frames.Add(frame);
+                    frames.Add((Frame)frame.Clone());
                 }
             }
         }
