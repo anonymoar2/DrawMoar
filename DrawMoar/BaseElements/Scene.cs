@@ -59,5 +59,15 @@ namespace DrawMoar.BaseElements
                 frames.Last().layers.RemoveAt(0);
             }
         }
+
+
+        public void Cycle(int count) {
+            var newFrames = frames;
+            for (int i = 0; i < count; i++) {
+                foreach (var frame in newFrames) {
+                    frames.Add(frame);
+                }
+            }
+        }
     }
 }
