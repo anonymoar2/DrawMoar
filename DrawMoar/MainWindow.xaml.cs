@@ -380,11 +380,14 @@ namespace DrawMoar {
             fileDialog.ShowDialog();
             string fileName = fileDialog.FileName;
             if (fileName == "") System.Windows.MessageBox.Show("You haven't chosen the file");
-            GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer,List<Transformation>,int>(new RasterLayer(),new List<Transformation>(),0));
-            GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
-            ((RasterLayer)GlobalState.CurrentFrame.layers.Last().Item1).Picture.Image = System.Drawing.Image.FromFile(fileName);
-            ((RasterLayer)GlobalState.CurrentFrame.layers.Last().Item1).Print(canvas);
-            AddRasterLayer_Click(null, null);
+            else
+            {
+                GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new RasterLayer(), new List<Transformation>(), 0));
+                GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
+                ((RasterLayer)GlobalState.CurrentFrame.layers.Last().Item1).Picture.Image = System.Drawing.Image.FromFile(fileName);
+                ((RasterLayer)GlobalState.CurrentFrame.layers.Last().Item1).Print(canvas);
+                AddRasterLayer_Click(null, null);
+            }
         }
 
 
