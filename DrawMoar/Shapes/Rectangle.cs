@@ -31,7 +31,6 @@ namespace DrawMoar.Shapes
             this.Color = new BaseElements.Color(GlobalState.Color);
         }
 
-
         public void Draw(Canvas canvas) {
             var rect = new System.Windows.Shapes.Rectangle();
             rect.Width = Size.Width;
@@ -48,12 +47,6 @@ namespace DrawMoar.Shapes
             rect.RenderTransform = rotateTransform1;
             canvas.Children.Add(rect);
         }
-
-
-        public void Print() {
-
-        }
-
 
         public void Transform(Transformation transformation) {
             System.Windows.Point translation, scale;

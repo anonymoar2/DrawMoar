@@ -1,6 +1,6 @@
 ﻿namespace DrawMoar
 {
-    public enum Instrument     //паблик, т.к ГлобалСтейт в другом проекте
+    public enum Instrument     
     {
         Arrow, Brush, Pipette, Light, Rectangle, Ellipse, Line,
     }

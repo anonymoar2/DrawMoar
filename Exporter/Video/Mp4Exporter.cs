@@ -12,21 +12,6 @@ namespace Exporter.Video
 {
     public class Mp4Exporter : IVideoExporter
     {
-        // TODO: *Add ffmpeg arguments related to this format as arguments to constructor.
-        public Mp4Exporter() {
-
-        }
-
-        /// <summary>
-        /// !!! ATTENTION  !!!
-        /// !!! DUMMY CODE !!!
-        /// http://coub.com/view/4thgf
-        /// 
-        /// ffmpeg args:
-        /// -y - say "yes" to overwrite file.
-        /// -loglevel panic - output becomes less verbose.
-        /// -f concat - activates concat protocol.
-        /// </summary>
         public void Save(List<Bitmap> images, string path) {
             string pathVideo = path;
             path = Path.Combine(path, "Image");
@@ -41,24 +26,17 @@ namespace Exporter.Video
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
             process.StartInfo.CreateNoWindow = true;
-            // Set your output and error (asynchronous) handlers.
+           
             process.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
             process.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
-            // Start process and handlers.
+      
             process.Start();
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
-            File.Move(Path.Combine(path, "out.mp4"), Path.Combine(pathVideo, "out.mp4")); //images.txt находится в одной папке с картинками, а видео отдельно
-         
-           
+            File.Move(Path.Combine(path, "out.mp4"), Path.Combine(pathVideo, "out.mp4")); 
         }
 
-        /// <summary>
-        /// Создаёт файл с именами картинок соответствующих каждому кадру, 
-        /// а также с продолжительностью каждого кадра.
-        /// </summary>
-        /// <returns>Имя сформированного файла.</returns>
         private static string CreateConcatFile(List<Bitmap> images, string path) {
             string imagesDirectory = path;
             string imagesListFilename = "images.txt";
@@ -66,11 +44,11 @@ namespace Exporter.Video
 
             DirectoryInfo directoryInfo = new DirectoryInfo(imagesDirectory);
             using (var writer = new StreamWriter(imagesListFilenameRelative)) {
-                //PngExporter pngExporter = new PngExporter();              
+           
                 SaveAllBitmapToPNG(images, path);
                 
                 foreach (var image in images) {
-                    //pngExporter.Save(frame, Path.Combine(cartoon.WorkingDirectory, $"img{frames.IndexOf(frame)}.png"));
+                   
                     writer.WriteLine("file " + $"img{images.IndexOf(image)}.png");
                     writer.WriteLine($"duration 0.04");
                 }
@@ -85,7 +63,7 @@ namespace Exporter.Video
         }
 
         private static void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine) {
-            // Do your stuff with the output (write to console/log/StringBuilder).
+  
             Console.WriteLine(outLine.Data);
         }
     }

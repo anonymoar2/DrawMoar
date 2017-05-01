@@ -13,20 +13,12 @@ namespace DrawMoar.BaseElements
         private string name;
         public string Name {
             get { return name; }
-            private set {
-                // Change regex to more acceptable.
-                if (Regex.IsMatch(value, @"[a-zA-Z0-9]+")) {
-                    name = value;
-                }
-                else {
-                    throw new ArgumentException("Frame name must contain only letters and numbers.");
-                }
+            private set {            
+                    name = value;               
             }
         }
 
-
         public List<Tuple<ILayer, List<Transformation>, int>> layers = new List<Tuple<ILayer, List<Transformation>, int>>();
-
 
         public Frame() {
             name = $"Frame_{GlobalState.CurrentScene.frames.Count}";
@@ -46,7 +38,8 @@ namespace DrawMoar.BaseElements
             g.CompositingMode = CompositingMode.SourceOver;
             g.Clear(System.Drawing.Color.White);
             foreach (var l in layers) {
-                g.DrawImage(l.Item1.GetImage(GlobalState.Width, GlobalState.Height), 0, 0);
+                l.Item1.Draw(g);
+               // g.DrawImage(l.Item1.GetImage(GlobalState.Width, GlobalState.Height), 0, 0);
             }
             g.Dispose();
             return bm;
@@ -63,27 +56,5 @@ namespace DrawMoar.BaseElements
 
             return buf;
         }
-
-
-        // Использовать только если для каждого фрейма будет своя директория.
-        //private string workingDirectory;
-        //public string WorkingDirectory {
-        //    get {
-        //        return workingDirectory;
-        //    }
-        //    private set {
-        //        if (Directory.Exists(value)) {
-        //            workingDirectory = value;
-        //        }
-        //        else if (Directory.Exists(Path.GetDirectoryName(value))) {
-        //            // TODO: handle all possible exceptions here and rethrow ArgumentException.
-        //            Directory.CreateDirectory(value);
-        //            workingDirectory = value;
-        //        }
-        //        else {
-        //            throw new ArgumentException($"Can't open directory \"{value}\".");
-        //        }
-        //    }
-        //}
     }
 }

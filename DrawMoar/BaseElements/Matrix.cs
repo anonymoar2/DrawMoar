@@ -3,10 +3,6 @@
 
 namespace DrawMoar.BaseElements
 {
-    /// <summary>
-    /// Писал Антон к 4-ой лабе
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
     public class Matrix<T>
     {
         private T[,] matrix;

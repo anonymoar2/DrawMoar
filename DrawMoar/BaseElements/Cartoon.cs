@@ -13,7 +13,7 @@ namespace DrawMoar.BaseElements
         private const int MinimalWidth = 256;
         private const int MinimalHeight = 144;
         private const int MaximumWidth = 3840;
-        private const int MaximumHeight = 2160; // MAXIMUM HATE 😡
+        private const int MaximumHeight = 2160;
 
         public string Name { get; private set; }
 
@@ -59,8 +59,7 @@ namespace DrawMoar.BaseElements
                 if (Directory.Exists(value)) {
                     workingDirectory = value;
                 }
-                else if (Directory.Exists(Path.GetDirectoryName(value))) {
-                    // TODO: handle all possible exceptions here and rethrow ArgumentException.
+                else if (Directory.Exists(Path.GetDirectoryName(value))) {                  
                     Directory.CreateDirectory(value);
                     workingDirectory = value;
                 }

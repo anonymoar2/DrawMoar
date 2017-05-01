@@ -11,17 +11,8 @@ namespace DrawMoar.BaseElements
         private string name;
         public string Name {
             get { return name; }
-            set {
-                // Change regex to more acceptable.
-                if (Regex.IsMatch(value, @"[a-zA-Z0-9]+")) {
-                    name = value;
-                }
-                else {
-                    throw new ArgumentException("Frame name must contain only letters and numbers.");
-                }
-            }
+            set { name = value; }                     
         }
-
 
         public Scene() {
             name = "newScene";
@@ -37,14 +28,8 @@ namespace DrawMoar.BaseElements
 
         public List<Frame> frames = new List<Frame>();
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="currentFrame">Кадр, из которого будут генерироваться остальные</param>
-        /// <param name="seconds">Количество секунд которые необходимо сгенерировать</param>
         public void Generate(Frame currentFrame, int seconds) {
-            /// На каждую секунду генерируем по 25 кадров, чтобы ровненько было. Каждый кадр будет по длительности 0.04 секунды.
+            /// На каждую секунду генерируем по 25 кадров. Каждый кадр будет по длительности 0.04 секунды.
             for (int i = 0; i < seconds * 25; i++) {
                 frames.Add(new Frame($"generated_frame_{i}"));          
                 foreach(var layer in currentFrame.layers) {
@@ -59,7 +44,6 @@ namespace DrawMoar.BaseElements
                 frames.Last().layers.RemoveAt(0);
             }
         }
-
 
         public void Cycle(int count) {
             var newFrames = new List<Frame>();

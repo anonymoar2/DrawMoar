@@ -10,12 +10,6 @@ namespace Exporter.Photo
     public class PngExporter : IPhotoExporter
     {
         public void Save(Image image, string filename) {
-            //var enc = new PngBitmapEncoder();
-            //enc.Frames.Add(BitmapFrame.Create(frame.Bitmap));
-
-            //using (FileStream stm = File.Create(filename)) {
-            //    enc.Save(stm);
-            //}
             image.Save("filemane", ImageFormat.Png);
         }
     }
