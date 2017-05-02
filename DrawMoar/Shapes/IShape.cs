@@ -18,8 +18,6 @@ namespace DrawMoar.Shapes
 
         void Draw(Canvas canvas);
 
-        void Print();
-
         void Draw(Graphics g);
     }
 }

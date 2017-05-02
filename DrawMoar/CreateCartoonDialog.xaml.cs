@@ -81,18 +81,5 @@ namespace DrawMoar
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
         }
-
-        // PreviewTextInput="PreviewTextInput"
-
-        //private void getHeight_PreviewTextInput(object sender, TextCompositionEventArgs e) {
-        //    if (!char.IsDigit(e.Text, e.Text.Length - 1))
-        //        e.Handled = true;
-        //}
-
-        //private void getWidth_PreviewTextInput(object sender, TextCompositionEventArgs e) {
-        //    if (!char.IsDigit(e.Text, e.Text.Length - 1))
-        //        e.Handled = true;
-        //}
-
     }
 }

@@ -31,7 +31,6 @@ namespace DrawMoar.Shapes
             this.Color = new DrawMoar.BaseElements.Color(GlobalState.Color);
         }
 
-
         public void Draw(Canvas canvas) {
             var ellipse = new System.Windows.Shapes.Ellipse();
             ellipse.Width = Size.Width;
@@ -49,12 +48,6 @@ namespace DrawMoar.Shapes
             canvas.Children.Add(ellipse); 
         }
 
-
-        public void Print() {
-
-        }
-
-
         public void Transform(Transformation transformation) {
             System.Windows.Point translation, scale;
             double rotation;
@@ -65,7 +58,6 @@ namespace DrawMoar.Shapes
             Size = new System.Windows.Size(Size.Width * scale.X, Size.Height * scale.Y);
             Rotate = (Rotate + rotation) % 360;
         }
-
 
         public void Draw(Graphics g) {       
             g.TranslateTransform((float)(Center.X), (float)(Center.Y));

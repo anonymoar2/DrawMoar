@@ -26,7 +26,6 @@ namespace DrawMoar.Shapes
             Color = new BaseElements.Color(GlobalState.Color);
         }
 
-
         public void Draw(Canvas canvas) {
             canvas.Children.Add(new System.Windows.Shapes.Line {
                 Stroke = Color.ToBrush(),
@@ -40,12 +39,6 @@ namespace DrawMoar.Shapes
                 IsEnabled = false
             });
         }
-
-
-        public void Print() {
-
-        }
-
 
         public void Transform(Transformation transformation) {
             PointOne = transformation.Apply(PointOne);

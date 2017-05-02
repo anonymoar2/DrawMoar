@@ -18,28 +18,16 @@ namespace DrawMoar
         public static int Height { get; set; }
         public static int Width { get; set; }
 
-
-        public static bool PressRightButton { get; set; }
-
         public static event EventHandler ChangeInstrument;
 
         public static string WorkingDirectory { get; set; }
 
-        //public static Instruments.LightVector lightVector { get; set; }
-
-        public static List<Transformation> CurrentTrans { get; set; }
         public static int TotalTime { get; set; }
 
         public static Tuple<ILayer, List<Transformation>, int> CurrentLayer { get; set; }
         public static Frame CurrentFrame { get; set; }
         public static Scene CurrentScene { get; set; }
 
-
-        // Используется для изменения порядка слоев 
-        public static int FramesCount { get; set; }
-
-        // Испольузется для именования новых слоев
-        public static int LayersIndexes { get; set; }
         public static Size canvSize { get; set; }
 
         private static Brush _color = Brushes.Red;
@@ -62,7 +50,6 @@ namespace DrawMoar
                 ChangeInstrument(value, null);
             }
         }
-
 
         private static Size _brushSize;
         public static Size BrushSize {

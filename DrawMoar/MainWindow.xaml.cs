@@ -28,16 +28,6 @@ namespace DrawMoar {
 
         public MainWindow() {
             InitializeComponent();
-            // при создании окна области рисования нет
-
-            // только после создания мультика в котором указывается размер холста в пропорциях
-            // потом ещё размеры подогнать надо либо сам развернёт
-            // панельки фиксированные и списки тоже
-
-            // после создания мультика появляется первый пустой кадр
-            // и на нём первый пустой слой
-
-            // для теста, потом всё это можно будет поменять без проблем
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             canvas.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(canvas_MouseLeftButtonDown);
             canvas.PreviewMouseMove += new MouseEventHandler(canvas_MouseMove);
@@ -49,18 +39,13 @@ namespace DrawMoar {
             GlobalState.BrushSize = new Size(5, 5);
         }
 
-        //тогда отрисовку придется выносить в отдельный класс и она будет сложнее - много работы в плане 
-
         private void CreateCartoon(object sender, RoutedEventArgs e) {
-            // создаём новый пустой кадр
-            // на кадре новый пустой слой создаём
             var newCartoonDialog = new CreateCartoonDialog();
             newCartoonDialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             newCartoonDialog.Owner = this;
             newCartoonDialog.Show();
 
         }
-
 
         /// <summary>
         /// "Успешное" закрытие окна создания мультфильма.
@@ -78,49 +63,26 @@ namespace DrawMoar {
             Width = canvas.Width + 260;        //пока что так (ширина двух крайних колонок грида)
             AddScene_Click(null, null);
             AddFrame_Click(null, null);
-            //AddRasterLayer_Click(null, null);
             AddVectorLayer_Click(null, null);
         }
 
 
-        private void ExportToMP4(object sender, RoutedEventArgs e) {
-            //SaveControlsToBitmap();
-            //var exp = new Mp4Exporter(); 
-            //exp.Save(cartoon, cartoon.WorkingDirectory); 
+        private void ExportToMP4(object sender, RoutedEventArgs e) {        
         }
 
-
-        //// https://github.com/artesdi/Paint.WPF
-        //public void DeleteFrame(object sender, RoutedEventArgs e) {
-
-        //    //cartoon.frames.Remove(cartoon.currentFrame);
-        //    // удаление из списка кадров на экране
-        //    // canvas.Strokes.Clear();
-        //    // переключение и отображение предыдущего/следующего кадра
-        //}
-
-        /// <summary>
-        /// Добавление нового кадра в мультфильм.
-        /// Подразумевает добавление одного слоя на новый кадр.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void AddRasterLayer_Click(object sender, RoutedEventArgs e) {
             if (cartoon == null) {
                 return;
             }
             //проверка на то, выделен ли какой-либо кадр(когда реализуем удаление)
-            if (sender == null) {
-                //layersList.Items.Clear();
-            }
-            else {
+            if (sender != null)
+            {
                 GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new RasterLayer(), new List<Transformation>(), 0));
             }
             GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
             var layers = GlobalState.CurrentFrame.layers;
             AddListBoxElement(layersList, $"RasterLayer_{layers.Count - 1}");
         }
-
 
         private void AddVectorLayer_Click(object sender, RoutedEventArgs e) {
             if (cartoon == null) {
@@ -154,13 +116,6 @@ namespace DrawMoar {
             }
         }
 
-
-
-        /// <summary>
-        /// Обработка выбора элемента из элемента, отображающего кадры
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (framesList.SelectedIndex != -1) {
                 if (GlobalState.CurrentFrame.layers.Count > 0)
@@ -177,7 +132,6 @@ namespace DrawMoar {
             }
         }
 
-
         private void scenesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             framesList.Items.Clear();
             GlobalState.CurrentScene = cartoon.scenes[scenesList.SelectedIndex];
@@ -188,14 +142,12 @@ namespace DrawMoar {
             framesList.SelectedIndex = 0;
         }
 
-
         private void layersList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (layersList.SelectedIndex != -1) {
                 GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers[layersList.SelectedIndex];
             }
 
         }
-
 
         private void testButton_Click(object sender, RoutedEventArgs e) {
             GlobalState.CurrentTool = Instrument.Brush;
@@ -205,7 +157,6 @@ namespace DrawMoar {
         private void testButton2_Click(object sender, RoutedEventArgs e) {
             GlobalState.CurrentTool = Instrument.Arrow;
         }
-
 
         private void AddFrame_Click(object sender, RoutedEventArgs e) {
             if (cartoon == null) {
@@ -219,7 +170,6 @@ namespace DrawMoar {
                 AddListBoxElement(framesList, GlobalState.CurrentFrame.Name);
             }
         }
-
 
         private void AddScene_Click(object sender, RoutedEventArgs e) {
             if (cartoon == null) {
@@ -236,12 +186,11 @@ namespace DrawMoar {
 
 
         private void AddListBoxElement(ListBox lBox, string content) {
-            var lbl = new Label();          //здесь должен быть какой-то другой контрол (возможно, самописный)
+            var lbl = new Label();          
             lbl.Content = content;
             lBox.Items.Add(lbl);
             lBox.SelectedIndex = lBox.Items.Count - 1;
         }
-
 
         void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             GlobalState.PressLeftButton = true;
@@ -262,8 +211,7 @@ namespace DrawMoar {
                     newEllipse.Draw(canvas);
                     SaveIntoLayer(currentLayer, newEllipse);
                     break;
-                case Instrument.Line:
-                    //задерживание кнопки мыши, отпустили = конец линии    
+                case Instrument.Line:                     
                     newLine = new Line(prevPoint, prevPoint);
                     newLine.Draw(canvas);
                     SaveIntoLayer(currentLayer, newLine);
@@ -271,7 +219,6 @@ namespace DrawMoar {
             }
             canvas_MouseMove(sender, e);
         }
-
 
         void canvas_MouseMove(object sender, MouseEventArgs e) {
             point = (Point)e.GetPosition(canvas);
@@ -300,7 +247,6 @@ namespace DrawMoar {
             }
         }
 
-
         void ScaleRedrawing(IShape shape, MouseEventArgs e) {
             if (shape != null & e.LeftButton == MouseButtonState.Pressed) {
                 var layer = GlobalState.CurrentLayer;
@@ -323,9 +269,6 @@ namespace DrawMoar {
             }
         }
 
-
-
-
         void TranslatingRedrawing(MouseEventArgs e) {
             point = e.GetPosition(canvas);
             translation.X += point.X - prevPoint.X;
@@ -338,60 +281,52 @@ namespace DrawMoar {
             Refresh();
         }
 
-
         void SaveIntoLayer(ILayer layer, IShape shape) {
             if (layer is VectorLayer) {
                 ((VectorLayer)layer).Picture.shapes.Add(shape);
             }
         }
 
-
         void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
             GlobalState.PressLeftButton = false;
             if (GlobalState.CurrentLayer.Item1 is RasterLayer) ((RasterLayer)GlobalState.CurrentLayer.Item1).Save(canvas);
         }
 
-
         void canvas_MouseLeave(object sender, MouseEventArgs e) {
             GlobalState.PressLeftButton = false;
         }
-
 
         private void Lines_Click(object sender, RoutedEventArgs e) {
             GlobalState.CurrentTool = Instrument.Line;
         }
 
-
         private void AddEllipse_Click(object sender, RoutedEventArgs e) {
             GlobalState.CurrentTool = Instrument.Ellipse;
         }
-
 
         private void AddRectangle_Click(object sender, RoutedEventArgs e) {
             GlobalState.CurrentTool = Instrument.Rectangle;
         }
 
-
         private void AddPicture(object sender, RoutedEventArgs e) {
-            // TODO: ТУТ ИМПОРТ, который вернул нам Image и мы делаем:
-            // Cartoon.CurrentScene.CurrentFrame.AddNewRasterLayer(возвращенная Image из импорта)
-            // Ну и это как-то отображается наверное, что-то меняется в общем.
+            
             var fileDialog = new System.Windows.Forms.OpenFileDialog();
             fileDialog.ShowDialog();
             string fileName = fileDialog.FileName;
             if (fileName == "") System.Windows.MessageBox.Show("You haven't chosen the file");
-            GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer,List<Transformation>,int>(new RasterLayer(),new List<Transformation>(),0));
-            GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
-            ((RasterLayer)GlobalState.CurrentFrame.layers.Last().Item1).Picture.Image = System.Drawing.Image.FromFile(fileName);
-            ((RasterLayer)GlobalState.CurrentFrame.layers.Last().Item1).Print(canvas);
-            AddRasterLayer_Click(null, null);
+            else
+            {
+                GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new RasterLayer(), new List<Transformation>(), 0));
+                GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
+                ((RasterLayer)GlobalState.CurrentFrame.layers.Last().Item1).Picture.Image = System.Drawing.Image.FromFile(fileName);
+                ((RasterLayer)GlobalState.CurrentFrame.layers.Last().Item1).Print(canvas);
+                AddRasterLayer_Click(null, null);
+            }
         }
-
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e) {
             menu.Width = Width;
         }
-
 
         private void GenerateFrame_Click(object sender, RoutedEventArgs e) {
             if (cartoon == null) return;
@@ -400,7 +335,6 @@ namespace DrawMoar {
             scenesList_SelectionChanged(null, null);
             Refresh();
         }
-
 
         private void SaveToV(object sender, RoutedEventArgs e) {
             List<System.Drawing.Bitmap> images = new List<System.Drawing.Bitmap>();
@@ -413,32 +347,21 @@ namespace DrawMoar {
             ex.Save(images, cartoon.WorkingDirectory);
         }
 
-
         private void SaveAvi(object sender, RoutedEventArgs e) {
             List<System.Drawing.Bitmap> images = new List<System.Drawing.Bitmap>();
             foreach (var scene in cartoon.scenes) {
                 foreach (var frame in scene.frames) {
                     images.Add(frame.Join());
                 }
-            }
-            //foreach (var frame in cartoon.CurrentScene.GetAllFrames()) {
-            //    images.Add(frame.Join());
-            //}
+            }         
             Exporter.Video.AviExporter ex = new Exporter.Video.AviExporter();
             ex.Save(images, cartoon.WorkingDirectory);
         }
-
-
-        /// <summary>
-        /// Смена рабочего цвета на выбранный в основной палитре
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+     
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e) {
             var color = new DrawMoar.BaseElements.Color(ClrPcker_Background.SelectedColor.Value);
             GlobalState.Color = color.ToBrush();
         }
-
 
         private void DeleteFrame_Click(object sender, RoutedEventArgs e) {
             if (cartoon == null) return;
@@ -456,7 +379,6 @@ namespace DrawMoar {
             Refresh();
         }
 
-
         private void DeleteLayer_Click(object sender, RoutedEventArgs e) {
             if (cartoon == null) return;
             int index = layersList.SelectedIndex;
@@ -468,11 +390,9 @@ namespace DrawMoar {
                 layers.Add(new Tuple<ILayer, List<Transformation>, int>(new VectorLayer(), new List<Transformation>(), 0));
                 AddListBoxElement(layersList, GlobalState.CurrentLayer.Item1.Name);
             }
-            // TODO: РАСТР...
             layersList.SelectedIndex = layersList.Items.Count > 1 ? index - 1 : 0;
             Refresh();
         }
-
 
         private void Refresh() {
             canvas.Children.Clear();
@@ -485,12 +405,6 @@ namespace DrawMoar {
             }
         }
 
-
-        /// <summary>
-        /// TODO: Поменять местами генерацию и создание трансформаций
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void AT_Click(object sender, RoutedEventArgs e) {
             ILayer cloneOfCurrent = (ILayer)GlobalState.CurrentLayer.Item1.Clone();
             generationWin = new GenerationDialog(cloneOfCurrent);

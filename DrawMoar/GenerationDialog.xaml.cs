@@ -141,27 +141,22 @@ namespace DrawMoar {
                 MessageBox.Show(ioEx.Message);
             }
             catch (Exception ex) {
-               // MessageBox.Show("Непредвиденная ошибка.");
                 MessageBox.Show(ex.Message);
             }
         }
 
         private void ApplyTranslation(int totalTime) {
-            Point translateVector = new Point();
-            //if (TranslateTime.Text == "") throw new IOException("Enter all fields in the Translate section");
+            Point translateVector = new Point();         
             string[] coords = TranslateVector.Text.Split(new char[] { ';', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             translateVector.X = double.Parse(coords[0]) / (totalTime * 25);
-            translateVector.Y = double.Parse(coords[1]) / (totalTime * 25);
-            //time[0] = Int32.Parse(TranslateTime.Text);
+            translateVector.Y = double.Parse(coords[1]) / (totalTime * 25);           
             transList.Add(new TranslateTransformation(translateVector));
         }
 
         private void ApplyScaling(int totalTime) {
             double scaleFactor;
-            //if (ScaleTime.Text == "" || ScalePoint.Text == "") throw new IOException("Enter all fields in the Scale section");
             if (ScalePoint.Text == "") throw new IOException("Enter all fields in the Scale section");
             scaleFactor = 1 + (double.Parse(ScaleFactor.Text) - 1) / (totalTime * 25);
-            //time[2] = Int32.Parse(ScaleTime.Text);
             string[] coords = ScalePoint.Text.Split(new char[] { ';', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             Point center = new Point();
             center.X = double.Parse(coords[0]);
@@ -171,10 +166,8 @@ namespace DrawMoar {
 
         private void ApplyRotation(int totalTime) {
             double angle;
-            //if (RotateTime.Text == "" || RotatePoint.Text == "") throw new IOException("Enter all fields in the Rotate section");
             if (RotatePoint.Text == "") throw new IOException("Enter all fields in the Rotate section");
             angle = double.Parse(Angle.Text) / (totalTime * 25);
-            //time[1] = Int32.Parse(RotateTime.Text);
             string[] coords = RotatePoint.Text.Split(new char[] { ';', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             Point center = new Point();
             center.X = double.Parse(coords[0]);

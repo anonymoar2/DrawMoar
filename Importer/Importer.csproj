@@ -41,8 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Photo\IPhotoImporter.cs" />
-    <Compile Include="Photo\JPG.cs" />
     <Compile Include="Photo\PNG.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

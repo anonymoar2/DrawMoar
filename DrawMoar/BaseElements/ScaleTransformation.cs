@@ -10,7 +10,6 @@ namespace DrawMoar.BaseElements
         private Matrix<double> Transform;
         double scaleFactor = 1;
 
-
         public ScaleTransformation(System.Windows.Point point, double scaleFactor) {
             this.scaleFactor = scaleFactor;
             var one = new Matrix<double>(new double[3, 3] { { 1, 0, point.X }, { 0, 1, point.Y }, { 0, 0, 1 } });
@@ -18,7 +17,6 @@ namespace DrawMoar.BaseElements
             var two = new Matrix<double>(new double[3, 3] { { scaleFactor, 0, 0 }, { 0, scaleFactor, 0 }, { 0, 0, 1 } });
             Transform = one * two * three;
         }
-
 
         public ScaleTransformation(System.Windows.Point point1, System.Windows.Point point2, double scaleFactor) {
             this.scaleFactor = scaleFactor;
@@ -32,13 +30,6 @@ namespace DrawMoar.BaseElements
             Transform = one * two * three * four * five;
         }
 
-
-        /// <summary>
-        /// Трансформация (скейл) картинки
-        /// TODO: Сделать как в вк написал Никита, и по тому  по другому взм, подумать
-        /// </summary>
-        /// <param name="picture"></param>
-        /// <returns></returns>
         public override Picture Apply(Picture picture) {
             var newWidth = picture.Image.Width * scaleFactor;
             var newHeight = picture.Image.Height * scaleFactor;
@@ -50,12 +41,10 @@ namespace DrawMoar.BaseElements
             return picture;
         }
 
-
         public override System.Windows.Point Apply(System.Windows.Point point) {
             var rP = Transform * new Matrix<double>(new double[3, 1] { { point.X }, { point.Y }, { 1 } });
             return new System.Windows.Point(rP[0, 0], rP[1, 0]);
         }
-
 
         public override void Decompose(out System.Windows.Point translation, out System.Windows.Point scale, out double rotation) {
             translation = new System.Windows.Point(Transform[0, 2], Transform[1, 2]);
