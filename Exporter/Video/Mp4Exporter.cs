@@ -1,12 +1,10 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Exporter.Photo;
+
+using System.IO;
 using System.Drawing;
+using System.Diagnostics;
+
 
 namespace Exporter.Video
 {

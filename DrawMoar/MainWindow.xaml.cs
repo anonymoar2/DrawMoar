@@ -336,26 +336,23 @@ namespace DrawMoar {
             Refresh();
         }
 
-        private void SaveToV(object sender, RoutedEventArgs e) {
-            List<System.Drawing.Bitmap> images = new List<System.Drawing.Bitmap>();
-            foreach (var scene in cartoon.scenes) {
-                foreach (var frame in scene.frames) {
-                    images.Add(frame.Join());
-                }
+        private void SaveToMp4(object sender, RoutedEventArgs e) {
+            try {
+                DrawMoar.IO.ExportToVideo.SaveToVideo(cartoon, "mp4");
             }
-            Exporter.Video.Mp4Exporter ex = new Exporter.Video.Mp4Exporter();
-            ex.Save(images, cartoon.WorkingDirectory);
+            catch(Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
         }
 
-        private void SaveAvi(object sender, RoutedEventArgs e) {
-            List<System.Drawing.Bitmap> images = new List<System.Drawing.Bitmap>();
-            foreach (var scene in cartoon.scenes) {
-                foreach (var frame in scene.frames) {
-                    images.Add(frame.Join());
-                }
-            }         
-            Exporter.Video.AviExporter ex = new Exporter.Video.AviExporter();
-            ex.Save(images, cartoon.WorkingDirectory);
+        private void SaveToAvi(object sender, RoutedEventArgs e) {
+
+            try {
+                DrawMoar.IO.ExportToVideo.SaveToVideo(cartoon, "avi");
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
         }
      
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e) {

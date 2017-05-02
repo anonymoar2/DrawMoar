@@ -93,6 +93,8 @@
       <DependentUpon>CreateCartoonDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="BaseElements\Frame.cs" />
+    <Compile Include="IO\ExportToImage.cs" />
+    <Compile Include="IO\ExportToVideo.cs" />
     <Compile Include="Extensions\Extremes.cs" />
     <Compile Include="Extensions\ObjectCopier.cs" />
     <Compile Include="GenerationDialog.xaml.cs">
@@ -101,6 +103,7 @@
     <Compile Include="GlobalState.cs" />
     <Compile Include="ILayer.cs" />
     <Compile Include="Instrument.cs" />
+    <Compile Include="IO\ImportImage.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -165,16 +168,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Exporter\Exporter.csproj">
-      <Project>{a3397f33-cb81-4387-b785-6e5ad4006339}</Project>
-      <Name>Exporter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Importer\Importer.csproj">
-      <Project>{3b3d6e6b-a04d-45f6-9d65-d66ebfff0a7e}</Project>
-      <Name>Importer</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
