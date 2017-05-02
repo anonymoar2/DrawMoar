@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Exporter.Photo;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Exporter.Video
 {
@@ -34,7 +35,8 @@ namespace Exporter.Video
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
-            File.Move(Path.Combine(path, "out.mp4"), Path.Combine(pathVideo, "out.mp4")); 
+            File.Move(Path.Combine(path, "out.mp4"), Path.Combine(pathVideo, "out.mp4"));
+            MessageBox.Show("Cartoon created");
         }
 
         private static string CreateConcatFile(List<Bitmap> images, string path) {
