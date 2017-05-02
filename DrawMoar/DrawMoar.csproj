@@ -95,8 +95,6 @@
     <Compile Include="BaseElements\Frame.cs" />
     <Compile Include="IO\ExportToImage.cs" />
     <Compile Include="IO\ExportToVideo.cs" />
-    <Compile Include="Extensions\Extremes.cs" />
-    <Compile Include="Extensions\ObjectCopier.cs" />
     <Compile Include="GenerationDialog.xaml.cs">
       <DependentUpon>GenerationDialog.xaml</DependentUpon>
     </Compile>
