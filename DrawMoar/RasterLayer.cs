@@ -11,7 +11,6 @@ using System.IO;
 using DrawMoar.BaseElements;
 using DrawMoar.Shapes;
 using System.Collections.Generic;
-using Exporter.Photo;
 
 namespace DrawMoar {
     public class RasterLayer : ILayer {

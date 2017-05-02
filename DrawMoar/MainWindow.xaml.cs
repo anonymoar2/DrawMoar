@@ -346,7 +346,6 @@ namespace DrawMoar {
         }
 
         private void SaveToAvi(object sender, RoutedEventArgs e) {
-
             try {
                 DrawMoar.IO.ExportToVideo.SaveToVideo(cartoon, "avi");
             }
