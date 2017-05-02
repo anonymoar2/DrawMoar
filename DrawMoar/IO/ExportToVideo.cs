@@ -14,7 +14,7 @@ namespace DrawMoar.IO
     public static class ExportToVideo
     {
         public static void SaveToVideo(Cartoon cartoon, string outFileFormat) {
-            if (outFileFormat != "mp4" || outFileFormat != "avi") {
+            if (outFileFormat != "mp4" && outFileFormat != "avi") {
                 throw new ArgumentException("Недопустимый формат файла");
             }
             string pathToImages = Path.Combine(cartoon.WorkingDirectory, "Image");
@@ -37,8 +37,7 @@ namespace DrawMoar.IO
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
-            File.Move(Path.Combine(cartoon.WorkingDirectory, $"out.{outFileFormat}"), Path.Combine(cartoon.WorkingDirectory, $"out.{outFileFormat}"));
-
+            File.Move(Path.Combine(pathToImages, $"out.{outFileFormat}"), Path.Combine(cartoon.WorkingDirectory, $"out.{outFileFormat}"));
         }
 
 
