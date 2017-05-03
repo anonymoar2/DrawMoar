@@ -17,13 +17,13 @@ namespace DrawMoar.IO
             if (outFileFormat != "mp4" && outFileFormat != "avi") {
                 throw new ArgumentException("Недопустимый формат файла");
             }
-            string pathToImages = Path.Combine(cartoon.WorkingDirectory, "Image");
+            string pathToImages = Path.Combine(cartoon.WorkingDirectory, "Images");
             Directory.CreateDirectory(pathToImages);
             var concatFilename = CreateTemporaryFiles(cartoon, pathToImages);
 
             Process process = new Process();
             process.StartInfo.FileName = "ffmpeg";
-            process.StartInfo.WorkingDirectory = cartoon.WorkingDirectory;
+            process.StartInfo.WorkingDirectory = pathToImages;
             process.StartInfo.Arguments = $"-y -loglevel panic -f concat -i {concatFilename} out.{outFileFormat}";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
@@ -43,12 +43,11 @@ namespace DrawMoar.IO
 
         private static string CreateTemporaryFiles(Cartoon cartoon, string path) {
             string imagesDirectory = path;
-            string imagesListFilename = "images.txt";
-            string imagesListFilenameRelative = Path.Combine(imagesDirectory, imagesListFilename);
+            string imagesListFilename = Path.Combine(imagesDirectory, "images.txt");
 
             DirectoryInfo directoryInfo = new DirectoryInfo(imagesDirectory);
             int count = 0;
-            using (var writer = new StreamWriter(imagesListFilenameRelative)) {
+            using (var writer = new StreamWriter(imagesListFilename)) {
                 cartoon.scenes.ForEach(
                     scene => scene.frames.ForEach(
                     frame => {
