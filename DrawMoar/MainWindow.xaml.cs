@@ -369,8 +369,8 @@ namespace DrawMoar {
                 frames.Add(new BaseElements.Frame());
                 AddListBoxElement(framesList, GlobalState.CurrentFrame.Name);
             }
-            framesList.SelectedIndex = framesList.Items.Count > 1 ? index - 1 : 0;
-            GlobalState.CurrentFrame = framesList.Items.Count > 1 && index > 0 ? frames[index - 1] : frames[0];
+            framesList.SelectedIndex = index > 0 ? index - 1 : 0;
+            GlobalState.CurrentFrame =  index > 0 ? frames[index - 1] : frames[0];
             GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers[0];
             Refresh();
         }
@@ -387,6 +387,24 @@ namespace DrawMoar {
                 AddListBoxElement(layersList, GlobalState.CurrentLayer.Item1.Name);
             }
             layersList.SelectedIndex = layersList.Items.Count > 1 ? index - 1 : 0;
+            GlobalState.CurrentLayer = index > 0 ? layers[index - 1] : layers[0];
+            Refresh();
+        }
+        
+        //кнопку запилю с ПК, когда пофикшу штуку с гитом, что скидывал в конфу
+        private void DeleteScene_Click(object sender, RoutedEventArgs e) {  //вероятно, возможно вынести по классам и часть вызывать оттуда
+            if (cartoon == null) return;
+            int index = scenesList.SelectedIndex;
+            scenesList.Items.RemoveAt(index);
+            cartoon.scenes.RemoveAt(index);
+            if (cartoon.scenes.Count == 0) {
+                cartoon.scenes.Add(new Scene());
+                AddListBoxElement(scenesList, GlobalState.CurrentScene.Name);
+            }
+            scenesList.SelectedIndex = layersList.Items.Count > 1 ? index - 1 : 0;
+            GlobalState.CurrentScene = index > 0 ? cartoon.scenes[index - 1] : cartoon.scenes[0];
+            GlobalState.CurrentFrame = GlobalState.CurrentScene.frames[0];
+            GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers[0];
             Refresh();
         }
 
