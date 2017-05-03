@@ -17,7 +17,9 @@ namespace DrawMoar.IO
             string pathToImages = Path.Combine(cartoon.WorkingDirectory, "Images");
             Directory.CreateDirectory(pathToImages);
             var concatFilename = CreateTemporaryFiles(cartoon, pathToImages);
-
+            if(File.Exists(Path.Combine(cartoon.WorkingDirectory, $"out.{outFileFormat}"))){
+                File.Delete(Path.Combine(cartoon.WorkingDirectory, $"out.{outFileFormat}"));
+            }
             Process process = new Process();
             process.StartInfo.FileName = "ffmpeg";
             process.StartInfo.WorkingDirectory = pathToImages;
