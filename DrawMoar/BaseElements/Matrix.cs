@@ -10,12 +10,14 @@ namespace DrawMoar.BaseElements
         public int Rows { get; }
         public int Columns { get; }
 
+
         public Matrix(int row, int column) {
             Rows = row;
             Columns = column;
 
             matrix = new T[row, column];
         }
+
 
         public Matrix(T[,] matrix) {
             Rows = matrix?.GetLength(0) ?? 0;
@@ -28,6 +30,7 @@ namespace DrawMoar.BaseElements
                 }
             }
         }
+
 
         public static Matrix<T> operator *(Matrix<T> m1, Matrix<T> m2) {
             if (m1.Columns != m2.Rows) {
@@ -48,6 +51,7 @@ namespace DrawMoar.BaseElements
             return result;
         }
 
+
         public static Matrix<T> Identity(int n) {
             var result = new T[n, n];
             for (int row = 0; row < n; row++) {
@@ -62,6 +66,7 @@ namespace DrawMoar.BaseElements
 
             return new Matrix<T>(result);
         }
+
 
         public T this[int row, int column] {
             get {

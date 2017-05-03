@@ -1,10 +1,11 @@
-﻿using System.Windows.Controls;
-using System.Windows;
-using System.Windows.Media;
+﻿using System;
+
 using System.Drawing;
+using System.Windows.Media;
+using System.Windows.Controls;
 
 using DrawMoar.BaseElements;
-using System;
+
 
 namespace DrawMoar.Shapes
 {
@@ -18,6 +19,7 @@ namespace DrawMoar.Shapes
         public string Alias { get; set; }
         public DrawMoar.BaseElements.Color Color { get; set; }
 
+
         public Line(System.Windows.Point pointOne, System.Windows.Point pointTwo) {
             this.PointOne = pointOne;
             this.PointTwo = pointTwo;
@@ -25,6 +27,7 @@ namespace DrawMoar.Shapes
             Thickness = GlobalState.BrushSize.Width;
             Color = new BaseElements.Color(GlobalState.Color);
         }
+
 
         public void Draw(Canvas canvas) {
             canvas.Children.Add(new System.Windows.Shapes.Line {
@@ -40,14 +43,21 @@ namespace DrawMoar.Shapes
             });
         }
 
+
         public void Transform(Transformation transformation) {
             PointOne = transformation.Apply(PointOne);
             PointTwo = transformation.Apply(PointTwo);
         }
 
+
         public void Draw(Graphics g) {
-            g.DrawLine(new System.Drawing.Pen(Color.ToDrawingColor(), (float)this.Thickness), Convert.ToSingle(PointOne.X), Convert.ToSingle(PointOne.Y), Convert.ToSingle(PointTwo.X), Convert.ToSingle(PointTwo.Y));
+            g.DrawLine(new System.Drawing.Pen(Color.ToDrawingColor(), (float)this.Thickness), 
+                       Convert.ToSingle(PointOne.X), 
+                       Convert.ToSingle(PointOne.Y), 
+                       Convert.ToSingle(PointTwo.X), 
+                       Convert.ToSingle(PointTwo.Y));
         }
+
 
         public object Clone()
         {

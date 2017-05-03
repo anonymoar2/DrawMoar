@@ -1,13 +1,11 @@
 ﻿using System;
 
-using System.Text.RegularExpressions;
 using System.Drawing;
-
-using DrawMoar.BaseElements;
-using DrawMoar.Shapes;
-using System.Windows;
-using System.Collections.Generic;
 using System.Windows.Controls;
+
+using DrawMoar.Shapes;
+using DrawMoar.BaseElements;
+
 
 namespace DrawMoar
 {

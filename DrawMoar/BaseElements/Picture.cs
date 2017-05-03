@@ -11,15 +11,18 @@ namespace DrawMoar.BaseElements
 
         public Image Image { get; set; }
 
+
         public Picture() {
             Position = new System.Windows.Point(0, 0);
             Image = null;
         }
 
+
         public void Draw(Graphics g) {
             g.DrawImage(Image, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y));
         }
         
+
         public object Clone()
         {
             var buf = new Picture();

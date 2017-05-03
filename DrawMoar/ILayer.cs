@@ -1,9 +1,10 @@
-﻿using System.Drawing;
+﻿using System;
+
+using System.Drawing;
 
 using DrawMoar.BaseElements;
-using DrawMoar.Shapes;
-using System.Collections.Generic;
-using System;
+
+
 using System.Windows.Controls;
 
 namespace DrawMoar

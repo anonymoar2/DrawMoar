@@ -54,8 +54,9 @@
             </WrapPanel>
             <WrapPanel Name="wp2" Width="130" MinHeight="90" Height="90">
                 <Button x:Name="CycleFrame" Content="Cycle" Width="40"  Height="25" Margin="5,2" Click="CycleFrame_Click"/>
-                <Button x:Name="GenerateFrame" Content="Generate" Width="auto"  Height="25" Margin="5,2" Click="GenerateFrame_Click"/>
-                <Button x:Name="AddTransformation" Content="Add Transform" Width="auto"  Height="25" Margin="5,2" Click="AT_Click"/>
+                <Button x:Name="GenerateFrame" Content="Generate" Width="25"  Height="23" Margin="5,2" Click="GenerateFrame_Click"/>
+                <Button x:Name="AddTransformation" Content="Add Transform" Width="25"  Height="24" Margin="5,2" Click="AT_Click"/>
+                <Button x:Name="AFrameTrans" Content="Add Frame Transform" Width="34"  Height="22" Margin="5,2" Click="AFT_Click"/>
                 <xctk:ColorPicker x:Name="ClrPcker_Background"  Margin="70,3,0,0" Height="25" Width="45" SelectedColorChanged="ClrPcker_Background_SelectedColorChanged"/>
             </WrapPanel>
         </WrapPanel>

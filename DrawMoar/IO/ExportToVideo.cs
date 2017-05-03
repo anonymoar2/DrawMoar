@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using DrawMoar.BaseElements;
 using System.IO;
 using System.Diagnostics;
+
+using DrawMoar.BaseElements;
 
 
 namespace DrawMoar.IO

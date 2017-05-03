@@ -1,16 +1,16 @@
 ﻿using System;
 
+using System.IO;
+using System.Windows;
 using System.Drawing;
-using System.Text.RegularExpressions;
+using System.Windows.Media;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using System.Windows.Media;
-using System.Windows;
-using System.IO;
+using System.Text.RegularExpressions;
 
-using DrawMoar.BaseElements;
 using DrawMoar.Shapes;
-using System.Collections.Generic;
+using DrawMoar.BaseElements;
+
 
 namespace DrawMoar {
     public class RasterLayer : ILayer {
@@ -44,11 +44,13 @@ namespace DrawMoar {
             }
         }
 
+
         public RasterLayer() {
             name = $"RasterLayer_{GlobalState.CurrentFrame.layers.Count}";
             Visible = true;
             Picture = new Picture();
         }
+
 
         public RasterLayer(string name) {
             this.name = name;
@@ -56,9 +58,11 @@ namespace DrawMoar {
             Picture = new Picture();
         }
 
+
         public void Draw(Graphics g) {
             Picture.Draw(g);
         }
+
 
         public void Print(Canvas canvas) {
             var rlc = new RasterLayerControl();
@@ -67,6 +71,7 @@ namespace DrawMoar {
             Canvas.SetLeft(rlc, Position.X);
             Canvas.SetTop(rlc, Position.Y);
         }
+
 
         private void DrawRasterLayerImage(RasterLayerControl rlc) {       //из-за некоторых вещей нет возможности потестить, работает ли это
             var bmp = ((RasterLayer)GlobalState.CurrentLayer.Item1).Picture.Image;  //если работает, положим в RasterLayer
@@ -83,9 +88,11 @@ namespace DrawMoar {
             }
         }
 
+
         public void Transform(Transformation transformation) {
             Picture = transformation.Apply(Picture);
         }
+
 
         public void Save(Canvas canvas) {
             RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
@@ -106,6 +113,7 @@ namespace DrawMoar {
             Picture.Image = System.Drawing.Image.FromFile(Path.Combine(GlobalState.WorkingDirectory, $"{GlobalState.CurrentScene.Name}_{GlobalState.CurrentFrame.Name}_{Name}.png"));
         }
 
+
         public System.Windows.Controls.Image ConvertDrawingImageToWPFImage(System.Drawing.Image gdiImg) {
 
             if (gdiImg == null) return null;
@@ -123,14 +131,17 @@ namespace DrawMoar {
             return img;
         }
 
+
         public void AddShape(IShape shape) {
             var g = Graphics.FromImage(Picture.Image);
 
         }
 
+
         public bool ThumbnailCallback() {
             return false;
         }
+
 
         public System.Drawing.Image Miniature(int width, int height) {
             System.Drawing.Image.GetThumbnailImageAbort myCallback = new System.Drawing.Image.GetThumbnailImageAbort(ThumbnailCallback);
@@ -138,9 +149,11 @@ namespace DrawMoar {
             return newImage;
         }
 
+
         public System.Drawing.Image GetImage(double height, double width) {
             throw new NotImplementedException();
         }
+
 
         public object Clone() {
             var buf = new RasterLayer();

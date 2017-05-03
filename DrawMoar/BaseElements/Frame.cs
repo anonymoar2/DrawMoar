@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
+
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
@@ -19,6 +19,7 @@ namespace DrawMoar.BaseElements
         }
 
         public List<Tuple<ILayer, List<Transformation>, int>> layers = new List<Tuple<ILayer, List<Transformation>, int>>();
+
 
         public Frame() {
             name = $"Frame_{GlobalState.CurrentScene.frames.Count}";
@@ -39,11 +40,11 @@ namespace DrawMoar.BaseElements
             g.Clear(System.Drawing.Color.White);
             foreach (var l in layers) {
                 l.Item1.Draw(g);
-               // g.DrawImage(l.Item1.GetImage(GlobalState.Width, GlobalState.Height), 0, 0);
             }
             g.Dispose();
             return bm;
         }
+
 
         public object Clone()
         {

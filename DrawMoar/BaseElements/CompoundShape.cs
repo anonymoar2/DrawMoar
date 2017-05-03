@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 
+using System.Drawing;
 using System.Windows.Controls;
 
 using DrawMoar.Shapes;
-using System.Drawing;
 
 
 namespace DrawMoar.BaseElements
@@ -18,16 +18,13 @@ namespace DrawMoar.BaseElements
 
         public List<IShape> shapes = new List<IShape>();
 
+
         public void Draw(Canvas canvas) {
             foreach (var item in shapes) {
                 item.Draw(canvas);
             }
         }
-      
-        public void Print()
-        {
 
-        }
 
         public void Transform(Transformation transformation) {
             foreach (var shape in shapes) {
@@ -41,6 +38,7 @@ namespace DrawMoar.BaseElements
                 shape.Draw(g);
             }
         }
+
 
         public object Clone()
         {

@@ -435,5 +435,9 @@ namespace DrawMoar {
             scenesList_SelectionChanged(null, null);
             Refresh();
         }
+
+        private void AFT_Click(object sender, RoutedEventArgs e) {
+            
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace DrawMoar.BaseElements
     class RotateTransformation : Transformation
     {
         private Matrix<double> Transform;
+
         private double angle;
 
             
@@ -26,6 +27,7 @@ namespace DrawMoar.BaseElements
             return new System.Windows.Point(rP[0, 0], rP[1, 0]);
         }
 
+
         public override Picture Apply(Picture picture) {
             Bitmap bmp = new Bitmap(picture.Image.Width, picture.Image.Height);
             Graphics gfx = Graphics.FromImage(bmp);
@@ -37,6 +39,7 @@ namespace DrawMoar.BaseElements
             gfx.Dispose();
             return picture;
         }
+
 
         public Matrix<double> GetTransform() {
             return Transform;

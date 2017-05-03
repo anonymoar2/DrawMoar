@@ -8,6 +8,7 @@ namespace DrawMoar.BaseElements {
         byte G;
         byte B;
 
+
         public Color(System.Windows.Media.Color color) {
             this.A = color.A;
             this.R = color.R;

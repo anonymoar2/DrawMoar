@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 
 namespace DrawMoar.BaseElements
@@ -14,6 +13,9 @@ namespace DrawMoar.BaseElements
             set { name = value; }                     
         }
 
+        public List<Frame> frames = new List<Frame>();
+
+
         public Scene() {
             name = "newScene";
             frames.Add(new Frame("Frame_0"));
@@ -24,9 +26,7 @@ namespace DrawMoar.BaseElements
             this.name = name;
             frames.Add(new Frame("Frame_0"));
         }
-        
-
-        public List<Frame> frames = new List<Frame>();
+       
 
         public void Generate(Frame currentFrame, int seconds) {
             /// На каждую секунду генерируем по 25 кадров. Каждый кадр будет по длительности 0.04 секунды.
@@ -44,6 +44,7 @@ namespace DrawMoar.BaseElements
                 frames.Last().layers.RemoveAt(0);
             }
         }
+
 
         public void Cycle(int count) {
             var newFrames = new List<Frame>();
