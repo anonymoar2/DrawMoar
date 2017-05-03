@@ -17,13 +17,14 @@ namespace DrawMoar.IO
             string pathToImages = Path.Combine(cartoon.WorkingDirectory, "Images");
             Directory.CreateDirectory(pathToImages);
             var concatFilename = CreateTemporaryFiles(cartoon, pathToImages);
-            if(File.Exists(Path.Combine(cartoon.WorkingDirectory, $"out.{outFileFormat}"))){
-                File.Delete(Path.Combine(cartoon.WorkingDirectory, $"out.{outFileFormat}"));
+            int count = 0;
+            if(File.Exists(Path.Combine(cartoon.WorkingDirectory, $"out{count}.{outFileFormat}"))){
+                count++;
             }
             Process process = new Process();
             process.StartInfo.FileName = "ffmpeg";
             process.StartInfo.WorkingDirectory = pathToImages;
-            process.StartInfo.Arguments = $"-y -loglevel panic -f concat -i {concatFilename} out.{outFileFormat}";
+            process.StartInfo.Arguments = $"-y -loglevel panic -f concat -i {concatFilename} out{count}.{outFileFormat}";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
@@ -36,7 +37,7 @@ namespace DrawMoar.IO
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
-            File.Move(Path.Combine(pathToImages, $"out.{outFileFormat}"), Path.Combine(cartoon.WorkingDirectory, $"out.{outFileFormat}"));
+            File.Move(Path.Combine(pathToImages, $"out{count}.{outFileFormat}"), Path.Combine(cartoon.WorkingDirectory, $"out{count}.{outFileFormat}"));
         }
 
 
