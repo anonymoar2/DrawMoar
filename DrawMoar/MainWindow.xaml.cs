@@ -134,7 +134,8 @@ namespace DrawMoar {
 
         private void scenesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             framesList.Items.Clear();
-            GlobalState.CurrentScene = cartoon.scenes[scenesList.SelectedIndex];
+            if(scenesList.SelectedIndex!=-1)
+                GlobalState.CurrentScene = cartoon.scenes[scenesList.SelectedIndex];
             var frames = GlobalState.CurrentScene.frames;
             foreach (var item in frames) {
                 AddListBoxElement(framesList, item.Name);
@@ -401,7 +402,7 @@ namespace DrawMoar {
                 cartoon.scenes.Add(new Scene());
                 AddListBoxElement(scenesList, GlobalState.CurrentScene.Name);
             }
-            scenesList.SelectedIndex = layersList.Items.Count > 1 ? index - 1 : 0;
+            scenesList.SelectedIndex = index > 0 ? index - 1 : 0;
             GlobalState.CurrentScene = index > 0 ? cartoon.scenes[index - 1] : cartoon.scenes[0];
             GlobalState.CurrentFrame = GlobalState.CurrentScene.frames[0];
             GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers[0];
