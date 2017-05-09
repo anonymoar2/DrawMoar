@@ -195,6 +195,7 @@ namespace DrawMoar {
 
         void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             GlobalState.PressLeftButton = true;
+            GlobalState.BrushSize = new Size(slider.Value, slider.Value);
             var currentLayer = GlobalState.CurrentLayer.Item1;
             prevPoint = Mouse.GetPosition(canvas);
             switch (GlobalState.CurrentTool) {
@@ -212,7 +213,7 @@ namespace DrawMoar {
                     newEllipse.Draw(canvas);
                     SaveIntoLayer(currentLayer, newEllipse);
                     break;
-                case Instrument.Line:                     
+                case Instrument.Line:
                     newLine = new Line(prevPoint, prevPoint);
                     newLine.Draw(canvas);
                     SaveIntoLayer(currentLayer, newLine);
