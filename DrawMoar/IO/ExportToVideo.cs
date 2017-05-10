@@ -38,6 +38,7 @@ namespace DrawMoar.IO
             process.BeginErrorReadLine();
             process.WaitForExit();
             File.Move(Path.Combine(pathToImages, $"out{count}.{outFileFormat}"), Path.Combine(cartoon.WorkingDirectory, $"out{count}.{outFileFormat}"));
+            System.Windows.MessageBox.Show("Сartoon created");
         }
 
 
