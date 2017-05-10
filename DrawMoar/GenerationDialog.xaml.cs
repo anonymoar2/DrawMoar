@@ -21,7 +21,6 @@ namespace DrawMoar {
     public partial class GenerationDialog : Window {
         Point prevPoint;
         Point point;
-        Point translation;
         ILayer layer;
         List<Transformation> transList = new List<Transformation>();
         State clickState = State.Translation;
@@ -85,26 +84,18 @@ namespace DrawMoar {
 
         void TranslatingRedrawing(MouseEventArgs e) {
             point = e.GetPosition(previewCanvas);
-            translation.X += point.X - prevPoint.X;
-            translation.Y += point.Y - prevPoint.Y;
-            ((VectorLayer)layer).Picture.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
-            TranslateVector.Text = $"( {(int)(translation.X)} ; {(int)(translation.Y)} )";
+            GlobalState.CurrentLayer.Item1.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
             Refresh();
         }
 
         private void Refresh() {
             previewCanvas.Children.Clear();
-            foreach (IShape item in ((VectorLayer)layer).Picture.shapes) {
-                item.Draw(previewCanvas);
-            }
-            //TODO: РАСТР...
+                if (layer is VectorLayer) {
+                    ((VectorLayer)layer).Picture.Draw(previewCanvas);
+                }
+                else ((RasterLayer)layer).Print(previewCanvas);
         }
 
-        void SaveIntoLayer(ILayer layer, IShape shape) {
-            if (layer is VectorLayer) {
-                ((VectorLayer)layer).Picture.shapes.Add(shape);
-            }
-        }
 
         private void ApplyTransform_Click(object sender, RoutedEventArgs e) {
             transList.Clear();

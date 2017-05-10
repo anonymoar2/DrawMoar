@@ -73,8 +73,8 @@ namespace DrawMoar {
         }
 
 
-        private void DrawRasterLayerImage(RasterLayerControl rlc) {       //из-за некоторых вещей нет возможности потестить, работает ли это
-            var bmp = ((RasterLayer)GlobalState.CurrentLayer.Item1).Picture.Image;  //если работает, положим в RasterLayer
+        private void DrawRasterLayerImage(RasterLayerControl rlc) {     
+            var bmp = this.Picture.Image;  
             using (var ms = new MemoryStream()) {
                 bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
                 ms.Position = 0;
