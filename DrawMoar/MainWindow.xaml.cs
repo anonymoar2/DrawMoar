@@ -219,6 +219,8 @@ namespace DrawMoar {
                     newLine.Draw(canvasDrawer);
                     SaveIntoLayer(currentLayer, newLine);
                     break;
+                    case Instrument.Eraser:
+                    break;
             }
             canvas_MouseMove(sender, e);
         }
@@ -246,6 +248,15 @@ namespace DrawMoar {
                     break;
                 case Instrument.Line:
                     ScaleRedrawing(newLine, e);
+                    break;
+                case Instrument.Eraser:
+                    var bufColor = ClrPcker_Background.SelectedColor.Value;
+                    ClrPcker_Background.SelectedColor = Colors.Transparent;
+                    newLine = new Line(prevPoint, point);
+                    newLine.Draw(canvas);
+                    SaveIntoLayer(currentLayer, newLine);
+                    prevPoint = point;
+                    ClrPcker_Background.SelectedColor = bufColor;
                     break;
             }
         }
@@ -428,6 +439,23 @@ namespace DrawMoar {
 
         private void AFT_Click(object sender, RoutedEventArgs e) {
 
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void AddAudio(object sender, RoutedEventArgs e) {
+            System.Windows.Forms.OpenFileDialog d = new System.Windows.Forms.OpenFileDialog();
+            //d.Filter = "Audio Files|*.mp3;*.wav;*.wmp";
+            d.Filter = "Audio Files|*.mp3";
+            d.ShowDialog();
+            var pathToAudio = d.FileName;
+            audio.Text = pathToAudio;
+        }
+
+        private void Eraser_Click(object sender, RoutedEventArgs e) {
+            GlobalState.CurrentTool = Instrument.Eraser;
         }
     }
 }

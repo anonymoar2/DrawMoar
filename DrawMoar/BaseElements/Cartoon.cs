@@ -70,6 +70,9 @@ namespace DrawMoar.BaseElements
         }
 
 
+        public string pathToAudio;
+
+
         public Cartoon(string name, int width, int height, string workingDirectory) {
             Name = name;
             Width = width;
