@@ -24,7 +24,7 @@ namespace DrawMoar.IO
             Process process = new Process();
             process.StartInfo.FileName = "ffmpeg";
             process.StartInfo.WorkingDirectory = pathToImages;
-            process.StartInfo.Arguments = $"-y -loglevel panic -f concat -i {concatFilename} out{count}.{outFileFormat}";
+            process.StartInfo.Arguments = $"-y -loglevel panic -f concat -i {concatFilename} silentOut{count}.{outFileFormat}";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
