@@ -64,30 +64,6 @@ namespace DrawMoar {
         }
 
 
-        public void Print(Canvas canvas) {
-            var rlc = new RasterLayerControl();
-            DrawRasterLayerImage(rlc);
-            canvas.Children.Add(rlc);
-            Canvas.SetLeft(rlc, Position.X);
-            Canvas.SetTop(rlc, Position.Y);
-        }
-
-
-        private void DrawRasterLayerImage(RasterLayerControl rlc) {     
-            var bmp = this.Picture.Image;  
-            using (var ms = new MemoryStream()) {
-                bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                ms.Position = 0;
-
-                var bi = new BitmapImage();
-                bi.BeginInit();
-                bi.CacheOption = BitmapCacheOption.OnLoad;
-                bi.StreamSource = ms;
-                bi.EndInit();
-                rlc.Image.Source = bi;
-            }
-        }
-
 
         public void Transform(Transformation transformation) {
             Picture = transformation.Apply(Picture);
