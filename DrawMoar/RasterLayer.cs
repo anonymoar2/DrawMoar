@@ -89,8 +89,8 @@ namespace DrawMoar {
             PngBitmapEncoder encoder = new PngBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
             var filename = Path.Combine(
-                GlobalState.WorkingDirectory, 
-                $"{GlobalState.CurrentScene.Name}_{GlobalState.CurrentFrame.Name}_{Name}.png"
+                Cartoon.WorkingDirectory, 
+                $"{Cartoon.CurrentScene.Name}_{Cartoon.CurrentFrame.Name}_{Name}.png"
             );
             using (Stream stm = File.Create(filename)) {
                 encoder.Save(stm);

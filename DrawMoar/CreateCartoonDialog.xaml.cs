@@ -13,30 +13,23 @@ namespace DrawMoar
     /// </summary>
     public partial class CreateCartoonDialog : Window
     {
-        public CreateCartoonDialog()
-        {
+        public CreateCartoonDialog() {
             InitializeComponent();
         }
 
-        private void creating_Click(object sender, RoutedEventArgs e)
-        {
+        private void creating_Click(object sender, RoutedEventArgs e) {
 
-            if (getName.Text == "")
-            {
+            if (getName.Text == "") {
                 System.Windows.MessageBox.Show("You haven't entered the name");
             }
-            else if (getHeight.Text == "")
-            {
+            else if (getHeight.Text == "") {
                 System.Windows.MessageBox.Show("You haven't entered the height");
             }
-            else if (getWidth.Text == "")
-            {
+            else if (getWidth.Text == "") {
                 System.Windows.MessageBox.Show("You haven't entered the width");
             }
-            else
-            {
-                try
-                {
+            else {
+                try {
                     var cartoonName = getName.Text;
                     var cartoonHeight = Int32.Parse(getHeight.Text);
                     var cartoonWidth = Int32.Parse(getWidth.Text);
@@ -45,12 +38,10 @@ namespace DrawMoar
                     folderDDialog.ShowDialog();
                     string selectedDirectory = folderDDialog.SelectedPath;
                     if (selectedDirectory == "") System.Windows.MessageBox.Show("You haven't chosen the folder");
-                    else
-                    {
+                    else {
                         string workingDirectory = Path.Combine(selectedDirectory, cartoonName);
                         Directory.CreateDirectory(workingDirectory);
-                        try
-                        {
+                        try {
                             var cartoon = new Cartoon(cartoonName, cartoonWidth, cartoonHeight, workingDirectory);
                             Cartoon.CurrentScene = cartoon.scenes[0];
                             Cartoon.WorkingDirectory = workingDirectory;
@@ -60,26 +51,22 @@ namespace DrawMoar
                             mw.Success(cartoon);
                             Hide();
                         }
-                        catch (ArgumentException exeption)
-                        {
+                        catch (ArgumentException exeption) {
                             System.Windows.MessageBox.Show(exeption.Message);
                         }
                     }
                 }
-                catch (FormatException)
-                {
+                catch (FormatException) {
                     System.Windows.MessageBox.Show("Ширина и высота холста должны быть больше 0.");
                 }
             }
         }
 
-        private void abortion_Click(object sender, RoutedEventArgs e)
-        {
+        private void abortion_Click(object sender, RoutedEventArgs e) {
             Close();
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
         }
     }
 }

@@ -12,8 +12,6 @@ namespace DrawMoar
 {
     public partial class MainWindow : Window
     {
-
-
         private void Lines_Click(object sender, RoutedEventArgs e) {
             CurrentTool = Instrument.Line;
         }

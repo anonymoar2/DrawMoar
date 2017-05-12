@@ -18,11 +18,11 @@ namespace DrawMoar.InOut
             if (outFileFormat != "mp4" && outFileFormat != "avi") {
                 throw new ArgumentException("Недопустимый формат файла");
             }
-            string pathToImages = Path.Combine(cartoon.WorkingDirectory, "Images");
+            string pathToImages = Path.Combine(Cartoon.WorkingDirectory, "Images");
             Directory.CreateDirectory(pathToImages);
             var concatFilename = CreateTemporaryFiles(cartoon, pathToImages);
             int count = 0;
-            if (File.Exists(Path.Combine(cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}"))) {
+            if (File.Exists(Path.Combine(Cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}"))) {
                 count++;
             }
 
@@ -31,10 +31,10 @@ namespace DrawMoar.InOut
 
             File.Move(
                 Path.Combine(pathToImages, $"silentOut{count}.{outFileFormat}"),
-                Path.Combine(cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}")
+                Path.Combine(Cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}")
             );
             if (File.Exists(pathToMusic) && outFileFormat == "avi") {
-                AddMusic(pathToMusic, $"silentOut{count}.avi", cartoon.WorkingDirectory, count);
+                AddMusic(pathToMusic, $"silentOut{count}.avi", Cartoon.WorkingDirectory, count);
             }
         }
 

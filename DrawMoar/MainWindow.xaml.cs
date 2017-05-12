@@ -117,6 +117,9 @@ namespace DrawMoar
                 case Instrument.Brush:
                     canvas.Cursor = Cursors.Cross;
                     break;
+                case Instrument.Eraser:
+                    canvas.Cursor = Cursors.Hand;
+                    break;
                 default:
                     canvas.Cursor = Cursors.Arrow;
                     break;

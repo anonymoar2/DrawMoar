@@ -30,8 +30,8 @@ namespace DrawMoar.Shapes
             StartAngle = startAngle;
             EndAngle = endAngle;
             Rotate = rotate;
-            Thickness = GlobalState.BrushSize.Width;
-            Color = new BaseElements.Color(GlobalState.Color);
+            Thickness = MainWindow.BrushSize.Width;
+            Color = new BaseElements.Color(MainWindow.Color);
         }
 
 

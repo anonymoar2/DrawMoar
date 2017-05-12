@@ -28,8 +28,8 @@ namespace DrawMoar.Shapes
                 Math.Abs(PointOne.X - PointTwo.X) / 2,
                 Math.Abs(PointOne.Y - PointTwo.Y) / 2
             );
-            Thickness = GlobalState.BrushSize.Width;
-            Color = new BaseElements.Color(GlobalState.Color);
+            Thickness = MainWindow.BrushSize.Width;
+            Color = new BaseElements.Color(MainWindow.Color);
         }
 
 

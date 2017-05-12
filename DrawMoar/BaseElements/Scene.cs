@@ -26,7 +26,9 @@ namespace DrawMoar.BaseElements
 
         public Scene(string name) {
             this.name = name;
-            frames.Add(new Frame("Frame_0"));
+            Frame frame = new Frame("Frame_0");
+            frame.duration = 1;
+            frames.Add(frame);
             logger.Debug($"Создана сцена {name}");
         }
 
@@ -34,7 +36,9 @@ namespace DrawMoar.BaseElements
         public void Generate(Frame currentFrame, int seconds) {
             /// На каждую секунду генерируем по 25 кадров. Каждый кадр будет по длительности 0.04 секунды.
             for (int i = 0; i < seconds * 25; i++) {
-                frames.Add(new Frame($"generated_frame_{i}"));
+                Frame frame = new Frame($"generated_frame_{i}");
+                frame.duration = (float)seconds / 25;
+                frames.Add(frame);
                 foreach (var layer in currentFrame.layers) {
                     ILayer tmpLayer = (ILayer)layer.Item1.Clone();
                     foreach (var trans in layer.Item2) {
