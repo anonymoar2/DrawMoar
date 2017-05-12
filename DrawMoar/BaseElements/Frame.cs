@@ -18,6 +18,8 @@ namespace DrawMoar.BaseElements
             }
         }
 
+        public float duration { get;set; }
+
         public List<Tuple<ILayer, List<Transformation>, int>> layers = new List<Tuple<ILayer, List<Transformation>, int>>();
 
 

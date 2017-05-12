@@ -127,7 +127,7 @@ namespace DrawMoar
         }
 
 
-        private void ExportToMP4(object sender, RoutedEventArgs e) {
+        private void ExportToMP4(object sender, RoutedEventArgs e) {        
         }
 
 
@@ -141,10 +141,87 @@ namespace DrawMoar
                 case Instrument.Brush:
                     canvas.Cursor = Cursors.Cross;
                     break;
+                case Instrument.Eraser:
+                    canvas.Cursor = Cursors.Hand;
+                    break;
                 default:
                     canvas.Cursor = Cursors.Arrow;
                     break;
             }
+        }
+
+
+        private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (framesList.SelectedIndex != -1) {
+                if (GlobalState.CurrentFrame.layers.Count > 0)
+                GlobalState.CurrentFrame = GlobalState.CurrentScene.frames[framesList.SelectedIndex];
+                GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
+            }
+            layersList.Items.Clear();
+            canvas.Children.Clear();
+            var lays = GlobalState.CurrentFrame.layers;
+            foreach (var item in lays) {
+                AddListBoxElement(layersList, item.Item1.Name);
+                item.Item1.Draw(canvasDrawer);
+                layersList.SelectedIndex = 0;
+            }
+        }
+
+
+        private void scenesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            framesList.Items.Clear();
+            if (scenesList.SelectedIndex != -1)
+                GlobalState.CurrentScene = cartoon.scenes[scenesList.SelectedIndex];
+            var frames = GlobalState.CurrentScene.frames;
+            foreach (var item in frames) {
+                AddListBoxElement(framesList, item.Name);
+            }
+            framesList.SelectedIndex = 0;
+        }
+
+
+        private void layersList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (layersList.SelectedIndex != -1) {
+                GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers[layersList.SelectedIndex];
+            }
+
+        }
+
+
+        private void testButton_Click(object sender, RoutedEventArgs e) {
+            GlobalState.CurrentTool = Instrument.Brush;
+        }
+
+
+        private void testButton2_Click(object sender, RoutedEventArgs e) {
+            GlobalState.CurrentTool = Instrument.Arrow;
+        }
+
+
+        private void AddFrame_Click(object sender, RoutedEventArgs e) {
+            if (cartoon == null) {
+                return;
+            }
+            if (sender != null) {
+                var newDurationFrameDialog = new DurationFrameDialog(framesList);
+                newDurationFrameDialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                newDurationFrameDialog.Owner = this;
+                newDurationFrameDialog.Show();
+            }
+        }
+
+
+        private void AddScene_Click(object sender, RoutedEventArgs e) {
+            if (cartoon == null) {
+                return;
+            }
+            if (sender != null) {
+                cartoon.scenes.Add(new Scene());
+            }
+            GlobalState.CurrentScene = cartoon.scenes.Last();
+            GlobalState.CurrentFrame = GlobalState.CurrentScene.frames.Last();
+            GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
+            AddListBoxElement(scenesList, GlobalState.CurrentScene.Name);
         }
 
 
