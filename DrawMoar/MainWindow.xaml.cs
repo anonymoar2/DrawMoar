@@ -253,7 +253,7 @@ namespace DrawMoar {
                     var bufColor = ClrPcker_Background.SelectedColor.Value;
                     ClrPcker_Background.SelectedColor = Colors.Transparent;
                     newLine = new Line(prevPoint, point);
-                    newLine.Draw(canvas);
+                    newLine.Draw(canvasDrawer);
                     SaveIntoLayer(currentLayer, newLine);
                     prevPoint = point;
                     ClrPcker_Background.SelectedColor = bufColor;
