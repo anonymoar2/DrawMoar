@@ -42,7 +42,9 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="5" Background="Snow"/>
+        <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="5" Background="Snow">
+
+        </Border>
         <Border Grid.Column="3" Grid.Row="1" Grid.RowSpan="5" Background="Snow"/>
         <WrapPanel Name="figurePanel" Grid.Column="0" Grid.Row="1" MaxWidth="130" Grid.RowSpan="2">
             <WrapPanel Name="wp1" Width="130" Height="180">
@@ -53,13 +55,15 @@
                 <Button x:Name="AddRectangle" Height ="25" Width="60" Margin="5,5" Content="Rectangle" Click="AddRectangle_Click"/>
                 <Button x:Name="AddAudioButton" Height ="25" Width="60" Margin="5,5" Content="Audio" Click="AddAudio"/>
                 <TextBox x:Name="audio" Height="20" TextWrapping="Wrap" Text="audio" Width="42"/>
+                <Button x:Name="Eraser" Height ="25" Width="60" Margin="5,5" Content="Eraser" Click="Eraser_Click"/>
             </WrapPanel>
-            <WrapPanel Name="wp2" Width="130" MinHeight="90" Height="90">
+            <WrapPanel Name="wp2" Width="130" MinHeight="90" Height="135">
                 <Button x:Name="CycleFrame" Content="Cycle" Width="40"  Height="25" Margin="5,2" Click="CycleFrame_Click"/>
                 <Button x:Name="GenerateFrame" Content="Generate" Width="25"  Height="23" Margin="5,2" Click="GenerateFrame_Click"/>
                 <Button x:Name="AddTransformation" Content="Add Transform" Width="25"  Height="24" Margin="5,2" Click="AT_Click"/>
                 <Button x:Name="AFrameTrans" Content="Add Frame Transform" Width="34"  Height="22" Margin="5,2" Click="AFT_Click"/>
-                <xctk:ColorPicker x:Name="ClrPcker_Background"  Margin="70,3,0,0" Height="25" Width="45" SelectedColorChanged="ClrPcker_Background_SelectedColorChanged"/>
+                <xctk:ColorPicker x:Name="ClrPcker_Background"  Margin="70,3,0,0" Height="25" Width="45" SelectedColor="Black" SelectedColorChanged="ClrPcker_Background_SelectedColorChanged"/>
+                <Slider x:Name="slider" Width="130" Minimum="3" Maximum="50"/>
             </WrapPanel>
         </WrapPanel>
         <WrapPanel Name="palette" Grid.Column="0" Grid.Row="3">

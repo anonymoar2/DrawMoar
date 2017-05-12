@@ -2,6 +2,6 @@
 {
     public enum Instrument     
     {
-        Arrow, Brush, Pipette, Light, Rectangle, Ellipse, Line,
+        Arrow, Brush, Pipette, Light, Rectangle, Ellipse, Line, Eraser
     }
 }

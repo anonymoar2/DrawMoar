@@ -195,6 +195,7 @@ namespace DrawMoar {
 
         void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             GlobalState.PressLeftButton = true;
+            GlobalState.BrushSize = new Size(slider.Value, slider.Value);
             var currentLayer = GlobalState.CurrentLayer.Item1;
             prevPoint = Mouse.GetPosition(canvas);
             switch (GlobalState.CurrentTool) {
@@ -212,7 +213,7 @@ namespace DrawMoar {
                     newEllipse.Draw(canvas);
                     SaveIntoLayer(currentLayer, newEllipse);
                     break;
-                case Instrument.Line:                     
+                case Instrument.Line:
                     newLine = new Line(prevPoint, prevPoint);
                     newLine.Draw(canvas);
                     SaveIntoLayer(currentLayer, newLine);
@@ -272,13 +273,7 @@ namespace DrawMoar {
 
         void TranslatingRedrawing(MouseEventArgs e) {
             point = e.GetPosition(canvas);
-            translation.X += point.X - prevPoint.X;
-            translation.Y += point.Y - prevPoint.Y;
-            if (GlobalState.CurrentLayer.Item1 is VectorLayer)
-                ((VectorLayer)GlobalState.CurrentLayer.Item1).Picture.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
-            else {
-                ((RasterLayer)GlobalState.CurrentLayer.Item1).Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
-            }
+            GlobalState.CurrentLayer.Item1.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
             Refresh();
         }
 
@@ -290,7 +285,6 @@ namespace DrawMoar {
 
         void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
             GlobalState.PressLeftButton = false;
-            if (GlobalState.CurrentLayer.Item1 is RasterLayer) ((RasterLayer)GlobalState.CurrentLayer.Item1).Save(canvas);
         }
 
         void canvas_MouseLeave(object sender, MouseEventArgs e) {
@@ -310,7 +304,7 @@ namespace DrawMoar {
         }
 
         private void AddPicture(object sender, RoutedEventArgs e) {
-            
+            if (cartoon == null) return;
             var fileDialog = new System.Windows.Forms.OpenFileDialog();
             fileDialog.ShowDialog();
             string fileName = fileDialog.FileName;
