@@ -6,11 +6,11 @@ using System.Diagnostics;
 using DrawMoar.BaseElements;
 
 
-namespace DrawMoar.IO
+namespace DrawMoar.ffmpeg
 {
     public static class ExportToVideo
     {
-        public static void SaveToVideo(Cartoon cartoon, string outFileFormat) {
+        public static void SaveToVideo(Cartoon cartoon, string outFileFormat, string pathToMusic) {
             if (outFileFormat != "mp4" && outFileFormat != "avi") {
                 throw new ArgumentException("Недопустимый формат файла");
             }
@@ -38,6 +38,9 @@ namespace DrawMoar.IO
             process.BeginErrorReadLine();
             process.WaitForExit();
             File.Move(Path.Combine(pathToImages, $"silentOut{count}.{outFileFormat}"), Path.Combine(cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}"));
+            if (File.Exists(pathToMusic) && outFileFormat == "avi") {
+                AddMusic(pathToMusic, $"silentOut{count}.avi", cartoon.WorkingDirectory);
+            }
             // проверка если музыка добавлена и существует то вызов метода с видео и с музыкой
             // видео без музыки и куда хотят видео с музыкой musicOut
             // делать видео с названием мультика TODO
@@ -69,8 +72,24 @@ namespace DrawMoar.IO
             Console.WriteLine(outLine.Data);
         }
 
-        private static void AddMusic(string pathToMusic, string pahtToCartoon, string pathToResult) {
-            
+        private static void AddMusic(string pathToMusic, string cartoonName, string workingDirectory) {
+            File.Copy(pathToMusic, Path.Combine(workingDirectory, Path.GetFileName(pathToMusic)));
+            Process process = new Process();
+            process.StartInfo.FileName = "ffmpeg";
+            process.StartInfo.WorkingDirectory = workingDirectory;
+            process.StartInfo.Arguments = $"ffmpeg -i {cartoonName}.avi -i {Path.GetFileName(pathToMusic)}.mp3 -codec copy -shortest {cartoonName}+{Path.GetFileName(pathToMusic)}.avi";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;    
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.CreateNoWindow = true;
+
+            process.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
+            process.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
+
+            process.Start();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            process.WaitForExit();
         }
     }
 }
