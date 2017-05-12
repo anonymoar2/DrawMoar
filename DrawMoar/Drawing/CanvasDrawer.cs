@@ -2,11 +2,13 @@
 using DrawMoar.Shapes;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace DrawMoar.Drawing {
     public class CanvasDrawer : IDrawer {
@@ -36,7 +38,7 @@ namespace DrawMoar.Drawing {
             ellipse.Height = el.Size.Height;
             ellipse.Stroke = el.Color.ToBrush();
             ellipse.IsEnabled = false;
-            ellipse.StrokeThickness = GlobalState.BrushSize.Width;
+            ellipse.StrokeThickness = MainWindow.BrushSize.Width;
             Canvas.SetLeft(ellipse, el.Center.X - el.Size.Width / 2);
             Canvas.SetTop(ellipse, el.Center.Y - el.Size.Height / 2);
             RotateTransform rotateTransform1 =
@@ -65,7 +67,26 @@ namespace DrawMoar.Drawing {
         }
 
         public void DrawImage(System.Drawing.Image image, double x, double y) {
+            var rlc = new RasterLayerControl();
+            DrawRasterLayerImage(image,rlc);
+            canvas.Children.Add(rlc);
+            Canvas.SetLeft(rlc, x);
+            Canvas.SetTop(rlc, y);
+        }
 
+        private void DrawRasterLayerImage(System.Drawing.Image image,RasterLayerControl rlc) {
+            var bmp = image;
+            using (var ms = new MemoryStream()) {
+                bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                ms.Position = 0;
+
+                var bi = new BitmapImage();
+                bi.BeginInit();
+                bi.CacheOption = BitmapCacheOption.OnLoad;
+                bi.StreamSource = ms;
+                bi.EndInit();
+                rlc.Image.Source = bi;
+            }
         }
     }
 }

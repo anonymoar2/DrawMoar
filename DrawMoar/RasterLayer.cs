@@ -46,7 +46,7 @@ namespace DrawMoar {
 
 
         public RasterLayer() {
-            name = $"RasterLayer_{GlobalState.CurrentFrame.layers.Count}";
+            name = $"RasterLayer_{Cartoon.CurrentFrame.layers.Count}";
             Visible = true;
             Picture = new Picture();
         }
@@ -63,30 +63,6 @@ namespace DrawMoar {
             Picture.Draw(drawer);
         }
 
-
-        public void Print(Canvas canvas) {
-            var rlc = new RasterLayerControl();
-            DrawRasterLayerImage(rlc);
-            canvas.Children.Add(rlc);
-            Canvas.SetLeft(rlc, Position.X);
-            Canvas.SetTop(rlc, Position.Y);
-        }
-
-
-        private void DrawRasterLayerImage(RasterLayerControl rlc) {     
-            var bmp = this.Picture.Image;  
-            using (var ms = new MemoryStream()) {
-                bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                ms.Position = 0;
-
-                var bi = new BitmapImage();
-                bi.BeginInit();
-                bi.CacheOption = BitmapCacheOption.OnLoad;
-                bi.StreamSource = ms;
-                bi.EndInit();
-                rlc.Image.Source = bi;
-            }
-        }
 
 
         public void Transform(Transformation transformation) {
@@ -106,11 +82,11 @@ namespace DrawMoar {
 
             PngBitmapEncoder encoder = new PngBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
-            using (Stream stm = File.Create(Path.Combine(GlobalState.WorkingDirectory, $"{GlobalState.CurrentScene.Name}_{GlobalState.CurrentFrame.Name}_{Name}.png"))) {
+            using (Stream stm = File.Create(Path.Combine(Cartoon.WorkingDirectory, $"{Cartoon.CurrentScene.Name}_{Cartoon.CurrentFrame.Name}_{Name}.png"))) {
                 encoder.Save(stm);
             }
 
-            Picture.Image = System.Drawing.Image.FromFile(Path.Combine(GlobalState.WorkingDirectory, $"{GlobalState.CurrentScene.Name}_{GlobalState.CurrentFrame.Name}_{Name}.png"));
+            Picture.Image = System.Drawing.Image.FromFile(Path.Combine(Cartoon.WorkingDirectory, $"{Cartoon.CurrentScene.Name}_{Cartoon.CurrentFrame.Name}_{Name}.png"));
         }
 
 

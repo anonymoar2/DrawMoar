@@ -14,11 +14,11 @@ namespace DrawMoar.ffmpeg
             if (outFileFormat != "mp4" && outFileFormat != "avi") {
                 throw new ArgumentException("Недопустимый формат файла");
             }
-            string pathToImages = Path.Combine(cartoon.WorkingDirectory, "Images");
+            string pathToImages = Path.Combine(Cartoon.WorkingDirectory, "Images");
             Directory.CreateDirectory(pathToImages);
             var concatFilename = CreateTemporaryFiles(cartoon, pathToImages);
             int count = 0;
-            if(File.Exists(Path.Combine(cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}"))){
+            if(File.Exists(Path.Combine(Cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}"))){
                 count++;
             }
             Process process = new Process();
@@ -37,14 +37,10 @@ namespace DrawMoar.ffmpeg
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
-
-            File.Move(Path.Combine(pathToImages, $"silentOut{count}.{outFileFormat}"), Path.Combine(cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}"));
+            File.Move(Path.Combine(pathToImages, $"silentOut{count}.{outFileFormat}"), Path.Combine(Cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}"));
             if (File.Exists(pathToMusic) && outFileFormat == "avi") {
-                AddMusic(pathToMusic, $"silentOut{count}.avi", cartoon.WorkingDirectory);
+                AddMusic(pathToMusic, $"silentOut{count}.avi", Cartoon.WorkingDirectory, count);
             }
-            // проверка если музыка добавлена и существует то вызов метода с видео и с музыкой
-            // видео без музыки и куда хотят видео с музыкой musicOut
-            // делать видео с названием мультика TODO
         }
 
 
@@ -73,12 +69,14 @@ namespace DrawMoar.ffmpeg
             Console.WriteLine(outLine.Data);
         }
 
-        private static void AddMusic(string pathToMusic, string cartoonName, string workingDirectory) {
+        private static void AddMusic(string pathToMusic, string cartoonName, string workingDirectory, int count) {
             File.Copy(pathToMusic, Path.Combine(workingDirectory, Path.GetFileName(pathToMusic)));
             Process process = new Process();
             process.StartInfo.FileName = "ffmpeg";
             process.StartInfo.WorkingDirectory = workingDirectory;
-            process.StartInfo.Arguments = $"ffmpeg -i {cartoonName}.avi -i {Path.GetFileName(pathToMusic)}.mp3 -codec copy -shortest {cartoonName}+{Path.GetFileName(pathToMusic)}.avi";
+            process.StartInfo.Arguments = $"-i \"{cartoonName}\" -i \"{Path.GetFileName(pathToMusic)}\" " +
+                                           "-codec copy -shortest " +
+                                           $"\"{cartoonName}+audio{count}.avi\"";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;    
             process.StartInfo.RedirectStandardError = true;

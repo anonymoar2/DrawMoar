@@ -29,8 +29,8 @@ namespace DrawMoar.Shapes
             this.StartAngle = startAngle;
             this.EndAngle = endAngle;
             this.Rotate = rotate;
-            this.Thickness = GlobalState.BrushSize.Width;
-            this.Color = new DrawMoar.BaseElements.Color(GlobalState.Color);
+            this.Thickness = MainWindow.BrushSize.Width;
+            this.Color = new DrawMoar.BaseElements.Color(MainWindow.Color);
         }
 
 
