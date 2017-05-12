@@ -38,7 +38,7 @@ namespace DrawMoar.Drawing {
             ellipse.Height = el.Size.Height;
             ellipse.Stroke = el.Color.ToBrush();
             ellipse.IsEnabled = false;
-            ellipse.StrokeThickness = GlobalState.BrushSize.Width;
+            ellipse.StrokeThickness = MainWindow.BrushSize.Width;
             Canvas.SetLeft(ellipse, el.Center.X - el.Size.Width / 2);
             Canvas.SetTop(ellipse, el.Center.Y - el.Size.Height / 2);
             RotateTransform rotateTransform1 =

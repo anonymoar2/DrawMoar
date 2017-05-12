@@ -14,7 +14,7 @@ namespace DrawMoar {
 
         private void layersList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (layersList.SelectedIndex != -1) {
-                GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers[layersList.SelectedIndex];
+                Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers[layersList.SelectedIndex];
             }
 
         }
@@ -26,10 +26,10 @@ namespace DrawMoar {
             }
             //проверка на то, выделен ли какой-либо кадр(когда реализуем удаление)
             if (sender != null) {
-                GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new RasterLayer(), new List<Transformation>(), 0));
+                Cartoon.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new RasterLayer(), new List<Transformation>(), 0));
             }
-            GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
-            var layers = GlobalState.CurrentFrame.layers;
+            Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers.Last();
+            var layers = Cartoon.CurrentFrame.layers;
             AddListBoxElement(layersList, $"RasterLayer_{layers.Count - 1}");
         }
 
@@ -42,10 +42,10 @@ namespace DrawMoar {
                 layersList.Items.Clear();
             }
             else {
-                GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new VectorLayer(), new List<Transformation>(), 0));
+                Cartoon.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new VectorLayer(), new List<Transformation>(), 0));
             }
-            GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
-            var layers = GlobalState.CurrentFrame.layers;
+            Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers.Last();
+            var layers = Cartoon.CurrentFrame.layers;
             AddListBoxElement(layersList, $"VectorLayer_{layers.Count - 1}");
         }
 
@@ -58,16 +58,16 @@ namespace DrawMoar {
         private void DeleteLayer_Click(object sender, RoutedEventArgs e) {
             if (cartoon == null) return;
             int index = layersList.SelectedIndex;
-            var layerToDelete = GlobalState.CurrentFrame.layers[index].Item1;
+            var layerToDelete = Cartoon.CurrentFrame.layers[index].Item1;
             layersList.Items.RemoveAt(index);
-            var layers = GlobalState.CurrentFrame.layers;
+            var layers = Cartoon.CurrentFrame.layers;
             layers.RemoveAt(index);
             if (layers.Count == 0) {
                 layers.Add(new Tuple<ILayer, List<Transformation>, int>(new VectorLayer(), new List<Transformation>(), 0));
-                AddListBoxElement(layersList, GlobalState.CurrentLayer.Item1.Name);
+                AddListBoxElement(layersList, Cartoon.CurrentLayer.Item1.Name);
             }
             layersList.SelectedIndex = layersList.Items.Count > 1 ? index - 1 : 0;
-            GlobalState.CurrentLayer = index > 0 ? layers[index - 1] : layers[0];
+            Cartoon.CurrentLayer = index > 0 ? layers[index - 1] : layers[0];
             Refresh();
         }
     }

@@ -46,7 +46,7 @@ namespace DrawMoar {
 
 
         public RasterLayer() {
-            name = $"RasterLayer_{GlobalState.CurrentFrame.layers.Count}";
+            name = $"RasterLayer_{Cartoon.CurrentFrame.layers.Count}";
             Visible = true;
             Picture = new Picture();
         }
@@ -82,11 +82,11 @@ namespace DrawMoar {
 
             PngBitmapEncoder encoder = new PngBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
-            using (Stream stm = File.Create(Path.Combine(GlobalState.WorkingDirectory, $"{GlobalState.CurrentScene.Name}_{GlobalState.CurrentFrame.Name}_{Name}.png"))) {
+            using (Stream stm = File.Create(Path.Combine(Cartoon.WorkingDirectory, $"{Cartoon.CurrentScene.Name}_{Cartoon.CurrentFrame.Name}_{Name}.png"))) {
                 encoder.Save(stm);
             }
 
-            Picture.Image = System.Drawing.Image.FromFile(Path.Combine(GlobalState.WorkingDirectory, $"{GlobalState.CurrentScene.Name}_{GlobalState.CurrentFrame.Name}_{Name}.png"));
+            Picture.Image = System.Drawing.Image.FromFile(Path.Combine(Cartoon.WorkingDirectory, $"{Cartoon.CurrentScene.Name}_{Cartoon.CurrentFrame.Name}_{Name}.png"));
         }
 
 

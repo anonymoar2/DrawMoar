@@ -17,17 +17,17 @@ namespace DrawMoar {
             if (sender != null) {
                 cartoon.scenes.Add(new Scene());
             }
-            GlobalState.CurrentScene = cartoon.scenes.Last();
-            GlobalState.CurrentFrame = GlobalState.CurrentScene.frames.Last();
-            GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
-            AddListBoxElement(scenesList, GlobalState.CurrentScene.Name);
+            Cartoon.CurrentScene = cartoon.scenes.Last();
+            Cartoon.CurrentFrame = Cartoon.CurrentScene.frames.Last();
+            Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers.Last();
+            AddListBoxElement(scenesList, Cartoon.CurrentScene.Name);
         }
 
         private void scenesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             framesList.Items.Clear();
             if (scenesList.SelectedIndex != -1)
-                GlobalState.CurrentScene = cartoon.scenes[scenesList.SelectedIndex];
-            var frames = GlobalState.CurrentScene.frames;
+                Cartoon.CurrentScene = cartoon.scenes[scenesList.SelectedIndex];
+            var frames = Cartoon.CurrentScene.frames;
             foreach (var item in frames) {
                 AddListBoxElement(framesList, item.Name);
             }
@@ -41,12 +41,12 @@ namespace DrawMoar {
             cartoon.scenes.RemoveAt(index);
             if (cartoon.scenes.Count == 0) {
                 cartoon.scenes.Add(new Scene());
-                AddListBoxElement(scenesList, GlobalState.CurrentScene.Name);
+                AddListBoxElement(scenesList, Cartoon.CurrentScene.Name);
             }
             scenesList.SelectedIndex = index > 0 ? index - 1 : 0;
-            GlobalState.CurrentScene = index > 0 ? cartoon.scenes[index - 1] : cartoon.scenes[0];
-            GlobalState.CurrentFrame = GlobalState.CurrentScene.frames[0];
-            GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers[0];
+            Cartoon.CurrentScene = index > 0 ? cartoon.scenes[index - 1] : cartoon.scenes[0];
+            Cartoon.CurrentFrame = Cartoon.CurrentScene.frames[0];
+            Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers[0];
             Refresh();
         }
     }

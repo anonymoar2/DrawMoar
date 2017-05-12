@@ -27,6 +27,7 @@ namespace DrawMoar {
         List<Transformation> transList = new List<Transformation>();
         State clickState = State.Translation;
         IDrawer canvasDrawer;
+        bool PressLeftButton;
 
 
         public GenerationDialog(ILayer layer) {
@@ -38,10 +39,10 @@ namespace DrawMoar {
             previewCanvas.MouseLeftButtonUp += new MouseButtonEventHandler(previewCanvas_MouseLeftButtonUp);
             previewCanvas.MouseLeave += new MouseEventHandler(previewCanvas_MouseLeave);
             cloneLayer = layer;
-            previewCanvas.Width = GlobalState.canvSize.Width;
-            previewCanvas.Height = GlobalState.canvSize.Height;
-            this.Width = GlobalState.canvSize.Width + 250;
-            this.Height = GlobalState.canvSize.Height + 50;
+            previewCanvas.Width = MainWindow.canvSize.Width;
+            previewCanvas.Height = MainWindow.canvSize.Height;
+            this.Width = MainWindow.canvSize.Width + 250;
+            this.Height = MainWindow.canvSize.Height + 50;
             canvasDrawer = new CanvasDrawer(previewCanvas);
 
             cloneLayer.Draw(canvasDrawer);
@@ -51,7 +52,7 @@ namespace DrawMoar {
             prevPoint = Mouse.GetPosition(previewCanvas);
             switch (clickState) {
                 case State.Translation:
-                    GlobalState.PressLeftButton = true;
+                    PressLeftButton = true;
                     previewCanvas_MouseMove(sender, e);
                     break;
                 case State.RotateCenter:
@@ -66,18 +67,18 @@ namespace DrawMoar {
         private void previewCanvas_MouseMove(object sender, MouseEventArgs e) {
             if (clickState == State.Translation) {
                 point = (Point)e.GetPosition(previewCanvas);
-                if (!GlobalState.PressLeftButton) return;
+                if (!PressLeftButton) return;
                 TranslatingRedrawing(e);
                 prevPoint = point;
             }
         }
 
         private void previewCanvas_MouseLeftButtonUp(object sender, MouseEventArgs e) {
-            GlobalState.PressLeftButton = false;
+            PressLeftButton = false;
         }
 
         private void previewCanvas_MouseLeave(object sender, MouseEventArgs e) {
-            GlobalState.PressLeftButton = false;
+            PressLeftButton = false;
         }
 
 
@@ -123,10 +124,10 @@ namespace DrawMoar {
                     ApplyScaling(totalTime);
                 }
                 ///TODO: Поместить трансформации в слой            
-                var index = GlobalState.CurrentFrame.layers.IndexOf(GlobalState.CurrentLayer);
-                GlobalState.CurrentFrame.layers[index] = new Tuple<ILayer, List<Transformation>, int>(GlobalState.CurrentLayer.Item1, transList, totalTime);
-                GlobalState.CurrentLayer = new Tuple<ILayer, List<Transformation>, int>(GlobalState.CurrentLayer.Item1, transList, totalTime);
-                GlobalState.TotalTime = totalTime;
+                var index = Cartoon.CurrentFrame.layers.IndexOf(Cartoon.CurrentLayer);
+                Cartoon.CurrentFrame.layers[index] = new Tuple<ILayer, List<Transformation>, int>(Cartoon.CurrentLayer.Item1, transList, totalTime);
+                Cartoon.CurrentLayer = new Tuple<ILayer, List<Transformation>, int>(Cartoon.CurrentLayer.Item1, transList, totalTime);
+                Cartoon.TotalTime = totalTime;
                 this.Hide();
             }
             catch (IOException ioEx) {
