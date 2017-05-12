@@ -2,7 +2,8 @@
 using System.Windows.Media;
 
 
-namespace DrawMoar.BaseElements {
+namespace DrawMoar.BaseElements
+{
     public struct Color
     {
         byte A;

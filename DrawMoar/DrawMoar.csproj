@@ -104,10 +104,14 @@
     <Compile Include="GenerationDialog.xaml.cs">
       <DependentUpon>GenerationDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GlobalState.cs" />
     <Compile Include="ILayer.cs" />
     <Compile Include="Instrument.cs" />
     <Compile Include="InOut\ImportImage.cs" />
+    <Compile Include="MainWindow.Buttons.cs" />
+    <Compile Include="MainWindow.CanvasEvents.cs" />
+    <Compile Include="MainWindow.Frames.cs" />
+    <Compile Include="MainWindow.Layers.cs" />
+    <Compile Include="MainWindow.Scenes.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>

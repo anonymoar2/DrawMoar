@@ -13,18 +13,22 @@ namespace DrawMoar.BaseElements
         public List<Scene> scenes = new List<Scene>();
         public string pathToAudio;
 
-        private int width;
-        public int Width
-        {
+        public static int TotalTime { get; set; }
+
+        public static Frame CurrentFrame { get; set; }
+
+        public static Scene CurrentScene { get; set; }
+
+        public static Tuple<ILayer, List<Transformation>, int> CurrentLayer { get; set; }
+
+        private static int width;
+        public static int Width {
             get { return width; }
-            private set
-            {
-                if (value >= MinimalWidth && value <= MaximumWidth)
-                {
+            set {
+                if (value >= MinimalWidth && value <= MaximumWidth) {
                     width = value;
                 }
-                else
-                {
+                else {
                     throw new ArgumentException($"Ширина мультфильма не должна быть меньше " +
                                                 $"чем {MinimalWidth} и не больше" +
                                                 $"{MaximumWidth} пикселей.");
@@ -32,18 +36,14 @@ namespace DrawMoar.BaseElements
             }
         }
 
-        private int height;
-        public int Height
-        {
+        private static int height;
+        public static int Height {
             get { return height; }
-            private set
-            {
-                if (value >= MinimalHeight || value <= MaximumHeight)
-                {
+            set {
+                if (value >= MinimalHeight || value <= MaximumHeight) {
                     height = value;
                 }
-                else
-                {
+                else {
                     throw new ArgumentException($"Высота мультфильма не должна быть меньше " +
                                                 $"чем {MinimalHeight} и не больше " +
                                                 $"{MaximumHeight} пикселей.");
@@ -51,26 +51,20 @@ namespace DrawMoar.BaseElements
             }
         }
 
-        private string workingDirectory;
-        public string WorkingDirectory
-        {
-            get
-            {
+        private static string workingDirectory;
+        public static string WorkingDirectory {
+            get {
                 return workingDirectory;
             }
-            private set
-            {
-                if (Directory.Exists(value))
-                {
+            set {
+                if (Directory.Exists(value)) {
                     workingDirectory = value;
                 }
-                else if (Directory.Exists(Path.GetDirectoryName(value)))
-                {
+                else if (Directory.Exists(Path.GetDirectoryName(value))) {
                     Directory.CreateDirectory(value);
                     workingDirectory = value;
                 }
-                else
-                {
+                else {
                     throw new ArgumentException($"Невозможно открыть директорию \"{value}\".");
                 }
             }
@@ -91,7 +85,7 @@ namespace DrawMoar.BaseElements
             WorkingDirectory = workingDirectory;
             scenes.Add(new Scene("Scene_0"));
             logger.Debug($"Мультфильм {Name} создан. " +
-                         $"Ширина - {width}px, высота - {height}px, " + 
+                         $"Ширина - {width}px, высота - {height}px, " +
                          $"рабочая директория - {workingDirectory}");
         }
     }

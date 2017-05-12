@@ -3,7 +3,8 @@ using System.Drawing;
 
 namespace DrawMoar.Drawing
 {
-    public interface IDrawer {
+    public interface IDrawer
+    {
         void DrawLine(Line line);
         void DrawEllipse(Ellipse ellipse);
         void DrawRectangle(Shapes.Rectangle rectangle);

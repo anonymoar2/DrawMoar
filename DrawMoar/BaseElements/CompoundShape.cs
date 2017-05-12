@@ -35,13 +35,12 @@ namespace DrawMoar.BaseElements
 
 
         public object Clone() {
-            var buf = new CompoundShape();
-            buf.Alias = Alias;
-            buf.Thickness = Thickness;
-            buf.Color = Color;
-            
-            foreach(var shape in shapes)
-            {
+            var buf = new CompoundShape() {
+                Alias = Alias,
+                Thickness = Thickness,
+                Color = Color
+            };
+            foreach (var shape in shapes) {
                 buf.shapes.Add((IShape)shape.Clone());
             }
 

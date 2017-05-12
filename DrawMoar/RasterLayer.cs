@@ -48,7 +48,7 @@ namespace DrawMoar {
 
 
         public RasterLayer() {
-            name = $"RasterLayer_{GlobalState.CurrentFrame.layers.Count}";
+            name = $"RasterLayer_{Cartoon.CurrentFrame.layers.Count}";
             Visible = true;
             Picture = new Picture();
         }
@@ -63,15 +63,6 @@ namespace DrawMoar {
 
         public void Draw(IDrawer drawer) {
             Picture.Draw(drawer);
-        }
-
-
-        public void Print(Canvas canvas) {
-            var rlc = new RasterLayerControl();
-            DrawRasterLayerImage(rlc);
-            canvas.Children.Add(rlc);
-            Canvas.SetLeft(rlc, Position.X);
-            Canvas.SetTop(rlc, Position.Y);
         }
 
 

@@ -6,8 +6,8 @@ using DrawMoar.Shapes;
 
 namespace DrawMoar.Drawing
 {
-    public class GraphicsDrawer : IDrawer {
-
+    public class GraphicsDrawer : IDrawer
+    {
         private Graphics graphics;
 
         public GraphicsDrawer(Graphics graphics) {
@@ -30,14 +30,14 @@ namespace DrawMoar.Drawing
             graphics.TranslateTransform((float)(-el.Center.X), (float)(-el.Center.Y));
             graphics.DrawEllipse(
                 new Pen(
-                    el.Color.ToDrawingColor(), 
+                    el.Color.ToDrawingColor(),
                     (float)el.Thickness
                 ),
                 new RectangleF(
                     new PointF(
-                        Convert.ToSingle(el.Center.X - el.Size.Width / 2), 
+                        Convert.ToSingle(el.Center.X - el.Size.Width / 2),
                         Convert.ToSingle(el.Center.Y - el.Size.Height / 2)
-                    ), 
+                    ),
                     new SizeF(Convert.ToSingle(el.Size.Width), Convert.ToSingle(el.Size.Height))
                 )
             );
@@ -59,7 +59,7 @@ namespace DrawMoar.Drawing
         }
 
         public void DrawImage(Image image, double x, double y) {
-
+            graphics.DrawImage(image, new Point((int)x, (int)y));
         }
     }
 }

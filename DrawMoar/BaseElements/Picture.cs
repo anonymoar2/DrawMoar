@@ -21,13 +21,13 @@ namespace DrawMoar.BaseElements
         public void Draw(IDrawer drawer) {
             drawer.DrawImage(Image, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y));
         }
-        
 
-        public object Clone()
-        {
-            var buf = new Picture();
-            buf.Position = Position;
-            buf.Image = (Image)Image.Clone();
+
+        public object Clone() {
+            var buf = new Picture() {
+                Position = Position,
+                Image = (Image)Image.Clone()
+            };
             return buf;
         }
     }

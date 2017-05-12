@@ -52,10 +52,8 @@ namespace DrawMoar.Shapes
         }
 
 
-        public object Clone()
-        {
-            var buf = new Ellipse(Center, Size, StartAngle, EndAngle, Rotate)
-            {
+        public object Clone() {
+            var buf = new Ellipse(Center, Size, StartAngle, EndAngle, Rotate) {
                 Alias = Alias,
                 Thickness = Thickness,
                 Color = Color

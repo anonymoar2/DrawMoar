@@ -1,6 +1,6 @@
 ﻿namespace DrawMoar
 {
-    public enum Instrument     
+    public enum Instrument
     {
         Arrow, Brush, Pipette, Light, Rectangle, Ellipse, Line, Eraser
     }

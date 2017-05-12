@@ -22,7 +22,7 @@ namespace DrawMoar.Shapes
         public DrawMoar.BaseElements.Color Color { get; set; }
 
 
-        public Rectangle(System.Windows.Point center, System.Windows.Size size, double startAngle = 0, 
+        public Rectangle(System.Windows.Point center, System.Windows.Size size, double startAngle = 0,
                          double endAngle = 360, double rotate = 0) {
             Center = center;
             Size = size;
@@ -50,10 +50,8 @@ namespace DrawMoar.Shapes
         }
 
 
-        public object Clone()
-        {
-            var buf = new Rectangle(Center, Size, StartAngle, EndAngle, Rotate)
-            {
+        public object Clone() {
+            var buf = new Rectangle(Center, Size, StartAngle, EndAngle, Rotate) {
                 Alias = Alias,
                 Thickness = Thickness,
                 Color = Color

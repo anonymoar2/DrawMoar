@@ -15,7 +15,7 @@ namespace DrawMoar
 
         public CompoundShape Picture { get; set; }
 
-        public string Name {get; set; }
+        public string Name { get; set; }
 
 
         private System.Windows.Point position = new System.Windows.Point(0, 0);
@@ -36,14 +36,14 @@ namespace DrawMoar
 
 
         public VectorLayer(string name) {
-            this.Name = name;
+            Name = name;
             Visible = true;
             Picture = new CompoundShape();
         }
 
 
         public void Draw(IDrawer drawer) {
-            Picture.Draw(drawer);          
+            Picture.Draw(drawer);
         }
 
 
@@ -81,18 +81,16 @@ namespace DrawMoar
         public Bitmap GetImage(double width, double height) {
             Bitmap bitmap = new Bitmap((int)width, (int)height);
             var graphics = Graphics.FromImage(bitmap);
-            
+
             foreach (var shape in Picture.shapes) {
                 shape.Draw(new GraphicsDrawer(graphics));
-            }           
+            }
             return bitmap;
         }
 
 
-        public object Clone()
-        {
-            var buf = new VectorLayer()
-            {
+        public object Clone() {
+            var buf = new VectorLayer() {
                 Visible = Visible,
                 Picture = (CompoundShape)Picture.Clone(),
                 Name = Name,

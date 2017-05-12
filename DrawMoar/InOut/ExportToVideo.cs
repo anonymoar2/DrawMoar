@@ -14,18 +14,15 @@ namespace DrawMoar.InOut
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
 
 
-        public static void SaveToVideo(Cartoon cartoon, string outFileFormat, string pathToMusic)
-        {
-            if (outFileFormat != "mp4" && outFileFormat != "avi")
-            {
+        public static void SaveToVideo(Cartoon cartoon, string outFileFormat, string pathToMusic) {
+            if (outFileFormat != "mp4" && outFileFormat != "avi") {
                 throw new ArgumentException("Недопустимый формат файла");
             }
             string pathToImages = Path.Combine(cartoon.WorkingDirectory, "Images");
             Directory.CreateDirectory(pathToImages);
             var concatFilename = CreateTemporaryFiles(cartoon, pathToImages);
             int count = 0;
-            if (File.Exists(Path.Combine(cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}")))
-            {
+            if (File.Exists(Path.Combine(cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}"))) {
                 count++;
             }
 
@@ -33,25 +30,22 @@ namespace DrawMoar.InOut
             RunFFmpeg(pathToImages, arguments);
 
             File.Move(
-                Path.Combine(pathToImages, $"silentOut{count}.{outFileFormat}"), 
+                Path.Combine(pathToImages, $"silentOut{count}.{outFileFormat}"),
                 Path.Combine(cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}")
             );
-            if (File.Exists(pathToMusic) && outFileFormat == "avi")
-            {
+            if (File.Exists(pathToMusic) && outFileFormat == "avi") {
                 AddMusic(pathToMusic, $"silentOut{count}.avi", cartoon.WorkingDirectory, count);
             }
         }
 
 
-        private static string CreateTemporaryFiles(Cartoon cartoon, string path)
-        {
+        private static string CreateTemporaryFiles(Cartoon cartoon, string path) {
             string imagesDirectory = path;
             string imagesListFilename = Path.Combine(imagesDirectory, "images.txt");
 
             DirectoryInfo directoryInfo = new DirectoryInfo(imagesDirectory);
             int count = 0;
-            using (var writer = new StreamWriter(imagesListFilename))
-            {
+            using (var writer = new StreamWriter(imagesListFilename)) {
                 cartoon.scenes.ForEach(
                 scene => scene.frames.ForEach(
                 frame => {
@@ -66,12 +60,11 @@ namespace DrawMoar.InOut
         }
 
 
-        private static void AddMusic(string pathToMusic, string cartoonName, string workingDirectory, int count)
-        {
+        private static void AddMusic(string pathToMusic, string cartoonName, string workingDirectory, int count) {
             File.Copy(pathToMusic, Path.Combine(workingDirectory, Path.GetFileName(pathToMusic)));
             Process process = new Process();
             process.StartInfo.FileName = "ffmpeg";
-            
+
             var arguments = $"-i \"{cartoonName}\" -i \"{Path.GetFileName(pathToMusic)}\" " +
                             "-codec copy -shortest " +
                             $"\"{cartoonName}+audio{count}.avi\"";
@@ -80,8 +73,7 @@ namespace DrawMoar.InOut
         }
 
 
-        private static void RunFFmpeg(string workingDirectory, string arguments)
-        {
+        private static void RunFFmpeg(string workingDirectory, string arguments) {
             Process process = new Process();
             process.StartInfo.FileName = "ffmpeg";
             process.StartInfo.WorkingDirectory = workingDirectory;
@@ -101,8 +93,7 @@ namespace DrawMoar.InOut
         }
 
 
-        private static void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
-        {
+        private static void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine) {
             logger.Debug(outLine.Data);
         }
     }

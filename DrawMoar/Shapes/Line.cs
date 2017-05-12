@@ -25,7 +25,7 @@ namespace DrawMoar.Shapes
             PointOne = pointOne;
             PointTwo = pointTwo;
             Center = new System.Windows.Point(
-                Math.Abs(PointOne.X - PointTwo.X) / 2, 
+                Math.Abs(PointOne.X - PointTwo.X) / 2,
                 Math.Abs(PointOne.Y - PointTwo.Y) / 2
             );
             Thickness = GlobalState.BrushSize.Width;
@@ -44,12 +44,12 @@ namespace DrawMoar.Shapes
         }
 
 
-        public object Clone()
-        {
-            var buf = new Line(PointOne, PointTwo);
-            buf.Thickness = Thickness;
-            buf.Alias = Alias;
-            buf.Color = Color;
+        public object Clone() {
+            var buf = new Line(PointOne, PointTwo) {
+                Thickness = Thickness,
+                Alias = Alias,
+                Color = Color
+            };
             return buf;
         }
     }
