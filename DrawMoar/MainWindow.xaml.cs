@@ -457,5 +457,9 @@ namespace DrawMoar {
             var pathToAudio = d.FileName;
             audio.Text = pathToAudio;
         }
+
+        private void Eraser_Click(object sender, RoutedEventArgs e) {
+            GlobalState.CurrentTool = Instrument.Eraser;
+        }
     }
 }
