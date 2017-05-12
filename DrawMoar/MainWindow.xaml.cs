@@ -31,7 +31,7 @@ namespace DrawMoar
         IDrawer canvasDrawer;
         GenerationDialog generationWin;
         event EventHandler ChangeInstrument;
-        bool PressLeftButton;       
+        bool PressLeftButton;
 
         public MainWindow() {
             InitializeComponent();
@@ -106,10 +106,6 @@ namespace DrawMoar
         }
 
 
-        private void ExportToMP4(object sender, RoutedEventArgs e) {
-        }
-
-
         /// <summary>
         ///     Изменение курсора мыши в зависимости от выбранного инструмента
         /// </summary>
@@ -128,7 +124,7 @@ namespace DrawMoar
 
 
         private void AddListBoxElement(ListBox lBox, string content) {
-            var lbl = new Label();          
+            var lbl = new Label();
             lbl.Content = content;
             lBox.Items.Add(lbl);
             lBox.SelectedIndex = lBox.Items.Count - 1;
@@ -159,6 +155,7 @@ namespace DrawMoar
         private void SaveToMp4(object sender, RoutedEventArgs e) {
             try {
                 DrawMoar.ffmpeg.ExportToVideo.SaveToVideo(cartoon, "mp4", "");
+                MessageBox.Show("Мультик готов!!!");
             }
             catch (Exception ex) {
                 MessageBox.Show(ex.Message);
@@ -169,12 +166,13 @@ namespace DrawMoar
         private void SaveToAvi(object sender, RoutedEventArgs e) {
             try {
                 DrawMoar.ffmpeg.ExportToVideo.SaveToVideo(cartoon, "avi", cartoon.pathToAudio);
+                MessageBox.Show("Мультик готов!!!");
             }
             catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }
         }
-     
+
 
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e) {
             var color = new DrawMoar.BaseElements.Color(ClrPcker_Background.SelectedColor.Value);
@@ -196,7 +194,7 @@ namespace DrawMoar
         }
 
         private void AFT_Click(object sender, RoutedEventArgs e) {
-            
+
         }
 
 
