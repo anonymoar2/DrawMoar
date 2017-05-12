@@ -44,7 +44,7 @@ namespace DrawMoar.Drawing {
         }
 
         public void DrawImage(Image image, double x, double y) {
-
+            g.DrawImage(image, new Point((int)x, (int)y));
         }
     }
 }
