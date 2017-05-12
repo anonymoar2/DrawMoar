@@ -77,7 +77,7 @@ namespace DrawMoar.ffmpeg
             Process process = new Process();
             process.StartInfo.FileName = "ffmpeg";
             process.StartInfo.WorkingDirectory = workingDirectory;
-            process.StartInfo.Arguments = $"ffmpeg -i {cartoonName}.avi -i {Path.GetFileName(pathToMusic)}.mp3 -codec copy -shortest {cartoonName}+{Path.GetFileName(pathToMusic)}.avi";
+            process.StartInfo.Arguments = $"-i {cartoonName} -i {Path.GetFileName(pathToMusic)} -codec copy -shortest {Path.GetFileName(pathToMusic)}{cartoonName}";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;    
             process.StartInfo.RedirectStandardError = true;
