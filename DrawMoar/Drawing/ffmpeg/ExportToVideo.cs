@@ -39,7 +39,7 @@ namespace DrawMoar.ffmpeg
             process.WaitForExit();
             File.Move(Path.Combine(pathToImages, $"silentOut{count}.{outFileFormat}"), Path.Combine(cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}"));
             if (File.Exists(pathToMusic) && outFileFormat == "avi") {
-                AddMusic(pathToMusic, $"silentOut{count}.avi", cartoon.WorkingDirectory);
+                AddMusic(pathToMusic, $"silentOut{count}.avi", cartoon.WorkingDirectory, count);
             }
             // проверка если музыка добавлена и существует то вызов метода с видео и с музыкой
             // видео без музыки и куда хотят видео с музыкой musicOut
@@ -72,12 +72,14 @@ namespace DrawMoar.ffmpeg
             Console.WriteLine(outLine.Data);
         }
 
-        private static void AddMusic(string pathToMusic, string cartoonName, string workingDirectory) {
+        private static void AddMusic(string pathToMusic, string cartoonName, string workingDirectory, int count) {
             File.Copy(pathToMusic, Path.Combine(workingDirectory, Path.GetFileName(pathToMusic)));
             Process process = new Process();
             process.StartInfo.FileName = "ffmpeg";
             process.StartInfo.WorkingDirectory = workingDirectory;
-            process.StartInfo.Arguments = $"-i {cartoonName} -i {Path.GetFileName(pathToMusic)} -codec copy -shortest {Path.GetFileName(pathToMusic)}{cartoonName}";
+            process.StartInfo.Arguments = $"-i \"{cartoonName}\" -i \"{Path.GetFileName(pathToMusic)}\" " +
+                                           "-codec copy -shortest " +
+                                           $"\"{cartoonName}+audio{count}.avi\"";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;    
             process.StartInfo.RedirectStandardError = true;
