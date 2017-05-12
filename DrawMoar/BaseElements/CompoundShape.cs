@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Controls;
 
 using DrawMoar.Shapes;
-
+using DrawMoar.Drawing;
 
 namespace DrawMoar.BaseElements
 {
@@ -19,9 +19,9 @@ namespace DrawMoar.BaseElements
         public List<IShape> shapes = new List<IShape>();
 
 
-        public void Draw(Canvas canvas) {
+        public void Draw(IDrawer drawer) {
             foreach (var item in shapes) {
-                item.Draw(canvas);
+                item.Draw(drawer);
             }
         }
 
@@ -29,13 +29,6 @@ namespace DrawMoar.BaseElements
         public void Transform(Transformation transformation) {
             foreach (var shape in shapes) {
                 shape.Transform(transformation);
-            }
-        }
-
-        
-        public void Draw(Graphics g) {
-            foreach(var shape in shapes) {
-                shape.Draw(g);
             }
         }
 

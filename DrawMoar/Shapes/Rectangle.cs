@@ -5,7 +5,7 @@ using System.Windows.Media;
 using System.Windows.Controls;
 
 using DrawMoar.BaseElements;
-
+using DrawMoar.Drawing;
 
 namespace DrawMoar.Shapes
 {
@@ -32,21 +32,8 @@ namespace DrawMoar.Shapes
             this.Color = new BaseElements.Color(GlobalState.Color);
         }
 
-        public void Draw(Canvas canvas) {
-            var rect = new System.Windows.Shapes.Rectangle();
-            rect.Width = Size.Width;
-            rect.Height = Size.Height;
-            rect.Stroke = Color.ToBrush();
-            rect.StrokeThickness = Thickness;
-            rect.IsEnabled = false;   
-            Canvas.SetLeft(rect, Center.X - Size.Width / 2);
-            Canvas.SetTop(rect, Center.Y - Size.Height / 2);
-            RotateTransform rotateTransform1 =
-                new RotateTransform(Rotate);
-            rotateTransform1.CenterX = Size.Width / 2;
-            rotateTransform1.CenterY = Size.Height / 2;
-            rect.RenderTransform = rotateTransform1;
-            canvas.Children.Add(rect);
+        public void Draw(IDrawer drawer) {
+            drawer.DrawRectangle(this);
         }
 
         public void Transform(Transformation transformation) {
@@ -60,19 +47,6 @@ namespace DrawMoar.Shapes
             Rotate = (Rotate + rotation) % 360;
         }
 
-
-        public void Draw(Graphics g) {
-            g.TranslateTransform((float)(Center.X), (float)(Center.Y));
-            g.RotateTransform((float)Rotate);
-            g.TranslateTransform((float)(-Center.X), (float)(-Center.Y));
-            g.DrawRectangle(new System.Drawing.Pen(Color.ToDrawingColor(), (float)this.Thickness), 
-                            new System.Drawing.Rectangle(new Point(Convert.ToInt32(Center.X-Size.Width/2), 
-                                                         Convert.ToInt32(Center.Y-Size.Height/2)), 
-                                                         new Size(Convert.ToInt32(Size.Width), 
-                                                         Convert.ToInt32(Size.Height))
-                                                         )
-                           );
-        }
 
         public object Clone()
         {

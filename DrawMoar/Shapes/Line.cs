@@ -5,7 +5,7 @@ using System.Windows.Media;
 using System.Windows.Controls;
 
 using DrawMoar.BaseElements;
-
+using DrawMoar.Drawing;
 
 namespace DrawMoar.Shapes
 {
@@ -29,33 +29,14 @@ namespace DrawMoar.Shapes
         }
 
 
-        public void Draw(Canvas canvas) {
-            canvas.Children.Add(new System.Windows.Shapes.Line {
-                Stroke = Color.ToBrush(),
-                StrokeThickness = Thickness,
-                X1 = PointOne.X,
-                Y1 = PointOne.Y,
-                X2 = PointTwo.X,
-                Y2 = PointTwo.Y,
-                StrokeStartLineCap = PenLineCap.Round,
-                StrokeEndLineCap = PenLineCap.Round,
-                IsEnabled = false
-            });
+        public void Draw(IDrawer drawer) {
+            drawer.DrawLine(this);
         }
 
 
         public void Transform(Transformation transformation) {
             PointOne = transformation.Apply(PointOne);
             PointTwo = transformation.Apply(PointTwo);
-        }
-
-
-        public void Draw(Graphics g) {
-            g.DrawLine(new System.Drawing.Pen(Color.ToDrawingColor(), (float)this.Thickness), 
-                       Convert.ToSingle(PointOne.X), 
-                       Convert.ToSingle(PointOne.Y), 
-                       Convert.ToSingle(PointTwo.X), 
-                       Convert.ToSingle(PointTwo.Y));
         }
 
 

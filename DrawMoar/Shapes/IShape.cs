@@ -2,7 +2,7 @@
 using System.Drawing;
 using System;
 using DrawMoar.BaseElements;
-
+using DrawMoar.Drawing;
 
 namespace DrawMoar.Shapes
 {
@@ -16,8 +16,6 @@ namespace DrawMoar.Shapes
 
         double Thickness { get; set; }
 
-        void Draw(Canvas canvas);
-
-        void Draw(Graphics g);
+        void Draw(IDrawer drawer);
     }
 }

@@ -93,6 +93,10 @@
       <DependentUpon>CreateCartoonDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="BaseElements\Frame.cs" />
+    <Compile Include="Drawing\CanvasDrawer.cs" />
+    <Compile Include="Drawing\GraphicsDrawer.cs" />
+    <Compile Include="Drawing\IDrawer.cs" />
+
     <Compile Include="ffmpeg\ExportToImage.cs" />
     <Compile Include="ffmpeg\ExportToVideo.cs" />
     <Compile Include="GenerationDialog.xaml.cs">

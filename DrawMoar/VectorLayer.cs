@@ -5,7 +5,7 @@ using System.Windows.Controls;
 
 using DrawMoar.Shapes;
 using DrawMoar.BaseElements;
-
+using DrawMoar.Drawing;
 
 namespace DrawMoar
 {
@@ -42,14 +42,8 @@ namespace DrawMoar
         }
 
 
-        public void Draw(Graphics g) {
-            Picture.Draw(g);          
-        }
-
-        public void Print(Canvas canvas) {
-            foreach (var item in Picture.shapes) {
-                item.Draw(canvas);
-            }
+        public void Draw(IDrawer drawer) {
+            Picture.Draw(drawer);          
         }
 
         public void Transform(Transformation transformation) {
@@ -63,7 +57,7 @@ namespace DrawMoar
         public RasterLayer ToRasterLayer() {
             var newLayer = new RasterLayer();
             var g = Graphics.FromImage(newLayer.Picture.Image);
-            Picture.Draw(g);
+            Picture.Draw(new GraphicsDrawer(g));
             return newLayer;
         }
 
@@ -83,7 +77,7 @@ namespace DrawMoar
             var g = Graphics.FromImage(b);
             
             foreach (var sh in Picture.shapes) {
-                sh.Draw(g);
+                sh.Draw(new GraphicsDrawer(g));
             }           
             return b;
         }

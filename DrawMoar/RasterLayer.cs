@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 using DrawMoar.Shapes;
 using DrawMoar.BaseElements;
-
+using DrawMoar.Drawing;
 
 namespace DrawMoar {
     public class RasterLayer : ILayer {
@@ -59,8 +59,8 @@ namespace DrawMoar {
         }
 
 
-        public void Draw(Graphics g) {
-            Picture.Draw(g);
+        public void Draw(IDrawer drawer) {
+            Picture.Draw(drawer);
         }
 
 
