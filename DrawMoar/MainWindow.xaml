@@ -43,6 +43,7 @@
             </MenuItem>
         </Menu>
         <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="5" Background="Snow">
+            <Button x:Name="button" Content="Cancel" Margin="67,76,10,549" Width="53" Height="24" Click="button_Click_1" VerticalAlignment="Top"/>
 
         </Border>
         <Border Grid.Column="3" Grid.Row="1" Grid.RowSpan="5" Background="Snow"/>

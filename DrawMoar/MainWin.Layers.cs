@@ -21,6 +21,7 @@ namespace DrawMoar {
 
 
         private void AddRasterLayer_Click(object sender, RoutedEventArgs e) {
+            SavePrev();
             if (cartoon == null) {
                 return;
             }
@@ -56,6 +57,7 @@ namespace DrawMoar {
         }
 
         private void DeleteLayer_Click(object sender, RoutedEventArgs e) {
+            SavePrev();
             if (cartoon == null) return;
             int index = layersList.SelectedIndex;
             var layerToDelete = Cartoon.CurrentFrame.layers[index].Item1;

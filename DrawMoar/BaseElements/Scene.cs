@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace DrawMoar.BaseElements
 {
-    public class Scene
+    public class Scene : ICloneable
     {
         private string name;
         public string Name {
@@ -56,6 +56,21 @@ namespace DrawMoar.BaseElements
                     frames.Add((Frame)frame.Clone());
                 }
             }
+        }
+
+        public object Clone()
+        {
+            var bufFrames = new List<Frame>();
+
+            foreach (var frame in frames)
+            {
+                bufFrames.Add((Frame)frame.Clone());
+            }
+
+            var bufScene = new Scene(Name);
+            bufScene.frames = bufFrames;
+
+            return bufScene;
         }
     }
 }

@@ -39,12 +39,14 @@ namespace DrawMoar {
         }
 
         private void AT_Click(object sender, RoutedEventArgs e) {
+            SavePrev();
             ILayer cloneOfCurrent = (ILayer)Cartoon.CurrentLayer.Item1.Clone();
             generationWin = new GenerationDialog(cloneOfCurrent);
             generationWin.Show();
         }
 
         private void GenerateFrame_Click(object sender, RoutedEventArgs e) {
+            SavePrev();
             if (cartoon == null) return;
             if (Cartoon.TotalTime == 0) return;
             Cartoon.CurrentScene.Generate(Cartoon.CurrentFrame, Cartoon.TotalTime);
@@ -54,6 +56,7 @@ namespace DrawMoar {
 
 
         private void CycleFrame_Click(object sender, RoutedEventArgs e) {
+            SavePrev();
             Cartoon.CurrentScene.Cycle(25);
             scenesList_SelectionChanged(null, null);
             Refresh();

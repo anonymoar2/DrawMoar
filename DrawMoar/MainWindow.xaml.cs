@@ -47,6 +47,27 @@ namespace DrawMoar
             canvasDrawer = new CanvasDrawer(canvas);
         }
 
+        private void SavePrev()
+        {
+            GC.Collect();
+
+            if (cartoon != null)
+            {
+                Cartoon.Prev = cartoon;
+            }
+            if (Cartoon.CurrentLayer != null)
+            {
+                Cartoon.PrevCurrentLayerNumber = Cartoon.CurrentFrame.layers.IndexOf(Cartoon.CurrentLayer);
+            }
+            if (Cartoon.CurrentFrame != null)
+            {
+                Cartoon.PrevCurrentFrameNumber = Cartoon.CurrentScene.frames.IndexOf(Cartoon.CurrentFrame);
+            }
+            if (Cartoon.CurrentScene != null)
+            {
+                Cartoon.PrevCurrentSceneNumber = cartoon.scenes.IndexOf(Cartoon.CurrentScene);
+            }
+        }
 
         private static Brush _color = Brushes.Red;
         public static Brush Color {
@@ -196,7 +217,7 @@ namespace DrawMoar
         }
 
         private void AFT_Click(object sender, RoutedEventArgs e) {
-            
+            SavePrev();
         }
 
 
@@ -204,5 +225,21 @@ namespace DrawMoar
 
         }
 
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void button_Click_1(object sender, RoutedEventArgs e)
+        {
+            cartoon = Cartoon.Prev;
+
+            Cartoon.CurrentScene = cartoon.scenes[Cartoon.PrevCurrentSceneNumber];
+            Cartoon.CurrentFrame = Cartoon.CurrentScene.frames[Cartoon.PrevCurrentFrameNumber];
+            Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers[Cartoon.PrevCurrentLayerNumber];
+
+            GC.Collect();
+            Refresh();
+        }
     }
 }
