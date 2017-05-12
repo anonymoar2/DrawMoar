@@ -120,6 +120,9 @@ namespace DrawMoar
                 case Instrument.Brush:
                     canvas.Cursor = Cursors.Cross;
                     break;
+                case Instrument.Eraser:
+                    canvas.Cursor = Cursors.Hand;
+                    break;
                 default:
                     canvas.Cursor = Cursors.Arrow;
                     break;
@@ -179,11 +182,10 @@ namespace DrawMoar
                 return;
             }
             if (sender != null) {
-                GlobalState.CurrentScene.frames.Add(new BaseElements.Frame());
-                GlobalState.CurrentFrame = GlobalState.CurrentScene.frames.Last();
-                GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
-                var frames = GlobalState.CurrentScene.frames;
-                AddListBoxElement(framesList, GlobalState.CurrentFrame.Name);
+                var newDurationFrameDialog = new DurationFrameDialog(framesList);
+                newDurationFrameDialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                newDurationFrameDialog.Owner = this;
+                newDurationFrameDialog.Show();
             }
         }
 

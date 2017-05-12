@@ -19,7 +19,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition  MinWidth="130" MaxWidth="130"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition MinWidth="130" MaxWidth="130"></ColumnDefinition>
+            <ColumnDefinition MinWidth="140" MaxWidth="140"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="Snow"/>
         <Menu x:Name="menu" HorizontalAlignment="Left" Background="Snow" Grid.ColumnSpan="3" Height="20" VerticalAlignment="Top">
@@ -63,6 +63,7 @@
                 <Button x:Name="AddTransformation" Content="Add Transform" Width="25"  Height="24" Margin="5,2" Click="AT_Click"/>
                 <Button x:Name="AFrameTrans" Content="Add Frame Transform" Width="34"  Height="22" Margin="5,2" Click="AFT_Click"/>
                 <xctk:ColorPicker x:Name="ClrPcker_Background"  Margin="70,3,0,0" Height="25" Width="45" SelectedColor="Black" SelectedColorChanged="ClrPcker_Background_SelectedColorChanged"/>
+                
                 <Slider x:Name="slider" Width="130" Minimum="3" Maximum="50"/>
             </WrapPanel>
         </WrapPanel>
@@ -71,7 +72,7 @@
             <Button x:Name="AddVectorLayer" Content="VL" Width="30"  Height="20" Margin="3,10" Click="AddVectorLayer_Click"/>
             <Button x:Name="DeleteLayer" Content="Delete L" Width="auto" Height="20" Margin="3,10" Click="DeleteLayer_Click"/>
         </WrapPanel>
-        <ListBox Name="scenesList" Width="120" Grid.Column="2" Grid.Row="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+        <ListBox Name="scenesList" Width="135" Grid.Column="2" Grid.Row="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  BorderBrush="LightGray" SelectionChanged="scenesList_SelectionChanged"></ListBox>
         <WrapPanel Name="buttons" Grid.Column="2" Grid.Row="1">
             <Button x:Name="AddScene" Content="+S" Width="30"  Height="20" Margin="10,10" Click="AddScene_Click"/>
@@ -83,7 +84,7 @@
             <Button x:Name="AddFrame" Content="+F" Width="30"  Height="20" Margin="10,10" Click="AddFrame_Click"/>
             <Button x:Name="DeleteFrame" Content="Delete F" Width="auto" Height="20" Margin="5,10" Click="DeleteFrame_Click"/>
         </WrapPanel>
-        <ListBox  x:Name="framesList" Width="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+        <ListBox  x:Name="framesList" Width="135" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                           BorderBrush="LightGray" SelectionChanged="framesList_SelectionChanged"
                           Grid.Column="2" Grid.Row="4">
         </ListBox>

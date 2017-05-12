@@ -37,6 +37,7 @@ namespace DrawMoar.ffmpeg
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
+
             File.Move(Path.Combine(pathToImages, $"silentOut{count}.{outFileFormat}"), Path.Combine(cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}"));
             if (File.Exists(pathToMusic) && outFileFormat == "avi") {
                 AddMusic(pathToMusic, $"silentOut{count}.avi", cartoon.WorkingDirectory);
@@ -59,7 +60,7 @@ namespace DrawMoar.ffmpeg
                     frame => {
                         frame.Join().Save(Path.Combine(imagesDirectory, $"img{count}.png"));
                         writer.WriteLine("file " + $"img{count}.png");
-                        writer.WriteLine($"duration 0.04");
+                        writer.WriteLine($"duration {frame.duration}".Replace(',','.'));
                         count++;
                     }
                 ));
