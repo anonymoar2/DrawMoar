@@ -58,5 +58,18 @@ namespace DrawMoar {
             Refresh();
         }
 
+        private void AddAudio(object sender, RoutedEventArgs e) {
+            System.Windows.Forms.OpenFileDialog d = new System.Windows.Forms.OpenFileDialog();
+            //d.Filter = "Audio Files|*.mp3;*.wav;*.wmp";
+            d.Filter = "Audio Files|*.mp3";
+            d.ShowDialog();
+            if (d.FileName != "") {
+                var pathToAudio = d.FileName;
+                audio.Text = pathToAudio;
+                cartoon.pathToAudio = pathToAudio;
+            }
+            else MessageBox.Show("You haven't chosen the audio file");
+        }
+
     }
 }
