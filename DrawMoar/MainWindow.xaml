@@ -53,7 +53,7 @@
                 <Button x:Name="testButton2" Height ="25" Width="40" Margin="5,5" Content="Arrow" Click="testButton2_Click"/>
                 <Button x:Name="AddEllipse" Height ="25" Width="40" Margin="5,5" Content="Ellipse" Click="AddEllipse_Click"/>
                 <Button x:Name="AddRectangle" Height ="25" Width="60" Margin="5,5" Content="Rectangle" Click="AddRectangle_Click"/>
-                <Button x:Name="Eraser" Height ="25" Width="60" Margin="5,5" Content="Eraser" Click="Eraser_Click"/>
+                <Button x:Name="Eraser" Height ="25" Width="60" Margin="5,5" Content="Eraser"/>
             </WrapPanel>
             <WrapPanel Name="wp2" Width="130" MinHeight="90" Height="135">
                 <Button x:Name="CycleFrame" Content="Cycle" Width="40"  Height="25" Margin="5,2" Click="CycleFrame_Click"/>

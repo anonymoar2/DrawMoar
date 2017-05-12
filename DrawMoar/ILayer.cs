@@ -6,6 +6,7 @@ using DrawMoar.BaseElements;
 
 
 using System.Windows.Controls;
+using DrawMoar.Drawing;
 
 namespace DrawMoar
 {
@@ -15,9 +16,7 @@ namespace DrawMoar
 
         string Name { get; set; }
 
-        void Print(Canvas canvas);
-
-        void Draw(Graphics g);
+        void Draw(IDrawer drawer);
 
         void Transform(Transformation transformation);
     }

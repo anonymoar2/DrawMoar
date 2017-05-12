@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
-
+using DrawMoar.Drawing;
 
 namespace DrawMoar.BaseElements
 {
@@ -39,7 +39,7 @@ namespace DrawMoar.BaseElements
             g.CompositingMode = CompositingMode.SourceOver;
             g.Clear(System.Drawing.Color.White);
             foreach (var l in layers) {
-                l.Item1.Draw(g);
+                l.Item1.Draw(new GraphicsDrawer(g));
             }
             g.Dispose();
             return bm;

@@ -13,6 +13,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using DrawMoar.Drawing;
 
 namespace DrawMoar {
     /// <summary>
@@ -21,9 +22,11 @@ namespace DrawMoar {
     public partial class GenerationDialog : Window {
         Point prevPoint;
         Point point;
-        ILayer layer;
+        Point translation;
+        ILayer cloneLayer;
         List<Transformation> transList = new List<Transformation>();
         State clickState = State.Translation;
+        IDrawer canvasDrawer;
 
 
         public GenerationDialog(ILayer layer) {
@@ -34,23 +37,21 @@ namespace DrawMoar {
             previewCanvas.MouseMove += new MouseEventHandler(previewCanvas_MouseMove);
             previewCanvas.MouseLeftButtonUp += new MouseButtonEventHandler(previewCanvas_MouseLeftButtonUp);
             previewCanvas.MouseLeave += new MouseEventHandler(previewCanvas_MouseLeave);
-            this.layer = layer;
+            cloneLayer = layer;
             previewCanvas.Width = GlobalState.canvSize.Width;
             previewCanvas.Height = GlobalState.canvSize.Height;
             this.Width = GlobalState.canvSize.Width + 250;
             this.Height = GlobalState.canvSize.Height + 50;
+            canvasDrawer = new CanvasDrawer(previewCanvas);
 
-            if (layer is VectorLayer) {
-                ((VectorLayer)layer).Picture.Draw(previewCanvas);
-            }
-            //TODO: РАСТР...
+            cloneLayer.Draw(canvasDrawer);
         }
 
         private void previewCanvas_MouseLeftButtonDown(object sender, MouseEventArgs e) {
             prevPoint = Mouse.GetPosition(previewCanvas);
             switch (clickState) {
                 case State.Translation:
-                    GlobalState.PressLeftButton = true;                   
+                    GlobalState.PressLeftButton = true;
                     previewCanvas_MouseMove(sender, e);
                     break;
                 case State.RotateCenter:
@@ -84,16 +85,16 @@ namespace DrawMoar {
 
         void TranslatingRedrawing(MouseEventArgs e) {
             point = e.GetPosition(previewCanvas);
-            GlobalState.CurrentLayer.Item1.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
+            translation.X += point.X - prevPoint.X;
+            translation.Y += point.Y - prevPoint.Y;
+            TranslateVector.Text = $"( {(int)(translation.X)} ; {(int)(translation.Y)} )";
+            cloneLayer.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
             Refresh();
         }
 
         private void Refresh() {
             previewCanvas.Children.Clear();
-                if (layer is VectorLayer) {
-                    ((VectorLayer)layer).Picture.Draw(previewCanvas);
-                }
-                else ((RasterLayer)layer).Print(previewCanvas);
+            cloneLayer.Draw(canvasDrawer);
         }
 
 
@@ -137,10 +138,10 @@ namespace DrawMoar {
         }
 
         private void ApplyTranslation(int totalTime) {
-            Point translateVector = new Point();         
+            Point translateVector = new Point();
             string[] coords = TranslateVector.Text.Split(new char[] { ';', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             translateVector.X = double.Parse(coords[0]) / (totalTime * 25);
-            translateVector.Y = double.Parse(coords[1]) / (totalTime * 25);           
+            translateVector.Y = double.Parse(coords[1]) / (totalTime * 25);
             transList.Add(new TranslateTransformation(translateVector));
         }
 

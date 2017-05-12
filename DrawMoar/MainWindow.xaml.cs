@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using DrawMoar.Shapes;
 using DrawMoar.BaseElements;
 using System.Linq;
+using DrawMoar.Drawing;
 
 namespace DrawMoar {
     /// <summary>
@@ -23,7 +24,7 @@ namespace DrawMoar {
         Point point;
         DrawMoar.Shapes.Ellipse newEllipse;
         DrawMoar.Shapes.Rectangle newRect;
-        Point translation;
+        IDrawer canvasDrawer;
         GenerationDialog generationWin;
 
         public MainWindow() {
@@ -37,6 +38,7 @@ namespace DrawMoar {
             GlobalState.CurrentTool = Instrument.Arrow;
             GlobalState.Color = Brushes.Black;
             GlobalState.BrushSize = new Size(5, 5);
+            canvasDrawer = new CanvasDrawer(canvas);
         }
 
         private void CreateCartoon(object sender, RoutedEventArgs e) {
@@ -67,7 +69,7 @@ namespace DrawMoar {
         }
 
 
-        private void ExportToMP4(object sender, RoutedEventArgs e) {        
+        private void ExportToMP4(object sender, RoutedEventArgs e) {
         }
 
         private void AddRasterLayer_Click(object sender, RoutedEventArgs e) {
@@ -75,8 +77,7 @@ namespace DrawMoar {
                 return;
             }
             //проверка на то, выделен ли какой-либо кадр(когда реализуем удаление)
-            if (sender != null)
-            {
+            if (sender != null) {
                 GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new RasterLayer(), new List<Transformation>(), 0));
             }
             GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
@@ -119,7 +120,7 @@ namespace DrawMoar {
         private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (framesList.SelectedIndex != -1) {
                 if (GlobalState.CurrentFrame.layers.Count > 0)
-                GlobalState.CurrentFrame = GlobalState.CurrentScene.frames[framesList.SelectedIndex];
+                    GlobalState.CurrentFrame = GlobalState.CurrentScene.frames[framesList.SelectedIndex];
                 GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
             }
             layersList.Items.Clear();
@@ -127,14 +128,14 @@ namespace DrawMoar {
             var lays = GlobalState.CurrentFrame.layers;
             foreach (var item in lays) {
                 AddListBoxElement(layersList, item.Item1.Name);
-                item.Item1.Print(canvas);
+                item.Item1.Draw(canvasDrawer);
                 layersList.SelectedIndex = 0;
             }
         }
 
         private void scenesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             framesList.Items.Clear();
-            if(scenesList.SelectedIndex!=-1)
+            if (scenesList.SelectedIndex != -1)
                 GlobalState.CurrentScene = cartoon.scenes[scenesList.SelectedIndex];
             var frames = GlobalState.CurrentScene.frames;
             foreach (var item in frames) {
@@ -187,7 +188,7 @@ namespace DrawMoar {
 
 
         private void AddListBoxElement(ListBox lBox, string content) {
-            var lbl = new Label();          
+            var lbl = new Label();
             lbl.Content = content;
             lBox.Items.Add(lbl);
             lBox.SelectedIndex = lBox.Items.Count - 1;
@@ -205,17 +206,17 @@ namespace DrawMoar {
                     break;
                 case Instrument.Rectangle:
                     newRect = new Rectangle(prevPoint, new Size(15, 10));
-                    newRect.Draw(canvas);
+                    newRect.Draw(canvasDrawer);
                     SaveIntoLayer(currentLayer, newRect);
                     break;
                 case Instrument.Ellipse:
                     newEllipse = new Ellipse(prevPoint, new Size(15, 10));
-                    newEllipse.Draw(canvas);
+                    newEllipse.Draw(canvasDrawer);
                     SaveIntoLayer(currentLayer, newEllipse);
                     break;
                 case Instrument.Line:
                     newLine = new Line(prevPoint, prevPoint);
-                    newLine.Draw(canvas);
+                    newLine.Draw(canvasDrawer);
                     SaveIntoLayer(currentLayer, newLine);
                     break;
             }
@@ -233,8 +234,8 @@ namespace DrawMoar {
                     break;
                 case Instrument.Brush:
                     newLine = new Line(prevPoint, point);
-                    newLine.Draw(canvas);
-                    SaveIntoLayer(currentLayer, newLine);                   
+                    newLine.Draw(canvasDrawer);
+                    SaveIntoLayer(currentLayer, newLine);
                     prevPoint = point;
                     break;
                 case Instrument.Rectangle:
@@ -260,14 +261,13 @@ namespace DrawMoar {
                 if (shape is Line) shape = new Line(prevPoint, point);
                 else if (shape is Ellipse) shape = new Ellipse(prevPoint, new Size(15 + shiftX, 10 + shiftY));
                 else if (shape is Rectangle) shape = new Rectangle(prevPoint, new Size(15 + shiftX, 10 + shiftY));
-                shape.Draw(canvas);
-
+                shape.Draw(canvasDrawer);
                 if (layer.Item1 is VectorLayer) {
                     var shapes = ((VectorLayer)layer.Item1).Picture.shapes;
                     shapes.RemoveAt(shapes.Count - 1);
                     SaveIntoLayer(layer.Item1, shape);
                 }
-                else ((RasterLayer)layer.Item1).Save(canvas);
+                //else ((RasterLayer)layer.Item1).Save(canvas);
             }
         }
 
@@ -309,12 +309,11 @@ namespace DrawMoar {
             fileDialog.ShowDialog();
             string fileName = fileDialog.FileName;
             if (fileName == "") System.Windows.MessageBox.Show("You haven't chosen the file");
-            else
-            {
+            else {
                 GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new RasterLayer(), new List<Transformation>(), 0));
                 GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
                 ((RasterLayer)GlobalState.CurrentFrame.layers.Last().Item1).Picture.Image = System.Drawing.Image.FromFile(fileName);
-                ((RasterLayer)GlobalState.CurrentFrame.layers.Last().Item1).Print(canvas);
+                GlobalState.CurrentFrame.layers.Last().Item1.Draw(canvasDrawer);
                 AddRasterLayer_Click(null, null);
             }
         }
@@ -335,7 +334,7 @@ namespace DrawMoar {
             try {
                 DrawMoar.IO.ExportToVideo.SaveToVideo(cartoon, "mp4");
             }
-            catch(Exception ex) {
+            catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }
         }
@@ -348,7 +347,7 @@ namespace DrawMoar {
                 MessageBox.Show(ex.Message);
             }
         }
-     
+
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e) {
             var color = new DrawMoar.BaseElements.Color(ClrPcker_Background.SelectedColor.Value);
             GlobalState.Color = color.ToBrush();
@@ -365,7 +364,7 @@ namespace DrawMoar {
                 AddListBoxElement(framesList, GlobalState.CurrentFrame.Name);
             }
             framesList.SelectedIndex = index > 0 ? index - 1 : 0;
-            GlobalState.CurrentFrame =  index > 0 ? frames[index - 1] : frames[0];
+            GlobalState.CurrentFrame = index > 0 ? frames[index - 1] : frames[0];
             GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers[0];
             Refresh();
         }
@@ -385,7 +384,7 @@ namespace DrawMoar {
             GlobalState.CurrentLayer = index > 0 ? layers[index - 1] : layers[0];
             Refresh();
         }
-        
+
         //кнопку запилю с ПК, когда пофикшу штуку с гитом, что скидывал в конфу
         private void DeleteScene_Click(object sender, RoutedEventArgs e) {  //вероятно, возможно вынести по классам и часть вызывать оттуда
             if (cartoon == null) return;
@@ -407,10 +406,7 @@ namespace DrawMoar {
             canvas.Children.Clear();
             var layers = GlobalState.CurrentFrame.layers;
             foreach (var item in layers) {
-                if (item.Item1 is VectorLayer) {
-                    ((VectorLayer)item.Item1).Picture.Draw(canvas);
-                }
-                else ((RasterLayer)item.Item1).Print(canvas);
+                item.Item1.Draw(canvasDrawer);
             }
         }
 
@@ -431,7 +427,7 @@ namespace DrawMoar {
         }
 
         private void AFT_Click(object sender, RoutedEventArgs e) {
-            
+
         }
     }
 }
