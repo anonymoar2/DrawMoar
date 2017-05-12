@@ -52,10 +52,10 @@ namespace DrawMoar
                         try
                         {
                             var cartoon = new Cartoon(cartoonName, cartoonWidth, cartoonHeight, workingDirectory);
-                            GlobalState.CurrentScene = cartoon.scenes[0];
-                            GlobalState.WorkingDirectory = workingDirectory;
-                            GlobalState.Width = cartoonWidth;
-                            GlobalState.Height = cartoonHeight;
+                            Cartoon.CurrentScene = cartoon.scenes[0];
+                            Cartoon.WorkingDirectory = workingDirectory;
+                            Cartoon.Width = cartoonWidth;
+                            Cartoon.Height = cartoonHeight;
                             MainWindow mw = (MainWindow)Owner;
                             mw.Success(cartoon);
                             Hide();

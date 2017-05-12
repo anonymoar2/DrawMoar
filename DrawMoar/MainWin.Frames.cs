@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DrawMoar.BaseElements;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,24 +15,24 @@ namespace DrawMoar {
                 return;
             }
             if (sender != null) {
-                GlobalState.CurrentScene.frames.Add(new BaseElements.Frame());
-                GlobalState.CurrentFrame = GlobalState.CurrentScene.frames.Last();
-                GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
-                var frames = GlobalState.CurrentScene.frames;
-                AddListBoxElement(framesList, GlobalState.CurrentFrame.Name);
+                Cartoon.CurrentScene.frames.Add(new BaseElements.Frame());
+                Cartoon.CurrentFrame = Cartoon.CurrentScene.frames.Last();
+                Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers.Last();
+                var frames = Cartoon.CurrentScene.frames;
+                AddListBoxElement(framesList, Cartoon.CurrentFrame.Name);
             }
         }
 
 
         private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (framesList.SelectedIndex != -1) {
-                if (GlobalState.CurrentFrame.layers.Count > 0)
-                    GlobalState.CurrentFrame = GlobalState.CurrentScene.frames[framesList.SelectedIndex];
-                GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
+                if (Cartoon.CurrentFrame.layers.Count > 0)
+                    Cartoon.CurrentFrame = Cartoon.CurrentScene.frames[framesList.SelectedIndex];
+                Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers.Last();
             }
             layersList.Items.Clear();
             canvas.Children.Clear();
-            var lays = GlobalState.CurrentFrame.layers;
+            var lays = Cartoon.CurrentFrame.layers;
             foreach (var item in lays) {
                 AddListBoxElement(layersList, item.Item1.Name);
                 item.Item1.Draw(canvasDrawer);
@@ -43,15 +44,15 @@ namespace DrawMoar {
             if (cartoon == null) return;
             int index = framesList.SelectedIndex;
             framesList.Items.RemoveAt(index);
-            var frames = GlobalState.CurrentScene.frames;
+            var frames = Cartoon.CurrentScene.frames;
             frames.RemoveAt(index);
             if (frames.Count == 0) {
                 frames.Add(new BaseElements.Frame());
-                AddListBoxElement(framesList, GlobalState.CurrentFrame.Name);
+                AddListBoxElement(framesList, Cartoon.CurrentFrame.Name);
             }
             framesList.SelectedIndex = index > 0 ? index - 1 : 0;
-            GlobalState.CurrentFrame = index > 0 ? frames[index - 1] : frames[0];
-            GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers[0];
+            Cartoon.CurrentFrame = index > 0 ? frames[index - 1] : frames[0];
+            Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers[0];
             Refresh();
         }
     }

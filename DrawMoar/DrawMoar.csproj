@@ -101,7 +101,6 @@
     <Compile Include="GenerationDialog.xaml.cs">
       <DependentUpon>GenerationDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GlobalState.cs" />
     <Compile Include="ILayer.cs" />
     <Compile Include="Instrument.cs" />
     <Compile Include="Drawing\ffmpeg\ImportImage.cs" />

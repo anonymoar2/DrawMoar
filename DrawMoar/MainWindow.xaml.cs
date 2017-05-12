@@ -21,7 +21,7 @@ namespace DrawMoar
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Cartoon cartoon;
+        Cartoon cartoon;
 
         Point prevPoint;
         DrawMoar.Shapes.Line newLine;
@@ -30,7 +30,8 @@ namespace DrawMoar
         DrawMoar.Shapes.Rectangle newRect;
         IDrawer canvasDrawer;
         GenerationDialog generationWin;
-
+        event EventHandler ChangeInstrument;
+        bool PressLeftButton;       
 
         public MainWindow() {
             InitializeComponent();
@@ -39,13 +40,42 @@ namespace DrawMoar
             canvas.PreviewMouseMove += new MouseEventHandler(canvas_MouseMove);
             canvas.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(canvas_MouseLeftButtonUp);
             canvas.MouseLeave += new MouseEventHandler(canvas_MouseLeave);
-            GlobalState.ChangeInstrument += SetCursorStyle;
-            GlobalState.CurrentTool = Instrument.Arrow;
-            GlobalState.Color = Brushes.Black;
-            GlobalState.BrushSize = new Size(5, 5);
+            ChangeInstrument += SetCursorStyle;
+            CurrentTool = Instrument.Arrow;
+            Color = Brushes.Black;
+            BrushSize = new Size(5, 5);
             canvasDrawer = new CanvasDrawer(canvas);
         }
 
+
+        private static Brush _color = Brushes.Red;
+        public static Brush Color {
+            get {
+                return _color;
+            }
+            set {
+                _color = value;
+            }
+        }
+
+        private Instrument _currentTool = Instrument.Arrow;
+        public Instrument CurrentTool {
+            get {
+                return _currentTool;
+            }
+            set {
+                _currentTool = value;
+                ChangeInstrument(value, null);
+            }
+        }
+
+        private static Size _brushSize;
+        public static Size BrushSize {
+            get { return _brushSize; }
+            set { _brushSize = value; }
+        }
+
+        public static Size canvSize { get; set; }
 
         private void CreateCartoon(object sender, RoutedEventArgs e) {
             var newCartoonDialog = new CreateCartoonDialog();
@@ -63,11 +93,11 @@ namespace DrawMoar
         /// <param name="cartoon"></param>
         public void Success(Cartoon cartoon) {
             canvas.Visibility = Visibility.Visible;
-            canvas.Width = cartoon.Width;
-            canvas.Height = cartoon.Height;
+            canvas.Width = Cartoon.Width;
+            canvas.Height = Cartoon.Height;
             this.cartoon = cartoon;
             this.Activate();
-            GlobalState.canvSize = new Size(canvas.Width, canvas.Height);
+            MainWindow.canvSize = new Size(canvas.Width, canvas.Height);
             Height = canvas.Height;
             Width = canvas.Width + 260;        //пока что так (ширина двух крайних колонок грида)
             AddScene_Click(null, null);
@@ -86,7 +116,7 @@ namespace DrawMoar
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void SetCursorStyle(Object sender, EventArgs e) {
-            switch (GlobalState.CurrentTool) {
+            switch (CurrentTool) {
                 case Instrument.Brush:
                     canvas.Cursor = Cursors.Cross;
                     break;
@@ -112,10 +142,10 @@ namespace DrawMoar
             string fileName = fileDialog.FileName;
             if (fileName == "") System.Windows.MessageBox.Show("You haven't chosen the file");
             else {
-                GlobalState.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new RasterLayer(), new List<Transformation>(), 0));
-                GlobalState.CurrentLayer = GlobalState.CurrentFrame.layers.Last();
-                ((RasterLayer)GlobalState.CurrentFrame.layers.Last().Item1).Picture.Image = System.Drawing.Image.FromFile(fileName);
-                GlobalState.CurrentFrame.layers.Last().Item1.Draw(canvasDrawer);
+                Cartoon.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new RasterLayer(), new List<Transformation>(), 0));
+                Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers.Last();
+                ((RasterLayer)Cartoon.CurrentFrame.layers.Last().Item1).Picture.Image = System.Drawing.Image.FromFile(fileName);
+                Cartoon.CurrentFrame.layers.Last().Item1.Draw(canvasDrawer);
                 AddRasterLayer_Click(null, null);
             }
         }
@@ -148,13 +178,13 @@ namespace DrawMoar
 
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e) {
             var color = new DrawMoar.BaseElements.Color(ClrPcker_Background.SelectedColor.Value);
-            GlobalState.Color = color.ToBrush();
+            Color = color.ToBrush();
         }
 
 
         private void Refresh() {
             canvas.Children.Clear();
-            var layers = GlobalState.CurrentFrame.layers;
+            var layers = Cartoon.CurrentFrame.layers;
             foreach (var item in layers) {
                 item.Item1.Draw(canvasDrawer);
             }
@@ -173,5 +203,6 @@ namespace DrawMoar
         private void MenuItem_Click(object sender, RoutedEventArgs e) {
 
         }
+
     }
 }

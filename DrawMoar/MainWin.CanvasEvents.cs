@@ -13,11 +13,11 @@ namespace DrawMoar {
     public partial class MainWindow : Window {
 
         void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
-            GlobalState.PressLeftButton = true;
-            GlobalState.BrushSize = new Size(slider.Value, slider.Value);
-            var currentLayer = GlobalState.CurrentLayer.Item1;
+            PressLeftButton = true;
+            BrushSize = new Size(slider.Value, slider.Value);
+            var currentLayer = Cartoon.CurrentLayer.Item1;
             prevPoint = Mouse.GetPosition(canvas);
-            switch (GlobalState.CurrentTool) {
+            switch (CurrentTool) {
                 case Instrument.Arrow:
                     break;
                 case Instrument.Brush:
@@ -46,9 +46,9 @@ namespace DrawMoar {
 
         void canvas_MouseMove(object sender, MouseEventArgs e) {
             point = (Point)e.GetPosition(canvas);
-            var currentLayer = GlobalState.CurrentLayer.Item1;
-            if (!GlobalState.PressLeftButton) return;
-            switch (GlobalState.CurrentTool) {
+            var currentLayer = Cartoon.CurrentLayer.Item1;
+            if (!PressLeftButton) return;
+            switch (CurrentTool) {
                 case Instrument.Arrow:
                     TranslatingRedrawing(e);
                     prevPoint = point;
@@ -83,7 +83,7 @@ namespace DrawMoar {
 
         void ScaleRedrawing(IShape shape, MouseEventArgs e) {
             if (shape != null & e.LeftButton == MouseButtonState.Pressed) {
-                var layer = GlobalState.CurrentLayer;
+                var layer = Cartoon.CurrentLayer;
                 var shiftX = point.X - prevPoint.X;
                 var shiftY = point.Y - prevPoint.Y;
                 if (((shiftX <= 0) || (shiftY <= 0)) && (!(shape is Line))) return;   //пока из-за "плохих" шифтов так; уберу, когда сделаю зеркалирование
@@ -105,18 +105,18 @@ namespace DrawMoar {
 
         void TranslatingRedrawing(MouseEventArgs e) {
             point = e.GetPosition(canvas);
-            GlobalState.CurrentLayer.Item1.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
+            Cartoon.CurrentLayer.Item1.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
             Refresh();
         }
 
 
 
         void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
-            GlobalState.PressLeftButton = false;
+            PressLeftButton = false;
         }
 
         void canvas_MouseLeave(object sender, MouseEventArgs e) {
-            GlobalState.PressLeftButton = false;
+            PressLeftButton = false;
         }
     }
 }

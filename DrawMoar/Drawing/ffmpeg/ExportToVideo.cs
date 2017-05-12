@@ -14,11 +14,11 @@ namespace DrawMoar.ffmpeg
             if (outFileFormat != "mp4" && outFileFormat != "avi") {
                 throw new ArgumentException("Недопустимый формат файла");
             }
-            string pathToImages = Path.Combine(cartoon.WorkingDirectory, "Images");
+            string pathToImages = Path.Combine(Cartoon.WorkingDirectory, "Images");
             Directory.CreateDirectory(pathToImages);
             var concatFilename = CreateTemporaryFiles(cartoon, pathToImages);
             int count = 0;
-            if(File.Exists(Path.Combine(cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}"))){
+            if(File.Exists(Path.Combine(Cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}"))){
                 count++;
             }
             Process process = new Process();
@@ -37,9 +37,9 @@ namespace DrawMoar.ffmpeg
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
-            File.Move(Path.Combine(pathToImages, $"silentOut{count}.{outFileFormat}"), Path.Combine(cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}"));
+            File.Move(Path.Combine(pathToImages, $"silentOut{count}.{outFileFormat}"), Path.Combine(Cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}"));
             if (File.Exists(pathToMusic) && outFileFormat == "avi") {
-                AddMusic(pathToMusic, $"silentOut{count}.avi", cartoon.WorkingDirectory, count);
+                AddMusic(pathToMusic, $"silentOut{count}.avi", Cartoon.WorkingDirectory, count);
             }
             // проверка если музыка добавлена и существует то вызов метода с видео и с музыкой
             // видео без музыки и куда хотят видео с музыкой musicOut
