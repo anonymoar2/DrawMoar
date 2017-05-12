@@ -93,15 +93,15 @@
       <DependentUpon>CreateCartoonDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="BaseElements\Frame.cs" />
-    <Compile Include="IO\ExportToImage.cs" />
-    <Compile Include="IO\ExportToVideo.cs" />
+    <Compile Include="ffmpeg\ExportToImage.cs" />
+    <Compile Include="ffmpeg\ExportToVideo.cs" />
     <Compile Include="GenerationDialog.xaml.cs">
       <DependentUpon>GenerationDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="GlobalState.cs" />
     <Compile Include="ILayer.cs" />
     <Compile Include="Instrument.cs" />
-    <Compile Include="IO\ImportImage.cs" />
+    <Compile Include="ffmpeg\ImportImage.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>

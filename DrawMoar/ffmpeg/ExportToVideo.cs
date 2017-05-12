@@ -18,7 +18,7 @@ namespace DrawMoar.IO
             Directory.CreateDirectory(pathToImages);
             var concatFilename = CreateTemporaryFiles(cartoon, pathToImages);
             int count = 0;
-            if(File.Exists(Path.Combine(cartoon.WorkingDirectory, $"out{count}.{outFileFormat}"))){
+            if(File.Exists(Path.Combine(cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}"))){
                 count++;
             }
             Process process = new Process();
@@ -37,7 +37,10 @@ namespace DrawMoar.IO
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
-            File.Move(Path.Combine(pathToImages, $"out{count}.{outFileFormat}"), Path.Combine(cartoon.WorkingDirectory, $"out{count}.{outFileFormat}"));
+            File.Move(Path.Combine(pathToImages, $"silentOut{count}.{outFileFormat}"), Path.Combine(cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}"));
+            // проверка если музыка добавлена и существует то вызов метода с видео и с музыкой
+            // видео без музыки и куда хотят видео с музыкой musicOut
+            // делать видео с названием мультика TODO
         }
 
 
@@ -64,6 +67,10 @@ namespace DrawMoar.IO
 
         private static void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine) {
             Console.WriteLine(outLine.Data);
+        }
+
+        private static void AddMusic(string pathToMusic, string pahtToCartoon, string pathToResult) {
+            
         }
     }
 }
