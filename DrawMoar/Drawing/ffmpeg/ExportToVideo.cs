@@ -41,9 +41,6 @@ namespace DrawMoar.ffmpeg
             if (File.Exists(pathToMusic) && outFileFormat == "avi") {
                 AddMusic(pathToMusic, $"silentOut{count}.avi", cartoon.WorkingDirectory, count);
             }
-            // проверка если музыка добавлена и существует то вызов метода с видео и с музыкой
-            // видео без музыки и куда хотят видео с музыкой musicOut
-            // делать видео с названием мультика TODO
         }
 
 
