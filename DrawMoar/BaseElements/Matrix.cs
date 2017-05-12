@@ -5,10 +5,10 @@ namespace DrawMoar.BaseElements
 {
     public class Matrix<T>
     {
-        private T[,] matrix;
-
         public int Rows { get; }
         public int Columns { get; }
+
+        private T[,] matrix;
 
 
         public Matrix(int row, int column) {

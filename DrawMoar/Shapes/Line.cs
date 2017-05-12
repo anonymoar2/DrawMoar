@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using DrawMoar.BaseElements;
 using DrawMoar.Drawing;
 
+
 namespace DrawMoar.Shapes
 {
     public class Line : IShape
@@ -21,9 +22,12 @@ namespace DrawMoar.Shapes
 
 
         public Line(System.Windows.Point pointOne, System.Windows.Point pointTwo) {
-            this.PointOne = pointOne;
-            this.PointTwo = pointTwo;
-            this.Center = new System.Windows.Point(Math.Abs(PointOne.X - PointTwo.X) / 2, Math.Abs(PointOne.Y - PointTwo.Y) / 2);
+            PointOne = pointOne;
+            PointTwo = pointTwo;
+            Center = new System.Windows.Point(
+                Math.Abs(PointOne.X - PointTwo.X) / 2, 
+                Math.Abs(PointOne.Y - PointTwo.Y) / 2
+            );
             Thickness = GlobalState.BrushSize.Width;
             Color = new BaseElements.Color(GlobalState.Color);
         }

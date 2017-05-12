@@ -25,7 +25,9 @@ namespace DrawMoar.BaseElements
         }
 
 
-        public override void Decompose(out System.Windows.Point translation, out System.Windows.Point scale, out double rotation) {
+        public override void Decompose(out System.Windows.Point translation, 
+                                       out System.Windows.Point scale, 
+                                       out double rotation) {
             translation = new System.Windows.Point(Transform[0, 2], Transform[1, 2]);
             rotation = (Math.Atan2(Transform[1, 0], Transform[1, 1]) / (Math.PI / 180));
             var xScale = Transform[0, 0] / Math.Cos(rotation * (Math.PI / 180));

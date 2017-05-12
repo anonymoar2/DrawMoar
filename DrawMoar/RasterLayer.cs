@@ -12,6 +12,7 @@ using DrawMoar.Shapes;
 using DrawMoar.BaseElements;
 using DrawMoar.Drawing;
 
+
 namespace DrawMoar {
     public class RasterLayer : ILayer {
 
@@ -33,6 +34,7 @@ namespace DrawMoar {
                 }
             }
         }
+
 
         public System.Windows.Point Position {
             get {
@@ -73,22 +75,6 @@ namespace DrawMoar {
         }
 
 
-        private void DrawRasterLayerImage(RasterLayerControl rlc) {     
-            var bmp = this.Picture.Image;  
-            using (var ms = new MemoryStream()) {
-                bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                ms.Position = 0;
-
-                var bi = new BitmapImage();
-                bi.BeginInit();
-                bi.CacheOption = BitmapCacheOption.OnLoad;
-                bi.StreamSource = ms;
-                bi.EndInit();
-                rlc.Image.Source = bi;
-            }
-        }
-
-
         public void Transform(Transformation transformation) {
             Picture = transformation.Apply(Picture);
         }
@@ -96,9 +82,14 @@ namespace DrawMoar {
 
         public void Save(Canvas canvas) {
             RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
-            (int)canvas.Width, (int)canvas.Height,
-            96d, 96d, PixelFormats.Pbgra32);
-            if(Picture.Image !=null)Picture.Image.Dispose();
+                (int)canvas.Width, (int)canvas.Height,
+                96d, 96d,
+                PixelFormats.Pbgra32
+            );
+
+            if (Picture.Image != null) {
+                Picture.Image.Dispose();
+            }
             canvas.Measure(new System.Windows.Size((int)canvas.Width, (int)canvas.Height));
             canvas.Arrange(new Rect(new System.Windows.Size((int)canvas.Width, (int)canvas.Height)));
 
@@ -106,11 +97,14 @@ namespace DrawMoar {
 
             PngBitmapEncoder encoder = new PngBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
-            using (Stream stm = File.Create(Path.Combine(GlobalState.WorkingDirectory, $"{GlobalState.CurrentScene.Name}_{GlobalState.CurrentFrame.Name}_{Name}.png"))) {
+            var filename = Path.Combine(
+                GlobalState.WorkingDirectory, 
+                $"{GlobalState.CurrentScene.Name}_{GlobalState.CurrentFrame.Name}_{Name}.png"
+            );
+            using (Stream stm = File.Create(filename)) {
                 encoder.Save(stm);
             }
-
-            Picture.Image = System.Drawing.Image.FromFile(Path.Combine(GlobalState.WorkingDirectory, $"{GlobalState.CurrentScene.Name}_{GlobalState.CurrentFrame.Name}_{Name}.png"));
+            Picture.Image = System.Drawing.Image.FromFile(filename);
         }
 
 
@@ -156,12 +150,32 @@ namespace DrawMoar {
 
 
         public object Clone() {
-            var buf = new RasterLayer();
-            buf.Visible = Visible;
-            buf.Picture = (Picture)Picture.Clone();
-            buf.Name = Name;
-            buf.Position = Position;
+            var buf = new RasterLayer()
+            {
+                Visible = Visible,
+                Picture = (Picture)Picture.Clone(),
+                Name = Name,
+                Position = Position
+            };
             return buf;
+        }
+
+
+        private void DrawRasterLayerImage(RasterLayerControl rlc)
+        {
+            var bmp = Picture.Image;
+            using (var ms = new MemoryStream())
+            {
+                bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                ms.Position = 0;
+
+                var bi = new BitmapImage();
+                bi.BeginInit();
+                bi.CacheOption = BitmapCacheOption.OnLoad;
+                bi.StreamSource = ms;
+                bi.EndInit();
+                rlc.Image.Source = bi;
+            }
         }
     }
 }

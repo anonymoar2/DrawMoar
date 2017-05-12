@@ -1,11 +1,11 @@
 ﻿using System;
 
 using System.Drawing;
-using System.Windows.Controls;
 
 using DrawMoar.Shapes;
 using DrawMoar.BaseElements;
 using DrawMoar.Drawing;
+
 
 namespace DrawMoar
 {
@@ -46,13 +46,16 @@ namespace DrawMoar
             Picture.Draw(drawer);          
         }
 
+
         public void Transform(Transformation transformation) {
             Picture.Transform(transformation);
         }
 
+
         public void AddShape(IShape shape) {
             Picture.shapes.Add(shape);
         }
+
 
         public RasterLayer ToRasterLayer() {
             var newLayer = new RasterLayer();
@@ -61,35 +64,40 @@ namespace DrawMoar
             return newLayer;
         }
 
+
         public bool ThumbnailCallback() {
             return false;
         }
 
-        public System.Drawing.Image Miniature(int width, int height) {
+
+        public Image Miniature(int width, int height) {
             var rasterLayer = ToRasterLayer();
-            System.Drawing.Image.GetThumbnailImageAbort myCallback = new System.Drawing.Image.GetThumbnailImageAbort(ThumbnailCallback);
+            Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(ThumbnailCallback);
             var newImage = rasterLayer.Picture.Image.GetThumbnailImage(width, height, myCallback, IntPtr.Zero);
             return newImage;
         }
 
-        public System.Drawing.Bitmap GetImage(double width, double height) {
-            Bitmap b = new Bitmap((int)width, (int)height);
-            var g = Graphics.FromImage(b);
+
+        public Bitmap GetImage(double width, double height) {
+            Bitmap bitmap = new Bitmap((int)width, (int)height);
+            var graphics = Graphics.FromImage(bitmap);
             
-            foreach (var sh in Picture.shapes) {
-                sh.Draw(new GraphicsDrawer(g));
+            foreach (var shape in Picture.shapes) {
+                shape.Draw(new GraphicsDrawer(graphics));
             }           
-            return b;
+            return bitmap;
         }
+
 
         public object Clone()
         {
-            var buf = new VectorLayer();
-            buf.Visible = Visible;
-            buf.Picture = (CompoundShape)Picture.Clone();
-            buf.Name = Name;
-            buf.Position = Position;
-
+            var buf = new VectorLayer()
+            {
+                Visible = Visible,
+                Picture = (CompoundShape)Picture.Clone(),
+                Name = Name,
+                Position = Position
+            };
             return buf;
         }
     }

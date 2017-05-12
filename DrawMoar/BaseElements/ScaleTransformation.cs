@@ -7,10 +7,8 @@ namespace DrawMoar.BaseElements
 {
     class ScaleTransformation : Transformation
     {
+        private double scaleFactor = 1;
         private Matrix<double> Transform;
-
-        double scaleFactor = 1;
-
 
         public ScaleTransformation(System.Windows.Point point, double scaleFactor) {
             this.scaleFactor = scaleFactor;

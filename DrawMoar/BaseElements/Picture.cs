@@ -1,7 +1,7 @@
-﻿using DrawMoar.Drawing;
-using System;
+﻿using System;
 
 using System.Drawing;
+using DrawMoar.Drawing;
 
 
 namespace DrawMoar.BaseElements
@@ -9,7 +9,6 @@ namespace DrawMoar.BaseElements
     public class Picture : ICloneable
     {
         public System.Windows.Point Position { get; set; }
-
         public Image Image { get; set; }
 
 

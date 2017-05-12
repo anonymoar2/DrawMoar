@@ -6,6 +6,7 @@ using System.Windows.Media;
 using DrawMoar.BaseElements;
 using System.Collections.Generic;
 
+
 namespace DrawMoar
 {
     /// <summary>
@@ -30,34 +31,32 @@ namespace DrawMoar
 
         public static Size canvSize { get; set; }
 
-        private static Brush _color = Brushes.Red;
+        private static Brush color = Brushes.Red;
         public static Brush Color {
             get {
-                return _color;
+                return color;
             }
             set {
-                _color = value;
+                color = value;
             }
         }
 
-        private static Instrument _currentTool = Instrument.Arrow;
+        private static Instrument currentTool = Instrument.Arrow;
         public static Instrument CurrentTool {
             get {
-                return _currentTool;
+                return currentTool;
             }
             set {
-                _currentTool = value;
+                currentTool = value;
                 ChangeInstrument(value, null);
             }
         }
 
-        private static Size _brushSize;
+        private static Size brushSize;
         public static Size BrushSize {
-            get { return _brushSize; }
-            set { _brushSize = value; }
+            get { return brushSize; }
+            set { brushSize = value; }
         }
-
     }
-
 }
 

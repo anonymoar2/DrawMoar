@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using NLog;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
@@ -14,35 +15,40 @@ namespace DrawMoar.BaseElements
         public string Name {
             get { return name; }
             private set {            
-                    name = value;               
+                name = value;               
             }
         }
 
         public List<Tuple<ILayer, List<Transformation>, int>> layers = new List<Tuple<ILayer, List<Transformation>, int>>();
 
+        private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
 
-        public Frame() {
-            name = $"Frame_{GlobalState.CurrentScene.frames.Count}";
-            layers.Add(new Tuple<ILayer, List<Transformation>, int>(new VectorLayer("Vector_Layer_0"), new List<Transformation>(), 0));
+
+        public Frame() : this($"Frame_{GlobalState.CurrentScene.frames.Count}") {
         }
 
 
         public Frame(string name) {
             this.name = name;
-            layers.Add(new Tuple<ILayer, List<Transformation>, int>(new VectorLayer("Vector_Layer_0"), new List<Transformation>(), 0));
+            layers.Add(new Tuple<ILayer, List<Transformation>, int>(
+                new VectorLayer("Vector_Layer_0"), 
+                new List<Transformation>(), 0
+            ));
+            logger.Debug($"Создан кадр {name}");
         }
         
         
-        public System.Drawing.Bitmap Join() {
-            var bm = new Bitmap(GlobalState.Width, GlobalState.Height, PixelFormat.Format32bppArgb);
-            Graphics g = Graphics.FromImage(bm);
-            g.CompositingMode = CompositingMode.SourceOver;
-            g.Clear(System.Drawing.Color.White);
-            foreach (var l in layers) {
-                l.Item1.Draw(new GraphicsDrawer(g));
+        public Bitmap Join() {
+            var bitmap = new Bitmap(GlobalState.Width, GlobalState.Height, PixelFormat.Format32bppArgb);
+            using (var graphics = Graphics.FromImage(bitmap)) {
+                graphics.CompositingMode = CompositingMode.SourceOver;
+                graphics.Clear(System.Drawing.Color.White);
+                foreach (var layer in layers)
+                {
+                    layer.Item1.Draw(new GraphicsDrawer(graphics));
+                }
             }
-            g.Dispose();
-            return bm;
+            return bitmap;
         }
 
 
@@ -52,7 +58,10 @@ namespace DrawMoar.BaseElements
 
             foreach(var layer in layers)
             {
-                buf.layers.Add(new Tuple<ILayer, List<Transformation>, int>((ILayer)(layer.Item1).Clone(), new List<Transformation>(), 0));
+                buf.layers.Add(new Tuple<ILayer, List<Transformation>, int>(
+                    (ILayer)(layer.Item1).Clone(), 
+                    new List<Transformation>(), 0)
+                );
             }
 
             return buf;

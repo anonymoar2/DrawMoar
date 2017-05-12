@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using DrawMoar.BaseElements;
 using DrawMoar.Drawing;
 
+
 namespace DrawMoar.Shapes
 {
     public class Ellipse : IShape
@@ -19,18 +20,18 @@ namespace DrawMoar.Shapes
 
         public string Alias { get; set; }
         public double Thickness { get; set; }
-        public DrawMoar.BaseElements.Color Color { get; set; }
+        public BaseElements.Color Color { get; set; }
 
 
         public Ellipse(System.Windows.Point center, System.Windows.Size size, double startAngle = 0,
-                                                double endAngle = 360, double rotate = 0) {
-            this.Center = center;
-            this.Size = size;
-            this.StartAngle = startAngle;
-            this.EndAngle = endAngle;
-            this.Rotate = rotate;
-            this.Thickness = GlobalState.BrushSize.Width;
-            this.Color = new DrawMoar.BaseElements.Color(GlobalState.Color);
+                       double endAngle = 360, double rotate = 0) {
+            Center = center;
+            Size = size;
+            StartAngle = startAngle;
+            EndAngle = endAngle;
+            Rotate = rotate;
+            Thickness = GlobalState.BrushSize.Width;
+            Color = new BaseElements.Color(GlobalState.Color);
         }
 
 
@@ -51,14 +52,14 @@ namespace DrawMoar.Shapes
         }
 
 
-
-
         public object Clone()
         {
-            var buf = new Ellipse(Center, Size, StartAngle, EndAngle, Rotate);
-            buf.Alias = Alias;
-            buf.Thickness = Thickness;
-            buf.Color = Color;
+            var buf = new Ellipse(Center, Size, StartAngle, EndAngle, Rotate)
+            {
+                Alias = Alias,
+                Thickness = Thickness,
+                Color = Color
+            };
             return buf;
         }
     }

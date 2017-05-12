@@ -8,11 +8,10 @@ namespace DrawMoar.BaseElements
 {
     class RotateTransformation : Transformation
     {
+        private double angle;
         private Matrix<double> Transform;
 
-        private double angle;
 
-            
         public RotateTransformation(System.Windows.Point point, double angle) {
             this.angle = angle;
             var one = new Matrix<double>(new double[3, 3] { { 1, 0, point.X }, { 0, 1, point.Y }, { 0, 0, 1 } });

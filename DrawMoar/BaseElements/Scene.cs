@@ -1,30 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
+
+using NLog;
 
 
 namespace DrawMoar.BaseElements
 {
     public class Scene
     {
+        public List<Frame> frames = new List<Frame>();
+
         private string name;
         public string Name {
             get { return name; }
             set { name = value; }                     
         }
 
-        public List<Frame> frames = new List<Frame>();
+        private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
 
 
-        public Scene() {
-            name = "newScene";
-            frames.Add(new Frame("Frame_0"));
+        public Scene() : this("newScene") {            
         }
 
 
         public Scene(string name) {
             this.name = name;
             frames.Add(new Frame("Frame_0"));
+            logger.Debug($"Создана сцена {name}");
         }
        
 
@@ -39,7 +42,10 @@ namespace DrawMoar.BaseElements
                             tmpLayer.Transform(trans);
                         }                   
                     }
-                    frames.Last().layers.Add(new Tuple<ILayer, List<Transformation>, int>((ILayer)tmpLayer.Clone(), new List<Transformation>(), 0));              
+                    frames.Last().layers.Add(new Tuple<ILayer, 
+                                             List<Transformation>, 
+                                             int>((ILayer)tmpLayer.Clone(), 
+                                             new List<Transformation>(), 0));              
                 }
                 frames.Last().layers.RemoveAt(0);
             }

@@ -1,8 +1,7 @@
-﻿using System.Windows.Controls;
-using System.Drawing;
-using System;
-using DrawMoar.BaseElements;
+﻿using System;
 using DrawMoar.Drawing;
+using DrawMoar.BaseElements;
+
 
 namespace DrawMoar.Shapes
 {
@@ -10,12 +9,12 @@ namespace DrawMoar.Shapes
     {
         string Alias { get; set; }
 
-        DrawMoar.BaseElements.Color Color { get; set; }
-
-        void Transform(Transformation trans);
-
         double Thickness { get; set; }
 
+        BaseElements.Color Color { get; set; }
+
         void Draw(IDrawer drawer);
+
+        void Transform(Transformation trans);
     }
 }

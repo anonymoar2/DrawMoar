@@ -1,17 +1,16 @@
-﻿using DrawMoar.BaseElements;
+﻿using System;
+
 using DrawMoar.Shapes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
+
 
 namespace DrawMoar.Drawing {
     public class CanvasDrawer : IDrawer {
 
-        Canvas canvas;
+        private Canvas canvas;
+
+
         public CanvasDrawer(Canvas canv) {
             canvas = canv;
         }
@@ -31,35 +30,41 @@ namespace DrawMoar.Drawing {
         }
 
         public void DrawEllipse(Ellipse el) {
-            var ellipse = new System.Windows.Shapes.Ellipse();
-            ellipse.Width = el.Size.Width;
-            ellipse.Height = el.Size.Height;
-            ellipse.Stroke = el.Color.ToBrush();
-            ellipse.IsEnabled = false;
-            ellipse.StrokeThickness = GlobalState.BrushSize.Width;
+            var ellipse = new System.Windows.Shapes.Ellipse()
+            {
+                Width = el.Size.Width,
+                Height = el.Size.Height,
+                Stroke = el.Color.ToBrush(),
+                IsEnabled = false,
+                StrokeThickness = GlobalState.BrushSize.Width
+            };
             Canvas.SetLeft(ellipse, el.Center.X - el.Size.Width / 2);
             Canvas.SetTop(ellipse, el.Center.Y - el.Size.Height / 2);
-            RotateTransform rotateTransform1 =
-                new RotateTransform(el.Rotate);
-            rotateTransform1.CenterX = el.Size.Width / 2;
-            rotateTransform1.CenterY = el.Size.Height / 2;
+            RotateTransform rotateTransform1 = new RotateTransform(el.Rotate)
+            {
+                CenterX = el.Size.Width / 2,
+                CenterY = el.Size.Height / 2
+            };
             ellipse.RenderTransform = rotateTransform1;
             canvas.Children.Add(ellipse);
         }
 
-        public void DrawRectangle(Shapes.Rectangle rect) {
-            var rectangle = new System.Windows.Shapes.Rectangle();
-            rectangle.Width = rect.Size.Width;
-            rectangle.Height = rect.Size.Height;
-            rectangle.Stroke = rect.Color.ToBrush();
-            rectangle.StrokeThickness = rect.Thickness;
-            rectangle.IsEnabled = false;
+        public void DrawRectangle(Rectangle rect) {
+            var rectangle = new System.Windows.Shapes.Rectangle()
+            {
+                Width = rect.Size.Width,
+                Height = rect.Size.Height,
+                Stroke = rect.Color.ToBrush(),
+                StrokeThickness = rect.Thickness,
+                IsEnabled = false
+            };
             Canvas.SetLeft(rectangle, rect.Center.X - rect.Size.Width / 2);
             Canvas.SetTop(rectangle, rect.Center.Y - rect.Size.Height / 2);
-            RotateTransform rotateTransform1 =
-                new RotateTransform(rect.Rotate);
-            rotateTransform1.CenterX = rect.Size.Width / 2;
-            rotateTransform1.CenterY = rect.Size.Height / 2;
+            RotateTransform rotateTransform1 = new RotateTransform(rect.Rotate)
+            {
+                CenterX = rect.Size.Width / 2,
+                CenterY = rect.Size.Height / 2
+            };
             rectangle.RenderTransform = rotateTransform1;
             canvas.Children.Add(rectangle);
         }
