@@ -1,47 +1,21 @@
 ﻿using System;
 
-using System.Text.RegularExpressions;
 using System.Drawing;
-
-using DrawMoar.BaseElements;
-using DrawMoar.Shapes;
-using System.Windows;
-using System.Collections.Generic;
 using System.Windows.Controls;
+
+using DrawMoar.Shapes;
+using DrawMoar.BaseElements;
+using DrawMoar.Drawing;
 
 namespace DrawMoar
 {
     public class VectorLayer : ILayer
     {
-        /// <summary>
-        /// true - видимый слой, false - невидимый
-        /// </summary>
         public bool Visible { get; set; }
 
-
-        /// <summary>
-        /// Совокупность всех наших фигур и есть пикча - содержимое слоя в общем
-        /// </summary>
         public CompoundShape Picture { get; set; }
 
-
-        /// <summary>
-        /// Название (имя) слоя
-        /// </summary>
-        private string name;
-        public string Name {
-            get { return name; }
-            set {
-                // TODO: Изменить регулярное выражение на более подходящее
-                if (Regex.IsMatch(value, @"[a-zA-Z0-9]+")) {
-                    name = value;
-                }
-                else {
-                    throw new ArgumentException("Название слоя должно состоять только " +
-                                                "из латинских букв и цифр.");
-                }
-            }
-        }
+        public string Name {get; set; }
 
 
         private System.Windows.Point position = new System.Windows.Point(0, 0);
@@ -54,68 +28,42 @@ namespace DrawMoar
             }
         }
 
-        public List<Text> Text { get; private set; }
-
-
         public VectorLayer() {
-            name = "newVectorLayer";
+            Name = "newVectorLayer";
             Visible = true;
             Picture = new CompoundShape();
-            Text = new List<Text>();
         }
 
 
         public VectorLayer(string name) {
-            this.name = name;
+            this.Name = name;
             Visible = true;
             Picture = new CompoundShape();
-            Text = new List<Text>();
         }
 
 
-        public void Draw(Graphics g) {
-            Picture.Draw(g);
-            foreach (var element in Text)
-            {
-                element.Draw(g);
-            }
+        public void Draw(IDrawer drawer) {
+            Picture.Draw(drawer);          
         }
-
-
-        /// <summary>
-        /// Тупо вывод на экране при переключении между слоями, но его не будет, если канвасы накладываем друг на друга
-        /// </summary>
-        /// <param name="bitmap"></param>
-        public void Print(Canvas canvas) {
-            foreach (var item in Picture.shapes) {
-                item.Draw(canvas);
-            }
-        }
-
 
         public void Transform(Transformation transformation) {
             Picture.Transform(transformation);
         }
 
-
         public void AddShape(IShape shape) {
             Picture.shapes.Add(shape);
-            // взм тут отрисовка на канвасе 
         }
-
 
         public RasterLayer ToRasterLayer() {
             var newLayer = new RasterLayer();
             var g = Graphics.FromImage(newLayer.Picture.Image);
-            Picture.Draw(g);
+            Picture.Draw(new GraphicsDrawer(g));
             return newLayer;
         }
-
 
         public bool ThumbnailCallback() {
             return false;
         }
-
 
         public System.Drawing.Image Miniature(int width, int height) {
             var rasterLayer = ToRasterLayer();
@@ -129,7 +77,7 @@ namespace DrawMoar
             var g = Graphics.FromImage(b);
             
             foreach (var sh in Picture.shapes) {
-                sh.Draw(g);
+                sh.Draw(new GraphicsDrawer(g));
             }           
             return b;
         }
@@ -141,11 +89,6 @@ namespace DrawMoar
             buf.Picture = (CompoundShape)Picture.Clone();
             buf.Name = Name;
             buf.Position = Position;
-
-            foreach (var element in Text)
-            {
-                buf.Text.Add(element);
-            }
 
             return buf;
         }

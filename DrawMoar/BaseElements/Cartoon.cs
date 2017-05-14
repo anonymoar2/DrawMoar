@@ -4,24 +4,21 @@ using System.Collections.Generic;
 using System.IO;
 
 
-namespace DrawMoar.BaseElements
-{
-    public class Cartoon
-    {
+namespace DrawMoar.BaseElements {
+    public class Cartoon {
         public List<Scene> scenes = new List<Scene>();
 
         private const int MinimalWidth = 256;
         private const int MinimalHeight = 144;
         private const int MaximumWidth = 3840;
-        private const int MaximumHeight = 2160; // MAXIMUM HATE 😡
+        private const int MaximumHeight = 2160;
 
-        public string Name { get; private set; }
+        public static string Name { get; private set; }
 
-
-        private int width;
-        public int Width {
+        private static int width;
+        public static int Width {
             get { return width; }
-            private set {
+            set {
                 if (value >= MinimalWidth && value <= MaximumWidth) {
                     width = value;
                 }
@@ -33,11 +30,10 @@ namespace DrawMoar.BaseElements
             }
         }
 
-
-        private int height;
-        public int Height {
+        private static int height;
+        public static int Height {
             get { return height; }
-            private set {
+            set {
                 if (value >= MinimalHeight || value <= MaximumHeight) {
                     height = value;
                 }
@@ -49,18 +45,16 @@ namespace DrawMoar.BaseElements
             }
         }
 
-        
-        private string workingDirectory;
-        public string WorkingDirectory {
+        private static string workingDirectory;
+        public static string WorkingDirectory {
             get {
                 return workingDirectory;
             }
-            private set {
+            set {
                 if (Directory.Exists(value)) {
                     workingDirectory = value;
                 }
                 else if (Directory.Exists(Path.GetDirectoryName(value))) {
-                    // TODO: handle all possible exceptions here and rethrow ArgumentException.
                     Directory.CreateDirectory(value);
                     workingDirectory = value;
                 }
@@ -71,12 +65,53 @@ namespace DrawMoar.BaseElements
         }
 
 
+        public string pathToAudio;
+
+
         public Cartoon(string name, int width, int height, string workingDirectory) {
             Name = name;
             Width = width;
             Height = height;
             WorkingDirectory = workingDirectory;
             scenes.Add(new Scene("Scene_0"));
+        }
+
+
+        public static int TotalTime { get; set; }
+
+        public static Tuple<ILayer, List<Transformation>, int> CurrentLayer { get; set; }
+        public static Frame CurrentFrame { get; set; }
+        public static Scene CurrentScene { get; set; }
+        private static Cartoon prev;
+        public static Cartoon Prev
+        {
+            get
+            {
+                return prev;
+            }
+            set
+            {
+                prev = (Cartoon)value.Clone();
+                GC.Collect();
+            }
+        }
+        public static int PrevCurrentFrameNumber { get; set; }
+        public static int PrevCurrentSceneNumber { get; set; }
+        public static int PrevCurrentLayerNumber { get; set; }
+
+        public object Clone()
+        {
+            var bufScenes = new List<Scene>();
+
+            foreach (var scene in scenes)
+            {
+                bufScenes.Add((Scene)scene.Clone());
+            }
+
+            var bufCartoon = new Cartoon(Name, Width, Height, WorkingDirectory);
+            bufCartoon.scenes = bufScenes;
+
+            return bufCartoon;
         }
     }
 }

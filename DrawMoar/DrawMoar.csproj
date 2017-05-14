@@ -86,8 +86,6 @@
     <Compile Include="BaseElements\Picture.cs" />
     <Compile Include="BaseElements\RotateTransformation.cs" />
     <Compile Include="BaseElements\ScaleTransformation.cs" />
-    <Compile Include="BaseElements\SkewTransformation.cs" />
-    <Compile Include="BaseElements\Text.cs" />
     <Compile Include="BaseElements\Transformation.cs" />
     <Compile Include="BaseElements\TranslateTransformation.cs" />
     <Compile Include="BaseElements\Color.cs" />
@@ -95,14 +93,25 @@
       <DependentUpon>CreateCartoonDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="BaseElements\Frame.cs" />
-    <Compile Include="Extensions\Extremes.cs" />
-    <Compile Include="Extensions\ObjectCopier.cs" />
+    <Compile Include="Drawing\CanvasDrawer.cs" />
+    <Compile Include="Drawing\GraphicsDrawer.cs" />
+    <Compile Include="Drawing\IDrawer.cs" />
+    <Compile Include="Drawing\ffmpeg\ExportToImage.cs" />
+    <Compile Include="Drawing\ffmpeg\ExportToVideo.cs" />
+    <Compile Include="DurationFrameDialog.xaml.cs">
+      <DependentUpon>DurationFrameDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GenerationDialog.xaml.cs">
       <DependentUpon>GenerationDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GlobalState.cs" />
     <Compile Include="ILayer.cs" />
     <Compile Include="Instrument.cs" />
+    <Compile Include="Drawing\ffmpeg\ImportImage.cs" />
+    <Compile Include="MainWin.Buttons.cs" />
+    <Compile Include="MainWin.CanvasEvents.cs" />
+    <Compile Include="MainWin.Frames.cs" />
+    <Compile Include="MainWin.Layers.cs" />
+    <Compile Include="MainWin.Scenes.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -152,6 +161,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="DurationFrameDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GenerationDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -169,16 +182,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Exporter\Exporter.csproj">
-      <Project>{a3397f33-cb81-4387-b785-6e5ad4006339}</Project>
-      <Name>Exporter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Importer\Importer.csproj">
-      <Project>{3b3d6e6b-a04d-45f6-9d65-d66ebfff0a7e}</Project>
-      <Name>Importer</Name>
-    </ProjectReference>
+    <Content Include="ffmpeg.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

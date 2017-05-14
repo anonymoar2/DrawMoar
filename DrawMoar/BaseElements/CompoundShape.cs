@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
+using System.Drawing;
 using System.Windows.Controls;
 
 using DrawMoar.Shapes;
-using System.Drawing;
-
+using DrawMoar.Drawing;
 
 namespace DrawMoar.BaseElements
 {
@@ -16,28 +16,13 @@ namespace DrawMoar.BaseElements
 
         public Color Color { get; set; }
 
-
-        /// <summary>
-        /// TODO: Сделать приватным крч
-        /// </summary>
         public List<IShape> shapes = new List<IShape>();
 
 
-        /// <summary>
-        /// Отрисовка на холсте, и так же сразу на WPF, по сути передаем сюда и bitmap и canvas
-        /// </summary>
-        public void Draw(Canvas canvas) {
-            //Проходим по фигурам, вызывая у них Draw
-            // Можно разбить на два метода, один на канвасе, другой на bitmap (один принимает Graphics, другой Canvas)
+        public void Draw(IDrawer drawer) {
             foreach (var item in shapes) {
-                item.Draw(canvas);
+                item.Draw(drawer);
             }
-        }
-
-        
-        public void Print()
-        {
-
         }
 
 
@@ -47,12 +32,6 @@ namespace DrawMoar.BaseElements
             }
         }
 
-        
-        public void Draw(Graphics g) {
-            foreach(var shape in shapes) {
-                shape.Draw(g);
-            }
-        }
 
         public object Clone()
         {

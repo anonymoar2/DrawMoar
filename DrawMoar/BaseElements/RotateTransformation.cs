@@ -9,6 +9,7 @@ namespace DrawMoar.BaseElements
     class RotateTransformation : Transformation
     {
         private Matrix<double> Transform;
+
         private double angle;
 
             
@@ -27,13 +28,7 @@ namespace DrawMoar.BaseElements
         }
 
 
-        /// <summary>
-        ///TODO: Решить проблему с double и float, ибо везде конверчу туда-сюда 
-        /// </summary>
-        /// <param name="picture"></param>
-        /// <returns></returns>
         public override Picture Apply(Picture picture) {
-            // Не уверена в работе TODO: Потестить трансформации
             Bitmap bmp = new Bitmap(picture.Image.Width, picture.Image.Height);
             Graphics gfx = Graphics.FromImage(bmp);
             gfx.TranslateTransform((float)bmp.Width / 2, (float)bmp.Height / 2);
@@ -46,7 +41,6 @@ namespace DrawMoar.BaseElements
         }
 
 
-        // for Scale
         public Matrix<double> GetTransform() {
             return Transform;
         }

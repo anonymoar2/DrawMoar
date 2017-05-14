@@ -19,11 +19,6 @@ namespace DrawMoar.BaseElements
         }
 
 
-        /// <summary>
-        /// По сути просто позицию переносим куда надо у картинки
-        /// </summary>
-        /// <param name="picture">картинка с растрового слоя</param>
-        /// <returns></returns>
         public override Picture Apply(Picture picture) {
             picture.Position = Apply(picture.Position);
             return picture;
@@ -37,6 +32,5 @@ namespace DrawMoar.BaseElements
             var yScale = Transform[1, 1] / Math.Cos(rotation * (Math.PI / 180));
             scale = new System.Windows.Point(xScale, yScale);
         }
-
     }
 }

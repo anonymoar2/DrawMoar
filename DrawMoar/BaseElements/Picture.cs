@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DrawMoar.Drawing;
+using System;
 
 using System.Drawing;
 
@@ -9,7 +10,6 @@ namespace DrawMoar.BaseElements
     {
         public System.Windows.Point Position { get; set; }
 
-
         public Image Image { get; set; }
 
 
@@ -19,10 +19,11 @@ namespace DrawMoar.BaseElements
         }
 
 
-        public void Draw(Graphics g) {
-            g.DrawImage(Image, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y));
+        public void Draw(IDrawer drawer) {
+            drawer.DrawImage(Image, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y));
         }
         
+
         public object Clone()
         {
             var buf = new Picture();

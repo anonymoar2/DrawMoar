@@ -1,10 +1,11 @@
-﻿using System.Windows;
+﻿using System;
+
+using System.Drawing;
+using System.Windows.Media;
 using System.Windows.Controls;
 
 using DrawMoar.BaseElements;
-using System.Drawing;
-using System;
-using System.Windows.Media;
+using DrawMoar.Drawing;
 
 namespace DrawMoar.Shapes
 {
@@ -20,6 +21,7 @@ namespace DrawMoar.Shapes
         public double Thickness { get; set; }
         public DrawMoar.BaseElements.Color Color { get; set; }
 
+
         public Ellipse(System.Windows.Point center, System.Windows.Size size, double startAngle = 0,
                                                 double endAngle = 360, double rotate = 0) {
             this.Center = center;
@@ -27,31 +29,13 @@ namespace DrawMoar.Shapes
             this.StartAngle = startAngle;
             this.EndAngle = endAngle;
             this.Rotate = rotate;
-            this.Thickness = GlobalState.BrushSize.Width;
-            this.Color = new DrawMoar.BaseElements.Color(GlobalState.Color);
+            this.Thickness = MainWindow.BrushSize.Width;
+            this.Color = new DrawMoar.BaseElements.Color(MainWindow.Color);
         }
 
 
-        public void Draw(Canvas canvas) {
-            var ellipse = new System.Windows.Shapes.Ellipse();
-            ellipse.Width = Size.Width;
-            ellipse.Height = Size.Height;
-            ellipse.Stroke = Color.ToBrush();
-            ellipse.IsEnabled = false;
-            ellipse.StrokeThickness = GlobalState.BrushSize.Width;
-            Canvas.SetLeft(ellipse, Center.X - Size.Width / 2);
-            Canvas.SetTop(ellipse, Center.Y - Size.Height / 2);
-            RotateTransform rotateTransform1 =
-                new RotateTransform(Rotate);
-            rotateTransform1.CenterX = Size.Width/2;
-            rotateTransform1.CenterY = Size.Height/2;
-            ellipse.RenderTransform = rotateTransform1;        
-            canvas.Children.Add(ellipse); 
-        }
-
-
-        public void Print() {
-
+        public void Draw(IDrawer drawer) {
+            drawer.DrawEllipse(this);
         }
 
 
@@ -67,13 +51,7 @@ namespace DrawMoar.Shapes
         }
 
 
-        public void Draw(Graphics g) {       
-            g.TranslateTransform((float)(Center.X), (float)(Center.Y));
-            g.RotateTransform((float)Rotate);
-            g.TranslateTransform((float)(-Center.X), (float)(-Center.Y));
-            g.DrawEllipse(new System.Drawing.Pen(Color.ToDrawingColor(), (float)this.Thickness), new RectangleF(new PointF(Convert.ToSingle(Center.X - Size.Width / 2), Convert.ToSingle(Center.Y - Size.Height / 2)), new SizeF(Convert.ToSingle(Size.Width), Convert.ToSingle(Size.Height))));
 
-        }
 
         public object Clone()
         {
