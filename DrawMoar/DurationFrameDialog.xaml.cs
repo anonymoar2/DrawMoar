@@ -53,7 +53,7 @@ namespace DrawMoar
                     var frames = DrawMoar.BaseElements.Cartoon.CurrentScene.frames;
                                    
                     var lbl = new Label();
-                    lbl.Content = $"{DrawMoar.BaseElements.Cartoon.CurrentFrame.Name}  =  {frame.duration} sec";
+                    lbl.Content = $"{DrawMoar.BaseElements.Cartoon.CurrentFrame.Name} \n {frame.duration} sec";
                     framesList.Items.Add(lbl);
                     framesList.SelectedIndex = framesList.Items.Count - 1;
 

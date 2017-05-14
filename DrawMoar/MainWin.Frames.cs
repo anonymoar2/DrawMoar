@@ -16,11 +16,10 @@ namespace DrawMoar {
                 return;
             }
             if (sender != null) {
-                Cartoon.CurrentScene.frames.Add(new BaseElements.Frame());
-                Cartoon.CurrentFrame = Cartoon.CurrentScene.frames.Last();
-                Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers.Last();
-                var frames = Cartoon.CurrentScene.frames;
-                AddListBoxElement(framesList, Cartoon.CurrentFrame.Name);
+                var newDurationFrameDialog = new DurationFrameDialog(framesList);
+                newDurationFrameDialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                newDurationFrameDialog.Owner = this;
+                newDurationFrameDialog.Show();
             }
         }
 

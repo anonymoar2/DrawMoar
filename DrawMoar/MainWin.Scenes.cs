@@ -30,7 +30,7 @@ namespace DrawMoar {
                 Cartoon.CurrentScene = cartoon.scenes[scenesList.SelectedIndex];
             var frames = Cartoon.CurrentScene.frames;
             foreach (var item in frames) {
-                AddListBoxElement(framesList, item.Name);
+                AddListBoxElement(framesList, $"{item.Name} \n {item.duration} sec");
             }
             framesList.SelectedIndex = 0;
         }
