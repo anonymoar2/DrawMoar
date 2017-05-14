@@ -11,6 +11,7 @@ namespace DrawMoar {
     public partial class MainWindow:Window {
 
         private void AddFrame_Click(object sender, RoutedEventArgs e) {
+            SavePrev();
             if (cartoon == null) {
                 return;
             }
@@ -41,6 +42,7 @@ namespace DrawMoar {
         }
 
         private void DeleteFrame_Click(object sender, RoutedEventArgs e) {
+            SavePrev();
             if (cartoon == null) return;
             int index = framesList.SelectedIndex;
             framesList.Items.RemoveAt(index);

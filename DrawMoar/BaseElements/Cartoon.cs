@@ -82,5 +82,36 @@ namespace DrawMoar.BaseElements {
         public static Tuple<ILayer, List<Transformation>, int> CurrentLayer { get; set; }
         public static Frame CurrentFrame { get; set; }
         public static Scene CurrentScene { get; set; }
+        private static Cartoon prev;
+        public static Cartoon Prev
+        {
+            get
+            {
+                return prev;
+            }
+            set
+            {
+                prev = (Cartoon)value.Clone();
+                GC.Collect();
+            }
+        }
+        public static int PrevCurrentFrameNumber { get; set; }
+        public static int PrevCurrentSceneNumber { get; set; }
+        public static int PrevCurrentLayerNumber { get; set; }
+
+        public object Clone()
+        {
+            var bufScenes = new List<Scene>();
+
+            foreach (var scene in scenes)
+            {
+                bufScenes.Add((Scene)scene.Clone());
+            }
+
+            var bufCartoon = new Cartoon(Name, Width, Height, WorkingDirectory);
+            bufCartoon.scenes = bufScenes;
+
+            return bufCartoon;
+        }
     }
 }

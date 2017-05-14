@@ -5,57 +5,90 @@ using System.Linq;
 
 namespace DrawMoar.BaseElements
 {
-    public class Scene
+    public class Scene : ICloneable
     {
         private string name;
-        public string Name {
+        public string Name
+        {
             get { return name; }
-            set { name = value; }                     
+            set { name = value; }
         }
 
         public List<Frame> frames = new List<Frame>();
 
 
-        public Scene() {
+        public Scene()
+        {
             name = "newScene";
-            frames.Add(new Frame("Frame_0"));
+            Frame frame = new Frame();
+            frame.duration = 1;
+            frames.Add(frame);
         }
 
 
-        public Scene(string name) {
+        public Scene(string name)
+        {
             this.name = name;
-            frames.Add(new Frame("Frame_0"));
+            Frame frame = new Frame("Frame_0");
+            frame.duration = 1;
+            frames.Add(frame);
         }
-       
 
-        public void Generate(Frame currentFrame, int seconds) {
+
+        public void Generate(Frame currentFrame, int seconds)
+        {
             /// На каждую секунду генерируем по 25 кадров. Каждый кадр будет по длительности 0.04 секунды.
-            for (int i = 0; i < seconds * 25; i++) {
-                frames.Add(new Frame($"generated_frame_{i}"));          
-                foreach(var layer in currentFrame.layers) {
+            for (int i = 0; i < seconds * 25; i++)
+            {
+                Frame frame = new Frame($"generated_frame_{i}");
+                frame.duration = (float) seconds/25;
+                frames.Add(frame);
+                foreach (var layer in currentFrame.layers)
+                {
                     ILayer tmpLayer = (ILayer)layer.Item1.Clone();
-                    foreach (var trans in layer.Item2) {
-                        for (int j = 0; j <= i; j++) {
+                    foreach (var trans in layer.Item2)
+                    {
+                        for (int j = 0; j <= i; j++)
+                        {
                             tmpLayer.Transform(trans);
-                        }                   
+                        }
                     }
-                    frames.Last().layers.Add(new Tuple<ILayer, List<Transformation>, int>((ILayer)tmpLayer.Clone(), new List<Transformation>(), 0));              
+                    frames.Last().layers.Add(new Tuple<ILayer, List<Transformation>, int>((ILayer)tmpLayer.Clone(), new List<Transformation>(), 0));
                 }
                 frames.Last().layers.RemoveAt(0);
             }
         }
 
 
-        public void Cycle(int count) {
+        public void Cycle(int count)
+        {
             var newFrames = new List<Frame>();
-            foreach(var frame in frames) {
+            foreach (var frame in frames)
+            {
                 newFrames.Add((Frame)frame.Clone());
             }
-            for (int i = 0; i < count; i++) {
-                foreach (var frame in newFrames) {
+            for (int i = 0; i < count; i++)
+            {
+                foreach (var frame in newFrames)
+                {
                     frames.Add((Frame)frame.Clone());
                 }
             }
+        }
+
+        public object Clone()
+        {
+            var bufFrames = new List<Frame>();
+
+            foreach (var frame in frames)
+            {
+                bufFrames.Add((Frame)frame.Clone());
+            }
+
+            var bufScene = new Scene(Name);
+            bufScene.frames = bufFrames;
+
+            return bufScene;
         }
     }
 }

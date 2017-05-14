@@ -56,7 +56,7 @@ namespace DrawMoar.ffmpeg
                     frame => {
                         frame.Join().Save(Path.Combine(imagesDirectory, $"img{count}.png"));
                         writer.WriteLine("file " + $"img{count}.png");
-                        writer.WriteLine($"duration 0.04");
+                        writer.WriteLine($"duration {frame.duration}".Replace(',','.'));
                         count++;
                     }
                 ));

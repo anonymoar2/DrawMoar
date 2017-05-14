@@ -13,6 +13,7 @@ namespace DrawMoar {
     public partial class MainWindow : Window {
 
         void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+            SavePrev();
             PressLeftButton = true;
             BrushSize = new Size(slider.Value, slider.Value);
             var currentLayer = Cartoon.CurrentLayer.Item1;

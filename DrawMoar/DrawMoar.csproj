@@ -98,6 +98,9 @@
     <Compile Include="Drawing\IDrawer.cs" />
     <Compile Include="Drawing\ffmpeg\ExportToImage.cs" />
     <Compile Include="Drawing\ffmpeg\ExportToVideo.cs" />
+    <Compile Include="DurationFrameDialog.xaml.cs">
+      <DependentUpon>DurationFrameDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GenerationDialog.xaml.cs">
       <DependentUpon>GenerationDialog.xaml</DependentUpon>
     </Compile>
@@ -155,6 +158,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="CreateCartoonDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DurationFrameDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
