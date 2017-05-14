@@ -51,6 +51,7 @@ namespace DrawMoar.BaseElements
         public object Clone()
         {
             var buf = new Frame(Name);
+            buf.duration = duration;
 
             foreach(var layer in layers)
             {
