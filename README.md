@@ -1,7 +1,7 @@
 # DrawMoar
 Raster and vector graphics editor for creating cartoons
 
-В ветке Master сейчас находится версия редактора за 17.04.17
+В ветке Master сейчас находится версия редактора за 13.05.17
 
 
   		
