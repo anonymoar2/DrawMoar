@@ -16,7 +16,7 @@ namespace DrawMoar {
             SavePrev();
             PressLeftButton = true;
             BrushSize = new Size(slider.Value, slider.Value);
-            var currentLayer = Cartoon.CurrentLayer.Item1;
+            var currentLayer = Cartoon.CurrentLayer.layer;
             prevPoint = Mouse.GetPosition(canvas);
             switch (CurrentTool) {
                 case Instrument.Arrow:
@@ -47,7 +47,7 @@ namespace DrawMoar {
 
         void canvas_MouseMove(object sender, MouseEventArgs e) {
             point = (Point)e.GetPosition(canvas);
-            var currentLayer = Cartoon.CurrentLayer.Item1;
+            var currentLayer = Cartoon.CurrentLayer.layer;
             if (!PressLeftButton) return;
             switch (CurrentTool) {
                 case Instrument.Arrow:
@@ -94,10 +94,10 @@ namespace DrawMoar {
                 else if (shape is Ellipse) shape = new Ellipse(prevPoint, new Size(15 + shiftX, 10 + shiftY));
                 else if (shape is Rectangle) shape = new Rectangle(prevPoint, new Size(15 + shiftX, 10 + shiftY));
                 shape.Draw(canvasDrawer);
-                if (layer.Item1 is VectorLayer) {
-                    var shapes = ((VectorLayer)layer.Item1).Picture.shapes;
+                if (layer.layer is VectorLayer) {
+                    var shapes = ((VectorLayer)layer.layer).Picture.shapes;
                     shapes.RemoveAt(shapes.Count - 1);
-                    SaveIntoLayer(layer.Item1, shape);
+                    SaveIntoLayer(layer.layer, shape);
                 }
                 //else ((RasterLayer)layer.Item1).Save(canvas);
             }
@@ -106,7 +106,7 @@ namespace DrawMoar {
 
         void TranslatingRedrawing(MouseEventArgs e) {
             point = e.GetPosition(canvas);
-            Cartoon.CurrentLayer.Item1.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
+            Cartoon.CurrentLayer.layer.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
             Refresh();
         }
 

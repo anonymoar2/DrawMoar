@@ -80,6 +80,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BaseElements\Animation.cs" />
     <Compile Include="BaseElements\Cartoon.cs" />
     <Compile Include="BaseElements\CompoundShape.cs" />
     <Compile Include="BaseElements\Matrix.cs" />

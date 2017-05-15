@@ -79,7 +79,7 @@ namespace DrawMoar.BaseElements {
 
         public static int TotalTime { get; set; }
 
-        public static Tuple<ILayer, List<Transformation>, int> CurrentLayer { get; set; }
+        public static Animation CurrentLayer { get; set; }
         public static Frame CurrentFrame { get; set; }
         public static Scene CurrentScene { get; set; }
         private static Cartoon prev;

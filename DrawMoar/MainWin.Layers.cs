@@ -14,7 +14,7 @@ namespace DrawMoar {
 
         private void layersList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (layersList.SelectedIndex != -1) {
-                Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers[layersList.SelectedIndex];
+                Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations[layersList.SelectedIndex];
             }
 
         }
@@ -27,10 +27,10 @@ namespace DrawMoar {
             }
             //проверка на то, выделен ли какой-либо кадр(когда реализуем удаление)
             if (sender != null) {
-                Cartoon.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new RasterLayer(), new List<Transformation>(), 0));
+                Cartoon.CurrentFrame.animations.Add(new Animation(new RasterLayer(), new List<Transformation>()));
             }
-            Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers.Last();
-            var layers = Cartoon.CurrentFrame.layers;
+            Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations.Last();
+            var layers = Cartoon.CurrentFrame.animations;
             AddListBoxElement(layersList, $"RasterLayer_{layers.Count - 1}");
         }
 
@@ -43,10 +43,10 @@ namespace DrawMoar {
                 layersList.Items.Clear();
             }
             else {
-                Cartoon.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new VectorLayer(), new List<Transformation>(), 0));
+                Cartoon.CurrentFrame.animations.Add(new Animation(new VectorLayer(), new List<Transformation>()));
             }
-            Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers.Last();
-            var layers = Cartoon.CurrentFrame.layers;
+            Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations.Last();
+            var layers = Cartoon.CurrentFrame.animations;
             AddListBoxElement(layersList, $"VectorLayer_{layers.Count - 1}");
         }
 
@@ -60,13 +60,13 @@ namespace DrawMoar {
             SavePrev();
             if (cartoon == null) return;
             int index = layersList.SelectedIndex;
-            var layerToDelete = Cartoon.CurrentFrame.layers[index].Item1;
+            var layerToDelete = Cartoon.CurrentFrame.animations[index].layer;
             layersList.Items.RemoveAt(index);
-            var layers = Cartoon.CurrentFrame.layers;
+            var layers = Cartoon.CurrentFrame.animations;
             layers.RemoveAt(index);
             if (layers.Count == 0) {
-                layers.Add(new Tuple<ILayer, List<Transformation>, int>(new VectorLayer(), new List<Transformation>(), 0));
-                AddListBoxElement(layersList, Cartoon.CurrentLayer.Item1.Name);
+                layers.Add(new Animation(new VectorLayer(), new List<Transformation>()));
+                AddListBoxElement(layersList, Cartoon.CurrentLayer.layer.Name);
             }
             layersList.SelectedIndex = layersList.Items.Count > 1 ? index - 1 : 0;
             Cartoon.CurrentLayer = index > 0 ? layers[index - 1] : layers[0];

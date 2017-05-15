@@ -57,7 +57,7 @@ namespace DrawMoar
             }
             if (Cartoon.CurrentLayer != null)
             {
-                Cartoon.PrevCurrentLayerNumber = Cartoon.CurrentFrame.layers.IndexOf(Cartoon.CurrentLayer);
+                Cartoon.PrevCurrentLayerNumber = Cartoon.CurrentFrame.animations.IndexOf(Cartoon.CurrentLayer);
             }
             if (Cartoon.CurrentFrame != null)
             {
@@ -172,10 +172,10 @@ namespace DrawMoar
             string fileName = fileDialog.FileName;
             if (fileName == "") System.Windows.MessageBox.Show("You haven't chosen the file");
             else {
-                Cartoon.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new RasterLayer(), new List<Transformation>(), 0));
-                Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers.Last();
-                ((RasterLayer)Cartoon.CurrentFrame.layers.Last().Item1).Picture.Image = System.Drawing.Image.FromFile(fileName);
-                Cartoon.CurrentFrame.layers.Last().Item1.Draw(canvasDrawer);
+                Cartoon.CurrentFrame.animations.Add(new Animation(new RasterLayer(), new List<Transformation>()));
+                Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations.Last();
+                ((RasterLayer)Cartoon.CurrentFrame.animations.Last().layer).Picture.Image = System.Drawing.Image.FromFile(fileName);
+                Cartoon.CurrentFrame.animations.Last().layer.Draw(canvasDrawer);
                 AddRasterLayer_Click(null, null);
             }
         }
@@ -216,9 +216,9 @@ namespace DrawMoar
 
         private void Refresh() {
             canvas.Children.Clear();
-            var layers = Cartoon.CurrentFrame.layers;
+            var layers = Cartoon.CurrentFrame.animations;
             foreach (var item in layers) {
-                item.Item1.Draw(canvasDrawer);
+                item.layer.Draw(canvasDrawer);
             }
         }
 
@@ -247,7 +247,7 @@ namespace DrawMoar
 
             Cartoon.CurrentScene = cartoon.scenes[Cartoon.PrevCurrentSceneNumber];
             Cartoon.CurrentFrame = Cartoon.CurrentScene.frames[Cartoon.PrevCurrentFrameNumber];
-            Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers[Cartoon.PrevCurrentLayerNumber];
+            Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations[Cartoon.PrevCurrentLayerNumber];
 
             GC.Collect();
             Refresh();

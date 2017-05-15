@@ -49,7 +49,7 @@ namespace DrawMoar
                     frame.duration = time;
                     DrawMoar.BaseElements.Cartoon.CurrentScene.frames.Add(frame);
                     DrawMoar.BaseElements.Cartoon.CurrentFrame = DrawMoar.BaseElements.Cartoon.CurrentScene.frames.Last();
-                    DrawMoar.BaseElements.Cartoon.CurrentLayer = DrawMoar.BaseElements.Cartoon.CurrentFrame.layers.Last();
+                    DrawMoar.BaseElements.Cartoon.CurrentLayer = DrawMoar.BaseElements.Cartoon.CurrentFrame.animations.Last();
                     var frames = DrawMoar.BaseElements.Cartoon.CurrentScene.frames;
                                    
                     var lbl = new Label();

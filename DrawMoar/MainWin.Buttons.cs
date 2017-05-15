@@ -40,7 +40,7 @@ namespace DrawMoar {
 
         private void AT_Click(object sender, RoutedEventArgs e) {
             SavePrev();
-            ILayer cloneOfCurrent = (ILayer)Cartoon.CurrentLayer.Item1.Clone();
+            ILayer cloneOfCurrent = (ILayer)Cartoon.CurrentLayer.layer.Clone();
             generationWin = new GenerationDialog(cloneOfCurrent);
             generationWin.Show();
         }
