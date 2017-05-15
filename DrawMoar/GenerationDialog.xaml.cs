@@ -124,9 +124,9 @@ namespace DrawMoar {
                     ApplyScaling(totalTime);
                 }
                 ///TODO: Поместить трансформации в слой            
-                var index = Cartoon.CurrentFrame.layers.IndexOf(Cartoon.CurrentLayer);
-                Cartoon.CurrentFrame.layers[index] = new Tuple<ILayer, List<Transformation>, int>(Cartoon.CurrentLayer.Item1, transList, totalTime);
-                Cartoon.CurrentLayer = new Tuple<ILayer, List<Transformation>, int>(Cartoon.CurrentLayer.Item1, transList, totalTime);
+                var index = Cartoon.CurrentFrame.animations.IndexOf(Cartoon.CurrentLayer);
+                Cartoon.CurrentFrame.animations[index] = new Animation(Cartoon.CurrentLayer.layer, transList);
+                Cartoon.CurrentLayer = new Animation(Cartoon.CurrentLayer.layer, transList);
                 Cartoon.TotalTime = totalTime;
                 this.Hide();
             }

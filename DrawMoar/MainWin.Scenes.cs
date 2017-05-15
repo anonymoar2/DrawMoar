@@ -20,7 +20,7 @@ namespace DrawMoar {
             }
             Cartoon.CurrentScene = cartoon.scenes.Last();
             Cartoon.CurrentFrame = Cartoon.CurrentScene.frames.Last();
-            Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers.Last();
+            Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations.Last();
             AddListBoxElement(scenesList, Cartoon.CurrentScene.Name);
         }
 
@@ -48,7 +48,7 @@ namespace DrawMoar {
             scenesList.SelectedIndex = index > 0 ? index - 1 : 0;
             Cartoon.CurrentScene = index > 0 ? cartoon.scenes[index - 1] : cartoon.scenes[0];
             Cartoon.CurrentFrame = Cartoon.CurrentScene.frames[0];
-            Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers[0];
+            Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations[0];
             Refresh();
         }
     }

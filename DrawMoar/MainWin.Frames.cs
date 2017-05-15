@@ -18,7 +18,7 @@ namespace DrawMoar {
             if (sender != null) {
                 Cartoon.CurrentScene.frames.Add(new BaseElements.Frame());
                 Cartoon.CurrentFrame = Cartoon.CurrentScene.frames.Last();
-                Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers.Last();
+                Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations.Last();
                 var frames = Cartoon.CurrentScene.frames;
                 AddListBoxElement(framesList, Cartoon.CurrentFrame.Name);
             }
@@ -27,16 +27,16 @@ namespace DrawMoar {
 
         private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (framesList.SelectedIndex != -1) {
-                if (Cartoon.CurrentFrame.layers.Count > 0)
+                if (Cartoon.CurrentFrame.animations.Count > 0)
                     Cartoon.CurrentFrame = Cartoon.CurrentScene.frames[framesList.SelectedIndex];
-                Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers.Last();
+                Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations.Last();
             }
             layersList.Items.Clear();
             canvas.Children.Clear();
-            var lays = Cartoon.CurrentFrame.layers;
+            var lays = Cartoon.CurrentFrame.animations;
             foreach (var item in lays) {
-                AddListBoxElement(layersList, item.Item1.Name);
-                item.Item1.Draw(canvasDrawer);
+                AddListBoxElement(layersList, item.layer.Name);
+                item.layer.Draw(canvasDrawer);
                 layersList.SelectedIndex = 0;
             }
         }
@@ -54,7 +54,7 @@ namespace DrawMoar {
             }
             framesList.SelectedIndex = index > 0 ? index - 1 : 0;
             Cartoon.CurrentFrame = index > 0 ? frames[index - 1] : frames[0];
-            Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers[0];
+            Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations[0];
             Refresh();
         }
     }

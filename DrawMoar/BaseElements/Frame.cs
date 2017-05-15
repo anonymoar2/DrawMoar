@@ -20,18 +20,18 @@ namespace DrawMoar.BaseElements
 
         public float duration { get;set; }
 
-        public List<Tuple<ILayer, List<Transformation>, int>> layers = new List<Tuple<ILayer, List<Transformation>, int>>();
+        public List<Animation> animations = new List<Animation>();
 
 
         public Frame() {
             name = $"Frame_{Cartoon.CurrentScene.frames.Count}";
-            layers.Add(new Tuple<ILayer, List<Transformation>, int>(new VectorLayer("Vector_Layer_0"), new List<Transformation>(), 0));
+            animations.Add(new Animation(new VectorLayer("Vector_Layer_0"), new List<Transformation>()));
         }
 
 
         public Frame(string name) {
             this.name = name;
-            layers.Add(new Tuple<ILayer, List<Transformation>, int>(new VectorLayer("Vector_Layer_0"), new List<Transformation>(), 0));
+            animations.Add(new Animation(new VectorLayer("Vector_Layer_0"), new List<Transformation>()));
         }
         
         
@@ -40,21 +40,31 @@ namespace DrawMoar.BaseElements
             Graphics g = Graphics.FromImage(bm);
             g.CompositingMode = CompositingMode.SourceOver;
             g.Clear(System.Drawing.Color.White);
-            foreach (var l in layers) {
-                l.Item1.Draw(new GraphicsDrawer(g));
+            foreach (var a in animations) {
+                a.layer.Draw(new GraphicsDrawer(g));
             }
             g.Dispose();
             return bm;
         }
 
 
+        public Frame GetByTime(int time) {
+            var newFrame = new Frame();
+            foreach(var a in animations) {
+                newFrame.animations.Add(new Animation(a.GetByTime(time), new List<Transformation>()));
+            }
+            newFrame.animations.RemoveAt(0);
+            return newFrame;
+        }
+
+        
         public object Clone()
         {
             var buf = new Frame(Name);
 
-            foreach(var layer in layers)
+            foreach(var a in animations)
             {
-                buf.layers.Add(new Tuple<ILayer, List<Transformation>, int>((ILayer)(layer.Item1).Clone(), new List<Transformation>(), 0));
+                buf.animations.Add(new Animation((ILayer)(a.layer).Clone(), new List<Transformation>()));
             }
 
             return buf;
