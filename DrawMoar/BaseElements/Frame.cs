@@ -26,12 +26,14 @@ namespace DrawMoar.BaseElements
         public Frame() {
             name = $"Frame_{Cartoon.CurrentScene.frames.Count}";
             animations.Add(new Animation(new VectorLayer("Vector_Layer_0"), new List<Transformation>()));
+            duration = 0.04F;
         }
 
 
         public Frame(string name) {
             this.name = name;
             animations.Add(new Animation(new VectorLayer("Vector_Layer_0"), new List<Transformation>()));
+            duration = 0.04F;
         }
         
         
