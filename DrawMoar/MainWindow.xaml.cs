@@ -252,5 +252,9 @@ namespace DrawMoar
             GC.Collect();
             Refresh();
         }
+
+        private void SaveToDrm(object sender, RoutedEventArgs e) {
+            cartoon.SaveToFile(@"C:\Users\Home\Desktop");
+        }
     }
 }

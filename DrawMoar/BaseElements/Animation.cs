@@ -25,5 +25,15 @@ namespace DrawMoar.BaseElements
             }
             return copyLayer;
         }
+
+        internal List<string> SaveToFile(string pathToDrm) {
+            List<string> lines = new List<string>();
+            lines.Add($"\t\tAnimation**");
+            lines.AddRange(layer.SaveToFile(pathToDrm));
+            foreach (var transformation in transformations) {
+                lines.AddRange(transformation.SaveToFile(pathToDrm));
+            }
+            return lines;
+        }
     }
 }

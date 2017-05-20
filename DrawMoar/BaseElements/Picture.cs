@@ -2,7 +2,7 @@
 using System;
 
 using System.Drawing;
-
+using System.IO;
 
 namespace DrawMoar.BaseElements
 {
@@ -30,6 +30,11 @@ namespace DrawMoar.BaseElements
             buf.Position = Position;
             buf.Image = (Image)Image.Clone();
             return buf;
+        }
+
+        internal string SaveToFile(string pathToDrm, string name) {
+            Image.Save(Path.Combine(pathToDrm, "images", $"{name}.png"));
+            return "\t\t\t\t" + Path.Combine(pathToDrm, "images", $"{name}.png");
         }
     }
 }

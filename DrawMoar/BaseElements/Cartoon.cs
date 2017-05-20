@@ -113,5 +113,23 @@ namespace DrawMoar.BaseElements {
 
             return bufCartoon;
         }
+
+        public void SaveToFile(string pathToFile) {
+            string pathToDrm = Path.Combine(pathToFile, $"{Name}_drm");
+            Directory.CreateDirectory(pathToDrm);
+            Directory.CreateDirectory(Path.Combine(pathToDrm, "images"));
+            FileInfo f1 = new FileInfo(Path.Combine(pathToDrm, "list.txt"));
+            List<string> lines = new List<string>();
+            foreach (var scene in scenes) {
+                lines.AddRange(scene.SaveToFile(pathToDrm));
+            }
+            foreach (var l in lines) {
+                using (StreamWriter sw = f1.CreateText()) {
+                    sw.WriteLine(l);
+                }
+            }
+            File.WriteAllLines(Path.Combine(pathToDrm, "list.txt"), lines.ToArray());
+        }
+
     }
 }

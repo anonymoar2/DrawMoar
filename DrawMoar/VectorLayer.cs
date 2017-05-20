@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using DrawMoar.Shapes;
 using DrawMoar.BaseElements;
 using DrawMoar.Drawing;
+using System.Collections.Generic;
 
 namespace DrawMoar
 {
@@ -91,6 +92,13 @@ namespace DrawMoar
             buf.Position = Position;
 
             return buf;
+        }
+
+        public List<string> SaveToFile(string pathToDrm) {
+            List<string> lines = new List<string>();
+            lines.Add($"\t\t\tLayer**{Name}*v");
+            lines.AddRange(Picture.SaveToFile(pathToDrm));
+            return lines;
         }
     }
 }

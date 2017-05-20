@@ -27,7 +27,7 @@
                 <MenuItem Header="New"
                           Click="CreateCartoon"/>
                 <MenuItem Header="Open"/>
-                <MenuItem Name="menuSave" Header="Save" Command="Save" InputGestureText="Ctrl+S"/>
+                <MenuItem Header="Save" Click="SaveToDrm"/>
                 <MenuItem Header="Save as...">
                     <MenuItem Header="MP4" Click="SaveToMp4"/>
                     <MenuItem Header="AVI" Click="SaveToAvi"/>

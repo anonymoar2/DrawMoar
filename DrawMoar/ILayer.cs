@@ -7,6 +7,7 @@ using DrawMoar.BaseElements;
 
 using System.Windows.Controls;
 using DrawMoar.Drawing;
+using System.Collections.Generic;
 
 namespace DrawMoar
 {
@@ -19,5 +20,6 @@ namespace DrawMoar
         void Draw(IDrawer drawer);
 
         void Transform(Transformation transformation);
+        List<string> SaveToFile(string pathToDrm);
     }
 }

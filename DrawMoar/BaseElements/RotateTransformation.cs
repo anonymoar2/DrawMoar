@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -52,6 +52,10 @@ namespace DrawMoar.BaseElements
             var xScale = Transform[0, 0] / Math.Cos(rotation * (Math.PI / 180));
             var yScale = Transform[1, 1] / Math.Cos(rotation * (Math.PI / 180));
             scale = new System.Windows.Point(xScale, yScale);
+        }
+
+        internal override List<string> SaveToFile(string pathToDrm) {
+            return new List<string>() { $"\t\t\t\tTransformation**rotate[{angle}]" };
         }
     }
 }

@@ -46,5 +46,9 @@ namespace DrawMoar.BaseElements {
         public Brush ToBrush() {
             return new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, (byte)R, (byte)G, (byte)B));
         }
+
+        public override string ToString() {
+            return $"{A};{R};{G};{B}";
+        }
     }
 }
