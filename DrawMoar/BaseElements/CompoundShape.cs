@@ -5,6 +5,7 @@ using System.Windows.Controls;
 
 using DrawMoar.Shapes;
 using DrawMoar.Drawing;
+using System;
 
 namespace DrawMoar.BaseElements
 {
@@ -46,6 +47,14 @@ namespace DrawMoar.BaseElements
             }
 
             return buf;
+        }
+
+        public List<string> SaveToFile(string pathToDrm) {
+            List<string> lines = new List<string>();
+            foreach (var shape in shapes) {
+                lines.AddRange(shape.SaveToFile(pathToDrm));
+            }
+            return lines;
         }
     }
 }

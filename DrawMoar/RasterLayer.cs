@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using DrawMoar.Shapes;
 using DrawMoar.BaseElements;
 using DrawMoar.Drawing;
+using System.Collections.Generic;
 
 namespace DrawMoar {
     public class RasterLayer : ILayer {
@@ -88,6 +89,7 @@ namespace DrawMoar {
 
             Picture.Image = System.Drawing.Image.FromFile(Path.Combine(Cartoon.WorkingDirectory, $"{Cartoon.CurrentScene.Name}_{Cartoon.CurrentFrame.Name}_{Name}.png"));
         }
+        
 
 
         public System.Windows.Controls.Image ConvertDrawingImageToWPFImage(System.Drawing.Image gdiImg) {
@@ -138,6 +140,13 @@ namespace DrawMoar {
             buf.Name = Name;
             buf.Position = Position;
             return buf;
+        }
+
+        public List<string> SaveToFile(string pathToDrm) {
+            List<string> lines = new List<string>();
+            lines.Add($"\t\t\tLayer**{Name}*r*{Picture.Position}");
+            lines.Add(Picture.SaveToFile(pathToDrm, Name));
+            return lines;
         }
     }
 }
