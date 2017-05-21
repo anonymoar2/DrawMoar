@@ -65,6 +65,8 @@ namespace DrawMoar.BaseElements
             var buf = new Frame(Name);
             buf.duration = duration;
 
+            buf.animations.Clear();
+
             foreach(var a in animations)
             {
                 buf.animations.Add(new Animation((ILayer)(a.layer).Clone(), new List<Transformation>()));
