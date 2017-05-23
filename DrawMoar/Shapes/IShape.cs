@@ -3,6 +3,7 @@ using System.Drawing;
 using System;
 using DrawMoar.BaseElements;
 using DrawMoar.Drawing;
+using System.Collections.Generic;
 
 namespace DrawMoar.Shapes
 {
@@ -17,5 +18,6 @@ namespace DrawMoar.Shapes
         double Thickness { get; set; }
 
         void Draw(IDrawer drawer);
+        List<string> SaveToFile(string pathToDrm);
     }
 }

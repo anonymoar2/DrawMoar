@@ -243,14 +243,34 @@ namespace DrawMoar
 
         private void button_Click_1(object sender, RoutedEventArgs e)
         {
-            cartoon = Cartoon.Prev;
+            if (Cartoon.Prev != null)
+            {
+                var buf = cartoon;
+                cartoon = Cartoon.Prev;
+                Cartoon.Prev = buf;
 
-            Cartoon.CurrentScene = cartoon.scenes[Cartoon.PrevCurrentSceneNumber];
-            Cartoon.CurrentFrame = Cartoon.CurrentScene.frames[Cartoon.PrevCurrentFrameNumber];
-            Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations[Cartoon.PrevCurrentLayerNumber];
+                Cartoon.CurrentScene = cartoon.scenes[Cartoon.PrevCurrentSceneNumber];
+                Cartoon.CurrentFrame = Cartoon.CurrentScene.frames[Cartoon.PrevCurrentFrameNumber];
+                Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations[Cartoon.PrevCurrentLayerNumber];
 
-            GC.Collect();
-            Refresh();
+                scenesList.Items.Clear();
+
+                foreach (var scene in cartoon.scenes)
+                {
+                    AddListBoxElement(scenesList, scene.Name);
+                }
+
+                scenesList.SelectedIndex = Cartoon.PrevCurrentSceneNumber;
+                framesList.SelectedIndex = Cartoon.PrevCurrentFrameNumber;
+                layersList.SelectedIndex = Cartoon.PrevCurrentLayerNumber;
+
+                GC.Collect();
+                Refresh();
+            }
+        }
+
+        private void SaveToDrm(object sender, RoutedEventArgs e) {
+            cartoon.SaveToFile(@"C:\Users\Home\Desktop");
         }
     }
 }

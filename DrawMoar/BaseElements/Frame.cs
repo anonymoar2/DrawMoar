@@ -65,12 +65,23 @@ namespace DrawMoar.BaseElements
             var buf = new Frame(Name);
             buf.duration = duration;
 
+            buf.animations.Clear();
+
             foreach(var a in animations)
             {
                 buf.animations.Add(new Animation((ILayer)(a.layer).Clone(), new List<Transformation>()));
             }
 
             return buf;
+        }
+
+        internal List<string> SaveToFile(string pathToDrm) {
+            List<string> lines = new List<string>();
+            lines.Add($"\tFrame**{Name}*{duration}");
+            foreach (var animation in animations) {
+                lines.AddRange(animation.SaveToFile(pathToDrm));
+            }
+            return lines;
         }
     }
 }

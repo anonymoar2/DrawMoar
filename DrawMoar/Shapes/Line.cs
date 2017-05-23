@@ -6,6 +6,7 @@ using System.Windows.Controls;
 
 using DrawMoar.BaseElements;
 using DrawMoar.Drawing;
+using System.Collections.Generic;
 
 namespace DrawMoar.Shapes
 {
@@ -47,6 +48,10 @@ namespace DrawMoar.Shapes
             buf.Alias = Alias;
             buf.Color = Color;
             return buf;
+        }
+
+        public List<string> SaveToFile(string pathToDrm) {
+            return new List<string>() { $"\t\t\t\tShape**line[{PointOne.X};{PointOne.Y};{PointTwo.X};{PointTwo.Y};{Center.X};{Center.Y};{Thickness};{Color.ToString()}]" };
         }
     }
 }

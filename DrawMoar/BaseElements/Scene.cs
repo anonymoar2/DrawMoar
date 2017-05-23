@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 
@@ -75,5 +76,15 @@ namespace DrawMoar.BaseElements
 
             return bufScene;
         }
+
+        internal List<string> SaveToFile(string pathToDrm) {
+            List<string> lines = new List<string>();
+            lines.Add($"Scene**{Name}");
+            foreach (var frame in frames) {
+                lines.AddRange(frame.SaveToFile(pathToDrm));
+            }
+            return lines;
+        }
+        
     }
 }
