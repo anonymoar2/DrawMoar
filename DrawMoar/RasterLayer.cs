@@ -144,7 +144,7 @@ namespace DrawMoar {
 
         public List<string> SaveToFile(string pathToDrm) {
             List<string> lines = new List<string>();
-            lines.Add($"\t\t\tLayer**{Name}*r*{Picture.Position}");
+            lines.Add($"Layer*{Name}*r*{Picture.Position.X}*{Picture.Position.Y}");
             lines.Add(Picture.SaveToFile(pathToDrm, Name));
             return lines;
         }

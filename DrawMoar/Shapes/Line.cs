@@ -51,7 +51,7 @@ namespace DrawMoar.Shapes
         }
 
         public List<string> SaveToFile(string pathToDrm) {
-            return new List<string>() { $"\t\t\t\tShape**line[{PointOne.X};{PointOne.Y};{PointTwo.X};{PointTwo.Y};{Center.X};{Center.Y};{Thickness};{Color.ToString()}]" };
+            return new List<string>() { $"Shape*line*{PointOne.X};{PointOne.Y};{PointTwo.X};{PointTwo.Y};{Thickness};{Color.ToString()}" };
         }
     }
 }

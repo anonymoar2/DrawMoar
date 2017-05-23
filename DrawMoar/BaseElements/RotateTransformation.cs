@@ -55,7 +55,7 @@ namespace DrawMoar.BaseElements
         }
 
         internal override List<string> SaveToFile(string pathToDrm) {
-            return new List<string>() { $"\t\t\t\tTransformation**rotate[{angle}]" };
+            return new List<string>() { $"Transformation*rotate*{angle}" };
         }
     }
 }

@@ -12,7 +12,7 @@ using DrawMoar.Shapes;
 using DrawMoar.BaseElements;
 using System.Linq;
 using DrawMoar.Drawing;
-
+using System.Windows.Forms;
 
 namespace DrawMoar
 {
@@ -37,9 +37,9 @@ namespace DrawMoar
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             canvas.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(canvas_MouseLeftButtonDown);
-            canvas.PreviewMouseMove += new MouseEventHandler(canvas_MouseMove);
+            canvas.PreviewMouseMove += new System.Windows.Input.MouseEventHandler(canvas_MouseMove);
             canvas.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(canvas_MouseLeftButtonUp);
-            canvas.MouseLeave += new MouseEventHandler(canvas_MouseLeave);
+            canvas.MouseLeave += new System.Windows.Input.MouseEventHandler(canvas_MouseLeave);
             ChangeInstrument += SetCursorStyle;
             CurrentTool = Instrument.Arrow;
             Color = Brushes.Black;
@@ -135,13 +135,13 @@ namespace DrawMoar
         private void SetCursorStyle(Object sender, EventArgs e) {
             switch (CurrentTool) {
                 case Instrument.Brush:
-                    canvas.Cursor = Cursors.Cross;
+                    canvas.Cursor = System.Windows.Input.Cursors.Cross;
                     break;
                 case Instrument.Eraser:
-                    canvas.Cursor = Cursors.Hand;
+                    canvas.Cursor = System.Windows.Input.Cursors.Hand;
                     break;
                 default:
-                    canvas.Cursor = Cursors.Arrow;
+                    canvas.Cursor = System.Windows.Input.Cursors.Arrow;
                     break;
             }
         }
@@ -157,8 +157,8 @@ namespace DrawMoar
         }
         
 
-        private void AddListBoxElement(ListBox lBox, string content) {
-            var lbl = new Label();          
+        private void AddListBoxElement(System.Windows.Controls.ListBox lBox, string content) {
+            var lbl = new System.Windows.Controls.Label();          
             lbl.Content = content;
             lBox.Items.Add(lbl);
             lBox.SelectedIndex = lBox.Items.Count - 1;
@@ -189,10 +189,10 @@ namespace DrawMoar
         private void SaveToMp4(object sender, RoutedEventArgs e) {
             try {
                 DrawMoar.ffmpeg.ExportToVideo.SaveToVideo(cartoon, "mp4", "");
-                MessageBox.Show("Мультик готов!!!");
+                System.Windows.MessageBox.Show("Мультик готов!!!");
             }
             catch (Exception ex) {
-                MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.Message);
             }
         }
 
@@ -200,10 +200,10 @@ namespace DrawMoar
         private void SaveToAvi(object sender, RoutedEventArgs e) {
             try {
                 DrawMoar.ffmpeg.ExportToVideo.SaveToVideo(cartoon, "avi", cartoon.pathToAudio);
-                MessageBox.Show("Мультик готов!!!");
+                System.Windows.MessageBox.Show("Мультик готов!!!");
             }
             catch (Exception ex) {
-                MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.Message);
             }
         }
      
@@ -255,6 +255,20 @@ namespace DrawMoar
 
         private void SaveToDrm(object sender, RoutedEventArgs e) {
             cartoon.SaveToFile(@"C:\Users\Home\Desktop");
+        }
+
+        private void OpenFile(object sender, RoutedEventArgs e) {
+            var folderDDialog = new FolderBrowserDialog();
+            folderDDialog.ShowDialog();
+            string selectedDirectory = folderDDialog.SelectedPath;
+
+            string[] lines = File.ReadAllLines(Path.Combine(selectedDirectory, "list.txt"));
+            string[] cartoonSet = lines[0].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries);
+
+            Cartoon cartoon = new Cartoon(cartoonSet[0], Convert.ToInt32(cartoonSet[1]), Convert.ToInt32(cartoonSet[2]), lines[1]);
+            this.cartoon = cartoon;
+            Success(cartoon);
+            cartoon.OpenFile(lines);
         }
     }
 }

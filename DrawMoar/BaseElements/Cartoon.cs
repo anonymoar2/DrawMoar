@@ -1,8 +1,9 @@
-﻿using System;
+﻿using DrawMoar.Shapes;
+using System;
 using System.Collections.Generic;
 
 using System.IO;
-
+using System.Linq;
 
 namespace DrawMoar.BaseElements {
     public class Cartoon {
@@ -120,6 +121,8 @@ namespace DrawMoar.BaseElements {
             Directory.CreateDirectory(Path.Combine(pathToDrm, "images"));
             FileInfo f1 = new FileInfo(Path.Combine(pathToDrm, "list.txt"));
             List<string> lines = new List<string>();
+            lines.Add($"{Name}*{Width}*{Height}");
+            lines.Add($"{WorkingDirectory}");
             foreach (var scene in scenes) {
                 lines.AddRange(scene.SaveToFile(pathToDrm));
             }
@@ -129,6 +132,55 @@ namespace DrawMoar.BaseElements {
                 }
             }
             File.WriteAllLines(Path.Combine(pathToDrm, "list.txt"), lines.ToArray());
+        }
+
+        public void OpenFile(string[] lines) {
+            scenes.Last().frames.RemoveAt(0);
+            scenes.RemoveAt(0);
+            for(int i = 2; i < lines.Length; i++) {
+                string[] lineSet = lines[i].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries);
+                if(lineSet[0] == "Scene") {
+                    scenes.Add(new Scene(lineSet[1]));
+                }
+                else if(lineSet[0] == "Frame") {
+                    scenes.Last().frames.Add(new Frame(lineSet[1]));
+                    scenes.Last().frames.Last().duration = Convert.ToSingle(lineSet[2]);
+                }
+                else if(lineSet[0] == "Animation") {
+                    string[] layerSet = lines[i + 1].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries);
+                    i++;
+                    int k = i;
+                    for(int j = i; !Equals(lines[j].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[0], "Transformation"); j++) {
+                        k = j;
+                    }
+                    List<Transformation> transformations = new List<Transformation>();
+                    for(int j = k; Equals(lines[j].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[0], "Transformation"); j++) {
+                        if(Equals(lines[j].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[1], "translate")) {
+                            transformations.Add(new TranslateTransformation(new System.Windows.Point(Convert.ToDouble(lines[j].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[2]), Convert.ToDouble(lines[j].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[3]))));   
+                        }
+                        //rotateScale
+                    }
+                    ILayer layer = new VectorLayer(layerSet[1]);
+                    if(layerSet[2] == "r") {
+                        layer = new RasterLayer(layerSet[1]);
+                        ((RasterLayer)layer).Picture.Position = new System.Windows.Point(Convert.ToInt32(layerSet[3]), Convert.ToInt32(layerSet[4]));
+                        ((RasterLayer)layer).Picture.Image = System.Drawing.Image.FromFile(lines[i + 1]);
+                    }
+                    if(layerSet[2] == "v") {
+                        for(int s = i + 1; Equals(lines[s][0], "Shape"); s++) {
+                            if (Equals(lines[s].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[1], "line")) {
+                                string[] parameters = lines[s].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[2].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                                ((VectorLayer)layer).Picture.shapes.Add(new Line(new System.Windows.Point(Convert.ToDouble(parameters[0]), Convert.ToDouble(parameters[1])), new System.Windows.Point(Convert.ToDouble(parameters[2]), Convert.ToDouble(parameters[3]))));
+                                ((VectorLayer)layer).Picture.shapes.Last().Thickness = Convert.ToDouble(parameters[4]);
+                                ((VectorLayer)layer).Picture.shapes.Last().Color = new Color(Convert.ToByte(parameters[5]), Convert.ToByte(parameters[6]), Convert.ToByte(parameters[7]), Convert.ToByte(parameters[8]));
+                             }
+                            //ellipserectangle
+                        }
+                    }
+                    scenes.Last().frames.Last().animations.Add(new Animation(layer, transformations));
+                    i = k;
+                }
+            }
         }
 
     }

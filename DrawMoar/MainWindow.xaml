@@ -26,7 +26,7 @@
             <MenuItem Header="File">
                 <MenuItem Header="New"
                           Click="CreateCartoon"/>
-                <MenuItem Header="Open"/>
+                <MenuItem Header="Open" Click="OpenFile"/>
                 <MenuItem Header="Save" Click="SaveToDrm"/>
                 <MenuItem Header="Save as...">
                     <MenuItem Header="MP4" Click="SaveToMp4"/>

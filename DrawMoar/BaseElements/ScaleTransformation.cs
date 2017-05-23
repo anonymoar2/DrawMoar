@@ -61,7 +61,7 @@ namespace DrawMoar.BaseElements
         }
 
         internal override List<string> SaveToFile(string pathToDrm) {
-            return new List<string>() { $"\t\t\t\tTransformation**scale[{scaleFactor}]" };
+            return new List<string>() { $"Transformation*scale*{scaleFactor}" };
         }
     }
 }

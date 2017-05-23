@@ -75,7 +75,7 @@ namespace DrawMoar.BaseElements
 
         internal List<string> SaveToFile(string pathToDrm) {
             List<string> lines = new List<string>();
-            lines.Add($"\tFrame**{Name}*{duration}");
+            lines.Add($"Frame*{Name}*{duration}");
             foreach (var animation in animations) {
                 lines.AddRange(animation.SaveToFile(pathToDrm));
             }

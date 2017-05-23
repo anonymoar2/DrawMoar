@@ -1,13 +1,22 @@
 ﻿using System.Windows.Media;
 
 
-namespace DrawMoar.BaseElements {
-    public struct Color {
+namespace DrawMoar.BaseElements
+{
+    public struct Color
+    {
         byte A;
         byte R;
         byte G;
         byte B;
 
+
+        public Color(byte A, byte R, byte G, byte B) {
+            this.A = A;
+            this.R = R;
+            this.G = G;
+            this.B = B;
+        }
 
         public Color(System.Windows.Media.Color color) {
             this.A = color.A;

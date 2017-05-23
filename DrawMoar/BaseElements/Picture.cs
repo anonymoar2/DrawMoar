@@ -34,7 +34,7 @@ namespace DrawMoar.BaseElements
 
         internal string SaveToFile(string pathToDrm, string name) {
             Image.Save(Path.Combine(pathToDrm, "images", $"{name}.png"));
-            return "\t\t\t\t" + Path.Combine(pathToDrm, "images", $"{name}.png");
+            return Path.Combine(pathToDrm, "images", $"{name}.png");
         }
     }
 }

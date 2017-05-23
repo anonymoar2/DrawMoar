@@ -60,7 +60,7 @@ namespace DrawMoar.Shapes
 
         
         public List<string> SaveToFile(string pathToDrm) {
-            return new List<string>() { $"\t\t\t\tShape**rectangle[{Center.X};{Center.Y};{Thickness};{Color.ToString()};{Size.Width};{Size.Height};{StartAngle};{EndAngle};{Rotate}]" };
+            return new List<string>() { $"Shape*rectangle*{Center.X};{Center.Y};{Thickness};{Color.ToString()};{Size.Width};{Size.Height};{StartAngle};{EndAngle};{Rotate}" };
         }
     }
 }

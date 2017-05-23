@@ -96,7 +96,7 @@ namespace DrawMoar
 
         public List<string> SaveToFile(string pathToDrm) {
             List<string> lines = new List<string>();
-            lines.Add($"\t\t\tLayer**{Name}*v");
+            lines.Add($"Layer*{Name}*v");
             lines.AddRange(Picture.SaveToFile(pathToDrm));
             return lines;
         }

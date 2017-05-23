@@ -79,7 +79,7 @@ namespace DrawMoar.BaseElements
 
         internal List<string> SaveToFile(string pathToDrm) {
             List<string> lines = new List<string>();
-            lines.Add($"Scene**{Name}");
+            lines.Add($"Scene*{Name}");
             foreach (var frame in frames) {
                 lines.AddRange(frame.SaveToFile(pathToDrm));
             }

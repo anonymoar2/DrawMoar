@@ -64,7 +64,7 @@ namespace DrawMoar.Shapes
         }
 
         public List<string> SaveToFile(string pathToDrm) {
-            return new List<string>() { $"\t\t\t\tShape**ellipse[{Center.X};{Center.Y};{Thickness};{Color.ToString()};{Size.Width};{Size.Height};{StartAngle};{EndAngle};{Rotate}]" };
+            return new List<string>() { $"Shape*ellipse*{Center.X};{Center.Y};{Thickness};{Color.ToString()};{Size.Width};{Size.Height};{StartAngle};{EndAngle};{Rotate}" };
         }
     }
 }
