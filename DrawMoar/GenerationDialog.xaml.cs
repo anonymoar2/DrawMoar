@@ -183,24 +183,24 @@ namespace DrawMoar {
         }
 
         private void RotateTime_TextChanged(object sender, TextChangedEventArgs e) {
-            int symb;
-            if (!Int32.TryParse(RotateTime.Text, out symb)) {
-                RotateTime.Clear();
-            }
+            //int symb;
+            //if (!Int32.TryParse(RotateTime.Text, out symb)) {
+            //    RotateTime.Clear();
+            //}
         }
 
         private void ScaleFactor_TextChanged(object sender, TextChangedEventArgs e) {
-            double symb;
-            if (!double.TryParse(ScaleFactor.Text, out symb)) {
-                ScaleFactor.Clear();
-            }
+            //double symb;
+            //if (!double.TryParse(ScaleFactor.Text, out symb)) {
+            //    ScaleFactor.Clear();
+            //}
         }
 
         private void ScaleTime_TextChanged(object sender, TextChangedEventArgs e) {
-            int symb;
-            if (!Int32.TryParse(ScaleTime.Text, out symb)) {
-                ScaleTime.Clear();
-            }
+            //int symb;
+            //if (!Int32.TryParse(ScaleTime.Text, out symb)) {
+            //    ScaleTime.Clear();
+            //}
         }
 
         private void TotalTestDuration_TextChanged(object sender, TextChangedEventArgs e) {
