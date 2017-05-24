@@ -3,7 +3,8 @@ Raster and vector graphics editor for creating cartoons
 
 В ветке Master сейчас находится версия редактора за 13.05.17
 
-
+Небольшой видеопример:
+https://www.youtube.com/watch?v=-UDq_LhTNq0&feature=youtu.be
   		
 *Тут должна быть UML диаграмма, запилите её кто-нибудь пожалуйста*
   
