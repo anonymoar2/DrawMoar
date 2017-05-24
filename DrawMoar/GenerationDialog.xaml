@@ -9,8 +9,9 @@
     <Grid Background="LightGray">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.75*" MinHeight="120"></RowDefinition>
-            <RowDefinition Height="1*" MinHeight="150"></RowDefinition>
-            <RowDefinition Height="1*" MinHeight="150"></RowDefinition>
+            <RowDefinition Height="0.75*" MinHeight="150"></RowDefinition>
+            <RowDefinition Height="0.75*" MinHeight="150"></RowDefinition>
+            <RowDefinition Height="0.75*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="200" Width="200"></ColumnDefinition>
@@ -38,8 +39,10 @@
             <TextBox Name="ScaleFactor" Grid.Column="0" Grid.Row="1" Width="70" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,13" FontSize="15" TextChanged="ScaleFactor_TextChanged"/>
             <Button Name="ScaleCenter" Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10,5" Content="Center" FontSize="15" HorizontalContentAlignment="Center" Click="ScaleCenter_Click"/>
             <TextBox Name="ScalePoint" Grid.Column="0" Grid.Row="1" Width="85" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,8" FontSize="15" IsEnabled="False"/>
-            <Button Name="ApplyTransform" MinWidth="60" Width="Auto" Height="Auto" Content="Apply"  FontSize="18" Margin="10,5" Click="ApplyTransform_Click"/>
-            <TextBox Name="TotalTestDuration" Grid.Column="0" Grid.Row="1" Width="65" Height="Auto" Margin="7,5" FontSize="15" TextChanged="TotalTestDuration_TextChanged"/>
+        </WrapPanel>
+        <WrapPanel Grid.Row="3">
+            <Button Name="ApplyTransform" MinWidth="60" Width="Auto" Height="Auto" Content="Apply"  FontSize="18" Margin="20,25" Click="ApplyTransform_Click"/>
+            <TextBox Name="TotalTestDuration" Grid.Column="0" Grid.Row="1" Width="65" Height="Auto" Margin="10,25" FontSize="15" TextChanged="TotalTestDuration_TextChanged"/>
         </WrapPanel>
     </Grid>
 </Window>
