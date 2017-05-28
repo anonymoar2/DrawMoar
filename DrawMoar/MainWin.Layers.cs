@@ -14,7 +14,7 @@ namespace DrawMoar {
 
         private void layersList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (layersList.SelectedIndex != -1) {
-                Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations[layersList.SelectedIndex];
+                Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentFrame.animations[layersList.SelectedIndex];
             }
 
         }
@@ -22,31 +22,31 @@ namespace DrawMoar {
 
         private void AddRasterLayer_Click(object sender, RoutedEventArgs e) {
             SavePrev();
-            if (cartoon == null) {
+            if (Editor.cartoon == null) {
                 return;
             }
             //проверка на то, выделен ли какой-либо кадр(когда реализуем удаление)
             if (sender != null) {
-                Cartoon.CurrentFrame.animations.Add(new Animation(new RasterLayer(), new List<Transformation>()));
+                Editor.cartoon.CurrentFrame.animations.Add(new Animation(new RasterLayer(), new List<Transformation>()));
             }
-            Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations.Last();
-            var layers = Cartoon.CurrentFrame.animations;
+            Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentFrame.animations.Last();
+            var layers = Editor.cartoon.CurrentFrame.animations;
             AddListBoxElement(layersList, $"RasterLayer_{layers.Count - 1}");
         }
 
 
         private void AddVectorLayer_Click(object sender, RoutedEventArgs e) {
-            if (cartoon == null) {
+            if (Editor.cartoon == null) {
                 return;
             }
             if (sender == null) {
                 layersList.Items.Clear();
             }
             else {
-                Cartoon.CurrentFrame.animations.Add(new Animation(new VectorLayer(), new List<Transformation>()));
+                Editor.cartoon.CurrentFrame.animations.Add(new Animation(new VectorLayer(), new List<Transformation>()));
             }
-            Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations.Last();
-            var layers = Cartoon.CurrentFrame.animations;
+            Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentFrame.animations.Last();
+            var layers = Editor.cartoon.CurrentFrame.animations;
             AddListBoxElement(layersList, $"VectorLayer_{layers.Count - 1}");
         }
 
@@ -58,18 +58,18 @@ namespace DrawMoar {
 
         private void DeleteLayer_Click(object sender, RoutedEventArgs e) {
             SavePrev();
-            if (cartoon == null) return;
+            if (Editor.cartoon == null) return;
             int index = layersList.SelectedIndex;
-            var layerToDelete = Cartoon.CurrentFrame.animations[index].layer;
+            var layerToDelete = Editor.cartoon.CurrentFrame.animations[index].layer;
             layersList.Items.RemoveAt(index);
-            var layers = Cartoon.CurrentFrame.animations;
+            var layers = Editor.cartoon.CurrentFrame.animations;
             layers.RemoveAt(index);
             if (layers.Count == 0) {
                 layers.Add(new Animation(new VectorLayer(), new List<Transformation>()));
-                AddListBoxElement(layersList, Cartoon.CurrentLayer.layer.Name);
+                AddListBoxElement(layersList, Editor.cartoon.CurrentLayer.layer.Name);
             }
             layersList.SelectedIndex = layersList.Items.Count > 1 ? index - 1 : 0;
-            Cartoon.CurrentLayer = index > 0 ? layers[index - 1] : layers[0];
+            Editor.cartoon.CurrentLayer = index > 0 ? layers[index - 1] : layers[0];
             Refresh();
         }
     }

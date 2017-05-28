@@ -102,6 +102,7 @@
     <Compile Include="DurationFrameDialog.xaml.cs">
       <DependentUpon>DurationFrameDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Editor.cs" />
     <Compile Include="GenerationDialog.xaml.cs">
       <DependentUpon>GenerationDialog.xaml</DependentUpon>
     </Compile>

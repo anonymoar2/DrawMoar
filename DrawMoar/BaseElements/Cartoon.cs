@@ -16,8 +16,8 @@ namespace DrawMoar.BaseElements {
 
         public static string Name { get; private set; }
 
-        private static int width;
-        public static int Width {
+        private int width;
+        public int Width {
             get { return width; }
             set {
                 if (value >= MinimalWidth && value <= MaximumWidth) {
@@ -31,8 +31,8 @@ namespace DrawMoar.BaseElements {
             }
         }
 
-        private static int height;
-        public static int Height {
+        private int height;
+        public int Height {
             get { return height; }
             set {
                 if (value >= MinimalHeight || value <= MaximumHeight) {
@@ -46,8 +46,8 @@ namespace DrawMoar.BaseElements {
             }
         }
 
-        private static string workingDirectory;
-        public static string WorkingDirectory {
+        private string workingDirectory;
+        public string WorkingDirectory {
             get {
                 return workingDirectory;
             }
@@ -78,13 +78,13 @@ namespace DrawMoar.BaseElements {
         }
 
 
-        public static int TotalTime { get; set; }
+        public int TotalTime { get; set; }
 
-        public static Animation CurrentLayer { get; set; }
-        public static Frame CurrentFrame { get; set; }
-        public static Scene CurrentScene { get; set; }
-        private static Cartoon prev;
-        public static Cartoon Prev
+        public Animation CurrentLayer { get; set; }
+        public Frame CurrentFrame { get; set; }
+        public Scene CurrentScene { get; set; }
+        private Cartoon prev;
+        public Cartoon Prev
         {
             get
             {
@@ -96,9 +96,9 @@ namespace DrawMoar.BaseElements {
                 GC.Collect();
             }
         }
-        public static int PrevCurrentFrameNumber { get; set; }
-        public static int PrevCurrentSceneNumber { get; set; }
-        public static int PrevCurrentLayerNumber { get; set; }
+        public int PrevCurrentFrameNumber { get; set; }
+        public int PrevCurrentSceneNumber { get; set; }
+        public int PrevCurrentLayerNumber { get; set; }
 
         public object Clone()
         {

@@ -12,7 +12,7 @@ namespace DrawMoar {
 
         private void AddFrame_Click(object sender, RoutedEventArgs e) {
             SavePrev();
-            if (cartoon == null) {
+            if (Editor.cartoon == null) {
                 return;
             }
             if (sender != null) {
@@ -26,13 +26,13 @@ namespace DrawMoar {
 
         private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (framesList.SelectedIndex != -1) {
-                if (Cartoon.CurrentFrame.animations.Count > 0)
-                    Cartoon.CurrentFrame = Cartoon.CurrentScene.frames[framesList.SelectedIndex];
-                Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations.Last();
+                if (Editor.cartoon.CurrentFrame.animations.Count > 0)
+                    Editor.cartoon.CurrentFrame = Editor.cartoon.CurrentScene.frames[framesList.SelectedIndex];
+                Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentFrame.animations.Last();
             }
             layersList.Items.Clear();
             canvas.Children.Clear();
-            var lays = Cartoon.CurrentFrame.animations;
+            var lays = Editor.cartoon.CurrentFrame.animations;
             foreach (var item in lays) {
                 AddListBoxElement(layersList, item.layer.Name);
                 item.layer.Draw(canvasDrawer);
@@ -42,18 +42,18 @@ namespace DrawMoar {
 
         private void DeleteFrame_Click(object sender, RoutedEventArgs e) {
             SavePrev();
-            if (cartoon == null) return;
+            if (Editor.cartoon == null) return;
             int index = framesList.SelectedIndex;
             framesList.Items.RemoveAt(index);
-            var frames = Cartoon.CurrentScene.frames;
+            var frames = Editor.cartoon.CurrentScene.frames;
             frames.RemoveAt(index);
             if (frames.Count == 0) {
                 frames.Add(new BaseElements.Frame());
-                AddListBoxElement(framesList, Cartoon.CurrentFrame.Name);
+                AddListBoxElement(framesList, Editor.cartoon.CurrentFrame.Name);
             }
             framesList.SelectedIndex = index > 0 ? index - 1 : 0;
-            Cartoon.CurrentFrame = index > 0 ? frames[index - 1] : frames[0];
-            Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations[0];
+            Editor.cartoon.CurrentFrame = index > 0 ? frames[index - 1] : frames[0];
+            Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentFrame.animations[0];
             Refresh();
         }
     }

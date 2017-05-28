@@ -47,13 +47,13 @@ namespace DrawMoar
 
                     BaseElements.Frame frame = new BaseElements.Frame();
                     frame.duration = time;
-                    DrawMoar.BaseElements.Cartoon.CurrentScene.frames.Add(frame);
-                    DrawMoar.BaseElements.Cartoon.CurrentFrame = DrawMoar.BaseElements.Cartoon.CurrentScene.frames.Last();
-                    DrawMoar.BaseElements.Cartoon.CurrentLayer = DrawMoar.BaseElements.Cartoon.CurrentFrame.animations.Last();
-                    var frames = DrawMoar.BaseElements.Cartoon.CurrentScene.frames;
+                    Editor.cartoon.CurrentScene.frames.Add(frame);
+                    Editor.cartoon.CurrentFrame = Editor.cartoon.CurrentScene.frames.Last();
+                    Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentFrame.animations.Last();
+                    var frames = Editor.cartoon.CurrentScene.frames;
                                    
                     var lbl = new Label();
-                    lbl.Content = $"{DrawMoar.BaseElements.Cartoon.CurrentFrame.Name} \n {frame.duration} sec";
+                    lbl.Content = $"{Editor.cartoon.CurrentFrame.Name} \n {frame.duration} sec";
                     framesList.Items.Add(lbl);
                     framesList.SelectedIndex = framesList.Items.Count - 1;
 

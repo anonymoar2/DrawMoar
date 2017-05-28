@@ -40,16 +40,16 @@ namespace DrawMoar {
 
         private void AT_Click(object sender, RoutedEventArgs e) {
             SavePrev();
-            ILayer cloneOfCurrent = (ILayer)Cartoon.CurrentLayer.layer.Clone();
+            ILayer cloneOfCurrent = (ILayer)Editor.cartoon.CurrentLayer.layer.Clone();
             generationWin = new GenerationDialog(cloneOfCurrent);
             generationWin.Show();
         }
 
         private void GenerateFrame_Click(object sender, RoutedEventArgs e) {
             SavePrev();
-            if (cartoon == null) return;
-            if (Cartoon.TotalTime == 0) return;
-            Cartoon.CurrentScene.Generate(Cartoon.CurrentFrame, Cartoon.TotalTime);
+            if (Editor.cartoon == null) return;
+            if (Editor.cartoon.TotalTime == 0) return;
+            Editor.cartoon.CurrentScene.Generate(Editor.cartoon.CurrentFrame, Editor.cartoon.TotalTime);
             scenesList_SelectionChanged(null, null);
             Refresh();
         }
@@ -57,7 +57,7 @@ namespace DrawMoar {
 
         private void CycleFrame_Click(object sender, RoutedEventArgs e) {
             SavePrev();
-            Cartoon.CurrentScene.Cycle(25);
+            Editor.cartoon.CurrentScene.Cycle(25);
             scenesList_SelectionChanged(null, null);
             Refresh();
         }
@@ -70,7 +70,7 @@ namespace DrawMoar {
             if (d.FileName != "") {
                 var pathToAudio = d.FileName;
                 audio.Text = pathToAudio;
-                cartoon.pathToAudio = pathToAudio;
+                Editor.cartoon.pathToAudio = pathToAudio;
             }
             else MessageBox.Show("You haven't chosen the audio file");
         }

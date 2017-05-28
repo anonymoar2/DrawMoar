@@ -16,7 +16,7 @@ namespace DrawMoar {
             SavePrev();
             PressLeftButton = true;
             BrushSize = new Size(slider.Value, slider.Value);
-            var currentLayer = Cartoon.CurrentLayer.layer;
+            var currentLayer = Editor.cartoon.CurrentLayer.layer;
             prevPoint = Mouse.GetPosition(canvas);
             switch (CurrentTool) {
                 case Instrument.Arrow:
@@ -47,7 +47,7 @@ namespace DrawMoar {
 
         void canvas_MouseMove(object sender, MouseEventArgs e) {
             point = (Point)e.GetPosition(canvas);
-            var currentLayer = Cartoon.CurrentLayer.layer;
+            var currentLayer = Editor.cartoon.CurrentLayer.layer;
             if (!PressLeftButton) return;
             switch (CurrentTool) {
                 case Instrument.Arrow:
@@ -84,7 +84,7 @@ namespace DrawMoar {
 
         void ScaleRedrawing(IShape shape, MouseEventArgs e) {
             if (shape != null & e.LeftButton == MouseButtonState.Pressed) {
-                var layer = Cartoon.CurrentLayer;
+                var layer = Editor.cartoon.CurrentLayer;
                 var shiftX = point.X - prevPoint.X;
                 var shiftY = point.Y - prevPoint.Y;
                 if (((shiftX <= 0) || (shiftY <= 0)) && (!(shape is Line))) return;   //пока из-за "плохих" шифтов так; уберу, когда сделаю зеркалирование
@@ -106,7 +106,7 @@ namespace DrawMoar {
 
         void TranslatingRedrawing(MouseEventArgs e) {
             point = e.GetPosition(canvas);
-            Cartoon.CurrentLayer.layer.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
+            Editor.cartoon.CurrentLayer.layer.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
             Refresh();
         }
 

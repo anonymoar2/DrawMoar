@@ -24,7 +24,7 @@ namespace DrawMoar.BaseElements
 
 
         public Frame() {
-            name = $"Frame_{Cartoon.CurrentScene.frames.Count}";
+            name = $"Frame_{Editor.cartoon.CurrentScene.frames.Count}";
             animations.Add(new Animation(new VectorLayer("Vector_Layer_0"), new List<Transformation>()));
             duration = 0.04F;
         }
@@ -38,7 +38,7 @@ namespace DrawMoar.BaseElements
         
         
         public System.Drawing.Bitmap Join() {
-            var bm = new Bitmap(Cartoon.Width, Cartoon.Height, PixelFormat.Format32bppArgb);
+            var bm = new Bitmap(Editor.cartoon.Width, Editor.cartoon.Height, PixelFormat.Format32bppArgb);
             Graphics g = Graphics.FromImage(bm);
             g.CompositingMode = CompositingMode.SourceOver;
             g.Clear(System.Drawing.Color.White);
