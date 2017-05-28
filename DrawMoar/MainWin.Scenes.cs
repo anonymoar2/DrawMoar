@@ -12,12 +12,12 @@ namespace DrawMoar {
 
         private void RefreshScenes() {
             scenesList.Items.Clear();
-            foreach (var item in cartoon.scenes) {
+            foreach (var item in cartoon.scenes) {              
+                Cartoon.CurrentScene = cartoon.scenes.Last();
+                Cartoon.CurrentFrame = Cartoon.CurrentScene.frames.Last();
+                Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations.Last();
                 AddListBoxElement(scenesList, item.Name);
-            }
-            Cartoon.CurrentScene = cartoon.scenes.Last();
-            Cartoon.CurrentFrame = Cartoon.CurrentScene.frames.Last();
-            Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations.Last();
+            }           
         }
 
         private void AddScene_Click(object sender, RoutedEventArgs e) {
