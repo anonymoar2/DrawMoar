@@ -157,7 +157,12 @@ namespace DrawMoar.BaseElements {
                         if(Equals(lines[j].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[1], "translate")) {
                             transformations.Add(new TranslateTransformation(new System.Windows.Point(Convert.ToDouble(lines[j].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[2]), Convert.ToDouble(lines[j].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[3]))));   
                         }
-                        //rotateScale
+                        if (Equals(lines[j].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[1], "rotate")) {
+                            transformations.Add(new RotateTransformation(new System.Windows.Point(Convert.ToDouble(lines[j].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[2]), Convert.ToDouble(lines[j].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[3])), Convert.ToDouble(lines[j].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[4])));
+                        }
+                        if (Equals(lines[j].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[1], "scale")) {
+                            transformations.Add(new ScaleTransformation(new System.Windows.Point(Convert.ToDouble(lines[j].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[2]), Convert.ToDouble(lines[j].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[3])), Convert.ToDouble(lines[j].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[4])));
+                        }
                     }
                     ILayer layer = new VectorLayer(layerSet[1]);
                     if(layerSet[2] == "r") {
@@ -173,7 +178,18 @@ namespace DrawMoar.BaseElements {
                                 ((VectorLayer)layer).Picture.shapes.Last().Thickness = Convert.ToDouble(parameters[4]);
                                 ((VectorLayer)layer).Picture.shapes.Last().Color = new Color(Convert.ToByte(parameters[5]), Convert.ToByte(parameters[6]), Convert.ToByte(parameters[7]), Convert.ToByte(parameters[8]));
                              }
-                            //ellipserectangle
+                            if (Equals(lines[s].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[1], "ellipse")) {
+                                string[] parameters = lines[s].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[2].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                                ((VectorLayer)layer).Picture.shapes.Add(new Ellipse(new System.Windows.Point(Convert.ToDouble(parameters[0]), Convert.ToDouble(parameters[1])), new System.Windows.Size(Convert.ToDouble(parameters[7]), Convert.ToDouble(parameters[8])), Convert.ToDouble(9), Convert.ToDouble(10), Convert.ToDouble(11)));
+                                ((VectorLayer)layer).Picture.shapes.Last().Thickness = Convert.ToDouble(parameters[2]);
+                                ((VectorLayer)layer).Picture.shapes.Last().Color = new Color(Convert.ToByte(parameters[3]), Convert.ToByte(parameters[4]), Convert.ToByte(parameters[5]), Convert.ToByte(parameters[6]));
+                            }
+                            if (Equals(lines[s].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[1], "rectangle")) {
+                                string[] parameters = lines[s].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[2].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                                ((VectorLayer)layer).Picture.shapes.Add(new Rectangle(new System.Windows.Point(Convert.ToDouble(parameters[0]), Convert.ToDouble(parameters[1])), new System.Windows.Size(Convert.ToDouble(parameters[7]), Convert.ToDouble(parameters[8])), Convert.ToDouble(9), Convert.ToDouble(10), Convert.ToDouble(11)));
+                                ((VectorLayer)layer).Picture.shapes.Last().Thickness = Convert.ToDouble(parameters[2]);
+                                ((VectorLayer)layer).Picture.shapes.Last().Color = new Color(Convert.ToByte(parameters[3]), Convert.ToByte(parameters[4]), Convert.ToByte(parameters[5]), Convert.ToByte(parameters[6]));
+                            }
                         }
                     }
                     scenes.Last().frames.Last().animations.Add(new Animation(layer, transformations));

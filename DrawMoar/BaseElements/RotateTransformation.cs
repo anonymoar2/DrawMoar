@@ -9,12 +9,13 @@ namespace DrawMoar.BaseElements
     class RotateTransformation : Transformation
     {
         private Matrix<double> Transform;
-
+        private System.Windows.Point point;
         private double angle;
 
             
         public RotateTransformation(System.Windows.Point point, double angle) {
             this.angle = angle;
+            this.point = point;
             var one = new Matrix<double>(new double[3, 3] { { 1, 0, point.X }, { 0, 1, point.Y }, { 0, 0, 1 } });
             var three = new Matrix<double>(new double[3, 3] { { 1, 0, -point.X }, { 0, 1, -point.Y }, { 0, 0, 1 } });
             var two = new Matrix<double>(new double[3, 3] {{ Math.Cos(angle * (Math.PI / 180)), -Math.Sin(angle * (Math.PI / 180)), 0 }, { Math.Sin(angle * (Math.PI / 180)),  Math.Cos(angle * (Math.PI / 180)), 0 }, {0,0,1 }});
@@ -55,7 +56,7 @@ namespace DrawMoar.BaseElements
         }
 
         internal override List<string> SaveToFile(string pathToDrm) {
-            return new List<string>() { $"Transformation*rotate*{angle}" };
+            return new List<string>() { $"Transformation*rotate*{point.X}*{point.Y}*{angle}" };
         }
     }
 }
