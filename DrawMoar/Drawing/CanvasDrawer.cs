@@ -66,12 +66,14 @@ namespace DrawMoar.Drawing {
             canvas.Children.Add(rectangle);
         }
 
-        public void DrawImage(System.Drawing.Image image, double x, double y) {
+        public void DrawPicture(Picture picture, double x, double y) {
             var rlc = new RasterLayerControl();
-            DrawRasterLayerImage(image,rlc);
+            DrawRasterLayerImage(picture.Image,rlc);
+            RotateTransform rt = new RotateTransform(picture.Angle);
+            rlc.RenderTransform = rt;
             canvas.Children.Add(rlc);
             Canvas.SetLeft(rlc, x);
-            Canvas.SetTop(rlc, y);
+            Canvas.SetTop(rlc, y);           
         }
 
         private void DrawRasterLayerImage(System.Drawing.Image image,RasterLayerControl rlc) {

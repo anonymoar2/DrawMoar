@@ -30,14 +30,8 @@ namespace DrawMoar.BaseElements
 
 
         public override Picture Apply(Picture picture) {
-            Bitmap bmp = new Bitmap(picture.Image.Width, picture.Image.Height);
-            Graphics gfx = Graphics.FromImage(bmp);
-            gfx.TranslateTransform((float)bmp.Width / 2, (float)bmp.Height / 2);
-            gfx.RotateTransform(Convert.ToSingle(angle));
-            gfx.TranslateTransform(-(float)bmp.Width / 2, -(float)bmp.Height / 2);
-            gfx.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            gfx.DrawImage(picture.Image, new System.Drawing.Point(0, 0));
-            gfx.Dispose();
+            picture.Position = this.Apply(picture.Position);
+            picture.Angle =(picture.Angle+ (float)this.angle)%360;
             return picture;
         }
 

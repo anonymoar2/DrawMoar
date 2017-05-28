@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 using DrawMoar.Shapes;
 using System.Drawing;
+using DrawMoar.BaseElements;
 
 namespace DrawMoar.Drawing {
     public interface IDrawer {
         void DrawLine(Line line);
         void DrawEllipse(Ellipse ellipse);
         void DrawRectangle(Shapes.Rectangle rectangle);
-        void DrawImage(Image image, double x, double y);
+        void DrawPicture(Picture pic, double x, double y);
     }
 }

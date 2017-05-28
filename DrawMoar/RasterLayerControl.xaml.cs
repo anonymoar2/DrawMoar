@@ -21,5 +21,9 @@ namespace DrawMoar {
         public RasterLayerControl() {
             InitializeComponent();
         }
+
+        public void Rotate(float angle) {
+            this.RenderTransform = new RotateTransform(angle);
+        }
     }
 }

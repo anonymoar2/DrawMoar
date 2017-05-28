@@ -1,4 +1,5 @@
-﻿using DrawMoar.Shapes;
+﻿using DrawMoar.BaseElements;
+using DrawMoar.Shapes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -45,8 +46,10 @@ namespace DrawMoar.Drawing {
             g.ResetTransform();
         }
 
-        public void DrawImage(Image image, double x, double y) {
-            g.DrawImage(image, new Point((int)x, (int)y));
+        public void DrawPicture(Picture pic, double x, double y) {
+            g.RotateTransform(pic.Angle);
+            g.DrawImage(pic.Image, new Point((int)x, (int)y));
+            g.ResetTransform();
         }
     }
 }

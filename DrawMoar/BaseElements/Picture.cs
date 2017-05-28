@@ -9,6 +9,7 @@ namespace DrawMoar.BaseElements
     public class Picture : ICloneable
     {
         public System.Windows.Point Position { get; set; }
+        public float Angle { get; set; }
 
         public Image Image { get; set; }
 
@@ -18,10 +19,6 @@ namespace DrawMoar.BaseElements
             Image = null;
         }
 
-
-        public void Draw(IDrawer drawer) {
-            drawer.DrawImage(Image, Convert.ToSingle(Position.X), Convert.ToSingle(Position.Y));
-        }
         
 
         public object Clone()

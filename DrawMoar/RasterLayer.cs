@@ -61,7 +61,7 @@ namespace DrawMoar {
 
 
         public void Draw(IDrawer drawer) {
-            Picture.Draw(drawer);
+            drawer.DrawPicture(Picture,Position.X,Position.Y);
         }
 
 
@@ -92,22 +92,7 @@ namespace DrawMoar {
         
 
 
-        public System.Windows.Controls.Image ConvertDrawingImageToWPFImage(System.Drawing.Image gdiImg) {
-
-            if (gdiImg == null) return null;
-            System.Windows.Controls.Image img = new System.Windows.Controls.Image();
-
-            Bitmap bmp = new Bitmap(gdiImg);
-            IntPtr hBitmap = bmp.GetHbitmap();
-            ImageSource WpfBitmap = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero,
-                                    Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-
-            img.Source = WpfBitmap;
-            img.Width = gdiImg.Width;
-            img.Height = gdiImg.Height;
-            img.Stretch = Stretch.Fill;
-            return img;
-        }
+       
 
 
         public void AddShape(IShape shape) {
