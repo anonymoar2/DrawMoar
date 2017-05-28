@@ -286,8 +286,12 @@ namespace DrawMoar
             scenesList.SelectedIndex = 0;
             Cartoon cartoon = new Cartoon(cartoonSet[0], Convert.ToInt32(cartoonSet[1]), Convert.ToInt32(cartoonSet[2]), lines[1]);
             this.cartoon = cartoon;
-            //Success(cartoon);
             cartoon.OpenFile(lines);
+            canvas.Visibility = Visibility.Visible;
+            canvas.Width = Cartoon.Width;
+            canvas.Height = Cartoon.Height;
+            RefreshScenes();
+            
         }
     }
 }
