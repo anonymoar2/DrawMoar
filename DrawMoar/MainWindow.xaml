@@ -47,7 +47,7 @@
 
         </Border>
         <Border Grid.Column="3" Grid.Row="1" Grid.RowSpan="5" Background="Snow"/>
-        <WrapPanel Name="figurePanel" Grid.Column="0" Grid.Row="1" MaxWidth="130" Grid.RowSpan="2">
+        <WrapPanel Name="figurePanel" Grid.Column="0" Grid.Row="1" MaxWidth="130" Background="WhiteSmoke" Grid.RowSpan="2">
             <WrapPanel Name="wp1" Width="130" Height="300">
                 <Button x:Name="Lines" Height ="25" Width="40" Margin="5,5" Content="Lines" Click="Lines_Click"/>
                 <Button x:Name="Brush" Height ="25" Width="40" Margin="5,5" Content="Brush" Click="Brush_Click"/>

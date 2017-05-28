@@ -10,6 +10,16 @@ using System.Windows.Controls;
 namespace DrawMoar {
     public partial class MainWindow : Window {
 
+        private void RefreshScenes() {
+            scenesList.Items.Clear();
+            foreach (var item in cartoon.scenes) {
+                AddListBoxElement(scenesList, item.Name);
+            }
+            Cartoon.CurrentScene = cartoon.scenes.Last();
+            Cartoon.CurrentFrame = Cartoon.CurrentScene.frames.Last();
+            Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations.Last();
+        }
+
         private void AddScene_Click(object sender, RoutedEventArgs e) {
             SavePrev();
             if (cartoon == null) {
