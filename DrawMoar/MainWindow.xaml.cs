@@ -279,18 +279,19 @@ namespace DrawMoar
             var folderDDialog = new FolderBrowserDialog();
             folderDDialog.ShowDialog();
             string selectedDirectory = folderDDialog.SelectedPath;
+            if (selectedDirectory != "") {
+                string[] lines = File.ReadAllLines(Path.Combine(selectedDirectory, "list.txt"));
+                string[] cartoonSet = lines[0].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries);
 
-            string[] lines = File.ReadAllLines(Path.Combine(selectedDirectory, "list.txt"));
-            string[] cartoonSet = lines[0].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries);
-
-            scenesList.SelectedIndex = 0;
-            Cartoon cartoon = new Cartoon(cartoonSet[0], Convert.ToInt32(cartoonSet[1]), Convert.ToInt32(cartoonSet[2]), lines[1]);
-            this.cartoon = cartoon;
-            cartoon.OpenFile(lines);
-            canvas.Visibility = Visibility.Visible;
-            canvas.Width = Cartoon.Width;
-            canvas.Height = Cartoon.Height;
-            RefreshScenes();
+                scenesList.SelectedIndex = 0;
+                Cartoon cartoon = new Cartoon(cartoonSet[0], Convert.ToInt32(cartoonSet[1]), Convert.ToInt32(cartoonSet[2]), lines[1]);
+                this.cartoon = cartoon;
+                cartoon.OpenFile(lines);
+                canvas.Visibility = Visibility.Visible;
+                canvas.Width = Cartoon.Width;
+                canvas.Height = Cartoon.Height;
+                RefreshScenes();
+            }
             
         }
     }

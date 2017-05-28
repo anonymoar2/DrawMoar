@@ -171,7 +171,7 @@ namespace DrawMoar.BaseElements {
                         ((RasterLayer)layer).Picture.Image = System.Drawing.Image.FromFile(lines[i + 1]);
                     }
                     if(layerSet[2] == "v") {
-                        for(int s = i + 1; Equals(lines[s][0], "Shape"); s++) {
+                        for(int s = i + 1; s < lines.Length && Equals(lines[s].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[0], "Shape"); s++) {
                             if (Equals(lines[s].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[1], "line")) {
                                 string[] parameters = lines[s].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[2].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
                                 ((VectorLayer)layer).Picture.shapes.Add(new Line(new System.Windows.Point(Convert.ToDouble(parameters[0]), Convert.ToDouble(parameters[1])), new System.Windows.Point(Convert.ToDouble(parameters[2]), Convert.ToDouble(parameters[3]))));
