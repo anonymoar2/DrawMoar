@@ -18,7 +18,7 @@ namespace DrawMoar.ffmpeg
             Directory.CreateDirectory(pathToImages);
             var concatFilename = CreateTemporaryFiles(cartoon, pathToImages);
             int count = 0;
-            if(File.Exists(Path.Combine(Cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}"))){
+            while(File.Exists(Path.Combine(Cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}"))){
                 count++;
             }
             Process process = new Process();
@@ -37,7 +37,9 @@ namespace DrawMoar.ffmpeg
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
-            File.Move(Path.Combine(pathToImages, $"silentOut{count}.{outFileFormat}"), Path.Combine(Cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}"));
+            string readyCartoonPath = Path.Combine(Cartoon.WorkingDirectory, $"silentOut{count}.{outFileFormat}");
+            //if (File.Exists(readyCartoonPath))File.Delete(readyCartoonPath);     //либо так перезаписывать, либо убирать увеличение count в 21-22 строчках
+            File.Move(Path.Combine(pathToImages, $"silentOut{count}.{outFileFormat}"), readyCartoonPath);
             if (File.Exists(pathToMusic) && outFileFormat == "avi") {
                 AddMusic(pathToMusic, $"silentOut{count}.avi", Cartoon.WorkingDirectory, count);
             }
