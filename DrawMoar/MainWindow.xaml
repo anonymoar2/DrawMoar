@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DrawMoar"
         mc:Ignorable="d"
-        Title="Draw_Moar" Height="1000" Width="1200" WindowState="Maximized" SizeChanged="Window_SizeChanged" Closed="Window_Closed">
+        Title="Draw_Moar" Height="700" Width="900" WindowState="Maximized" SizeChanged="Window_SizeChanged" Closed="Window_Closed">
     <Grid Name="rootGrid" Background="LightGray">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
@@ -42,29 +42,30 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="5" Background="Snow" Height="949" VerticalAlignment="Bottom">
-           
+        <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="5" Background="Snow">
+            <Button x:Name="button" Content="Cancel" Margin="67,76,10,549" Width="53" Height="24" Click="button_Click_1" VerticalAlignment="Top"/>
 
         </Border>
         <Border Grid.Column="3" Grid.Row="1" Grid.RowSpan="5" Background="Snow"/>
         <WrapPanel Name="figurePanel" Grid.Column="0" Grid.Row="1" MaxWidth="130" Grid.RowSpan="2">
-            <WrapPanel Name="wp1" Width="130" Height="300">
+            <WrapPanel Name="wp1" Width="130" Height="180">
                 <Button x:Name="Lines" Height ="25" Width="40" Margin="5,5" Content="Lines" Click="Lines_Click"/>
                 <Button x:Name="Brush" Height ="25" Width="40" Margin="5,5" Content="Brush" Click="Brush_Click"/>
                 <Button x:Name="Arrow" Height ="25" Width="40" Margin="5,5" Content="Arrow" Click="Arrow_Click"/>
                 <Button x:Name="AddEllipse" Height ="25" Width="40" Margin="5,5" Content="Ellipse" Click="AddEllipse_Click"/>
-                <Button x:Name="AddRectangle" Height ="25" Width="50" Margin="5,5" Content="Rect" Click="AddRectangle_Click"/>
-                <Button x:Name="button" Content="Cancel" Margin="5,5" Width="53" Height="25" Click="button_Click_1" VerticalAlignment="Top"/>
+                <Button x:Name="AddRectangle" Height ="25" Width="60" Margin="5,5" Content="Rectangle" Click="AddRectangle_Click"/>
                 <Button x:Name="AddAudioButton" Height ="25" Width="60" Margin="5,5" Content="Audio" Click="AddAudio"/>
-                <TextBox x:Name="audio" Height="25" TextWrapping="Wrap" Margin="15,5" Width="100" Text="audio"/>
+                <TextBox x:Name="audio" Height="20" TextWrapping="Wrap" Text="audio" Width="42"/>
                 <Button x:Name="Eraser" Height ="25" Width="60" Margin="5,5" Content="Eraser" Click="Eraser_Click"/>
-                <xctk:ColorPicker x:Name="ClrPcker_Background"  Margin="30,15,0,0" Height="25" Width="70" SelectedColor="Black" SelectedColorChanged="ClrPcker_Background_SelectedColorChanged"/>
-
-                <Slider x:Name="slider" Width="100" Minimum="3" Margin="15,10" Maximum="50"/>
             </WrapPanel>
             <WrapPanel Name="wp2" Width="130" MinHeight="90" Height="135">
-                <Button x:Name="GenerateFrame" Content="Generate" Width="auto"  Height="23" Margin="5,5" Click="GenerateFrame_Click"/>
-                <Button x:Name="AddTransformation" Content="Transform" Width="auto"  Height="24" Margin="5,5" Click="AT_Click"/>
+                <Button x:Name="CycleFrame" Content="Cycle" Width="40"  Height="25" Margin="5,2" Click="CycleFrame_Click"/>
+                <Button x:Name="GenerateFrame" Content="Generate" Width="auto"  Height="23" Margin="5,2" Click="GenerateFrame_Click"/>
+                <Button x:Name="AddTransformation" Content="Transform" Width="auto"  Height="24" Margin="5,2" Click="AT_Click"/>
+                <Button x:Name="AFrameTrans" Content="Frame Transform" Width="auto"  Height="22" Margin="5,2" Click="AFT_Click"/>
+                <xctk:ColorPicker x:Name="ClrPcker_Background"  Margin="70,3,0,0" Height="25" Width="45" SelectedColor="Black" SelectedColorChanged="ClrPcker_Background_SelectedColorChanged"/>
+                
+                <Slider x:Name="slider" Width="130" Minimum="3" Maximum="50"/>
             </WrapPanel>
         </WrapPanel>
         <WrapPanel Name="palette" Grid.Column="0" Grid.Row="3">

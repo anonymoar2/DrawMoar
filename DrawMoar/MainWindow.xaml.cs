@@ -172,10 +172,11 @@ namespace DrawMoar
             string fileName = fileDialog.FileName;
             if (fileName == "") System.Windows.MessageBox.Show("You haven't chosen the file");
             else {
-                Cartoon.CurrentFrame.animations.Add(new Animation(new RasterLayer(), new List<Transformation>()));
-                Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations.Last();
-                ((RasterLayer)Cartoon.CurrentFrame.animations.Last().layer).Picture.Image = System.Drawing.Image.FromFile(fileName);
-                Cartoon.CurrentFrame.animations.Last().layer.Draw(canvasDrawer);
+                //Cartoon.CurrentFrame.animations.Add(new Animation(new RasterLayer(), new List<Transformation>()));
+                //Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations.Last();
+                Cartoon.CurrentLayer.layer.Add(new RasterLayer());
+                ((RasterLayer)Cartoon.CurrentFrame.animations.Last().layer.Last()).Picture.Image = System.Drawing.Image.FromFile(fileName);
+                Cartoon.CurrentFrame.animations.Last().layer[0].Draw(canvasDrawer);
                 AddRasterLayer_Click(null, null);
             }
         }
@@ -218,7 +219,7 @@ namespace DrawMoar
             canvas.Children.Clear();
             var layers = Cartoon.CurrentFrame.animations;
             foreach (var item in layers) {
-                item.layer.Draw(canvasDrawer);
+                item.layer[0].Draw(canvasDrawer);
             }
         }
 
