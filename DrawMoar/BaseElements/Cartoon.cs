@@ -149,7 +149,7 @@ namespace DrawMoar.BaseElements {
                     string[] layerSet = lines[i + 1].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries);
                     i++;
                     int k = i;
-                    for(int j = i; !Equals(lines[j].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[0], "Transformation"); j++) {
+                    for(int j = i; !Equals(lines[j].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries)[0], "Transformation") && j < lines.Length - 1; j++) {
                         k = j;
                     }
                     List<Transformation> transformations = new List<Transformation>();
