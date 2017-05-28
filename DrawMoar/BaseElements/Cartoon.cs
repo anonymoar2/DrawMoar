@@ -135,8 +135,7 @@ namespace DrawMoar.BaseElements {
         }
 
         public void OpenFile(string[] lines) {
-            scenes.Last().frames.RemoveAt(0);
-            scenes.RemoveAt(0);
+            // здесь в принципе было бы неплохо удалять нулевую сцену, нулевой кадр и слой которые автоматически сгенерились
             for(int i = 2; i < lines.Length; i++) {
                 string[] lineSet = lines[i].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries);
                 if(lineSet[0] == "Scene") {
