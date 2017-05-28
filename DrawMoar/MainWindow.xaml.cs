@@ -270,7 +270,9 @@ namespace DrawMoar
         }
 
         private void SaveToDrm(object sender, RoutedEventArgs e) {
-            cartoon.SaveToFile(@"C:\Users\Home\Desktop");
+            var folderDDialog = new FolderBrowserDialog();
+            folderDDialog.ShowDialog();
+            cartoon.SaveToFile(folderDDialog.SelectedPath);
         }
 
         private void OpenFile(object sender, RoutedEventArgs e) {
