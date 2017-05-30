@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -21,7 +22,7 @@ namespace DrawMoar.BaseElements
         public float duration { get;set; }
 
         public List<Animation> animations = new List<Animation>();
-
+        public List<int> stateNumbers = new List<int>() { 0};
 
         public Frame() {
             name = $"Frame_{Editor.cartoon.CurrentScene.frames.Count}";
@@ -43,7 +44,7 @@ namespace DrawMoar.BaseElements
             g.CompositingMode = CompositingMode.SourceOver;
             g.Clear(System.Drawing.Color.White);
             foreach (var a in animations) {
-                a.layer.Draw(new GraphicsDrawer(g));
+                a.layer[stateNumbers[animations.IndexOf(a)]].Draw(new GraphicsDrawer(g));
             }
             g.Dispose();
             return bm;
@@ -54,6 +55,7 @@ namespace DrawMoar.BaseElements
             var newFrame = new Frame();
             foreach(var a in animations) {
                 newFrame.animations.Add(new Animation(a.GetByTime(time), new List<Transformation>()));
+
             }
             newFrame.animations.RemoveAt(0);
             return newFrame;
@@ -69,7 +71,11 @@ namespace DrawMoar.BaseElements
 
             foreach(var a in animations)
             {
-                buf.animations.Add(new Animation((ILayer)(a.layer).Clone(), new List<Transformation>()));
+                var newLayer = new List<ILayer>();
+                foreach(var l in a.layer) {
+                    newLayer.Add((ILayer)l.Clone());
+                }
+                buf.animations.Add(new Animation(newLayer, new List<Transformation>()));
             }
 
             return buf;

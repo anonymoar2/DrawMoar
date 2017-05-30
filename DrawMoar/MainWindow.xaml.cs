@@ -217,7 +217,7 @@ namespace DrawMoar
             canvas.Children.Clear();
             var layers = Editor.cartoon.CurrentFrame.animations;
             foreach (var item in layers) {
-                item.layer.Draw(canvasDrawer);
+                item.layer[0].Draw(canvasDrawer);
             }
         }
 

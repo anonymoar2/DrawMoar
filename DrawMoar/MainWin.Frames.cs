@@ -34,8 +34,8 @@ namespace DrawMoar {
             canvas.Children.Clear();
             var lays = Editor.cartoon.CurrentFrame.animations;
             foreach (var item in lays) {
-                AddListBoxElement(layersList, item.layer.Name);
-                item.layer.Draw(canvasDrawer);
+                AddListBoxElement(layersList, item.layer[0].Name);
+                item.layer[Cartoon.CurrentFrame.stateNumbers[Cartoon.CurrentFrame.animations.IndexOf(item)]].Draw(canvasDrawer);
                 layersList.SelectedIndex = 0;
             }
         }

@@ -66,7 +66,7 @@ namespace DrawMoar {
             layers.RemoveAt(index);
             if (layers.Count == 0) {
                 layers.Add(new Animation(new VectorLayer(), new List<Transformation>()));
-                AddListBoxElement(layersList, Editor.cartoon.CurrentLayer.layer.Name);
+                AddListBoxElement(layersList, Cartoon.CurrentLayer.layer[0].Name);
             }
             layersList.SelectedIndex = layersList.Items.Count > 1 ? index - 1 : 0;
             Editor.cartoon.CurrentLayer = index > 0 ? layers[index - 1] : layers[0];
