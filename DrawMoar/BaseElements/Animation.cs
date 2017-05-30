@@ -16,10 +16,10 @@ namespace DrawMoar.BaseElements
             this.transformations = transformations;
         }
 
-        public ILayer GetByTime(int time) {
+        public ILayer GetByTime(double time) {
             ILayer copyLayer = (ILayer)layer.Clone();
             foreach(var transform in transformations) {
-                for (int i = 0; i < time; i++) {
+                for (double i = 0; i <= time; i+= 0.1) {
                     copyLayer.Transform(transform);
                 }
             }
