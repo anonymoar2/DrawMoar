@@ -28,15 +28,16 @@ namespace DrawMoar {
             if (framesList.SelectedIndex != -1) {
                 if (Editor.cartoon.CurrentFrame.animations.Count > 0)
                     Editor.cartoon.CurrentFrame = Editor.cartoon.CurrentScene.frames[framesList.SelectedIndex];
-                Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentFrame.animations.Last();
+                Editor.cartoon.CurrentAnimation = Editor.cartoon.CurrentFrame.animations.Last();
+                Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentAnimation.layers.Last();
             }
-            layersList.Items.Clear();
+            animationsList.Items.Clear();
             canvas.Children.Clear();
-            var lays = Editor.cartoon.CurrentFrame.animations;
-            foreach (var item in lays) {
-                AddListBoxElement(layersList, item.layer[0].Name);
-                item.layer[Cartoon.CurrentFrame.stateNumbers[Cartoon.CurrentFrame.animations.IndexOf(item)]].Draw(canvasDrawer);
-                layersList.SelectedIndex = 0;
+            var anims = Editor.cartoon.CurrentFrame.animations;
+            foreach (var item in anims) {
+                AddListBoxElement(animationsList, item.Name);
+                //item.layer[Editor.cartoon.CurrentFrame.stateNumbers[Editor.cartoon.CurrentFrame.animations.IndexOf(item)]].Draw(canvasDrawer);
+                animationsList.SelectedIndex = 0;
             }
         }
 
@@ -53,7 +54,8 @@ namespace DrawMoar {
             }
             framesList.SelectedIndex = index > 0 ? index - 1 : 0;
             Editor.cartoon.CurrentFrame = index > 0 ? frames[index - 1] : frames[0];
-            Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentFrame.animations[0];
+            Editor.cartoon.CurrentAnimation = index > 0 ? Editor.cartoon.CurrentFrame.animations[index-1] : Editor.cartoon.CurrentFrame.animations[0];
+            Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentAnimation.layers[0];
             Refresh();
         }
     }

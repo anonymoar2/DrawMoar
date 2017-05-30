@@ -80,7 +80,8 @@ namespace DrawMoar.BaseElements {
 
         public int TotalTime { get; set; }
 
-        public Animation CurrentLayer { get; set; }
+        public ILayer CurrentLayer { get; set; }
+        public Animation CurrentAnimation { get; set; }
         public Frame CurrentFrame { get; set; }
         public Scene CurrentScene { get; set; }
         private Cartoon prev;

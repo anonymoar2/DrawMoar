@@ -16,7 +16,7 @@ namespace DrawMoar {
             SavePrev();
             PressLeftButton = true;
             BrushSize = new Size(slider.Value, slider.Value);
-            var currentLayer = Editor.cartoon.CurrentLayer.layer;
+            var currentLayer = Editor.cartoon.CurrentLayer;
             prevPoint = Mouse.GetPosition(canvas);
             switch (CurrentTool) {
                 case Instrument.Arrow:
@@ -26,17 +26,17 @@ namespace DrawMoar {
                 case Instrument.Rectangle:
                     newRect = new Rectangle(prevPoint, new Size(15, 10));
                     newRect.Draw(canvasDrawer);
-                    SaveIntoLayer(currentLayer[0], newRect);
+                    SaveIntoLayer(currentLayer, newRect);
                     break;
                 case Instrument.Ellipse:
                     newEllipse = new Ellipse(prevPoint, new Size(15, 10));
                     newEllipse.Draw(canvasDrawer);
-                    SaveIntoLayer(currentLayer[0], newEllipse);
+                    SaveIntoLayer(currentLayer, newEllipse);
                     break;
                 case Instrument.Line:
                     newLine = new Line(prevPoint, prevPoint);
                     newLine.Draw(canvasDrawer);
-                    SaveIntoLayer(currentLayer[0], newLine);
+                    SaveIntoLayer(currentLayer, newLine);
                     break;
                 case Instrument.Eraser:
                     break;
@@ -47,7 +47,7 @@ namespace DrawMoar {
 
         void canvas_MouseMove(object sender, MouseEventArgs e) {
             point = (Point)e.GetPosition(canvas);
-            var currentLayer = Editor.cartoon.CurrentLayer.layer;
+            var currentLayer = Editor.cartoon.CurrentLayer;
             if (!PressLeftButton) return;
             switch (CurrentTool) {
                 case Instrument.Arrow:
@@ -57,7 +57,7 @@ namespace DrawMoar {
                 case Instrument.Brush:
                     newLine = new Line(prevPoint, point);
                     newLine.Draw(canvasDrawer);
-                    SaveIntoLayer(currentLayer[0], newLine);
+                    SaveIntoLayer(currentLayer, newLine);
                     prevPoint = point;
                     break;
                 case Instrument.Rectangle:
@@ -74,7 +74,7 @@ namespace DrawMoar {
                     ClrPcker_Background.SelectedColor = Colors.Transparent;
                     newLine = new Line(prevPoint, point);
                     newLine.Draw(canvasDrawer);
-                    SaveIntoLayer(currentLayer[0], newLine);
+                    SaveIntoLayer(currentLayer, newLine);
                     prevPoint = point;
                     ClrPcker_Background.SelectedColor = bufColor;
                     break;
@@ -94,10 +94,10 @@ namespace DrawMoar {
                 else if (shape is Ellipse) shape = new Ellipse(prevPoint, new Size(15 + shiftX, 10 + shiftY));
                 else if (shape is Rectangle) shape = new Rectangle(prevPoint, new Size(15 + shiftX, 10 + shiftY));
                 shape.Draw(canvasDrawer);
-                if (layer.layer[0] is VectorLayer) {
-                    var shapes = ((VectorLayer)layer.layer[0]).Picture.shapes;
+                if (layer is VectorLayer) {
+                    var shapes = ((VectorLayer)layer).Picture.shapes;
                     shapes.RemoveAt(shapes.Count - 1);
-                    SaveIntoLayer(layer.layer[0], shape);
+                    SaveIntoLayer(layer, shape);
                 }
                 //else ((RasterLayer)layer.Item1).Save(canvas);
             }
@@ -106,7 +106,7 @@ namespace DrawMoar {
 
         void TranslatingRedrawing(MouseEventArgs e) {
             point = e.GetPosition(canvas);
-            Cartoon.CurrentLayer.layer[0].Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
+            Editor.cartoon.CurrentLayer.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
             Refresh();
         }
 

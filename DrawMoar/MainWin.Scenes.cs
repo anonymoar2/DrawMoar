@@ -15,7 +15,8 @@ namespace DrawMoar {
             foreach (var item in Editor.cartoon.scenes) {
                 Editor.cartoon.CurrentScene = Editor.cartoon.scenes.Last();
                 Editor.cartoon.CurrentFrame = Editor.cartoon.CurrentScene.frames.Last();
-                Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentFrame.animations.Last();
+                Editor.cartoon.CurrentAnimation = Editor.cartoon.CurrentFrame.animations.Last();
+                Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentAnimation.layers.Last();
                 AddListBoxElement(scenesList, item.Name);
             }           
         }
@@ -30,7 +31,8 @@ namespace DrawMoar {
             }
             Editor.cartoon.CurrentScene = Editor.cartoon.scenes.Last();
             Editor.cartoon.CurrentFrame = Editor.cartoon.CurrentScene.frames.Last();
-            Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentFrame.animations.Last();
+            Editor.cartoon.CurrentAnimation = Editor.cartoon.CurrentFrame.animations.Last();
+            Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentAnimation.layers.Last();
             AddListBoxElement(scenesList, Editor.cartoon.CurrentScene.Name);
         }
 
@@ -58,7 +60,8 @@ namespace DrawMoar {
             scenesList.SelectedIndex = index > 0 ? index - 1 : 0;
             Editor.cartoon.CurrentScene = index > 0 ? Editor.cartoon.scenes[index - 1] : Editor.cartoon.scenes[0];
             Editor.cartoon.CurrentFrame = Editor.cartoon.CurrentScene.frames[0];
-            Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentFrame.animations[0];
+            Editor.cartoon.CurrentAnimation = Editor.cartoon.CurrentFrame.animations[0];
+            Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentAnimation.layers[0];
             Refresh();
         }
     }

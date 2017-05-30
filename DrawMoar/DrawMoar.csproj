@@ -109,6 +109,7 @@
     <Compile Include="ILayer.cs" />
     <Compile Include="Instrument.cs" />
     <Compile Include="Drawing\ffmpeg\ImportImage.cs" />
+    <Compile Include="MainWin.Animations.cs" />
     <Compile Include="MainWin.Buttons.cs" />
     <Compile Include="MainWin.CanvasEvents.cs" />
     <Compile Include="MainWin.Frames.cs" />

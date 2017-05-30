@@ -49,7 +49,8 @@ namespace DrawMoar
                     frame.duration = time;
                     Editor.cartoon.CurrentScene.frames.Add(frame);
                     Editor.cartoon.CurrentFrame = Editor.cartoon.CurrentScene.frames.Last();
-                    Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentFrame.animations.Last();
+                    Editor.cartoon.CurrentAnimation= Editor.cartoon.CurrentFrame.animations.Last();
+                    Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentAnimation.layers.Last();
                     var frames = Editor.cartoon.CurrentScene.frames;
                                    
                     var lbl = new Label();

@@ -26,14 +26,14 @@ namespace DrawMoar.BaseElements
 
         public Frame() {
             name = $"Frame_{Editor.cartoon.CurrentScene.frames.Count}";
-            animations.Add(new Animation(new VectorLayer("Vector_Layer_0"), new List<Transformation>()));
+            animations.Add(new Animation("Animation_0",new VectorLayer("Vector_Layer_0"), new List<Transformation>()));
             duration = 0.04F;
         }
 
 
         public Frame(string name) {
             this.name = name;
-            animations.Add(new Animation(new VectorLayer("Vector_Layer_0"), new List<Transformation>()));
+            animations.Add(new Animation("Animation_0",new VectorLayer("Vector_Layer_0"), new List<Transformation>()));
             duration = 0.04F;
         }
         
@@ -44,7 +44,7 @@ namespace DrawMoar.BaseElements
             g.CompositingMode = CompositingMode.SourceOver;
             g.Clear(System.Drawing.Color.White);
             foreach (var a in animations) {
-                a.layer[stateNumbers[animations.IndexOf(a)]].Draw(new GraphicsDrawer(g));
+                a.layers[stateNumbers[animations.IndexOf(a)]].Draw(new GraphicsDrawer(g));
             }
             g.Dispose();
             return bm;
@@ -72,7 +72,7 @@ namespace DrawMoar.BaseElements
             foreach(var a in animations)
             {
                 var newLayer = new List<ILayer>();
-                foreach(var l in a.layer) {
+                foreach(var l in a.layers) {
                     newLayer.Add((ILayer)l.Clone());
                 }
                 buf.animations.Add(new Animation(newLayer, new List<Transformation>()));
