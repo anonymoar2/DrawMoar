@@ -21,7 +21,7 @@ namespace DrawMoar {
 
 
         private void AddRasterLayer_Click(object sender, RoutedEventArgs e) {
-            SavePrev();
+            //SavePrev();
             if (Editor.cartoon == null) {
                 return;
             }
@@ -31,7 +31,7 @@ namespace DrawMoar {
             }
             Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentAnimation.layers.Last();
             var layers = Editor.cartoon.CurrentFrame.animations;
-            AddListBoxElement(layersList, $"RasterLayer_{layers.Count - 1}");
+            AddListBoxElement(layersList, $"RasterLayer{layers.Count - 1}");
         }
 
 
@@ -46,8 +46,8 @@ namespace DrawMoar {
                 Editor.cartoon.CurrentAnimation.layers.Add(new VectorLayer());
             }
             Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentAnimation.layers.Last();
-            var layers = Editor.cartoon.CurrentFrame.animations;
-            AddListBoxElement(layersList, $"VectorLayer_{layers.Count - 1}");
+            var layers = Editor.cartoon.CurrentAnimation.layers;
+            AddListBoxElement(layersList, $"VectorLayer{layers.Count - 1}");
         }
 
         void SaveIntoLayer(ILayer layer, IShape shape) {

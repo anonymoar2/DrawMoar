@@ -22,7 +22,7 @@ namespace DrawMoar {
         }
 
         private void AddScene_Click(object sender, RoutedEventArgs e) {
-            SavePrev();
+            //SavePrev();
             if (Editor.cartoon == null) {
                 return;
             }

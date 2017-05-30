@@ -74,7 +74,7 @@ namespace DrawMoar.BaseElements {
             Width = width;
             Height = height;
             WorkingDirectory = workingDirectory;
-            scenes.Add(new Scene("Scene_0"));
+            scenes.Add(new Scene("Scene0"));
         }
 
 

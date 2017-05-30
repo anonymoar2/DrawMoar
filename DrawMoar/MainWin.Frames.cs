@@ -11,7 +11,7 @@ namespace DrawMoar {
     public partial class MainWindow:Window {
 
         private void AddFrame_Click(object sender, RoutedEventArgs e) {
-            SavePrev();
+            //SavePrev();
             if (Editor.cartoon == null) {
                 return;
             }
@@ -35,8 +35,7 @@ namespace DrawMoar {
             canvas.Children.Clear();
             var anims = Editor.cartoon.CurrentFrame.animations;
             foreach (var item in anims) {
-                AddListBoxElement(animationsList, item.Name);
-                //item.layer[Editor.cartoon.CurrentFrame.stateNumbers[Editor.cartoon.CurrentFrame.animations.IndexOf(item)]].Draw(canvasDrawer);
+                AddListBoxElement(animationsList, item.Name);               
                 animationsList.SelectedIndex = 0;
             }
         }

@@ -25,15 +25,15 @@ namespace DrawMoar.BaseElements
         public List<int> stateNumbers = new List<int>() { 0};
 
         public Frame() {
-            name = $"Frame_{Editor.cartoon.CurrentScene.frames.Count}";
-            animations.Add(new Animation("Animation_0",new VectorLayer("Vector_Layer_0"), new List<Transformation>()));
+            name = $"Frame{Editor.cartoon.CurrentScene.frames.Count}";
+            animations.Add(new Animation("Animation0",new VectorLayer("VectorLayer0"), new List<Transformation>()));
             duration = 0.04F;
         }
 
 
         public Frame(string name) {
             this.name = name;
-            animations.Add(new Animation("Animation_0",new VectorLayer("Vector_Layer_0"), new List<Transformation>()));
+            animations.Add(new Animation("Animation0",new VectorLayer("VectorLayer0"), new List<Transformation>()));
             duration = 0.04F;
         }
         

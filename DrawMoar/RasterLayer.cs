@@ -47,7 +47,7 @@ namespace DrawMoar {
 
 
         public RasterLayer() {
-            name = $"RasterLayer_{Editor.cartoon.CurrentFrame.animations.Count}";
+            Name = $"VectorLayer{Editor.cartoon.CurrentAnimation.layers.Count}";
             Visible = true;
             Picture = new Picture();
         }

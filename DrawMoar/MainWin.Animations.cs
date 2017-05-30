@@ -22,15 +22,16 @@ namespace DrawMoar {
         }
 
         private void AddAnimation_Click(object sender, RoutedEventArgs e) {
-            SavePrev();
+            //SavePrev();
             if (Editor.cartoon == null) {
                 return;
             }
             if (sender != null) {
-                Editor.cartoon.CurrentFrame.animations.Add(new Animation(new VectorLayer(),new List<Transformation>()));
-                AddListBoxElement(animationsList, Editor.cartoon.CurrentAnimation.Name);
+                Editor.cartoon.CurrentFrame.animations.Add(new Animation(new VectorLayer("VectorLayer_0"),new List<Transformation>()));
+                AddListBoxElement(animationsList, Editor.cartoon.CurrentFrame.animations.Last().Name);
+                animationsList.SelectedIndex = animationsList.Items.Count - 1;
+                Editor.cartoon.CurrentAnimation = Editor.cartoon.CurrentFrame.animations[animationsList.SelectedIndex];
             }            
-            Editor.cartoon.CurrentAnimation = Editor.cartoon.CurrentFrame.animations.Last();
             Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentAnimation.layers.Last();            
         }
 

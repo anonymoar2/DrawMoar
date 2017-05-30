@@ -21,7 +21,7 @@ namespace DrawMoar.BaseElements
         public Animation(ILayer layer, List<Transformation> transformations) {
             this.layers.Add(layer);
             this.transformations = transformations;
-            Name = $"Animation_{Editor.cartoon.CurrentFrame.animations.Count}";
+            Name = $"Animation{Editor.cartoon.CurrentFrame.animations.Count}";
         }
 
         public Animation(List<ILayer> layer, List<Transformation> transformations) {

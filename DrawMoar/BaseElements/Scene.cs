@@ -20,8 +20,8 @@ namespace DrawMoar.BaseElements
 
         public Scene()
         {
-            name = "newScene";
-            Frame frame = new Frame();
+            name = $"Scene{Editor.cartoon.scenes.Count}";
+            Frame frame = new Frame("Frame0");
             frame.duration = 1;
             frames.Add(frame);
         }
@@ -30,7 +30,7 @@ namespace DrawMoar.BaseElements
         public Scene(string name)
         {
             this.name = name;
-            Frame frame = new Frame("Frame_0");
+            Frame frame = new Frame("Frame0");
             frame.duration = 1;
             frames.Add(frame);
         }

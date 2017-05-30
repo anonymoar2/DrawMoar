@@ -30,7 +30,7 @@ namespace DrawMoar
         }
 
         public VectorLayer() {
-            Name = "newVectorLayer";
+            Name = $"VectorLayer{Editor.cartoon.CurrentAnimation.layers.Count}";
             Visible = true;
             Picture = new CompoundShape();
         }
