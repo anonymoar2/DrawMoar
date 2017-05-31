@@ -87,6 +87,7 @@
     <Compile Include="BaseElements\Picture.cs" />
     <Compile Include="BaseElements\RotateTransformation.cs" />
     <Compile Include="BaseElements\ScaleTransformation.cs" />
+    <Compile Include="BaseElements\TimeFunction.cs" />
     <Compile Include="BaseElements\Transformation.cs" />
     <Compile Include="BaseElements\TranslateTransformation.cs" />
     <Compile Include="BaseElements\Color.cs" />
