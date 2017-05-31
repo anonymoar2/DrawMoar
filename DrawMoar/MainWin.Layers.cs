@@ -64,11 +64,11 @@ namespace DrawMoar {
             layersList.Items.RemoveAt(index);
             var layers = Editor.cartoon.CurrentAnimation.layers;
             layers.RemoveAt(index);
-            Editor.cartoon.CurrentLayer = index > 0 ? layers[index - 1] : layers[0];
             if (layers.Count == 0) {
                 layers.Add(new VectorLayer());
                 AddListBoxElement(layersList, Editor.cartoon.CurrentLayer.Name);
             }
+            Editor.cartoon.CurrentLayer = index > 0 ? layers[index - 1] : layers[0];
             layersList.SelectedIndex = layersList.Items.Count > 1 ? index - 1 : 0;          
             Refresh();
         }
