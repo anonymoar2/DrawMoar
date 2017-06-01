@@ -24,7 +24,6 @@ namespace DrawMoar.BaseElements
         public TimeFunction timeFunction = new TimeFunction("log(x)");
 
         public List<Animation> animations = new List<Animation>();
-        public List<int> stateNumbers = new List<int>() { 0};
 
         public Frame() {
             name = $"Frame{Editor.cartoon.CurrentScene.frames.Count}";
@@ -46,7 +45,7 @@ namespace DrawMoar.BaseElements
             g.CompositingMode = CompositingMode.SourceOver;
             g.Clear(System.Drawing.Color.White);
             foreach (var a in animations) {
-                a.layers[stateNumbers[animations.IndexOf(a)]].Draw(new GraphicsDrawer(g));
+                a.layers[0].Draw(new GraphicsDrawer(g)); //TODO нужный вместо 0
             }
             g.Dispose();
             return bm;
