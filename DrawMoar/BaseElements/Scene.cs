@@ -39,10 +39,11 @@ namespace DrawMoar.BaseElements
         public void Generate(Frame currentFrame, int seconds)
         {
             /// На каждую секунду генерируем по 25 кадров. Каждый кадр будет по длительности 0.04 секунды.
-            for (int i = 1; i < seconds * 25; i++)
+            for (int i = 1; i < seconds * 10; i ++)
             {
-                frames.Insert(frames.IndexOf(currentFrame) + i, currentFrame.GetByTime(i));
+                frames.Insert(frames.IndexOf(currentFrame) + i, currentFrame.GetByTime(i * 0.1));
             }
+            frames.RemoveAt(0);
         }
 
 

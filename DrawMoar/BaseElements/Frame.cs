@@ -19,7 +19,9 @@ namespace DrawMoar.BaseElements
             }
         }
 
-        public float duration { get;set; }
+        public double duration { get;set; }
+
+        public TimeFunction timeFunction = new TimeFunction("log(x)");
 
         public List<Animation> animations = new List<Animation>();
         public List<int> stateNumbers = new List<int>() { 0};
@@ -51,8 +53,11 @@ namespace DrawMoar.BaseElements
         }
 
 
-        public Frame GetByTime(int time) {
+        public Frame GetByTime(double time) {
             var newFrame = new Frame();
+            newFrame.timeFunction = new TimeFunction("sin(x)");
+            //newFrame.duration = (timeFunction.GetTime(time + 0.1) - timeFunction.GetTime(time)) * 0.2;
+            newFrame.duration = timeFunction.GetTime(time) * 0.2;
             foreach(var a in animations) {
                 newFrame.animations.Add(new Animation(a.GetByTime(time), new List<Transformation>()));
 

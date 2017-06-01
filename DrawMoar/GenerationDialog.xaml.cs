@@ -141,15 +141,15 @@ namespace DrawMoar {
         private void ApplyTranslation(int totalTime) {
             Point translateVector = new Point();
             string[] coords = TranslateVector.Text.Split(new char[] { ';', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
-            translateVector.X = double.Parse(coords[0]) / (totalTime * 25);
-            translateVector.Y = double.Parse(coords[1]) / (totalTime * 25);
+            translateVector.X = double.Parse(coords[0]) / (totalTime * 10);
+            translateVector.Y = double.Parse(coords[1]) / (totalTime * 10);
             transList.Add(new TranslateTransformation(translateVector));
         }
 
         private void ApplyScaling(int totalTime) {
             double scaleFactor;
             if (ScalePoint.Text == "") throw new IOException("Enter all fields in the Scale section");
-            scaleFactor = 1 + (double.Parse(ScaleFactor.Text) - 1) / (totalTime * 25);
+            scaleFactor = 1 + (double.Parse(ScaleFactor.Text) - 1) / (totalTime * 10);
             string[] coords = ScalePoint.Text.Split(new char[] { ';', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             Point center = new Point();
             center.X = double.Parse(coords[0]);
@@ -160,7 +160,7 @@ namespace DrawMoar {
         private void ApplyRotation(int totalTime) {
             double angle;
             if (RotatePoint.Text == "") throw new IOException("Enter all fields in the Rotate section");
-            angle = double.Parse(Angle.Text) / (totalTime * 25);
+            angle = double.Parse(Angle.Text) / (totalTime * 10);
             string[] coords = RotatePoint.Text.Split(new char[] { ';', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             Point center = new Point();
             center.X = double.Parse(coords[0]);
