@@ -1,8 +1,13 @@
 # DrawMoar
 Raster and vector graphics editor for creating cartoons
 
-В ветке Master сейчас находится версия редактора за 17.04.17
+В ветке Master сейчас находится версия редактора за 13.05.17
 
+Небольшой видеопример:
+https://www.youtube.com/watch?v=-UDq_LhTNq0&feature=youtu.be
+
+Мультики, созданные в нашем редакторе (не было времени делать что-то большое):
+https://www.youtube.com/watch?v=atPl3_11vZE&feature=youtu.be
 
   		
 *Тут должна быть UML диаграмма, запилите её кто-нибудь пожалуйста*
