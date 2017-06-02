@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+
 namespace DrawMoar.BaseElements
 {
     class TranslateTransformation : Transformation
@@ -36,9 +37,11 @@ namespace DrawMoar.BaseElements
             scale = new System.Windows.Point(xScale, yScale);
         }
 
+
         internal override List<string> SaveToFile(string pathToDrm) {
             return new List<string>() { $"Transformation*translate*{translate.X}*{translate.Y}"};
         }
+
 
         public override Transformation GetTransformation(double value) {
             return new TranslateTransformation(new System.Windows.Point(

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+
 
 namespace DrawMoar.BaseElements
 {
@@ -12,17 +9,20 @@ namespace DrawMoar.BaseElements
         public List<Transformation> transformations;
         public string Name { get; set; }
 
+
         public Animation(string name,ILayer layer, List<Transformation> transformations) {
             this.layers.Add(layer);
             this.transformations = transformations;
             Name = name;
         }
 
+
         public Animation(ILayer layer, List<Transformation> transformations) {
             this.layers.Add(layer);
             this.transformations = transformations;
             Name = $"Animation{Editor.cartoon.CurrentFrame.animations.Count}";
         }
+
 
         public Animation(List<ILayer> layers, List<Transformation> transformations) {
             this.layers = layers;

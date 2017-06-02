@@ -1,22 +1,22 @@
-﻿using DrawMoar.BaseElements;
-using DrawMoar.Shapes;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using System.IO;
 using System.Windows.Media;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+
+using DrawMoar.Shapes;
+using DrawMoar.BaseElements;
+
 
 namespace DrawMoar.Drawing {
     public class CanvasDrawer : IDrawer {
 
         Canvas canvas;
+
+
         public CanvasDrawer(Canvas canv) {
             canvas = canv;
         }
+
 
         public void DrawLine(Line line) {
             canvas.Children.Add(new System.Windows.Shapes.Line {
@@ -31,6 +31,7 @@ namespace DrawMoar.Drawing {
                 IsEnabled = false
             });
         }
+
 
         public void DrawEllipse(Ellipse el) {
             var ellipse = new System.Windows.Shapes.Ellipse();
@@ -49,6 +50,7 @@ namespace DrawMoar.Drawing {
             canvas.Children.Add(ellipse);
         }
 
+
         public void DrawRectangle(Shapes.Rectangle rect) {
             var rectangle = new System.Windows.Shapes.Rectangle();
             rectangle.Width = rect.Size.Width;
@@ -66,6 +68,7 @@ namespace DrawMoar.Drawing {
             canvas.Children.Add(rectangle);
         }
 
+
         public void DrawPicture(Picture picture, double x, double y) {
             var rlc = new RasterLayerControl();
             DrawRasterLayerImage(picture.Image,rlc);
@@ -75,6 +78,7 @@ namespace DrawMoar.Drawing {
             Canvas.SetLeft(rlc, x);
             Canvas.SetTop(rlc, y);           
         }
+
 
         private void DrawRasterLayerImage(System.Drawing.Image image,RasterLayerControl rlc) {
             if (image == null) return;

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 
 
 namespace DrawMoar.BaseElements
@@ -48,9 +46,11 @@ namespace DrawMoar.BaseElements
             scale = new System.Windows.Point(xScale, yScale);
         }
 
+
         public override Transformation GetTransformation(double value) {
             return new RotateTransformation(point, value);
         }
+
 
         internal override List<string> SaveToFile(string pathToDrm) {
             return new List<string>() { $"Transformation*rotate*{point.X}*{point.Y}*{value}" };

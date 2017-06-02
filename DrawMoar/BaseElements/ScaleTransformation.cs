@@ -10,6 +10,7 @@ namespace DrawMoar.BaseElements
         private Matrix<double> Transform;
         private System.Windows.Point point;
 
+
         public ScaleTransformation(System.Windows.Point point, double scaleFactor) {
             value = scaleFactor * 100;
             this.point = point;
@@ -59,9 +60,11 @@ namespace DrawMoar.BaseElements
             scale = new System.Windows.Point(xScale, yScale);
         }
 
+
         public override Transformation GetTransformation(double value) {
             return new ScaleTransformation(point, (value + 100)/100);
         }
+
 
         internal override List<string> SaveToFile(string pathToDrm) {
             return new List<string>() { $"Transformation*scale*{point.X}*{point.Y}*{value}" };

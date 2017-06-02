@@ -1,12 +1,15 @@
-﻿using DrawMoar.Shapes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 using System.IO;
 using System.Linq;
 
+using DrawMoar.Shapes;
+
+
 namespace DrawMoar.BaseElements {
     public class Cartoon {
+
         public List<Scene> scenes = new List<Scene>();
 
         private const int MinimalWidth = 256;
@@ -65,7 +68,6 @@ namespace DrawMoar.BaseElements {
             }
         }
 
-
         public string pathToAudio;
 
 
@@ -101,6 +103,7 @@ namespace DrawMoar.BaseElements {
         public int PrevCurrentSceneNumber { get; set; }
         public int PrevCurrentLayerNumber { get; set; }
 
+
         public object Clone()
         {
             var bufScenes = new List<Scene>();
@@ -115,6 +118,7 @@ namespace DrawMoar.BaseElements {
 
             return bufCartoon;
         }
+
 
         public void SaveToFile(string pathToFile) {
             string pathToDrm = Path.Combine(pathToFile, $"{Name}_drm");
@@ -135,8 +139,8 @@ namespace DrawMoar.BaseElements {
             File.WriteAllLines(Path.Combine(pathToDrm, "list.txt"), lines.ToArray());
         }
 
+
         public void OpenFile(string[] lines) {
-            // здесь в принципе было бы неплохо удалять нулевую сцену, нулевой кадр и слой которые автоматически сгенерились
             for(int i = 2; i < lines.Length; i++) {
                 string[] lineSet = lines[i].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries);
                 if(lineSet[0] == "Scene") {
@@ -198,6 +202,5 @@ namespace DrawMoar.BaseElements {
                 }
             }
         }
-
     }
 }

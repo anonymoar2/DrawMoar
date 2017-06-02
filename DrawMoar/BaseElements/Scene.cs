@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 
 namespace DrawMoar.BaseElements
@@ -63,6 +61,7 @@ namespace DrawMoar.BaseElements
             }
         }
 
+
         public object Clone()
         {
             var bufFrames = new List<Frame>();
@@ -78,6 +77,7 @@ namespace DrawMoar.BaseElements
             return bufScene;
         }
 
+
         internal List<string> SaveToFile(string pathToDrm) {
             List<string> lines = new List<string>();
             lines.Add($"Scene*{Name}");
@@ -86,6 +86,5 @@ namespace DrawMoar.BaseElements
             }
             return lines;
         }
-        
     }
 }

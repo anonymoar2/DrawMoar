@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
 
-using System.Drawing;
-using System.Windows.Controls;
-
 using DrawMoar.Shapes;
 using DrawMoar.Drawing;
-using System;
+
 
 namespace DrawMoar.BaseElements
 {
@@ -48,6 +45,7 @@ namespace DrawMoar.BaseElements
 
             return buf;
         }
+
 
         public List<string> SaveToFile(string pathToDrm) {
             List<string> lines = new List<string>();
