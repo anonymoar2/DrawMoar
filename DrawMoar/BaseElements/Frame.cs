@@ -24,24 +24,24 @@ namespace DrawMoar.BaseElements {
         public Frame() {
             name = $"Frame{Editor.cartoon.CurrentScene.frames.Count}";
             animations.Add(new Animation("Animation0", new VectorLayer("VectorLayer0"), new List<Transformation>()));
-            duration = 0.04F;
+            duration = 0.04;
         }
 
 
         public Frame(string name) {
             this.name = name;
             animations.Add(new Animation("Animation0", new VectorLayer("VectorLayer0"), new List<Transformation>()));
-            duration = 0.04F;
+            duration = 0.04;
         }
         
         
-        public System.Drawing.Bitmap Join(int numberOfFrame) {
+        public System.Drawing.Bitmap Join() {
             var bm = new Bitmap(Editor.cartoon.Width, Editor.cartoon.Height, PixelFormat.Format32bppArgb);
             Graphics g = Graphics.FromImage(bm);
             g.CompositingMode = CompositingMode.SourceOver;
             g.Clear(System.Drawing.Color.White);
             foreach (var a in animations) {
-                a.layers[numberOfFrame % a.layers.Count].Draw(new GraphicsDrawer(g));
+                a.layers[0].Draw(new GraphicsDrawer(g));
             }
             g.Dispose();
             return bm;
@@ -52,7 +52,6 @@ namespace DrawMoar.BaseElements {
             var newFrame = new Frame();
             foreach (var a in animations) {
                 newFrame.animations.Add(new Animation(a.GetByTime(time), new List<Transformation>()));
-
             }
             newFrame.animations.RemoveAt(0);
             return newFrame;

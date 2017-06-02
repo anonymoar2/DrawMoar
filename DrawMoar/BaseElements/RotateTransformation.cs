@@ -10,11 +10,10 @@ namespace DrawMoar.BaseElements
     {
         private Matrix<double> Transform;
         private System.Windows.Point point;
-        new public double value;
 
             
         public RotateTransformation(System.Windows.Point point, double angle) {
-            this.value = angle;
+            value = angle;
             this.point = point;
             var one = new Matrix<double>(new double[3, 3] { { 1, 0, point.X }, { 0, 1, point.Y }, { 0, 0, 1 } });
             var three = new Matrix<double>(new double[3, 3] { { 1, 0, -point.X }, { 0, 1, -point.Y }, { 0, 0, 1 } });
@@ -31,7 +30,7 @@ namespace DrawMoar.BaseElements
 
         public override Picture Apply(Picture picture) {
             picture.Position = this.Apply(picture.Position);
-            picture.Angle =(picture.Angle+ (float)this.value)%360;
+            picture.Angle =(picture.Angle+ (float)value)%360;
             return picture;
         }
 

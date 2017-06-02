@@ -125,8 +125,8 @@ namespace DrawMoar {
                 }
                 ///TODO: Поместить трансформации в слой            
                 var index = Editor.cartoon.CurrentFrame.animations.IndexOf(Editor.cartoon.CurrentAnimation);
-                Editor.cartoon.CurrentFrame.animations[index] = new Animation(Editor.cartoon.CurrentLayer, transList);
-                string timeFunc = Function.Text;
+                Editor.cartoon.CurrentFrame.animations[index] = new Animation(Editor.cartoon.CurrentAnimation.layers, transList);
+                Editor.cartoon.CurrentFrame.animations[index].timeFunction = new TimeFunction(Function.Text);
                 //Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentAnimation.layers[0];
                 Editor.cartoon.TotalTime = totalTime;
                 this.Hide();
@@ -142,15 +142,15 @@ namespace DrawMoar {
         private void ApplyTranslation(int totalTime) {
             Point translateVector = new Point();
             string[] coords = TranslateVector.Text.Split(new char[] { ';', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
-            translateVector.X = double.Parse(coords[0]) / (totalTime * 10);
-            translateVector.Y = double.Parse(coords[1]) / (totalTime * 10);
+            translateVector.X = double.Parse(coords[0]);
+            translateVector.Y = double.Parse(coords[1]);
             transList.Add(new TranslateTransformation(translateVector));
         }
 
         private void ApplyScaling(int totalTime) {
             double scaleFactor;
             if (ScalePoint.Text == "") throw new IOException("Enter all fields in the Scale section");
-            scaleFactor = 1 + (double.Parse(ScaleFactor.Text) - 1) / (totalTime * 10);
+            scaleFactor = 1 + (double.Parse(ScaleFactor.Text) - 1);
             string[] coords = ScalePoint.Text.Split(new char[] { ';', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             Point center = new Point();
             center.X = double.Parse(coords[0]);
@@ -161,7 +161,7 @@ namespace DrawMoar {
         private void ApplyRotation(int totalTime) {
             double angle;
             if (RotatePoint.Text == "") throw new IOException("Enter all fields in the Rotate section");
-            angle = double.Parse(Angle.Text) / (totalTime * 10);
+            angle = double.Parse(Angle.Text);
             string[] coords = RotatePoint.Text.Split(new char[] { ';', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             Point center = new Point();
             center.X = double.Parse(coords[0]);

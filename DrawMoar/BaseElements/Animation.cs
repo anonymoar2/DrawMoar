@@ -26,15 +26,14 @@ namespace DrawMoar.BaseElements
             Name = $"Animation{Editor.cartoon.CurrentFrame.animations.Count}";
         }
 
-        public Animation(List<ILayer> layer, List<Transformation> transformations) {
-            this.layers = layer;
+        public Animation(List<ILayer> layers, List<Transformation> transformations) {
+            this.layers = layers;
             this.transformations = transformations;
         }
 
         public Animation(string name, ILayer layer, List<Transformation> transformations) {
             this.layers.Add(layer);
             this.transformations = transformations;
-            Name = $"Animation{Editor.cartoon.CurrentFrame.animations.Count}";
             Name = name;
         }
 
@@ -45,7 +44,7 @@ namespace DrawMoar.BaseElements
                 var valueOfBigTransform = transform.value;
                 var newValue = timeFunction.GetTime(time);
                 if(timeFunction.sum <= valueOfBigTransform) {
-                    copyLayer.Transform(transform.GetTransformation(newValue));
+                    copyLayer.Transform(transform.GetTransformation(timeFunction.sum));
                 }
                 else {
                     copyLayer.Transform(transform);

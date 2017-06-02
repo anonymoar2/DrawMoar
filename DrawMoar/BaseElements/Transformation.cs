@@ -17,6 +17,6 @@ namespace DrawMoar.BaseElements
 
         public abstract Transformation GetTransformation(double value);
 
-        public double value;
+        public double value { get; set; }
     }
 }

@@ -7,7 +7,6 @@ namespace DrawMoar.BaseElements
     {
         private Matrix<double> Transform;
         System.Windows.Point translate;
-        new public double value;
 
 
         public TranslateTransformation(System.Windows.Point point) {
