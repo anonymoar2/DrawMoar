@@ -77,6 +77,7 @@ namespace DrawMoar.Drawing {
         }
 
         private void DrawRasterLayerImage(System.Drawing.Image image,RasterLayerControl rlc) {
+            if (image == null) return;
             var bmp = image;
             using (var ms = new MemoryStream()) {
                 bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
