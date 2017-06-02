@@ -56,7 +56,7 @@ namespace DrawMoar.ffmpeg
                 cartoon.scenes.ForEach(
                     scene => scene.frames.ForEach(
                     frame => {
-                        frame.Join(count).Save(Path.Combine(imagesDirectory, $"img{count}.png"));
+                        frame.Join().Save(Path.Combine(imagesDirectory, $"img{count}.png"));
                         writer.WriteLine("file " + $"img{count}.png");
                         writer.WriteLine($"duration {frame.duration}".Replace(',','.'));
                         count++;

@@ -22,7 +22,6 @@ namespace DrawMoar {
         }
 
         private void AddAnimation_Click(object sender, RoutedEventArgs e) {
-            //SavePrev();
             if (Editor.cartoon == null) {
                 return;
             }

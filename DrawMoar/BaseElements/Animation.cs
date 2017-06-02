@@ -24,20 +24,22 @@ namespace DrawMoar.BaseElements
             Name = $"Animation{Editor.cartoon.CurrentFrame.animations.Count}";
         }
 
-        public Animation(List<ILayer> layer, List<Transformation> transformations) {
-            this.layers = layer;
+        public Animation(List<ILayer> layers, List<Transformation> transformations) {
+            this.layers = layers;
             this.transformations = transformations;
         }
 
+
         public ILayer GetByTime(int time) {
             ILayer copyLayer = (ILayer)layers[time % layers.Count].Clone();
-            foreach(var transform in transformations) {
+            foreach (var transform in transformations) {
                 for (int i = 0; i < time; i++) {
                     copyLayer.Transform(transform);
                 }
             }
             return copyLayer;
         }
+
 
         internal List<string> SaveToFile(string pathToDrm) {
             List<string> lines = new List<string>();
