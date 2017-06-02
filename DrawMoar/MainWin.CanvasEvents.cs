@@ -17,6 +17,7 @@ namespace DrawMoar {
             PressLeftButton = true;
             BrushSize = new Size(slider.Value, slider.Value);
             var currentLayer = Editor.cartoon.CurrentLayer;
+            if (currentLayer is RasterLayer) return;
             prevPoint = Mouse.GetPosition(canvas);
             switch (CurrentTool) {
                 case Instrument.Arrow:
@@ -48,6 +49,7 @@ namespace DrawMoar {
         void canvas_MouseMove(object sender, MouseEventArgs e) {
             point = (Point)e.GetPosition(canvas);
             var currentLayer = Editor.cartoon.CurrentLayer;
+            if (currentLayer is RasterLayer) return;
             if (!PressLeftButton) return;
             switch (CurrentTool) {
                 case Instrument.Arrow:

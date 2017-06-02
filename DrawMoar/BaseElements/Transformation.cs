@@ -4,7 +4,9 @@ using System.Collections.Generic;
 namespace DrawMoar.BaseElements
 {
     public abstract class Transformation
-    {       
+    {
+        public Matrix<double> Transform;
+
         public abstract Picture Apply(Picture picture);
 
         public abstract System.Windows.Point Apply(System.Windows.Point point);

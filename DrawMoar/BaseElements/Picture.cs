@@ -25,7 +25,7 @@ namespace DrawMoar.BaseElements
         {
             var buf = new Picture();
             buf.Position = Position;
-            buf.Image = (Image)Image.Clone();
+            if(Image!=null)buf.Image = (Image)Image.Clone();
             return buf;
         }
 
