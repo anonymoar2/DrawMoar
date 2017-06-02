@@ -30,7 +30,14 @@ namespace DrawMoar.BaseElements
             this.layers = layer;
             this.transformations = transformations;
         }
-        
+
+        public Animation(string name, ILayer layer, List<Transformation> transformations) {
+            this.layers.Add(layer);
+            this.transformations = transformations;
+            Name = $"Animation{Editor.cartoon.CurrentFrame.animations.Count}";
+            Name = name;
+        }
+
 
         public ILayer GetByTime(int time) {
             ILayer copyLayer = (ILayer)layers[time % layers.Count].Clone();
