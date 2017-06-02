@@ -209,7 +209,7 @@ namespace DrawMoar {
         }
 
 
-        private void Refresh() {
+        public void Refresh() {
             canvas.Children.Clear();
             var anims = Editor.cartoon.CurrentFrame.animations;
             foreach (var anim in anims) {

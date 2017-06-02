@@ -104,31 +104,24 @@ namespace DrawMoar {
 
 
             int[] time = new int[3];
-            int totalTime = 0;  //временно
             try {
                 if (TranslateVector.Text == "" && ScaleFactor.Text == "" && Angle.Text == "") throw new IOException("You haven't created any transformation");
-                if (TotalTestDuration.Text != "") {
-                    totalTime = Int32.Parse(TotalTestDuration.Text);
-                }
-                else throw new IOException("Enter the Total Duration field");
-
                 if (TranslateVector.Text != "") {
-                    ApplyTranslation(totalTime);    //не придется туда передавать время, т.к оно внутри будет свое генериться
+                    ApplyTranslation();    //не придется туда передавать время, т.к оно внутри будет свое генериться
                 }
 
                 if (Angle.Text != "") {
-                    ApplyRotation(totalTime);
+                    ApplyRotation();
                 }
 
                 if (ScaleFactor.Text != "") {
-                    ApplyScaling(totalTime);
+                    ApplyScaling();
                 }
                 ///TODO: Поместить трансформации в слой            
                 var index = Editor.cartoon.CurrentFrame.animations.IndexOf(Editor.cartoon.CurrentAnimation);
                 Editor.cartoon.CurrentFrame.animations[index] = new Animation(Editor.cartoon.CurrentAnimation.layers, transList);
                 Editor.cartoon.CurrentFrame.animations[index].timeFunction = new TimeFunction(Function.Text);
                 //Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentAnimation.layers[0];
-                Editor.cartoon.TotalTime = totalTime;
                 this.Hide();
             }
             catch (IOException ioEx) {
@@ -139,7 +132,7 @@ namespace DrawMoar {
             }
         }
 
-        private void ApplyTranslation(int totalTime) {
+        private void ApplyTranslation() {
             Point translateVector = new Point();
             string[] coords = TranslateVector.Text.Split(new char[] { ';', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             translateVector.X = double.Parse(coords[0]);
@@ -147,7 +140,7 @@ namespace DrawMoar {
             transList.Add(new TranslateTransformation(translateVector));
         }
 
-        private void ApplyScaling(int totalTime) {
+        private void ApplyScaling() {
             double scaleFactor;
             if (ScalePoint.Text == "") throw new IOException("Enter all fields in the Scale section");
             scaleFactor = 1 + (double.Parse(ScaleFactor.Text) - 1);
@@ -158,7 +151,7 @@ namespace DrawMoar {
             transList.Add(new ScaleTransformation(center, scaleFactor));    //аналогично
         }
 
-        private void ApplyRotation(int totalTime) {
+        private void ApplyRotation() {
             double angle;
             if (RotatePoint.Text == "") throw new IOException("Enter all fields in the Rotate section");
             angle = double.Parse(Angle.Text);
@@ -169,13 +162,6 @@ namespace DrawMoar {
             transList.Add(new RotateTransformation(center, angle));
         }
 
-        private void TranslateTime_TextChanged(object sender, TextChangedEventArgs e) {
-            int symb;
-            if (!Int32.TryParse(TranslateTime.Text, out symb)) {
-                TranslateTime.Clear();
-            }
-        }
-
         private void Angle_TextChanged(object sender, TextChangedEventArgs e) {
             double symb;
             if (!double.TryParse(Angle.Text, out symb)) {
@@ -183,33 +169,13 @@ namespace DrawMoar {
             }
         }
 
-        private void RotateTime_TextChanged(object sender, TextChangedEventArgs e) {
-            //int symb;
-            //if (!Int32.TryParse(RotateTime.Text, out symb)) {
-            //    RotateTime.Clear();
-            //}
-        }
-
         private void ScaleFactor_TextChanged(object sender, TextChangedEventArgs e) {
-            //double symb;
-            //if (!double.TryParse(ScaleFactor.Text, out symb)) {
-            //    ScaleFactor.Clear();
-            //}
-        }
-
-        private void ScaleTime_TextChanged(object sender, TextChangedEventArgs e) {
-            //int symb;
-            //if (!Int32.TryParse(ScaleTime.Text, out symb)) {
-            //    ScaleTime.Clear();
-            //}
-        }
-
-        private void TotalTestDuration_TextChanged(object sender, TextChangedEventArgs e) {
-            int symb;
-            if (!Int32.TryParse(TotalTestDuration.Text, out symb)) {
-                TotalTestDuration.Clear();
+            double symb;
+            if (!double.TryParse(ScaleFactor.Text, out symb)) {
+                ScaleFactor.Clear();
             }
         }
+     
 
         private void Translate_Click(object sender, RoutedEventArgs e) {
             clickState = State.Translation;

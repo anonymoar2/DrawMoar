@@ -20,7 +20,6 @@ using System.Windows;
 // для COM-компонентов.  Если требуется обратиться к типу в этой сборке через 
 // COM, задайте атрибуту ComVisible значение TRUE для этого типа.
 [assembly: ComVisible(false)]
-
 //Чтобы начать сборку локализованных приложений, задайте 
 //<UICulture>CultureYouAreCodingWith</UICulture> в файле .csproj
 //внутри <PropertyGroup>.  Например, если используется английский США

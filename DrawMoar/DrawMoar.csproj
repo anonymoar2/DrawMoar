@@ -107,6 +107,9 @@
     <Compile Include="GenerationDialog.xaml.cs">
       <DependentUpon>GenerationDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GenTimeDialog.xaml.cs">
+      <DependentUpon>GenTimeDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ILayer.cs" />
     <Compile Include="Instrument.cs" />
     <Compile Include="Drawing\ffmpeg\ImportImage.cs" />
@@ -170,6 +173,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GenerationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GenTimeDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

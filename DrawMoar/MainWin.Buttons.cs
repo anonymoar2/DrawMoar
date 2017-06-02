@@ -48,10 +48,9 @@ namespace DrawMoar {
         private void GenerateFrame_Click(object sender, RoutedEventArgs e) {
             SavePrev();
             if (Editor.cartoon == null) return;
-            if (Editor.cartoon.TotalTime == 0) return;
-            Editor.cartoon.CurrentScene.Generate(Editor.cartoon.CurrentFrame, Editor.cartoon.TotalTime);
-            scenesList_SelectionChanged(null, null);
-            Refresh();
+            var timeDialog = new GenTimeDialog();
+            timeDialog.Owner = this;
+            timeDialog.Show();
         }
 
 

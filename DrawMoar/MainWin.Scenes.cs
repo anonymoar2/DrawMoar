@@ -36,7 +36,7 @@ namespace DrawMoar {
             AddListBoxElement(scenesList, Editor.cartoon.CurrentScene.Name);
         }
 
-        private void scenesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+        public void scenesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             framesList.Items.Clear();
             if (scenesList.SelectedIndex != -1)
                 Editor.cartoon.CurrentScene = Editor.cartoon.scenes[scenesList.SelectedIndex];

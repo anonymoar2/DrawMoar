@@ -48,8 +48,9 @@ namespace DrawMoar.BaseElements {
         }
 
 
-        public Frame GetByTime(int time) {
+        public Frame GetByTime(int time, double duration) {
             var newFrame = new Frame();
+            newFrame.duration = duration;
             foreach (var a in animations) {
                 newFrame.animations.Add(new Animation(a.GetByTime(time), new List<Transformation>()));
             }

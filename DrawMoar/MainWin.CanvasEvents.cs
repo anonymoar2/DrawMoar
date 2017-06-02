@@ -16,9 +16,9 @@ namespace DrawMoar {
             SavePrev();
             PressLeftButton = true;
             BrushSize = new Size(slider.Value, slider.Value);
-            var currentLayer = Editor.cartoon.CurrentLayer;
-            if (currentLayer is RasterLayer) return;
+            var currentLayer = Editor.cartoon.CurrentLayer;           
             prevPoint = Mouse.GetPosition(canvas);
+            if (currentLayer is RasterLayer) return;
             switch (CurrentTool) {
                 case Instrument.Arrow:
                     break;
@@ -48,8 +48,7 @@ namespace DrawMoar {
 
         void canvas_MouseMove(object sender, MouseEventArgs e) {
             point = (Point)e.GetPosition(canvas);
-            var currentLayer = Editor.cartoon.CurrentLayer;
-            if (currentLayer is RasterLayer) return;
+            var currentLayer = Editor.cartoon.CurrentLayer;          
             if (!PressLeftButton) return;
             switch (CurrentTool) {
                 case Instrument.Arrow:
@@ -57,21 +56,26 @@ namespace DrawMoar {
                     prevPoint = point;
                     break;
                 case Instrument.Brush:
+                    if (currentLayer is RasterLayer) return;
                     newLine = new Line(prevPoint, point);
                     newLine.Draw(canvasDrawer);
                     SaveIntoLayer(currentLayer, newLine);
                     prevPoint = point;
                     break;
                 case Instrument.Rectangle:
+                    if (currentLayer is RasterLayer) return;
                     ScaleRedrawing(newRect, e);
                     break;
                 case Instrument.Ellipse:
+                    if (currentLayer is RasterLayer) return;
                     ScaleRedrawing(newEllipse, e);
                     break;
                 case Instrument.Line:
+                    if (currentLayer is RasterLayer) return;
                     ScaleRedrawing(newLine, e);
                     break;
                 case Instrument.Eraser:
+                    if (currentLayer is RasterLayer) return;
                     var bufColor = ClrPcker_Background.SelectedColor.Value;
                     ClrPcker_Background.SelectedColor = Colors.Transparent;
                     newLine = new Line(prevPoint, point);
