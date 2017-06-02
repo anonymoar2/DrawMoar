@@ -41,8 +41,12 @@
             <TextBox Name="ScalePoint" Grid.Column="0" Grid.Row="1" Width="85" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,8" FontSize="15" IsEnabled="False"/>
         </WrapPanel>
         <WrapPanel Grid.Row="3">
-            <Button Name="ApplyTransform" MinWidth="60" Width="Auto" Height="Auto" Content="Apply"  FontSize="18" Margin="20,25" Click="ApplyTransform_Click"/>
-            <TextBox Name="TotalTestDuration" Grid.Column="0" Grid.Row="1" Width="65" Height="Auto" Margin="10,25" FontSize="15" TextChanged="TotalTestDuration_TextChanged"/>
+            <Label Grid.Row="1" Grid.Column="0" Width="200" Height="Auto" Content="Total" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Background="AliceBlue"/>
+            <Label Width="80" Height="30" Margin="10" Content="Duration" FontSize="15" HorizontalContentAlignment="Center"/>
+            <TextBox Name="TotalTestDuration" Grid.Column="0" Grid.Row="1" Width="65" Height="Auto" Margin="15,13" FontSize="15" TextChanged="TotalTestDuration_TextChanged"/>
+            <Label Width="80" Height="30" Margin="7" Content="Function" FontSize="15" HorizontalContentAlignment="Center"/>
+            <TextBox Name="Function" Grid.Column="0" Grid.Row="1" Width="85" Height="Auto" Margin="7" FontSize="15" TextChanged="TotalTestDuration_TextChanged"/>
+            <Button Name="ApplyTransform" MinWidth="60" Width="70" Height="Auto" Content="Apply"  FontSize="18" Margin="20,0" Click="ApplyTransform_Click"/>
         </WrapPanel>
     </Grid>
 </Window>

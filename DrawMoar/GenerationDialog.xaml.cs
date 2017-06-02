@@ -126,6 +126,7 @@ namespace DrawMoar {
                 ///TODO: Поместить трансформации в слой            
                 var index = Editor.cartoon.CurrentFrame.animations.IndexOf(Editor.cartoon.CurrentAnimation);
                 Editor.cartoon.CurrentFrame.animations[index] = new Animation(Editor.cartoon.CurrentLayer, transList);
+                string timeFunc = Function.Text;
                 //Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentAnimation.layers[0];
                 Editor.cartoon.TotalTime = totalTime;
                 this.Hide();
