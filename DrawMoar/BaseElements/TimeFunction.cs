@@ -32,6 +32,8 @@ namespace MyNamespace
         }
 
 
+        public double sum = 0;
+
         public double GetTime(double time) {
             CSharpCodeProvider provider = new CSharpCodeProvider();
             CompilerParameters parameters = new CompilerParameters();
@@ -41,7 +43,9 @@ namespace MyNamespace
             var cls = results.CompiledAssembly.GetType("MyNamespace.LambdaCreator");
             var method = cls.GetMethod("Create", BindingFlags.Static | BindingFlags.Public);
             var del = (method.Invoke(null, null) as Delegate);
-            return Convert.ToDouble(del.DynamicInvoke(time));
+            double result = Convert.ToDouble(del.DynamicInvoke(time));
+            sum += result;
+            return result;
         }
 
 

@@ -11,9 +11,11 @@ namespace DrawMoar.BaseElements
         public List<ILayer> layers = new List<ILayer>();
         public List<Transformation> transformations;
         public string Name { get; set; }
+        public TimeFunction timeFunction;
 
-        public Animation(string name,ILayer layer, List<Transformation> transformations) {
+        public Animation(string name,ILayer layer, List<Transformation> transformations, TimeFunction timeFunction) {
             this.layers.Add(layer);
+            this.timeFunction = timeFunction;
             this.transformations = transformations;
             Name = name;
         }
@@ -28,16 +30,23 @@ namespace DrawMoar.BaseElements
             this.layers = layer;
             this.transformations = transformations;
         }
+        
 
         public ILayer GetByTime(int time) {
             ILayer copyLayer = (ILayer)layers[time % layers.Count].Clone();
             foreach(var transform in transformations) {
-                for (int i = 0; i < time; i++) {
+                var valueOfBigTransform = transform.value;
+                var newValue = timeFunction.GetTime(time);
+                if(timeFunction.sum <= valueOfBigTransform) {
+                    copyLayer.Transform(transform.GetTransformation(newValue));
+                }
+                else {
                     copyLayer.Transform(transform);
                 }
             }
             return copyLayer;
         }
+
 
         internal List<string> SaveToFile(string pathToDrm) {
             List<string> lines = new List<string>();
