@@ -1,13 +1,22 @@
 ﻿using System.Windows.Media;
 
 
-namespace DrawMoar.BaseElements {
-    public struct Color {
+namespace DrawMoar.BaseElements
+{
+    public struct Color
+    {
         byte A;
         byte R;
         byte G;
         byte B;
 
+
+        public Color(byte A, byte R, byte G, byte B) {
+            this.A = A;
+            this.R = R;
+            this.G = G;
+            this.B = B;
+        }
 
         public Color(System.Windows.Media.Color color) {
             this.A = color.A;
@@ -45,6 +54,10 @@ namespace DrawMoar.BaseElements {
 
         public Brush ToBrush() {
             return new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, (byte)R, (byte)G, (byte)B));
+        }
+
+        public override string ToString() {
+            return $"{A};{R};{G};{B}";
         }
     }
 }

@@ -38,7 +38,7 @@ namespace DrawMoar.Drawing {
             ellipse.Height = el.Size.Height;
             ellipse.Stroke = el.Color.ToBrush();
             ellipse.IsEnabled = false;
-            ellipse.StrokeThickness = MainWindow.BrushSize.Width;
+            ellipse.StrokeThickness = el.Thickness;
             Canvas.SetLeft(ellipse, el.Center.X - el.Size.Width / 2);
             Canvas.SetTop(ellipse, el.Center.Y - el.Size.Height / 2);
             RotateTransform rotateTransform1 =
@@ -66,15 +66,18 @@ namespace DrawMoar.Drawing {
             canvas.Children.Add(rectangle);
         }
 
-        public void DrawImage(System.Drawing.Image image, double x, double y) {
+        public void DrawPicture(Picture picture, double x, double y) {
             var rlc = new RasterLayerControl();
-            DrawRasterLayerImage(image,rlc);
+            DrawRasterLayerImage(picture.Image,rlc);
+            RotateTransform rt = new RotateTransform(picture.Angle);
+            rlc.RenderTransform = rt;
             canvas.Children.Add(rlc);
             Canvas.SetLeft(rlc, x);
-            Canvas.SetTop(rlc, y);
+            Canvas.SetTop(rlc, y);           
         }
 
         private void DrawRasterLayerImage(System.Drawing.Image image,RasterLayerControl rlc) {
+            if (image == null) return;
             var bmp = image;
             using (var ms = new MemoryStream()) {
                 bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);

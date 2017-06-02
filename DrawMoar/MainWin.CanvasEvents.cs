@@ -16,7 +16,8 @@ namespace DrawMoar {
             SavePrev();
             PressLeftButton = true;
             BrushSize = new Size(slider.Value, slider.Value);
-            var currentLayer = Cartoon.CurrentLayer.Item1;
+            var currentLayer = Editor.cartoon.CurrentLayer;
+            if (currentLayer is RasterLayer) return;
             prevPoint = Mouse.GetPosition(canvas);
             switch (CurrentTool) {
                 case Instrument.Arrow:
@@ -47,7 +48,8 @@ namespace DrawMoar {
 
         void canvas_MouseMove(object sender, MouseEventArgs e) {
             point = (Point)e.GetPosition(canvas);
-            var currentLayer = Cartoon.CurrentLayer.Item1;
+            var currentLayer = Editor.cartoon.CurrentLayer;
+            if (currentLayer is RasterLayer) return;
             if (!PressLeftButton) return;
             switch (CurrentTool) {
                 case Instrument.Arrow:
@@ -84,7 +86,7 @@ namespace DrawMoar {
 
         void ScaleRedrawing(IShape shape, MouseEventArgs e) {
             if (shape != null & e.LeftButton == MouseButtonState.Pressed) {
-                var layer = Cartoon.CurrentLayer;
+                var layer = Editor.cartoon.CurrentLayer;
                 var shiftX = point.X - prevPoint.X;
                 var shiftY = point.Y - prevPoint.Y;
                 if (((shiftX <= 0) || (shiftY <= 0)) && (!(shape is Line))) return;   //пока из-за "плохих" шифтов так; уберу, когда сделаю зеркалирование
@@ -94,10 +96,10 @@ namespace DrawMoar {
                 else if (shape is Ellipse) shape = new Ellipse(prevPoint, new Size(15 + shiftX, 10 + shiftY));
                 else if (shape is Rectangle) shape = new Rectangle(prevPoint, new Size(15 + shiftX, 10 + shiftY));
                 shape.Draw(canvasDrawer);
-                if (layer.Item1 is VectorLayer) {
-                    var shapes = ((VectorLayer)layer.Item1).Picture.shapes;
+                if (layer is VectorLayer) {
+                    var shapes = ((VectorLayer)layer).Picture.shapes;
                     shapes.RemoveAt(shapes.Count - 1);
-                    SaveIntoLayer(layer.Item1, shape);
+                    SaveIntoLayer(layer, shape);
                 }
                 //else ((RasterLayer)layer.Item1).Save(canvas);
             }
@@ -106,7 +108,7 @@ namespace DrawMoar {
 
         void TranslatingRedrawing(MouseEventArgs e) {
             point = e.GetPosition(canvas);
-            Cartoon.CurrentLayer.Item1.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
+            Editor.cartoon.CurrentLayer.Transform(new TranslateTransformation(new Point(point.X - prevPoint.X, point.Y - prevPoint.Y)));
             Refresh();
         }
 

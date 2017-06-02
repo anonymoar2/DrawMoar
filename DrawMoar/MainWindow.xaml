@@ -18,16 +18,18 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition  MinWidth="130" MaxWidth="130"></ColumnDefinition>
+            <ColumnDefinition MinWidth="130" MaxWidth="130"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition MinWidth="140" MaxWidth="140"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="Snow"/>
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Background="WhiteSmoke"/>
+        <Border Grid.Row="3" Grid.Column="1" Grid.RowSpan="3" Background="WhiteSmoke"/>
         <Menu x:Name="menu" HorizontalAlignment="Left" Background="Snow" Grid.ColumnSpan="3" Height="20" VerticalAlignment="Top">
             <MenuItem Header="File">
                 <MenuItem Header="New"
                           Click="CreateCartoon"/>
-                <MenuItem Header="Open"/>
-                <MenuItem Name="menuSave" Header="Save" Command="Save" InputGestureText="Ctrl+S"/>
+                <MenuItem Header="Open" Click="OpenFile"/>
+                <MenuItem Header="Save" Click="SaveToDrm"/>
                 <MenuItem Header="Save as...">
                     <MenuItem Header="MP4" Click="SaveToMp4"/>
                     <MenuItem Header="AVI" Click="SaveToAvi"/>
@@ -46,9 +48,9 @@
             <Button x:Name="button" Content="Cancel" Margin="67,76,10,549" Width="53" Height="24" Click="button_Click_1" VerticalAlignment="Top"/>
 
         </Border>
-        <Border Grid.Column="3" Grid.Row="1" Grid.RowSpan="5" Background="Snow"/>
-        <WrapPanel Name="figurePanel" Grid.Column="0" Grid.Row="1" MaxWidth="130" Grid.RowSpan="2">
-            <WrapPanel Name="wp1" Width="130" Height="180">
+        <Border Grid.Column="3" Grid.Row="1" Grid.RowSpan="5" Background="WhiteSmoke"/>
+        <WrapPanel Name="figurePanel" Grid.Column="0" Grid.Row="1" MaxWidth="130" Background="WhiteSmoke" Grid.RowSpan="2">
+            <WrapPanel Name="wp1" Width="130" Height="200">
                 <Button x:Name="Lines" Height ="25" Width="40" Margin="5,5" Content="Lines" Click="Lines_Click"/>
                 <Button x:Name="Brush" Height ="25" Width="40" Margin="5,5" Content="Brush" Click="Brush_Click"/>
                 <Button x:Name="Arrow" Height ="25" Width="40" Margin="5,5" Content="Arrow" Click="Arrow_Click"/>
@@ -62,33 +64,38 @@
                 <Button x:Name="CycleFrame" Content="Cycle" Width="40"  Height="25" Margin="5,2" Click="CycleFrame_Click"/>
                 <Button x:Name="GenerateFrame" Content="Generate" Width="auto"  Height="23" Margin="5,2" Click="GenerateFrame_Click"/>
                 <Button x:Name="AddTransformation" Content="Transform" Width="auto"  Height="24" Margin="5,2" Click="AT_Click"/>
-                <Button x:Name="AFrameTrans" Content="Frame Transform" Width="auto"  Height="22" Margin="5,2" Click="AFT_Click"/>
                 <xctk:ColorPicker x:Name="ClrPcker_Background"  Margin="70,3,0,0" Height="25" Width="45" SelectedColor="Black" SelectedColorChanged="ClrPcker_Background_SelectedColorChanged"/>
                 
                 <Slider x:Name="slider" Width="130" Minimum="3" Maximum="50"/>
             </WrapPanel>
         </WrapPanel>
-        <WrapPanel Name="palette" Grid.Column="0" Grid.Row="3">
+        <WrapPanel Name="layerWorking" Grid.Column="1" Grid.Row="3">
             <Button x:Name="AddRasterLayer" Content="RL" Width="30"  Height="20" Margin="3,10" Click="AddRasterLayer_Click"/>
             <Button x:Name="AddVectorLayer" Content="VL" Width="30"  Height="20" Margin="3,10" Click="AddVectorLayer_Click"/>
             <Button x:Name="DeleteLayer" Content="Delete L" Width="auto" Height="20" Margin="3,10" Click="DeleteLayer_Click"/>
         </WrapPanel>
-        <ListBox Name="scenesList" Width="135" Grid.Column="2" Grid.Row="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+        <ListBox Name="scenesList" Width="135" Grid.Column="3" Grid.Row="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  BorderBrush="LightGray" SelectionChanged="scenesList_SelectionChanged"></ListBox>
-        <WrapPanel Name="buttons" Grid.Column="2" Grid.Row="1">
+        <WrapPanel Name="buttons" Grid.Column="3" Grid.Row="1">
             <Button x:Name="AddScene" Content="+S" Width="30"  Height="20" Margin="10,10" Click="AddScene_Click"/>
             <Button x:Name="DeleteScene" Content="Delete S" Width="auto" Height="20" Margin="10,10" Click="DeleteScene_Click"/>
         </WrapPanel>
+        <WrapPanel Name="animationsWorking" Grid.Column="0" Grid.Row="3">
+            <Button x:Name="AddAnimation" Content="+A" Width="30"  Height="20" Margin="10,10" Click="AddAnimation_Click" />
+            <Button x:Name="DeleteAnimation" Content="Delete A" Width="auto" Height="20" Margin="10,10" Click="DeleteAnimation_Click"/>
+        </WrapPanel>
+        <ListBox Name="animationsList" Width="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                         BorderBrush="LightGray" SelectionChanged="animationsList_SelectionChanged"  Grid.Column="0" Grid.Row="4"/>
         <ListBox Name="layersList" Width="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                         BorderBrush="LightGray" SelectionChanged="layersList_SelectionChanged" Grid.Column="0" Grid.Row="4"/>
-        <WrapPanel Name="smth" Width="120" Grid.Column="2" Grid.Row="3">
+                         BorderBrush="LightGray" SelectionChanged="layersList_SelectionChanged" Grid.Column="1" Grid.Row="4"/>
+        <WrapPanel Name="smth" Width="120" Grid.Column="3" Grid.Row="3">
             <Button x:Name="AddFrame" Content="+F" Width="30"  Height="20" Margin="10,10" Click="AddFrame_Click"/>
             <Button x:Name="DeleteFrame" Content="Delete F" Width="auto" Height="20" Margin="5,10" Click="DeleteFrame_Click"/>
         </WrapPanel>
-        <ListBox  x:Name="framesList" Width="135" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+        <ListBox  x:Name="framesList" Width="130" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                           BorderBrush="LightGray" SelectionChanged="framesList_SelectionChanged"
-                          Grid.Column="2" Grid.Row="4">
+                          Grid.Column="3" Grid.Row="4">
         </ListBox>
-        <Canvas Name="canvas" Width="250" Height="300" Visibility="Hidden" Background="White" Grid.RowSpan="3" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" ClipToBounds="True" VerticalAlignment="Center"/>
+        <Canvas Name="canvas" Width="250" Height="300" Visibility="Hidden" Background="White" Grid.RowSpan="3" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Center" ClipToBounds="True" VerticalAlignment="Center"/>
     </Grid>
 </Window>

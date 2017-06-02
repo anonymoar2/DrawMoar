@@ -11,50 +11,51 @@ namespace DrawMoar {
     public partial class MainWindow:Window {
 
         private void AddFrame_Click(object sender, RoutedEventArgs e) {
-            SavePrev();
-            if (cartoon == null) {
+            //SavePrev();
+            if (Editor.cartoon == null) {
                 return;
             }
             if (sender != null) {
-                Cartoon.CurrentScene.frames.Add(new BaseElements.Frame());
-                Cartoon.CurrentFrame = Cartoon.CurrentScene.frames.Last();
-                Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers.Last();
-                var frames = Cartoon.CurrentScene.frames;
-                AddListBoxElement(framesList, Cartoon.CurrentFrame.Name);
+                var newDurationFrameDialog = new DurationFrameDialog(framesList);
+                newDurationFrameDialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                newDurationFrameDialog.Owner = this;
+                newDurationFrameDialog.Show();
             }
         }
 
 
         private void framesList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (framesList.SelectedIndex != -1) {
-                if (Cartoon.CurrentFrame.layers.Count > 0)
-                    Cartoon.CurrentFrame = Cartoon.CurrentScene.frames[framesList.SelectedIndex];
-                Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers.Last();
+                if (Editor.cartoon.CurrentFrame.animations.Count > 0)
+                    Editor.cartoon.CurrentFrame = Editor.cartoon.CurrentScene.frames[framesList.SelectedIndex];
+                Editor.cartoon.CurrentAnimation = Editor.cartoon.CurrentFrame.animations.Last();
+                Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentAnimation.layers.Last();
             }
-            layersList.Items.Clear();
+            animationsList.Items.Clear();
             canvas.Children.Clear();
-            var lays = Cartoon.CurrentFrame.layers;
-            foreach (var item in lays) {
-                AddListBoxElement(layersList, item.Item1.Name);
-                item.Item1.Draw(canvasDrawer);
-                layersList.SelectedIndex = 0;
+            var anims = Editor.cartoon.CurrentFrame.animations;
+            foreach (var item in anims) {
+                item.layers[0].Draw(canvasDrawer);
+                AddListBoxElement(animationsList, item.Name);               
+                animationsList.SelectedIndex = 0;
             }
         }
 
         private void DeleteFrame_Click(object sender, RoutedEventArgs e) {
             SavePrev();
-            if (cartoon == null) return;
+            if (Editor.cartoon == null) return;
             int index = framesList.SelectedIndex;
             framesList.Items.RemoveAt(index);
-            var frames = Cartoon.CurrentScene.frames;
+            var frames = Editor.cartoon.CurrentScene.frames;
             frames.RemoveAt(index);
             if (frames.Count == 0) {
                 frames.Add(new BaseElements.Frame());
-                AddListBoxElement(framesList, Cartoon.CurrentFrame.Name);
+                AddListBoxElement(framesList, Editor.cartoon.CurrentFrame.Name);
             }
             framesList.SelectedIndex = index > 0 ? index - 1 : 0;
-            Cartoon.CurrentFrame = index > 0 ? frames[index - 1] : frames[0];
-            Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers[0];
+            Editor.cartoon.CurrentFrame = index > 0 ? frames[index - 1] : frames[0];
+            Editor.cartoon.CurrentAnimation = index > 0 ? Editor.cartoon.CurrentFrame.animations[index-1] : Editor.cartoon.CurrentFrame.animations[0];
+            Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentAnimation.layers[0];
             Refresh();
         }
     }

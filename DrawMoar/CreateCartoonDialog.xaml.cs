@@ -51,13 +51,14 @@ namespace DrawMoar
                         Directory.CreateDirectory(workingDirectory);
                         try
                         {
-                            var cartoon = new Cartoon(cartoonName, cartoonWidth, cartoonHeight, workingDirectory);
-                            Cartoon.CurrentScene = cartoon.scenes[0];
-                            Cartoon.WorkingDirectory = workingDirectory;
-                            Cartoon.Width = cartoonWidth;
-                            Cartoon.Height = cartoonHeight;
+                            Editor.cartoon = new Cartoon(cartoonName, cartoonWidth, cartoonHeight, workingDirectory);
+                            Editor.cartoon.CurrentScene = Editor.cartoon.scenes[0];
+                            Editor.cartoon.WorkingDirectory = workingDirectory;
+                            Editor.cartoon.Width = cartoonWidth;
+                            Editor.cartoon.Height = cartoonHeight;
+                            
                             MainWindow mw = (MainWindow)Owner;
-                            mw.Success(cartoon);
+                            mw.Success(Editor.cartoon);
                             Hide();
                         }
                         catch (ArgumentException exeption)

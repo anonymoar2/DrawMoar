@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using DrawMoar.Shapes;
 using DrawMoar.BaseElements;
 using DrawMoar.Drawing;
+using System.Collections.Generic;
 
 namespace DrawMoar {
     public class RasterLayer : ILayer {
@@ -46,7 +47,7 @@ namespace DrawMoar {
 
 
         public RasterLayer() {
-            name = $"RasterLayer_{Cartoon.CurrentFrame.layers.Count}";
+            Name = $"VectorLayer{Editor.cartoon.CurrentAnimation.layers.Count}";
             Visible = true;
             Picture = new Picture();
         }
@@ -60,7 +61,7 @@ namespace DrawMoar {
 
 
         public void Draw(IDrawer drawer) {
-            Picture.Draw(drawer);
+            drawer.DrawPicture(Picture,Position.X,Position.Y);
         }
 
 
@@ -82,30 +83,16 @@ namespace DrawMoar {
 
             PngBitmapEncoder encoder = new PngBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
-            using (Stream stm = File.Create(Path.Combine(Cartoon.WorkingDirectory, $"{Cartoon.CurrentScene.Name}_{Cartoon.CurrentFrame.Name}_{Name}.png"))) {
+            using (Stream stm = File.Create(Path.Combine(Editor.cartoon.WorkingDirectory, $"{Editor.cartoon.CurrentScene.Name}_{Editor.cartoon.CurrentFrame.Name}_{Name}.png"))) {
                 encoder.Save(stm);
             }
 
-            Picture.Image = System.Drawing.Image.FromFile(Path.Combine(Cartoon.WorkingDirectory, $"{Cartoon.CurrentScene.Name}_{Cartoon.CurrentFrame.Name}_{Name}.png"));
+            Picture.Image = System.Drawing.Image.FromFile(Path.Combine(Editor.cartoon.WorkingDirectory, $"{Editor.cartoon.CurrentScene.Name}_{Editor.cartoon.CurrentFrame.Name}_{Name}.png"));
         }
+        
 
 
-        public System.Windows.Controls.Image ConvertDrawingImageToWPFImage(System.Drawing.Image gdiImg) {
-
-            if (gdiImg == null) return null;
-            System.Windows.Controls.Image img = new System.Windows.Controls.Image();
-
-            Bitmap bmp = new Bitmap(gdiImg);
-            IntPtr hBitmap = bmp.GetHbitmap();
-            ImageSource WpfBitmap = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero,
-                                    Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-
-            img.Source = WpfBitmap;
-            img.Width = gdiImg.Width;
-            img.Height = gdiImg.Height;
-            img.Stretch = Stretch.Fill;
-            return img;
-        }
+       
 
 
         public void AddShape(IShape shape) {
@@ -138,6 +125,13 @@ namespace DrawMoar {
             buf.Name = Name;
             buf.Position = Position;
             return buf;
+        }
+
+        public List<string> SaveToFile(string pathToDrm) {
+            List<string> lines = new List<string>();
+            lines.Add($"Layer*{Name}*r*{Picture.Position.X}*{Picture.Position.Y}");
+            lines.Add(Picture.SaveToFile(pathToDrm, Name));
+            return lines;
         }
     }
 }

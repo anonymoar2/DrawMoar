@@ -20,13 +20,19 @@ namespace DrawMoar {
     /// Логика взаимодействия для GenerationDialog.xaml
     /// </summary>
     public partial class GenerationDialog : Window {
+
         Point prevPoint;
         Point point;
         Point translation;
+
         ILayer cloneLayer;
+
         List<Transformation> transList = new List<Transformation>();
+
         State clickState = State.Translation;
+
         IDrawer canvasDrawer;
+
         bool PressLeftButton;
 
 
@@ -48,6 +54,7 @@ namespace DrawMoar {
             cloneLayer.Draw(canvasDrawer);
         }
 
+
         private void previewCanvas_MouseLeftButtonDown(object sender, MouseEventArgs e) {
             prevPoint = Mouse.GetPosition(previewCanvas);
             switch (clickState) {
@@ -64,6 +71,7 @@ namespace DrawMoar {
             }
         }
 
+
         private void previewCanvas_MouseMove(object sender, MouseEventArgs e) {
             if (clickState == State.Translation) {
                 point = (Point)e.GetPosition(previewCanvas);
@@ -73,15 +81,15 @@ namespace DrawMoar {
             }
         }
 
+
         private void previewCanvas_MouseLeftButtonUp(object sender, MouseEventArgs e) {
             PressLeftButton = false;
         }
 
+
         private void previewCanvas_MouseLeave(object sender, MouseEventArgs e) {
             PressLeftButton = false;
         }
-
-
 
 
         void TranslatingRedrawing(MouseEventArgs e) {
@@ -98,13 +106,19 @@ namespace DrawMoar {
             cloneLayer.Draw(canvasDrawer);
         }
 
+        private void ScaleFactor_TextChanged(object sender, TextChangedEventArgs e) {
+            double symb;
+            if (!double.TryParse(ScaleFactor.Text, out symb)) {
+                ScaleFactor.Clear();
+            }
+        }
 
         private void ApplyTransform_Click(object sender, RoutedEventArgs e) {
             transList.Clear();
 
 
             int[] time = new int[3];
-            int totalTime = 0;  //временно
+            int totalTime = 0;
             try {
                 if (TranslateVector.Text == "" && ScaleFactor.Text == "" && Angle.Text == "") throw new IOException("You haven't created any transformation");
                 if (TotalTestDuration.Text != "") {
@@ -113,7 +127,7 @@ namespace DrawMoar {
                 else throw new IOException("Enter the Total Duration field");
 
                 if (TranslateVector.Text != "") {
-                    ApplyTranslation(totalTime);    //не придется туда передавать время, т.к оно внутри будет свое генериться
+                    ApplyTranslation(totalTime);
                 }
 
                 if (Angle.Text != "") {
@@ -122,12 +136,10 @@ namespace DrawMoar {
 
                 if (ScaleFactor.Text != "") {
                     ApplyScaling(totalTime);
-                }
-                ///TODO: Поместить трансформации в слой            
-                var index = Cartoon.CurrentFrame.layers.IndexOf(Cartoon.CurrentLayer);
-                Cartoon.CurrentFrame.layers[index] = new Tuple<ILayer, List<Transformation>, int>(Cartoon.CurrentLayer.Item1, transList, totalTime);
-                Cartoon.CurrentLayer = new Tuple<ILayer, List<Transformation>, int>(Cartoon.CurrentLayer.Item1, transList, totalTime);
-                Cartoon.TotalTime = totalTime;
+                }      
+                var index = Editor.cartoon.CurrentFrame.animations.IndexOf(Editor.cartoon.CurrentAnimation);
+                Editor.cartoon.CurrentFrame.animations[index] = new Animation(Editor.cartoon.CurrentAnimation.layers, transList);
+                Editor.cartoon.TotalTime = totalTime;
                 this.Hide();
             }
             catch (IOException ioEx) {
@@ -138,6 +150,7 @@ namespace DrawMoar {
             }
         }
 
+
         private void ApplyTranslation(int totalTime) {
             Point translateVector = new Point();
             string[] coords = TranslateVector.Text.Split(new char[] { ';', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
@@ -145,6 +158,7 @@ namespace DrawMoar {
             translateVector.Y = double.Parse(coords[1]) / (totalTime * 25);
             transList.Add(new TranslateTransformation(translateVector));
         }
+
 
         private void ApplyScaling(int totalTime) {
             double scaleFactor;
@@ -154,8 +168,9 @@ namespace DrawMoar {
             Point center = new Point();
             center.X = double.Parse(coords[0]);
             center.Y = double.Parse(coords[1]);
-            transList.Add(new ScaleTransformation(center, scaleFactor));    //аналогично
+            transList.Add(new ScaleTransformation(center, scaleFactor));
         }
+
 
         private void ApplyRotation(int totalTime) {
             double angle;
@@ -168,6 +183,7 @@ namespace DrawMoar {
             transList.Add(new RotateTransformation(center, angle));
         }
 
+
         private void TranslateTime_TextChanged(object sender, TextChangedEventArgs e) {
             int symb;
             if (!Int32.TryParse(TranslateTime.Text, out symb)) {
@@ -175,33 +191,14 @@ namespace DrawMoar {
             }
         }
 
+
         private void Angle_TextChanged(object sender, TextChangedEventArgs e) {
             double symb;
             if (!double.TryParse(Angle.Text, out symb)) {
                 Angle.Clear();
             }
         }
-
-        private void RotateTime_TextChanged(object sender, TextChangedEventArgs e) {
-            int symb;
-            if (!Int32.TryParse(RotateTime.Text, out symb)) {
-                RotateTime.Clear();
-            }
-        }
-
-        private void ScaleFactor_TextChanged(object sender, TextChangedEventArgs e) {
-            double symb;
-            if (!double.TryParse(ScaleFactor.Text, out symb)) {
-                ScaleFactor.Clear();
-            }
-        }
-
-        private void ScaleTime_TextChanged(object sender, TextChangedEventArgs e) {
-            int symb;
-            if (!Int32.TryParse(ScaleTime.Text, out symb)) {
-                ScaleTime.Clear();
-            }
-        }
+        
 
         private void TotalTestDuration_TextChanged(object sender, TextChangedEventArgs e) {
             int symb;
@@ -210,18 +207,22 @@ namespace DrawMoar {
             }
         }
 
+
         private void Translate_Click(object sender, RoutedEventArgs e) {
             clickState = State.Translation;
         }
+
 
         private void RotateCenter_Click(object sender, RoutedEventArgs e) {
             clickState = State.RotateCenter;
         }
 
+
         private void ScaleCenter_Click(object sender, RoutedEventArgs e) {
             clickState = State.ScaleCenter;
         }
     }
+
 
     enum State {            //набор возможных состояний для интерпретации клика по канвасу
         Translation,

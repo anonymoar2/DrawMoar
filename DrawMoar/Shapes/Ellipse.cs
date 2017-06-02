@@ -6,6 +6,7 @@ using System.Windows.Controls;
 
 using DrawMoar.BaseElements;
 using DrawMoar.Drawing;
+using System.Collections.Generic;
 
 namespace DrawMoar.Shapes
 {
@@ -60,6 +61,10 @@ namespace DrawMoar.Shapes
             buf.Thickness = Thickness;
             buf.Color = Color;
             return buf;
+        }
+
+        public List<string> SaveToFile(string pathToDrm) {
+            return new List<string>() { $"Shape*ellipse*{Center.X};{Center.Y};{Thickness};{Color.ToString()};{Size.Width};{Size.Height};{StartAngle};{EndAngle};{Rotate}" };
         }
     }
 }

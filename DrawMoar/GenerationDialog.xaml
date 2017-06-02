@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DrawMoar"
         mc:Ignorable="d"
-        Title="GenerationDialog" Height="700" Width="900">
+        Title="GenerationDialog" Height="550" Width="900">
     <Grid Background="LightGray">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.75*" MinHeight="120"></RowDefinition>
-            <RowDefinition Height="1*" MinHeight="150"></RowDefinition>
-            <RowDefinition Height="1*" MinHeight="150"></RowDefinition>
-            <RowDefinition Height="1*" MinHeight="150"></RowDefinition>
+            <RowDefinition Height="0.75*" MinHeight="150"></RowDefinition>
+            <RowDefinition Height="0.75*" MinHeight="150"></RowDefinition>
+            <RowDefinition Height="0.75*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="200" Width="200"></ColumnDefinition>
@@ -30,8 +30,6 @@
             <Label Grid.Row="1" Grid.Column="0" Width="200" Height="Auto" Content="Rotate" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Background="AliceBlue"/>
             <Label Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10" Content="Angle" FontSize="15" HorizontalContentAlignment="Center"/>
             <TextBox Name="Angle" Grid.Column="0" Grid.Row="1" Width="70" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,13" FontSize="15" TextChanged="Angle_TextChanged"/>
-            <Label Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10,5" Content="Time" FontSize="15" HorizontalContentAlignment="Center"/>
-            <TextBox Name="RotateTime" Grid.Column="0" Grid.Row="1" Width="70" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,8" FontSize="15" TextChanged="RotateTime_TextChanged"/>
             <Button Name="RotateCenter" Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10,5" Content="Center" FontSize="15" HorizontalContentAlignment="Center" Click="RotateCenter_Click"/>
             <TextBox Name="RotatePoint" Grid.Column="0" Grid.Row="1" Width="85" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="15" Margin="0,8" IsEnabled="False"/>
         </WrapPanel>
@@ -39,17 +37,14 @@
             <Label Grid.Row="1" Grid.Column="0" Width="200" Height="Auto" Content="Scale" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Background="AliceBlue"/>
             <Label Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10" Content="Factor" FontSize="15" HorizontalContentAlignment="Center"/>
             <TextBox Name="ScaleFactor" Grid.Column="0" Grid.Row="1" Width="70" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,13" FontSize="15" TextChanged="ScaleFactor_TextChanged"/>
-            <Label Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10,5" Content="Time" FontSize="15" HorizontalContentAlignment="Center"/>
-            <TextBox Name="ScaleTime" Grid.Column="0" Grid.Row="1" Width="70" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,8"  FontSize="15" TextChanged="ScaleTime_TextChanged"/>
             <Button Name="ScaleCenter" Grid.Row="1" Grid.Column="0" Width="80" Height="30" Margin="10,5" Content="Center" FontSize="15" HorizontalContentAlignment="Center" Click="ScaleCenter_Click"/>
             <TextBox Name="ScalePoint" Grid.Column="0" Grid.Row="1" Width="85" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,8" FontSize="15" IsEnabled="False"/>
         </WrapPanel>
-        <WrapPanel Name="SemyonTestPanel" Grid.Column="0" Grid.Row="3">
-            <Label Grid.Row="1" Grid.Column="0" Width="200" Height="Auto"  Content="Семен привет" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Background="AliceBlue"/>
-            <TextBox Name="Function" Grid.Column="0" Grid.Row="1" Width="165" Height="35" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,10"/>
-            <Label Content="Total Duration" Width="Auto" Grid.Column="0" Grid.Row="1" Height="Auto" FontSize="15" Margin="7,5"/>
-            <TextBox Name="TotalTestDuration" Grid.Column="0" Grid.Row="1" Width="65" Height="Auto" Margin="7,5" FontSize="15" TextChanged="TotalTestDuration_TextChanged"/>
-            <Button Name="ApplyTransform" MinWidth="60" Width="Auto" Height="Auto" Content="Apply"  FontSize="18" Margin="10,5" Click="ApplyTransform_Click"/>
+        <WrapPanel Grid.Row="3">
+            <Label Grid.Row="1" Grid.Column="0" Width="200" Height="Auto" Content="Total" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Background="AliceBlue"/>
+            <Label Width="80" Height="30" Margin="10" Content="Duration" FontSize="15" HorizontalContentAlignment="Center"/>
+            <TextBox Name="TotalTestDuration" Grid.Column="0" Grid.Row="1" Width="65" Height="Auto" Margin="15,13" FontSize="15" TextChanged="TotalTestDuration_TextChanged"/>
+            <Button Name="ApplyTransform" MinWidth="60" Width="70" Height="Auto" Content="Apply"  FontSize="18" Margin="20,0" Click="ApplyTransform_Click"/>
         </WrapPanel>
     </Grid>
 </Window>

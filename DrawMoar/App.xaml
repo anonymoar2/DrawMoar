@@ -4,6 +4,9 @@
              xmlns:local="clr-namespace:DrawMoar"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" 
+      Value="WhiteSmoke" />
+        </Style>
     </Application.Resources>
 </Application>

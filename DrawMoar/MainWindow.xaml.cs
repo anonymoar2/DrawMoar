@@ -12,16 +12,13 @@ using DrawMoar.Shapes;
 using DrawMoar.BaseElements;
 using System.Linq;
 using DrawMoar.Drawing;
+using System.Windows.Forms;
 
-
-namespace DrawMoar
-{
+namespace DrawMoar {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
-    {
-        Cartoon cartoon;
+    public partial class MainWindow : Window {
 
         Point prevPoint;
         DrawMoar.Shapes.Line newLine;
@@ -31,15 +28,15 @@ namespace DrawMoar
         IDrawer canvasDrawer;
         GenerationDialog generationWin;
         event EventHandler ChangeInstrument;
-        bool PressLeftButton;       
+        bool PressLeftButton;
 
         public MainWindow() {
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             canvas.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(canvas_MouseLeftButtonDown);
-            canvas.PreviewMouseMove += new MouseEventHandler(canvas_MouseMove);
+            canvas.PreviewMouseMove += new System.Windows.Input.MouseEventHandler(canvas_MouseMove);
             canvas.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(canvas_MouseLeftButtonUp);
-            canvas.MouseLeave += new MouseEventHandler(canvas_MouseLeave);
+            canvas.MouseLeave += new System.Windows.Input.MouseEventHandler(canvas_MouseLeave);
             ChangeInstrument += SetCursorStyle;
             CurrentTool = Instrument.Arrow;
             Color = Brushes.Black;
@@ -47,25 +44,20 @@ namespace DrawMoar
             canvasDrawer = new CanvasDrawer(canvas);
         }
 
-        private void SavePrev()
-        {
+        private void SavePrev() {
             GC.Collect();
 
-            if (cartoon != null)
-            {
-                Cartoon.Prev = cartoon;
+            if (Editor.cartoon != null) {
+                Editor.cartoon.Prev = Editor.cartoon;
             }
-            if (Cartoon.CurrentLayer != null)
-            {
-                Cartoon.PrevCurrentLayerNumber = Cartoon.CurrentFrame.layers.IndexOf(Cartoon.CurrentLayer);
+            if (Editor.cartoon.CurrentLayer != null) {
+                Editor.cartoon.PrevCurrentLayerNumber = Editor.cartoon.CurrentAnimation.layers.IndexOf(Editor.cartoon.CurrentLayer);
             }
-            if (Cartoon.CurrentFrame != null)
-            {
-                Cartoon.PrevCurrentFrameNumber = Cartoon.CurrentScene.frames.IndexOf(Cartoon.CurrentFrame);
+            if (Editor.cartoon.CurrentFrame != null) {
+                Editor.cartoon.PrevCurrentFrameNumber = Editor.cartoon.CurrentScene.frames.IndexOf(Editor.cartoon.CurrentFrame);
             }
-            if (Cartoon.CurrentScene != null)
-            {
-                Cartoon.PrevCurrentSceneNumber = cartoon.scenes.IndexOf(Cartoon.CurrentScene);
+            if (Editor.cartoon.CurrentScene != null) {
+                Editor.cartoon.PrevCurrentSceneNumber = Editor.cartoon.scenes.IndexOf(Editor.cartoon.CurrentScene);
             }
         }
 
@@ -114,15 +106,16 @@ namespace DrawMoar
         /// <param name="cartoon"></param>
         public void Success(Cartoon cartoon) {
             canvas.Visibility = Visibility.Visible;
-            canvas.Width = Cartoon.Width;
-            canvas.Height = Cartoon.Height;
-            this.cartoon = cartoon;
+            canvas.Width = Editor.cartoon.Width;
+            canvas.Height = Editor.cartoon.Height;
+            Editor.cartoon = cartoon;
             this.Activate();
             MainWindow.canvSize = new Size(canvas.Width, canvas.Height);
             Height = canvas.Height;
-            Width = canvas.Width + 260;        //пока что так (ширина двух крайних колонок грида)
+            Width = canvas.Width + 260;
             AddScene_Click(null, null);
             AddFrame_Click(null, null);
+            AddAnimation_Click(null, null);
             AddVectorLayer_Click(null, null);
         }
 
@@ -135,13 +128,13 @@ namespace DrawMoar
         private void SetCursorStyle(Object sender, EventArgs e) {
             switch (CurrentTool) {
                 case Instrument.Brush:
-                    canvas.Cursor = Cursors.Cross;
+                    canvas.Cursor = System.Windows.Input.Cursors.Cross;
                     break;
                 case Instrument.Eraser:
-                    canvas.Cursor = Cursors.Hand;
+                    canvas.Cursor = System.Windows.Input.Cursors.Hand;
                     break;
                 default:
-                    canvas.Cursor = Cursors.Arrow;
+                    canvas.Cursor = System.Windows.Input.Cursors.Arrow;
                     break;
             }
         }
@@ -155,10 +148,10 @@ namespace DrawMoar
         private void testButton2_Click(object sender, RoutedEventArgs e) {
             CurrentTool = Instrument.Arrow;
         }
-        
 
-        private void AddListBoxElement(ListBox lBox, string content) {
-            var lbl = new Label();          
+
+        private void AddListBoxElement(System.Windows.Controls.ListBox lBox, string content) {
+            var lbl = new System.Windows.Controls.Label();
             lbl.Content = content;
             lBox.Items.Add(lbl);
             lBox.SelectedIndex = lBox.Items.Count - 1;
@@ -166,16 +159,18 @@ namespace DrawMoar
 
 
         private void AddPicture(object sender, RoutedEventArgs e) {
-            if (cartoon == null) return;
+            if (Editor.cartoon == null) return;
             var fileDialog = new System.Windows.Forms.OpenFileDialog();
             fileDialog.ShowDialog();
             string fileName = fileDialog.FileName;
             if (fileName == "") System.Windows.MessageBox.Show("You haven't chosen the file");
             else {
-                Cartoon.CurrentFrame.layers.Add(new Tuple<ILayer, List<Transformation>, int>(new RasterLayer(), new List<Transformation>(), 0));
-                Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers.Last();
-                ((RasterLayer)Cartoon.CurrentFrame.layers.Last().Item1).Picture.Image = System.Drawing.Image.FromFile(fileName);
-                Cartoon.CurrentFrame.layers.Last().Item1.Draw(canvasDrawer);
+                //Cartoon.CurrentFrame.animations.Add(new Animation(new RasterLayer(), new List<Transformation>()));
+                //Cartoon.CurrentLayer = Cartoon.CurrentFrame.animations.Last();
+                Editor.cartoon.CurrentAnimation.layers.Add(new RasterLayer());
+                Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentAnimation.layers.Last();
+                ((RasterLayer)Editor.cartoon.CurrentAnimation.layers.Last()).Picture.Image = System.Drawing.Image.FromFile(fileName);
+                Editor.cartoon.CurrentLayer.Draw(canvasDrawer);
                 AddRasterLayer_Click(null, null);
             }
         }
@@ -188,25 +183,25 @@ namespace DrawMoar
 
         private void SaveToMp4(object sender, RoutedEventArgs e) {
             try {
-                DrawMoar.ffmpeg.ExportToVideo.SaveToVideo(cartoon, "mp4", "");
-                MessageBox.Show("Мультик готов!!!");
+                DrawMoar.ffmpeg.ExportToVideo.SaveToVideo(Editor.cartoon, "mp4", "");
+                System.Windows.MessageBox.Show("Мультик готов!!!");
             }
             catch (Exception ex) {
-                MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.Message);
             }
         }
 
 
         private void SaveToAvi(object sender, RoutedEventArgs e) {
             try {
-                DrawMoar.ffmpeg.ExportToVideo.SaveToVideo(cartoon, "avi", cartoon.pathToAudio);
-                MessageBox.Show("Мультик готов!!!");
+                DrawMoar.ffmpeg.ExportToVideo.SaveToVideo(Editor.cartoon, "avi", Editor.cartoon.pathToAudio);
+                System.Windows.MessageBox.Show("Мультик готов!!!");
             }
             catch (Exception ex) {
-                MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.Message);
             }
         }
-     
+
 
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e) {
             var color = new DrawMoar.BaseElements.Color(ClrPcker_Background.SelectedColor.Value);
@@ -216,9 +211,11 @@ namespace DrawMoar
 
         private void Refresh() {
             canvas.Children.Clear();
-            var layers = Cartoon.CurrentFrame.layers;
-            foreach (var item in layers) {
-                item.Item1.Draw(canvasDrawer);
+            var anims = Editor.cartoon.CurrentFrame.animations;
+            foreach (var anim in anims) {
+                foreach (var lay in anim.layers) {
+                    lay.Draw(canvasDrawer);
+                }
             }
         }
 
@@ -236,21 +233,61 @@ namespace DrawMoar
 
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            
+        private void button_Click(object sender, RoutedEventArgs e) {
+
         }
 
-        private void button_Click_1(object sender, RoutedEventArgs e)
-        {
-            cartoon = Cartoon.Prev;
+        private void button_Click_1(object sender, RoutedEventArgs e) {
+            if (Editor.cartoon.Prev != null) {
+                var buf = Editor.cartoon;
+                Editor.cartoon = Editor.cartoon.Prev;
+                Editor.cartoon.Prev = buf;
 
-            Cartoon.CurrentScene = cartoon.scenes[Cartoon.PrevCurrentSceneNumber];
-            Cartoon.CurrentFrame = Cartoon.CurrentScene.frames[Cartoon.PrevCurrentFrameNumber];
-            Cartoon.CurrentLayer = Cartoon.CurrentFrame.layers[Cartoon.PrevCurrentLayerNumber];
+                Editor.cartoon.CurrentScene = Editor.cartoon.scenes[Editor.cartoon.PrevCurrentSceneNumber];
+                Editor.cartoon.CurrentFrame = Editor.cartoon.CurrentScene.frames[Editor.cartoon.PrevCurrentFrameNumber];
+                Editor.cartoon.CurrentLayer = Editor.cartoon.CurrentAnimation.layers[Editor.cartoon.PrevCurrentLayerNumber];
 
-            GC.Collect();
-            Refresh();
+                scenesList.Items.Clear();
+
+                foreach (var scene in Editor.cartoon.scenes) {
+                    AddListBoxElement(scenesList, scene.Name);
+                }
+
+                scenesList.SelectedIndex = Editor.cartoon.PrevCurrentSceneNumber;
+                framesList.SelectedIndex = Editor.cartoon.PrevCurrentFrameNumber;
+                layersList.SelectedIndex = Editor.cartoon.PrevCurrentLayerNumber;
+
+                GC.Collect();
+                Refresh();
+            }
         }
+
+        private void SaveToDrm(object sender, RoutedEventArgs e) {
+            var folderDDialog = new FolderBrowserDialog();
+            folderDDialog.ShowDialog();
+            Editor.cartoon.SaveToFile(folderDDialog.SelectedPath);
+        }
+
+        private void OpenFile(object sender, RoutedEventArgs e) {
+            var folderDDialog = new FolderBrowserDialog();
+            folderDDialog.ShowDialog();
+            string selectedDirectory = folderDDialog.SelectedPath;
+            if (selectedDirectory != "") {
+                string[] lines = File.ReadAllLines(Path.Combine(selectedDirectory, "list.txt"));
+                string[] cartoonSet = lines[0].Split(new char[] { '*' }, StringSplitOptions.RemoveEmptyEntries);
+
+                scenesList.SelectedIndex = 0;
+                Editor.cartoon = new Cartoon(cartoonSet[0], Convert.ToInt32(cartoonSet[1]), Convert.ToInt32(cartoonSet[2]), lines[1]);
+                Editor.cartoon.OpenFile(lines);
+                Editor.cartoon.scenes.RemoveAt(0);
+                Editor.cartoon.scenes[0].frames.RemoveAt(0);
+                Editor.cartoon.scenes[0].frames[0].animations.RemoveAt(0);
+                canvas.Visibility = Visibility.Visible;
+                canvas.Width = Editor.cartoon.Width;
+                canvas.Height = Editor.cartoon.Height;
+                RefreshScenes();
+            }
+
+        }        
     }
 }

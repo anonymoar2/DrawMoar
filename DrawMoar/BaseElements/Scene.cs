@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 
@@ -19,8 +20,8 @@ namespace DrawMoar.BaseElements
 
         public Scene()
         {
-            name = "newScene";
-            Frame frame = new Frame();
+            name = $"Scene{Editor.cartoon.scenes.Count}";
+            Frame frame = new Frame("Frame0");
             frame.duration = 1;
             frames.Add(frame);
         }
@@ -29,7 +30,7 @@ namespace DrawMoar.BaseElements
         public Scene(string name)
         {
             this.name = name;
-            Frame frame = new Frame("Frame_0");
+            Frame frame = new Frame("Frame0");
             frame.duration = 1;
             frames.Add(frame);
         }
@@ -38,31 +39,17 @@ namespace DrawMoar.BaseElements
         public void Generate(Frame currentFrame, int seconds)
         {
             /// На каждую секунду генерируем по 25 кадров. Каждый кадр будет по длительности 0.04 секунды.
-            for (int i = 0; i < seconds * 25; i++)
+            for (int i = 1; i < seconds * 25; i ++)
             {
-                Frame frame = new Frame($"generated_frame_{i}");
-                frame.duration = (float) seconds/25;
-                frames.Add(frame);
-                foreach (var layer in currentFrame.layers)
-                {
-                    ILayer tmpLayer = (ILayer)layer.Item1.Clone();
-                    foreach (var trans in layer.Item2)
-                    {
-                        for (int j = 0; j <= i; j++)
-                        {
-                            tmpLayer.Transform(trans);
-                        }
-                    }
-                    frames.Last().layers.Add(new Tuple<ILayer, List<Transformation>, int>((ILayer)tmpLayer.Clone(), new List<Transformation>(), 0));
-                }
-                frames.Last().layers.RemoveAt(0);
+                frames.Insert(frames.IndexOf(currentFrame) + i, currentFrame.GetByTime(i));
             }
+            frames.RemoveAt(0);
         }
 
 
         public void Cycle(int count)
         {
-            var newFrames = new List<Frame>();
+            var newFrames = new List<Frame>();           
             foreach (var frame in frames)
             {
                 newFrames.Add((Frame)frame.Clone());
@@ -90,5 +77,15 @@ namespace DrawMoar.BaseElements
 
             return bufScene;
         }
+
+        internal List<string> SaveToFile(string pathToDrm) {
+            List<string> lines = new List<string>();
+            lines.Add($"Scene*{Name}");
+            foreach (var frame in frames) {
+                lines.AddRange(frame.SaveToFile(pathToDrm));
+            }
+            return lines;
+        }
+        
     }
 }

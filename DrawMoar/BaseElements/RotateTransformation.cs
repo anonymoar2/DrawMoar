@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -9,12 +9,12 @@ namespace DrawMoar.BaseElements
     class RotateTransformation : Transformation
     {
         private Matrix<double> Transform;
-
-        private double angle;
+        private System.Windows.Point point;
 
             
         public RotateTransformation(System.Windows.Point point, double angle) {
-            this.angle = angle;
+            value = angle;
+            this.point = point;
             var one = new Matrix<double>(new double[3, 3] { { 1, 0, point.X }, { 0, 1, point.Y }, { 0, 0, 1 } });
             var three = new Matrix<double>(new double[3, 3] { { 1, 0, -point.X }, { 0, 1, -point.Y }, { 0, 0, 1 } });
             var two = new Matrix<double>(new double[3, 3] {{ Math.Cos(angle * (Math.PI / 180)), -Math.Sin(angle * (Math.PI / 180)), 0 }, { Math.Sin(angle * (Math.PI / 180)),  Math.Cos(angle * (Math.PI / 180)), 0 }, {0,0,1 }});
@@ -29,14 +29,8 @@ namespace DrawMoar.BaseElements
 
 
         public override Picture Apply(Picture picture) {
-            Bitmap bmp = new Bitmap(picture.Image.Width, picture.Image.Height);
-            Graphics gfx = Graphics.FromImage(bmp);
-            gfx.TranslateTransform((float)bmp.Width / 2, (float)bmp.Height / 2);
-            gfx.RotateTransform(Convert.ToSingle(angle));
-            gfx.TranslateTransform(-(float)bmp.Width / 2, -(float)bmp.Height / 2);
-            gfx.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            gfx.DrawImage(picture.Image, new System.Drawing.Point(0, 0));
-            gfx.Dispose();
+            picture.Position = this.Apply(picture.Position);
+            picture.Angle =(picture.Angle+ (float)value)%360;
             return picture;
         }
 
@@ -52,6 +46,14 @@ namespace DrawMoar.BaseElements
             var xScale = Transform[0, 0] / Math.Cos(rotation * (Math.PI / 180));
             var yScale = Transform[1, 1] / Math.Cos(rotation * (Math.PI / 180));
             scale = new System.Windows.Point(xScale, yScale);
+        }
+
+        public override Transformation GetTransformation(double value) {
+            return new RotateTransformation(point, value);
+        }
+
+        internal override List<string> SaveToFile(string pathToDrm) {
+            return new List<string>() { $"Transformation*rotate*{point.X}*{point.Y}*{value}" };
         }
     }
 }

@@ -80,6 +80,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BaseElements\Animation.cs" />
     <Compile Include="BaseElements\Cartoon.cs" />
     <Compile Include="BaseElements\CompoundShape.cs" />
     <Compile Include="BaseElements\Matrix.cs" />
@@ -101,12 +102,14 @@
     <Compile Include="DurationFrameDialog.xaml.cs">
       <DependentUpon>DurationFrameDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Editor.cs" />
     <Compile Include="GenerationDialog.xaml.cs">
       <DependentUpon>GenerationDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="ILayer.cs" />
     <Compile Include="Instrument.cs" />
     <Compile Include="Drawing\ffmpeg\ImportImage.cs" />
+    <Compile Include="MainWin.Animations.cs" />
     <Compile Include="MainWin.Buttons.cs" />
     <Compile Include="MainWin.CanvasEvents.cs" />
     <Compile Include="MainWin.Frames.cs" />

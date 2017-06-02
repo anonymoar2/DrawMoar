@@ -1,15 +1,18 @@
 ﻿using System;
-
+using System.Collections.Generic;
 
 namespace DrawMoar.BaseElements
 {
     class TranslateTransformation : Transformation
     {
         private Matrix<double> Transform;
+        System.Windows.Point translate;
 
 
         public TranslateTransformation(System.Windows.Point point) {
-            Transform = new Matrix<double>(new double[3, 3] { { 1, 0, point.X }, { 0, 1, point.Y }, { 0, 0, 1 } });
+            this.Transform = new Matrix<double>(new double[3, 3] { { 1, 0, point.X }, { 0, 1, point.Y }, { 0, 0, 1 } });
+            this.translate = point;
+            this.value = Math.Sqrt(Math.Pow(translate.X, 2) + Math.Pow(translate.Y, 2));
         }
 
 
@@ -31,6 +34,16 @@ namespace DrawMoar.BaseElements
             var xScale = Transform[0, 0] / Math.Cos(rotation * (Math.PI / 180));
             var yScale = Transform[1, 1] / Math.Cos(rotation * (Math.PI / 180));
             scale = new System.Windows.Point(xScale, yScale);
+        }
+
+        internal override List<string> SaveToFile(string pathToDrm) {
+            return new List<string>() { $"Transformation*translate*{translate.X}*{translate.Y}"};
+        }
+
+        public override Transformation GetTransformation(double value) {
+            return new TranslateTransformation(new System.Windows.Point(
+                translate.X * value / this.value, 
+                translate.Y * value / this.value));
         }
     }
 }
