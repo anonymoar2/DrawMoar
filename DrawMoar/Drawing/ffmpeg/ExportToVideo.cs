@@ -71,6 +71,7 @@ namespace DrawMoar.ffmpeg
             Console.WriteLine(outLine.Data);
         }
 
+
         private static void AddMusic(string pathToMusic, string cartoonName, string workingDirectory, int count) {
             File.Copy(pathToMusic, Path.Combine(workingDirectory, Path.GetFileName(pathToMusic)));
             Process process = new Process();

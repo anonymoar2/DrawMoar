@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DrawMoar.BaseElements;
+
 
 namespace DrawMoar.IO
 {
     class ExportToImage
     {
+        public static void SaveToImage(Frame frame, string pathToFile) {
+            frame.Join().Save(pathToFile);
+        }
     }
 }

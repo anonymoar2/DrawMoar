@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
+
 using DrawMoar.Drawing;
+
 
 namespace DrawMoar.BaseElements {
     public class Frame : ICloneable {
+
         private string name;
         public string Name {
             get { return name; }
@@ -20,6 +22,7 @@ namespace DrawMoar.BaseElements {
         public double duration { get;set; }
 
         public List<Animation> animations = new List<Animation>();
+
 
         public Frame() {
             name = $"Frame{Editor.cartoon.CurrentScene.frames.Count}";
@@ -74,6 +77,7 @@ namespace DrawMoar.BaseElements {
 
             return buf;
         }
+
 
         internal List<string> SaveToFile(string pathToDrm) {
             List<string> lines = new List<string>();
