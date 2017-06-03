@@ -53,7 +53,7 @@ namespace DrawMoar.BaseElements
             return copyLayer;
         }
 
-        public ILayer ChangeMove(int time) {
+        public ILayer ChangeMove(double time) {
             var a = Math.Sin(5 * time) - 7;
             ILayer copyLayer = (ILayer)layers[0].Clone();
             copyLayer.Transform(new RotateTransformation((((VectorLayer)copyLayer).Picture.shapes[0]).centre, (a*time*time)/2));
