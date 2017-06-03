@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using DrawMoar.BaseElements;
 using DrawMoar.Drawing;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace DrawMoar.Shapes
 {
@@ -20,6 +21,15 @@ namespace DrawMoar.Shapes
         public string Alias { get; set; }
         public DrawMoar.BaseElements.Color Color { get; set; }
 
+        public System.Windows.Point centre {
+            get {
+                return Center;
+            }
+
+            set {
+                Center = value;
+            }
+        }
 
         public Line(System.Windows.Point pointOne, System.Windows.Point pointTwo) {
             this.PointOne = pointOne;

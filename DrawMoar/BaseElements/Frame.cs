@@ -58,6 +58,16 @@ namespace DrawMoar.BaseElements {
             return newFrame;
         }
 
+        public Frame ChangeMove(int time, double duration) {
+            var newFrame = new Frame();
+            newFrame.duration = duration;
+            newFrame.animations.Add(new Animation(animations[0].layers[0], new List<Transformation>()));
+            newFrame.animations.Add(new Animation(animations[1].ChangeMove(time), new List<Transformation>()));
+            
+            newFrame.animations.RemoveAt(0);
+            return newFrame;
+        }
+
         
         public object Clone() {
             var buf = new Frame(Name);

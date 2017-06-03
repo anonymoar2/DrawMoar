@@ -13,6 +13,7 @@ namespace DrawMoar.Shapes
 
         DrawMoar.BaseElements.Color Color { get; set; }
 
+        System.Windows.Point centre { get; set; }
         void Transform(Transformation trans);
 
         double Thickness { get; set; }

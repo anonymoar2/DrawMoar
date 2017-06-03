@@ -11,12 +11,21 @@ namespace DrawMoar.BaseElements
 {
     public class CompoundShape : IShape
     {
+        public System.Windows.Point centre {
+            get {
+                return shapes[0].centre;
+            }
+
+            set {
+                Center = value;
+            }
+        }
         public string Alias { get; set; }
 
         public double Thickness { get; set; }
 
         public Color Color { get; set; }
-
+        private System.Windows.Point Center;
         public List<IShape> shapes = new List<IShape>();
 
 

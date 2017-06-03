@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using DrawMoar.BaseElements;
 using DrawMoar.Drawing;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace DrawMoar.Shapes
 {
@@ -22,6 +23,15 @@ namespace DrawMoar.Shapes
         public double Thickness { get; set; }
         public DrawMoar.BaseElements.Color Color { get; set; }
 
+        public System.Windows.Point centre {
+            get {
+                return Center;
+            }
+
+            set {
+                Center = value;
+            }
+        }
 
         public Ellipse(System.Windows.Point center, System.Windows.Size size, double startAngle = 0,
                                                 double endAngle = 360, double rotate = 0) {

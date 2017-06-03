@@ -24,7 +24,7 @@ namespace DrawMoar {
 
         private void Apply_Click(object sender, RoutedEventArgs e) {
             try {
-                Editor.cartoon.CurrentScene.Generate(Editor.cartoon.CurrentFrame, Int32.Parse(TotalTime.Text), Int32.Parse(FrameDuration.Text));
+                Editor.cartoon.CurrentScene.VMove(Editor.cartoon.CurrentFrame);
             }
             catch(Exception ex) {
                 MessageBox.Show(ex.Message);

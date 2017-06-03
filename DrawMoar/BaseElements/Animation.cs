@@ -53,6 +53,14 @@ namespace DrawMoar.BaseElements
             return copyLayer;
         }
 
+        public ILayer ChangeMove(int time) {
+            var a = Math.Sin(5 * time) - 7;
+            ILayer copyLayer = (ILayer)layers[0].Clone();
+            copyLayer.Transform(new RotateTransformation((((VectorLayer)copyLayer).Picture.shapes[0]).centre, (a*time*time)/2));
+            copyLayer.Transform(new TranslateTransformation(new System.Windows.Point(a*time*time/2, 0)));
+            return copyLayer;
+        }
+
 
         internal List<string> SaveToFile(string pathToDrm) {
             List<string> lines = new List<string>();
