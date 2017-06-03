@@ -54,10 +54,17 @@ namespace DrawMoar.BaseElements
         }
 
         public ILayer ChangeMove(double time) {
-            var a = Math.Sin(5 * time) - 7;
+            var s = -Math.Sin(5 * time) + time / 5 - 7 * time * time / 2;
+            //var a = Math.Sin(5 * time) - 7;
             ILayer copyLayer = (ILayer)layers[0].Clone();
-            copyLayer.Transform(new RotateTransformation((((VectorLayer)copyLayer).Picture.shapes[0]).centre, (a*time*time)/2));
-            copyLayer.Transform(new TranslateTransformation(new System.Windows.Point(a*time*time/2, 0)));
+            //double vpr = 0;
+            //if (time - 0.04 > 0) {
+            //    vpr = (Math.Sin(5 * (time - 1)) - 7) * (time - 1);
+            //}
+            //copyLayer.Transform(new RotateTransformation((((VectorLayer)copyLayer).Picture.shapes[0]).centre, (a * time * time) / 2 + vpr));
+            //copyLayer.Transform(new TranslateTransformation(new System.Windows.Point(a * time * time / 2 + vpr, 0)));
+            copyLayer.Transform(new RotateTransformation((((VectorLayer)copyLayer).Picture.shapes[0]).centre, s));
+            copyLayer.Transform(new TranslateTransformation(new System.Windows.Point(s, 0)));
             return copyLayer;
         }
 

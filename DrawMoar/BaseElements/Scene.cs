@@ -46,7 +46,7 @@ namespace DrawMoar.BaseElements
         }
 
         public void VMove(Frame currentFrame) {
-            // Для примера секунды и fps берем стандартные в 4 и 25 кадров в секунду
+            // Для примера секунды и fps берем стандартные в 10 и 25 кадров в секунду
             for (int i = 1; i < 10 * 25; i++) {
                 frames.Insert(frames.IndexOf(currentFrame) + i, currentFrame.ChangeMove(i, 0.04));
             }
