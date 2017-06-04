@@ -84,6 +84,7 @@
     <Compile Include="BaseElements\Cartoon.cs" />
     <Compile Include="BaseElements\CompoundShape.cs" />
     <Compile Include="BaseElements\Matrix.cs" />
+    <Compile Include="BaseElements\NewTr.cs" />
     <Compile Include="BaseElements\Picture.cs" />
     <Compile Include="BaseElements\RotateTransformation.cs" />
     <Compile Include="BaseElements\ScaleTransformation.cs" />

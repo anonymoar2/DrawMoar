@@ -38,6 +38,9 @@ namespace DrawMoar.BaseElements
 
         public void Generate(Frame currentFrame, int seconds,int fps)
         {
+            currentFrame.animations[0].timeFunction = new TimeFunction("-sin(5x)");
+            currentFrame.animations[0].transformations = new List<Transformation>();
+            currentFrame.animations[0].transformations.Add(new NewTr(((VectorLayer)currentFrame.animations[0].layers[0]).Picture.centre, seconds * fps, new System.Windows.Point(seconds * fps, 0)));
             for (int i = 1; i < seconds * fps; i ++)
             {
                 frames.Insert(frames.IndexOf(currentFrame) + i, currentFrame.GetByTime(i,(double)1/fps));
@@ -45,13 +48,22 @@ namespace DrawMoar.BaseElements
             frames.RemoveAt(0);
         }
 
-        public void VMove(Frame currentFrame) {
-            // Для примера секунды и fps берем стандартные в 10 и 25 кадров в секунду
-            for (int i = 1; i < 10 * 25; i++) {
-                frames.Insert(frames.IndexOf(currentFrame) + i, currentFrame.ChangeMove(i, 0.04));
-            }
-            currentFrame.duration = 0.04;
-        }
+        //public void VMove(Frame currentFrame, int seconds, int fps) {
+        //    currentFrame.animations[0].timeFunction = new TimeFunction("-sin(5x)");
+        //    currentFrame.animations[0].transformations = new List<Transformation>();
+        //    currentFrame.animations[0].transformations.Add(new NewTr(((VectorLayer)currentFrame.animations[0].layers[0]).Picture.centre, seconds * fps, new System.Windows.Point(seconds * fps, 0)));
+        //    for (int i = 1; i < seconds * fps; i++) {
+        //        frames.Insert(frames.IndexOf(currentFrame) + i, currentFrame.GetByTime(i, (double)1 / fps));
+        //    }
+        //    frames.RemoveAt(0);
+
+
+        //    //// Для примера секунды и fps берем стандартные в 10 и 25 кадров в секунду
+        //    //for (int i = 1; i < 10 * 25; i++) {
+        //    //    frames.Insert(frames.IndexOf(currentFrame) + i, currentFrame.ChangeMove(i, 0.04));
+        //    //}
+        //    //currentFrame.duration = 0.04;
+        //}
 
 
         public void Cycle(int count)
