@@ -9,6 +9,7 @@ https://www.youtube.com/watch?v=-UDq_LhTNq0&feature=youtu.be
 Мультики, созданные в нашем редакторе (не было времени делать что-то большое):
 https://www.youtube.com/watch?v=atPl3_11vZE&feature=youtu.be
 
+Официально мёртв.
 
 **Функциональные требования:**
 
